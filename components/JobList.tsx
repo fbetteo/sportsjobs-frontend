@@ -1,0 +1,60 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { Box, List, ListItem, Spinner } from '@chakra-ui/react';
+import { fetchJobs } from '../lib/fetchJobs';
+import { JobCard } from './JobCard';
+
+const JobList = () => {
+    const { user, isLoading: userLoading } = useUser();
+    const [jobs, setJobs] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAndSetJobs = async () => {
+            setIsLoading(true);
+            const jobLimit = user ? 10 : 5; // For example, 10 jobs for logged-in users, 5 for non-logged-in users
+            try {
+                const jobs = await fetchJobs(jobLimit);
+                setJobs(jobs);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAndSetJobs();
+    }, [user]);
+
+    if (userLoading || isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner size="xl" />
+            </Box>
+        );
+    }
+
+    return (
+        <List spacing={5} display="flex" flexDirection="column" alignItems="center">
+            {jobs.map((job) => (
+                <ListItem key={job.id} width="100%">
+                    <JobCard
+                        id={job.id}
+                        title={job.title}
+                        salary={job.salary}
+                        location={job.location}
+                        logo_permanent_url={job.logo_permanent_url}
+                        description={job.description}
+                        seniority={job.seniority}
+                        days_ago_text={job.days_ago_text}
+                        remote_string={job.remote_string}
+                    />
+                </ListItem>
+            ))}
+        </List>
+    );
+};
+
+export default JobList;
