@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jobLimit = user ? 10 : 5;
+        const jobLimit = user ? 100 : 5;
         const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
         console.log(filters)
         setJobs(fetchedJobs);

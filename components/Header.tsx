@@ -54,10 +54,10 @@ const Header = () => {
               <Avatar size="sm" src={user.picture} />
             </MenuButton>
             <MenuList>
-              <MenuItem>
+              {/* <MenuItem color='black'>
                 <Link href="/profile">Profile</Link>
-              </MenuItem>
-              <MenuItem>
+              </MenuItem> */}
+              <MenuItem color='black'>
                 <Link href="/api/auth/logout">Logout</Link>
               </MenuItem>
             </MenuList>
