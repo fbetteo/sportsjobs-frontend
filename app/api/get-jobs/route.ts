@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Airtable from 'airtable';
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN }).base(process.env.AIRTABLE_BASE);
+const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN ?? '' }).base(process.env.AIRTABLE_BASE ?? '');
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -78,6 +78,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ jobs });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }

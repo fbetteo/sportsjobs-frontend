@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.13.0",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
+    "@types/stripe": "^8.0.417",
     "airtable": "^0.12.2",
     "auth0": "^4.8.0",
     "axios": "^1.7.3",

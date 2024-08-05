@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-
 import { getAuth0AccessToken, createAuth0User } from '../../utils/auth0';
 import { createAirtableRecord } from '../../utils/airtable';
 
@@ -32,10 +31,11 @@ export async function POST(req: NextRequest) {
       ],
       expand: ['latest_invoice.payment_intent']
     });
-      
-    console.log(subscription);
 
-      if (subscription.latest_invoice.payment_intent?.status === 'succeeded') {
+
+    const latestInvoice = subscription.latest_invoice as Stripe.Invoice;
+
+    if (latestInvoice && typeof latestInvoice.payment_intent !== 'string' && latestInvoice.payment_intent?.status === 'succeeded') {
           const accessToken = await getAuth0AccessToken();
           console.log(accessToken)
           console.log(email)
@@ -53,6 +53,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'incomplete' });
     }
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
