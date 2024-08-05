@@ -8,15 +8,62 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN }).base(process.e
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get('limit') || '5', 10);
+  const country = searchParams.get('country');
+  const remote = searchParams.get('remote');
+  const seniority = searchParams.get('seniority');
+  const industry = searchParams.get('industry');
+  const sport = searchParams.get('sport');
+
+
+  // try {
+  //   const records = await base('jobs')
+  //     .select({ view: 'Grid view', maxRecords: limit, sort: [{ field: 'creation_date', direction: 'desc' }] })
+  //     .all();
+
+  let filterFormula = '';
+
+
+  if (country) {
+    filterFormula += `AND({country} = '${country}')`;
+  }
+
+  if (remote) {
+    filterFormula += filterFormula ? `, ` : '';
+    filterFormula += `AND({remote} = '${remote}')`;
+  }
+
+  if (seniority) {
+    filterFormula += filterFormula ? `, ` : '';
+    filterFormula += `AND({seniority} = '${seniority}')`;
+  }
+
+  if (industry) {
+    filterFormula += filterFormula ? `, ` : '';
+    filterFormula += `AND({industry} = '${industry}')`;
+  }
+
+  if (sport) {
+    filterFormula += filterFormula ? `, ` : '';
+    filterFormula += `AND({sport_list} = '${sport}')`;
+  }
+
+
+
 
   try {
     const records = await base('jobs')
-      .select({ view: 'Grid view', maxRecords: limit })
+      .select({
+        view: 'Grid view',
+        maxRecords: limit,
+        sort: [{ field: 'creation_date', direction: 'desc' }],
+        filterByFormula: filterFormula ? `AND(${filterFormula})` : '',
+      })
       .all();
 
     const jobs = records.map((record) => ({
       id: record.id,
       title: record.get('Name'),
+      company: record.get('company'),
       description: record.get('desciption'),
       location: record.get('location'),
       salary: record.get('salary'),

@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       customer: customer.id,
       items: [
         {
-          price: plan === 'basic' ? process.env.STRIPE_BASIC_PLAN_ID! : process.env.STRIPE_PREMIUM_PLAN_ID!
+          price: plan === 'Monthly' ? process.env.STRIPE_MONTHLY_PRICE_ID! : process.env.STRIPE_YEARLY_PRICE_ID!
         }
       ],
       expand: ['latest_invoice.payment_intent']

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
     Elements,
@@ -23,6 +23,7 @@ import {
     Container
 } from '@chakra-ui/react';
 import { Providers } from '../providers';
+import { useSearchParams } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -45,6 +46,14 @@ const CheckoutForm = () => {
     const [password, setPassword] = useState('');
     const [plan, setPlan] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const planParam = searchParams.get('plan');
+        if (planParam) {
+            setPlan(planParam);
+        }
+    }, [searchParams]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -101,9 +110,9 @@ const CheckoutForm = () => {
                 </FormControl>
                 <FormControl id="plan" isRequired>
                     <FormLabel>Choose a Plan</FormLabel>
-                    <Select placeholder="Select plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
-                        <option value="monthly_subscription">Basic - $10/month</option>
-                        <option value="yearly_subscription">Premium - $20/month</option>
+                    <Select placeholder="Select Plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
+                        <option value="Monthly">Monthly - $4.99/month</option>
+                        <option value="Yearly">Yearly - $29.99/Year</option>
                     </Select>
                 </FormControl>
                 <FormControl id="card" isRequired>
