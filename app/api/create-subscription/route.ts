@@ -7,7 +7,6 @@ import { getAuth0AccessToken, createAuth0User } from '../../utils/auth0';
 import { createAirtableRecord } from '../../utils/airtable';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15'
 });
 
 export async function POST(req: NextRequest) {
