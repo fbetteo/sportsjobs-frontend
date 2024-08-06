@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
     Elements,
@@ -20,7 +20,8 @@ import {
     VStack,
     Heading,
     Text,
-    Container
+    Container,
+    Spinner
 } from '@chakra-ui/react';
 import { Providers } from '../providers';
 import { useSearchParams } from 'next/navigation';
@@ -134,31 +135,31 @@ const CheckoutForm = () => {
 };
 
 const SignupPage = () => (
-    <Providers>
-        <Elements stripe={stripePromise}>
-            <Container centerContent>
-                <Box
-                    p={8}
-                    maxWidth="500px"
-                    width="100%"
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    boxShadow="lg"
-                    bg="gray.50"
-                >
-                    <VStack spacing={4} align="stretch">
-                        <Heading as="h1" size="lg" textAlign="center">
-                            Sign Up
-                        </Heading>
-                        <Text fontSize="lg" textAlign="center">
-                            Choose a plan and enter your payment details to get started.
-                        </Text>
+    <Elements stripe={stripePromise}>
+        <Container centerContent>
+            <Box
+                p={8}
+                maxWidth="500px"
+                width="100%"
+                borderWidth="1px"
+                borderRadius="lg"
+                boxShadow="lg"
+                bg="gray.50"
+            >
+                <VStack spacing={4} align="stretch">
+                    <Heading as="h1" size="lg" textAlign="center">
+                        Sign Up
+                    </Heading>
+                    <Text fontSize="lg" textAlign="center">
+                        Choose a plan and enter your payment details to get started.
+                    </Text>
+                    <Suspense fallback={<Spinner size="xl" />}>
                         <CheckoutForm />
-                    </VStack>
-                </Box>
-            </Container>
-        </Elements>
-    </Providers>
+                    </Suspense>
+                </VStack>
+            </Box>
+        </Container>
+    </Elements>
 );
 
 export default SignupPage;
