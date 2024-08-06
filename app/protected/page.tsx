@@ -1,5 +1,5 @@
 // import WithAuthentication from '../../components/withAuthentication';
-
+'use client';
 // const ProtectedPage = () => {
 //     return (
 //         <WithAuthentication>
