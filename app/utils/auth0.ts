@@ -17,11 +17,11 @@ export async function getAuth0AccessToken() {
   });
     
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData: any = await response.json();
     throw new Error(errorData.error || 'Error fetching access token');
   }
 
-  const data = await response.json();
+  const data: any = await response.json();
   return data.access_token;
 }
 
@@ -40,7 +40,7 @@ export async function createAuth0User(email: string, password: string, accessTok
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData: any = await response.json();
     throw new Error(errorData.message || 'Error creating user');
   }
 

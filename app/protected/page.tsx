@@ -1,11 +1,11 @@
-import WithAuthentication from '../../components/withAuthentication';
+// import WithAuthentication from '../../components/withAuthentication';
 
-const ProtectedPage = () => {
-    return (
-        <WithAuthentication>
-            <div>Protected Content</div>
-        </WithAuthentication>
-    );
-};
+// const ProtectedPage = () => {
+//     return (
+//         <WithAuthentication>
+//             <div>Protected Content</div>
+//         </WithAuthentication>
+//     );
+// };
 
-export default ProtectedPage;
+// export default ProtectedPage;

@@ -51,7 +51,7 @@ const Header = () => {
         {user ? (
           <Menu>
             <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
-              <Avatar size="sm" src={user.picture} />
+              <Avatar size="sm" src={user.picture ?? ""} />
             </MenuButton>
             <MenuList>
               {/* <MenuItem color='black'>

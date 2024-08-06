@@ -15,7 +15,7 @@ import { pricingPlans } from '../../../pricingPlans';
 
 const JobDetailsPage = () => {
     const { id } = useParams();
-    const [job, setJob] = useState(null);
+    const [job, setJob] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [mappedIndustryjobType, setMappedIndustryjobType] = useState('');
 
@@ -27,7 +27,7 @@ const JobDetailsPage = () => {
                 const jobDetails = await fetchJobDetails(id as string);
                 setJob(jobDetails);
 
-                const industryjobTypeMapping = {
+                const industryjobTypeMapping: { [key: string]: string } = {
                     Sports: '🥅 sports',
                     Betting: '🎲 betting',
                     Esports: '🎮 esports',
@@ -49,7 +49,7 @@ const JobDetailsPage = () => {
     useEffect(() => {
         if (!job) return;
 
-        const jobTypeMapping = {
+        const jobTypeMapping: { [key: string]: string } = {
             fulltime: 'FULL_TIME',
             "part time": 'PART_TIME',
             // Add more mappings if necessary
