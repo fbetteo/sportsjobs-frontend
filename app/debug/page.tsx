@@ -1,8 +1,8 @@
-// 'use client';
-// import { Box, Heading, Spinner, Text } from '@chakra-ui/react';
-// import { useParams } from 'next/navigation';
-// import { useEffect, useState } from 'react';
-// import Head from 'next/head';
+'use client';
+import { Box, Heading, Spinner, Text } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Head from 'next/head';
 
 // const JobDetailsPage = () => {
 //     const [job, setJob] = useState(null);
