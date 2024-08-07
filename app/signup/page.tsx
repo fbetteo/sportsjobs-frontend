@@ -102,7 +102,7 @@ const CheckoutForm = () => {
         <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
                 <FormControl id="email" isRequired>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel >Email</FormLabel>
                     <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </FormControl>
                 <FormControl id="password" isRequired>
@@ -111,9 +111,10 @@ const CheckoutForm = () => {
                 </FormControl>
                 <FormControl id="plan" isRequired>
                     <FormLabel>Choose a Plan</FormLabel>
-                    <Select placeholder="Select Plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
-                        <option value="Monthly">Monthly - $4.99/month</option>
-                        <option value="Yearly">Yearly - $29.99/Year</option>
+                    <Select bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
+                        _focus={{ bg: 'gray.600' }} placeholder="Select Plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
+                        <option value="Monthly" style={{ backgroundColor: 'black', color: 'white' }}>Monthly - $4.99/month</option>
+                        <option value="Yearly" style={{ backgroundColor: 'black', color: 'white' }}>Yearly - $29.99/Year</option>
                     </Select>
                 </FormControl>
                 <FormControl id="card" isRequired>
@@ -144,7 +145,7 @@ const SignupPage = () => (
                 borderWidth="1px"
                 borderRadius="lg"
                 boxShadow="lg"
-                bg="gray.50"
+                bg="gray.700"
             >
                 <VStack spacing={4} align="stretch">
                     <Heading as="h1" size="lg" textAlign="center">
