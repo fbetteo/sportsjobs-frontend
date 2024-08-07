@@ -4,25 +4,35 @@ import React, { useState, useEffect } from 'react';
 import { Select, VStack, Box, Button, HStack } from '@chakra-ui/react';
 
 interface JobFilterProps {
-    onFilterChange: (filters: { country?: string; seniority?: string; remote?: string; industry: string; sport: string; }) => void;
+    onFilterChange: (filters: { country?: string; seniority?: string; remote?: string; industry: string; sport: string; job_area: string }) => void;
 }
 
+interface DropdownData {
+    countries: string[];
+    seniorities: string[];
+    remotes: string[];
+    hours: string[];
+    skills: string[];
+    sport_list: string[];
+    job_area: string[];
+    industries: string[];
+}
 
-const fetchFilterOptions = async () => {
-    // Fetch options from Airtable. Replace with your actual fetching logic.
-    // For example:
-    // const response = await fetch('/api/getFilterOptions');
-    // const data = await response.json();
-    const data = {
-        countries: ['USA', 'Canada', 'UK'],
-        remotes: ['Yes', 'No'],
-        seniorities: ['With Experience', 'Junior', 'Intern'],
-        industries: ['Tech', 'Finance', 'Healthcare', 'Education'],
-        sports: ['Football', 'Basketball', 'Baseball']
+// const fetchFilterOptions = async () => {
+//     // Fetch options from Airtable. Replace with your actual fetching logic.
+//     // For example:
+//     // const response = await fetch('/api/getFilterOptions');
+//     // const data = await response.json();
+//     const data = {
+//         countries: ['USA', 'Canada', 'UK'],
+//         remotes: ['Yes', 'No'],
+//         seniorities: ['With Experience', 'Junior', 'Intern'],
+//         industries: ['Tech', 'Finance', 'Healthcare', 'Education'],
+//         sports: ['Football', 'Basketball', 'Baseball']
 
-    };
-    return data;
-};
+//     };
+//     return data;
+// };
 
 
 const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
@@ -31,20 +41,50 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
     const [remote, setRemote] = useState('');
     const [industry, setIndustry] = useState('');
     const [sport, setSport] = useState('');
-    const [options, setOptions] = useState<{ countries: string[]; remotes: string[]; seniorities: string[]; industries: string[]; sports: string[] }>({ countries: [], remotes: [], seniorities: [], industries: [], sports: [] });
+    const [job_area, setJobArea] = useState('');
+    const [options, setOptions] = useState<{ countries: string[]; remotes: string[]; seniorities: string[]; industries: string[]; sports: string[]; job_areas: string[] }>({ countries: [], remotes: [], seniorities: [], industries: [], sports: [], job_areas: [] });
 
     useEffect(() => {
         const getOptions = async () => {
-            const data = await fetchFilterOptions();
-            setOptions(data);
+            const localOptions = localStorage.getItem('dropdownOptions');
+            if (localOptions) {
+                const parsedLocalOptions = JSON.parse(localOptions);
+                const filterOptions = {
+                    countries: parsedLocalOptions.countries,
+                    remotes: parsedLocalOptions.remotes,
+                    seniorities: parsedLocalOptions.seniorities,
+                    industries: parsedLocalOptions.industries,
+                    sports: parsedLocalOptions.sport_list,
+                    job_areas: parsedLocalOptions.job_area
+                }
+                setOptions(filterOptions);
+            } else {
+                const res = await fetch('/api/dropdown-options');
+                const fetchedOptions: DropdownData = await res.json();
+                const sortedOptions = Object.keys(fetchedOptions).reduce((acc, key) => {
+                    acc[key as keyof DropdownData] = fetchedOptions[key as keyof DropdownData].sort((a: string, b: string) => a.localeCompare(b));
+                    return acc;
+                }, {} as DropdownData);
+
+                const filterOptions = {
+                    countries: sortedOptions.countries,
+                    remotes: sortedOptions.remotes,
+                    seniorities: sortedOptions.seniorities,
+                    industries: sortedOptions.industries,
+                    sports: sortedOptions.sport_list,
+                    job_areas: sortedOptions.job_area
+                }
+                setOptions(filterOptions);
+                localStorage.setItem('dropdownOptions', JSON.stringify(sortedOptions));
+            }
         };
 
         getOptions();
     }, []);
 
     useEffect(() => {
-        onFilterChange({ country, remote, seniority, industry, sport });
-    }, [country, remote, seniority, industry, sport]);
+        onFilterChange({ country, remote, seniority, industry, sport, job_area });
+    }, [country, remote, seniority, industry, sport, job_area]);
 
     return (
         <HStack spacing={2} marginBottom={10}>
@@ -95,6 +135,16 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
                 {options.sports.map((sportOption) => (
                     <option key={sportOption} value={sportOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {sportOption}
+                    </option>
+                ))}
+            </Select>
+            <Select size="md"
+                borderRadius="full" fontWeight="bold"
+                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }} placeholder="Job Area" value={sport} onChange={(e) => setJobArea(e.target.value)}>
+                {options.job_areas.map((jobAreaOption) => (
+                    <option key={jobAreaOption} value={jobAreaOption} style={{ backgroundColor: 'black', color: 'white' }}>
+                        {jobAreaOption}
                     </option>
                 ))}
             </Select>

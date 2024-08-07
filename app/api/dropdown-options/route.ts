@@ -40,11 +40,13 @@ const fetchDropdownOptions = async () => {
             "BigQuery", "DBT", "ELT", "Git", "A/B testing", "HTML", "Javascript", "React", "IOS", 
             "TypeScript", "baseball", "Redis", "MLOps"
         ]; 
+        const industries = ['Sports', 'Betting', 'Esports']
+        const job_area = ['DS/ML/AI', 'Analytics', 'Data Engineer']
   
-      return { countries, seniorities, remotes, hours, skills, sport_list };
+      return { countries, seniorities, remotes, hours, skills, sport_list, industries, job_area };
     } catch (error) {
       console.error('Error fetching dropdown options:', error);
-      return { countries: [], seniorities: [], remotes: [], hours: [], skills: [], sport_list: [] };
+      return { countries: [], seniorities: [], remotes: [], hours: [], skills: [], sport_list: [], industries: [], job_area: [] };
     }
   };
   

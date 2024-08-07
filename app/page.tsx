@@ -16,14 +16,14 @@ import NewsletterSignupForm from "@/components/NewsletterSignupForm";
 import UserFormPopup from "../components/AlertsPopupForm";
 
 export default function Home() {
-  const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; }>({});
+  const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
   const [jobs, setJobs] = useState([]);
   const { user, isLoading: userLoading } = useUser();
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[] });
+  const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
 
 
-  const handleFilterChange = (newFilters: { country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; }) => {
+  const handleFilterChange = (newFilters: { country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }) => {
     setFilters(newFilters);
 
   };
@@ -35,6 +35,8 @@ export default function Home() {
     hours: string[];
     skills: string[];
     sport_list: string[];
+    job_area: string[];
+    industries: string[];
   }
 
   useEffect(() => {
@@ -85,12 +87,12 @@ export default function Home() {
       <Flex direction="column" width="100%" mb={10}>
         <Introduction />
         <Center>
-          <HStack>
-            <Button onClick={handleOpenForm} colorScheme="teal">
-              Open Form
+          <HStack mb={10}>
+            <Button onClick={handleOpenForm} colorScheme="purple">
+              🔔 Receive Emails For New Jobs
             </Button>
-            <Button onClick={handleOpenForm} colorScheme="teal">
-              Open Form
+            <Button as="a" href="https://rezi.ai/?via=franco" target="_blank" colorScheme="purple">
+              📝 Create your resume with AI
             </Button>
           </HStack>
           <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />

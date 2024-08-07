@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
   const seniority = searchParams.get('seniority');
   const industry = searchParams.get('industry');
   const sport = searchParams.get('sport');
+  const job_area = searchParams.get('job_area');
 
 
   // try {
@@ -29,7 +30,7 @@ export async function GET(req: NextRequest) {
 
   if (remote) {
     filterFormula += filterFormula ? `, ` : '';
-    filterFormula += `AND({remote} = '${remote}')`;
+    filterFormula += `AND({remote_office} = '${remote}')`;
   }
 
   if (seniority) {
@@ -45,6 +46,11 @@ export async function GET(req: NextRequest) {
   if (sport) {
     filterFormula += filterFormula ? `, ` : '';
     filterFormula += `AND({sport_list} = '${sport}')`;
+  }
+
+  if (job_area) {
+    filterFormula += filterFormula ? `, ` : '';
+    filterFormula += `AND({job_area} = '${job_area}')`;
   }
 
 
