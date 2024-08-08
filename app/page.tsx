@@ -14,6 +14,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Introduction from '../components/Introduction';
 import NewsletterSignupForm from "@/components/NewsletterSignupForm";
 import UserFormPopup from "../components/AlertsPopupForm";
+import MixedPricingCard from "@/components/MixedPriceCard";
 
 export default function Home() {
   const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
@@ -103,14 +104,15 @@ export default function Home() {
         <JobList jobs={jobs} />
       </Flex>
       <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
-        <Heading as="h2" size="lg" mb={5}>
+        {/* <Heading as="h2" size="lg" mb={5}>
           Choose a Plan
-        </Heading>
-        <SimpleGrid ml={400} columns={{ base: 1, md: 3 }} spacing={8} width='80%' justifyContent="center">
+        </Heading> */}
+        {/* <SimpleGrid ml={400} columns={{ base: 1, md: 3 }} spacing={8} width='80%' justifyContent="center">
           {pricingPlans.map((plan, index) => (
             <PricingCard key={index} {...plan} />
           ))}
-        </SimpleGrid>
+        </SimpleGrid> */}
+        <MixedPricingCard />
       </Flex>
     </VStack>
   );
