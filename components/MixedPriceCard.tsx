@@ -4,8 +4,16 @@ import { Box, Flex, Text, Button, Stack, Icon, List, ListItem, ListIcon } from '
 import { FaBasketballBall, FaCalendarDay, FaFilter, FaBell, FaCheckCircle } from 'react-icons/fa';
 import { pricingPlans } from '../pricingPlans';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/navigation';
+
 
 const MixedPricingCard = () => {
+    const router = useRouter();
+
+    const handleSelectPlan = (planName: string) => {
+        router.push(`/signup?plan=${planName}`);
+    };
+
     return (
         <Box p={4} maxW="3xl" mx="auto">
             <Flex justify="center" mb={2}>
@@ -18,17 +26,17 @@ const MixedPricingCard = () => {
                 Subscribe to membership and unlock all jobs
             </Text>
             <Flex justify="space-around" mb={8}>
-                <Stack spacing={3} align="center">
+                <Stack mr={3} spacing={3} align="center">
                     <Icon as={FaBasketballBall} w={10} h={10} />
                     <Text fontWeight="bold">Sports Analytics</Text>
                     <Text>We scan all major sports and leagues</Text>
                 </Stack>
-                <Stack spacing={3} align="center">
+                <Stack mr={3} spacing={3} align="center">
                     <Icon as={FaCalendarDay} w={10} h={10} />
                     <Text fontWeight="bold">Updated Daily</Text>
                     <Text>New jobs are added every day as companies post them</Text>
                 </Stack>
-                <Stack spacing={3} align="center">
+                <Stack mr={3} spacing={3} align="center">
                     <Icon as={FaFilter} w={10} h={10} />
                     <Text fontWeight="bold">Refined Search</Text>
                     <Text>Use filters like skill, location, etc to narrow results</Text>
@@ -72,7 +80,7 @@ const MixedPricingCard = () => {
                                 <Text key={idx}>{feature}</Text>
                             ))}
                         </Stack> */}
-                        <Button colorScheme="purple">Choose Plan</Button>
+                        <Button colorScheme="purple" onClick={() => handleSelectPlan(plan.planName)}>Choose Plan</Button>
                     </Box>
                 ))}
             </Flex>
