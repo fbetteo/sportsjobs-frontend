@@ -39,9 +39,19 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
     // }
 
     return (
-        <List spacing={5} display="flex" flexDirection="column" alignItems="center">
+        <List
+            spacing={5}
+            width="100%"
+            maxW="800px" // Constrain the width of the list on large screens
+            mx="auto" // Center the list horizontally
+        >
             {jobs.map((job) => (
-                <ListItem key={job.id} width="100%">
+                <ListItem
+                    key={job.id}
+                    width="100%"
+                    // display="flex"
+                    justifyContent="center" // Center the JobCard within the ListItem
+                >
                     <JobCard
                         id={job.id}
                         company={job.company}

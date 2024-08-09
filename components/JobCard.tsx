@@ -24,40 +24,66 @@ export function JobCard({ id, title, company, salary, location, logo_permanent_u
                     shadow="md"
                     borderWidth="1px"
                     borderRadius="md"
-                    width={{ base: "100%", md: "80%", lg: "60%" }}
+                    width="100%"
+                    maxW="800px"
                     margin="auto"
                     bg="gray.300"
                     color="black"
                 >
-                    <Flex direction={{ base: "column", md: "row" }} align="center" mb={4}>
-                        {logo_permanent_url && <Image src={logo_permanent_url} alt={`${title} logo`} boxSize="80px" objectFit="contain" mr={{ base: 0, md: 4 }} mb={{ base: 4, md: 0 }} />}
-                        <Box textAlign={{ base: "center", md: "left" }} flex="1">
+                    <Flex
+                        direction={{ base: "column", md: "row" }}
+                        align="center"
+                        mb={4}
+                        textAlign={{ base: "center", md: "left" }}
+                    >
+                        {logo_permanent_url && (
+                            <Image
+                                src={logo_permanent_url}
+                                alt={`${title} logo`}
+                                boxSize="80px"
+                                objectFit="contain"
+                                mr={{ base: 0, md: 4 }}
+                                mb={{ base: 4, md: 0 }}
+                                alignSelf={{ base: "center", md: "flex-start" }}
+                            />
+                        )}
+                        <Box flex="1">
                             <Text fontSize="md" color="gray.700">{company}</Text>
                             <Heading fontSize="xl">{title}</Heading>
-                            {/* <Text fontSize="md" color="gray.500">{description}</Text> */}
                         </Box>
                     </Flex>
                     <Divider mb={4} />
-                    <Flex justifyContent="space-between" alignItems="center">
-                        <HStack spacing={8}>
-                            <VStack align="start">
+                    <Flex
+                        direction={{ base: "column", md: "row" }}
+                        justifyContent="space-between"
+                        alignItems="flex-start"
+                    >
+                        <HStack
+                            spacing={8}
+                            wrap={{ base: "wrap", md: "nowrap" }}
+                            justify={{ base: "center", md: "flex-start" }}
+                            width="100%"
+                        >
+                            <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
                                 <Text fontWeight="bold">Location</Text>
                                 <Text>{location}</Text>
                             </VStack>
-                            <VStack align="start">
+                            <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
                                 <Text fontWeight="bold">Remote</Text>
                                 <Text>{remote_string}</Text>
                             </VStack>
-                            <VStack align="start">
+                            <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
                                 <Text fontWeight="bold">Salary</Text>
                                 <Text>{salary || "-"}</Text>
                             </VStack>
-                            <VStack align="start">
+                            <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
                                 <Text fontWeight="bold">Seniority</Text>
                                 <Text>{seniority}</Text>
                             </VStack>
                         </HStack>
-                        <Tag colorScheme="green" size="lg">{days_ago_text}</Tag>
+                        <Tag colorScheme="green" size="lg" mt={{ base: 4, md: 0 }} alignSelf={{ base: "center", md: "flex-end" }}>
+                            {days_ago_text}
+                        </Tag>
                     </Flex>
                 </Box>
             </ChakraLink>

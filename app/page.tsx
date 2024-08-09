@@ -88,14 +88,20 @@ export default function Home() {
       <Flex direction="column" width="100%" mb={10}>
         <Introduction />
         <Center>
-          <HStack mb={10}>
-            <Button onClick={handleOpenForm} colorScheme="purple">
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            wrap="nowrap"
+            marginBottom={10}
+            justify="space-between"
+          >
+            <Button onClick={handleOpenForm} colorScheme="purple" marginBottom={{ base: 2, md: 0 }}
+              marginRight={{ base: 0, md: 2 }}>
               🔔 Receive Emails For New Jobs
             </Button>
             <Button as="a" href="https://rezi.ai/?via=franco" target="_blank" colorScheme="purple">
               📝 Create your resume with AI
             </Button>
-          </HStack>
+          </Flex>
           <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
         </Center>
         <Center>
