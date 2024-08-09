@@ -7,9 +7,18 @@ export async function GET() {
   const baseUrl = 'https://www.sportsjobs.online';
   
   // Fetch job listings dynamically
-  const jobs = await fetchJobs(1000, JSON.stringify(""));
-    // console.log(jobs.length);
+  const response = await fetch(`${baseUrl}/api/get-jobs?limit=1000`);
   
+  if (!response.ok) {
+    throw new Error('Failed to fetch job listings');
+  }
+
+    const { jobs } = await response.json();
+    
+    // Ensure `jobs` is an array before mapping
+    if (!Array.isArray(jobs)) {
+        throw new Error('Expected jobs to be an array');
+      }
   // Static pages (adjust based on your website structure)
   const staticPages = ['', '/signup'].map(
     (route) => `${baseUrl}${route}`
