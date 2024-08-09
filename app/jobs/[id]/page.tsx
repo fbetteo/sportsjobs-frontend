@@ -12,6 +12,7 @@ import { addMonths, format } from 'date-fns';
 import styles from '../../../markdown.module.css';
 import PricingCard from '../../../components/PricingCard';
 import { pricingPlans } from '../../../pricingPlans';
+import MixedPricingCard from '@/components/MixedPriceCard';
 
 const JobDetailsPage = () => {
     const { id } = useParams();
@@ -203,14 +204,16 @@ const JobDetailsPage = () => {
                             href={job.apply_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            colorScheme="teal"
-                            size="md"
+                            colorScheme="purple"
+                            size="lg"
                             px={4}
                             py={2}
                             m={1}
                         >
                             Apply Now
                         </Button>
+                    </Flex>
+                    <Flex>
                         <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" ml={4}>
                             <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
                                 <Text><strong>{job.location}</strong></Text>
@@ -235,27 +238,36 @@ const JobDetailsPage = () => {
                         href={job.apply_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        colorScheme="teal"
-                        size="md"
+                        colorScheme="purple"
+                        size="lg"
                         px={4}
                         py={2}
                         m={1}
+                        mt={5}
                     >
                         Apply Now
                     </Button>
                 </Flex>
             </Box>
             <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
-                <Heading as="h2" size="lg" mb={5}>
-                    Choose a Plan
-                </Heading>
                 {/* <Box width="100%"> */}
-                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width='100%' justifyContent="center">
+                {/* <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width='100%' justifyContent="center">
                     {pricingPlans.map((plan, index) => (
                         <PricingCard key={index} {...plan} />
                     ))}
-                </SimpleGrid>
+                </SimpleGrid> */}
                 {/* </Box> */}
+                <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
+                    {/* <Heading as="h2" size="lg" mb={5}>
+          Choose a Plan
+        </Heading> */}
+                    {/* <SimpleGrid ml={400} columns={{ base: 1, md: 3 }} spacing={8} width='80%' justifyContent="center">
+          {pricingPlans.map((plan, index) => (
+            <PricingCard key={index} {...plan} />
+          ))}
+        </SimpleGrid> */}
+                    <MixedPricingCard />
+                </Flex>
             </Flex>
         </>
     );

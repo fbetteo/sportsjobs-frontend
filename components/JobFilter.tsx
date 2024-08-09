@@ -1,7 +1,7 @@
 // components/JobFilter.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Select, VStack, Box, Button, HStack } from '@chakra-ui/react';
+import { Select, VStack, Box, Button, HStack, Flex } from '@chakra-ui/react';
 
 interface JobFilterProps {
     onFilterChange: (filters: { country?: string; seniority?: string; remote?: string; industry: string; sport: string; job_area: string }) => void;
@@ -87,69 +87,139 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
     }, [country, remote, seniority, industry, sport, job_area]);
 
     return (
-        <HStack spacing={2} marginBottom={10}>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Country" value={country} onChange={(e) => setCountry(e.target.value)}>
+        <Flex
+            direction={{ base: 'column', md: 'row' }}
+            wrap="nowrap"
+            marginBottom={10}
+            justify="space-between"
+        >
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+            >
                 {options.countries.map((country) => (
                     <option key={country} value={country} style={{ backgroundColor: 'black', color: 'white' }}>
                         {country}
                     </option>
                 ))}
             </Select>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Remote" value={remote} onChange={(e) => setRemote(e.target.value)}>
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Remote"
+                value={remote}
+                onChange={(e) => setRemote(e.target.value)}
+            >
                 {options.remotes.map((remoteOption) => (
                     <option key={remoteOption} value={remoteOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {remoteOption}
                     </option>
                 ))}
             </Select>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Seniority" value={seniority} onChange={(e) => setSeniority(e.target.value)}>
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Seniority"
+                value={seniority}
+                onChange={(e) => setSeniority(e.target.value)}
+            >
                 {options.seniorities.map((seniorityOption) => (
                     <option key={seniorityOption} value={seniorityOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {seniorityOption}
                     </option>
                 ))}
             </Select>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Industry" value={industry} onChange={(e) => setIndustry(e.target.value)}>
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Industry"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+            >
                 {options.industries.map((industryOption) => (
                     <option key={industryOption} value={industryOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {industryOption}
                     </option>
                 ))}
             </Select>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Sport" value={sport} onChange={(e) => setSport(e.target.value)}>
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Sport"
+                value={sport}
+                onChange={(e) => setSport(e.target.value)}
+            >
                 {options.sports.map((sportOption) => (
                     <option key={sportOption} value={sportOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {sportOption}
                     </option>
                 ))}
             </Select>
-            <Select size="md"
-                borderRadius="full" fontWeight="bold"
-                bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                _focus={{ bg: 'gray.600' }} placeholder="Job Area" value={sport} onChange={(e) => setJobArea(e.target.value)}>
+            <Select
+                flex="1"
+                marginBottom={{ base: 2, md: 0 }}
+                marginRight={{ base: 0, md: 2 }}
+                size="md"
+                borderRadius="full"
+                fontWeight="bold"
+                bg="gray.700"
+                _hover={{ bg: 'gray.600' }}
+                _placeholder={{ color: "white" }}
+                _focus={{ bg: 'gray.600' }}
+                placeholder="Job Area"
+                value={job_area}
+                onChange={(e) => setJobArea(e.target.value)}
+            >
                 {options.job_areas.map((jobAreaOption) => (
                     <option key={jobAreaOption} value={jobAreaOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {jobAreaOption}
                     </option>
                 ))}
             </Select>
-        </HStack>
+        </Flex>
     );
 };
-
 export default JobFilter;
