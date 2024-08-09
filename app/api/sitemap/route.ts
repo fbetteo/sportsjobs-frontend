@@ -7,18 +7,20 @@ export async function GET() {
   const baseUrl = 'https://www.sportsjobs.online';
   
   // Fetch job listings dynamically
-  const jobs = await fetchJobs(1000, '');
+  const jobs = await fetchJobs(1000, JSON.stringify(""));
+    // console.log(jobs.length);
   
   // Static pages (adjust based on your website structure)
-  const staticPages = ['', '/about', '/contact', 'signup'].map(
+  const staticPages = ['', '/signup'].map(
     (route) => `${baseUrl}${route}`
   );
 
   // Generate job URLs
   const jobUrls = jobs.map(
     (job: any) => `${baseUrl}/jobs/${job.id}`
-  );
-
+    );
+    
+    // console.log(jobUrls.length);
   // Combine static pages and job URLs
   const allPages = [...staticPages, ...jobUrls];
 
