@@ -14,13 +14,13 @@ export async function GET() {
   }
 
     const { jobs } = await response.json();
-    
+
     // Ensure `jobs` is an array before mapping
     if (!Array.isArray(jobs)) {
         throw new Error('Expected jobs to be an array');
       }
   // Static pages (adjust based on your website structure)
-  const staticPages = ['', '/signup'].map(
+  const staticPages = ['',  '/signup'].map(
     (route) => `${baseUrl}${route}`
   );
 
@@ -35,6 +35,8 @@ export async function GET() {
 
   // Generate sitemap XML
   const sitemap = `
+  <?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${allPages
       .map((url) => {
         return `
@@ -46,14 +48,12 @@ export async function GET() {
         `;
       })
       .join('')}
-  `;
+  </urlset>
+`;
 
-  return new NextResponse(`<?xml version="1.0" encoding="UTF-8"?> 
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
-      ${sitemap} 
-    </urlset>`, {
-    headers: {
-      'Content-Type': 'application/xml',
-    },
-  });
+return new NextResponse(sitemap, {
+  headers: {
+    'Content-Type': 'application/xml',
+  },
+});
 }
