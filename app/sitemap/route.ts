@@ -3,10 +3,9 @@ import { fetchJobs } from '../../lib/fetchJobs';
 
 export async function GET() {
   // Use the correct base URL depending on your environment
-  // const baseUrl = process.env.NODE_ENV === 'production' 
-  //   ? 'https://www.sportsjobs.online' 
-  //   : 'http://localhost:3000';
-  const baseUrl = 'http://localhost:3000';
+  const baseUrl = process.env.NODE_ENV === 'production' 
+  ? 'https://www.sportsjobs.online' 
+  : 'http://localhost:3000';
 
   const jobs = await fetchJobs(1000, JSON.stringify(""));
   if (!Array.isArray(jobs)) {
