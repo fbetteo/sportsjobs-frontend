@@ -5,8 +5,11 @@ export const fetchJobs = async (limit: number, filters: string) => {
   Object.keys(filtersObj).forEach(key => {
     params.append(key, filtersObj[key]);
   });
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? 'https://www.sportsjobs.online' 
+    : 'http://localhost:3000';
     
-  const response = await fetch(`/api/get-jobs?${params.toString()}`);
+  const response = await fetch(`${baseUrl}/api/get-jobs?${params.toString()}`);
   const data = await response.json();
   
     if (response.ok) {
