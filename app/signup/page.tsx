@@ -25,6 +25,8 @@ import {
 } from '@chakra-ui/react';
 import { Providers } from '../providers';
 import { useSearchParams } from 'next/navigation';
+import SenjaWallOfLove from '@/components/WallOfLove';
+import MixedPricingCard from '@/components/MixedPriceCard';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -160,6 +162,8 @@ const SignupPage = () => (
                 </VStack>
             </Box>
         </Container>
+        <MixedPricingCard />
+        <SenjaWallOfLove />
     </Elements>
 );
 

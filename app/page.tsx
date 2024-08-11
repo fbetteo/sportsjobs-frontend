@@ -15,6 +15,7 @@ import Introduction from '../components/Introduction';
 import NewsletterSignupForm from "@/components/NewsletterSignupForm";
 import UserFormPopup from "../components/AlertsPopupForm";
 import MixedPricingCard from "@/components/MixedPriceCard";
+import SenjaWallOfLove from "@/components/WallOfLove";
 
 
 
@@ -115,6 +116,7 @@ export default function Home() {
           ))}
         </SimpleGrid> */}
         <MixedPricingCard />
+        <SenjaWallOfLove />
       </Flex>
     </VStack>
   );
