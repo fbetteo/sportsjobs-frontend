@@ -15,6 +15,9 @@ import Introduction from '../components/Introduction';
 import NewsletterSignupForm from "@/components/NewsletterSignupForm";
 import UserFormPopup from "../components/AlertsPopupForm";
 import MixedPricingCard from "@/components/MixedPriceCard";
+import SenjaWallOfLove from "@/components/WallOfLove";
+
+
 
 export default function Home() {
   const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
@@ -63,7 +66,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jobLimit = user ? 100 : 5;
+        const jobLimit = user ? 250 : 5;
         const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
         console.log(filters)
         setJobs(fetchedJobs);
@@ -88,20 +91,14 @@ export default function Home() {
       <Flex direction="column" width="100%" mb={10}>
         <Introduction />
         <Center>
-          <Flex
-            direction={{ base: 'column', md: 'row' }}
-            wrap="nowrap"
-            marginBottom={10}
-            justify="space-between"
-          >
-            <Button onClick={handleOpenForm} colorScheme="purple" marginBottom={{ base: 2, md: 0 }}
-              marginRight={{ base: 0, md: 2 }}>
+          <HStack mb={10}>
+            <Button onClick={handleOpenForm} colorScheme="purple">
               🔔 Receive Emails For New Jobs
             </Button>
             <Button as="a" href="https://rezi.ai/?via=franco" target="_blank" colorScheme="purple">
               📝 Create your resume with AI
             </Button>
-          </Flex>
+          </HStack>
           <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
         </Center>
         <Center>
@@ -119,6 +116,7 @@ export default function Home() {
           ))}
         </SimpleGrid> */}
         <MixedPricingCard />
+        <SenjaWallOfLove />
       </Flex>
     </VStack>
   );

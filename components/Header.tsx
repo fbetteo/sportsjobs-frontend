@@ -46,7 +46,7 @@ const Header = () => {
     <Box bg="black" color="white" px={4} py={2}>
       <Flex justify="space-between" align="center">
         <Link href="/">
-          <Image src="https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=73ad289af04d9404eaff59edab90872229e4a75a" alt="Logo" boxSize="80px" />
+          <Image src="https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=73ad289af04d9404eaff59edab90872229e4a75a" alt="Sportsjobs Online Logo" boxSize="80px" />
         </Link>
         {user ? (
           <Menu>
