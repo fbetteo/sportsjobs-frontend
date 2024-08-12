@@ -48,8 +48,23 @@ const Header = () => {
         <Link href="/">
           <Image src="https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=73ad289af04d9404eaff59edab90872229e4a75a" alt="Sportsjobs Online Logo" boxSize="80px" />
         </Link>
+
+
+
         {user ? (
+
           <Menu>
+            <Link href="/" passHref>
+              <Button colorScheme="purple" bg="black" mr={5} as="a">
+                Browse Jobs
+              </Button>
+            </Link>
+            <Link href="/blog" passHref>
+              <Button colorScheme="purple" bg="black" mr={5} as="a">
+                Blog
+              </Button>
+
+            </Link>
             <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
               <Avatar size="sm" src={user.picture ?? ""} />
             </MenuButton>
@@ -64,6 +79,17 @@ const Header = () => {
           </Menu>
         ) : (
           <Box>
+            <Link href="/" passHref>
+              <Button colorScheme="purple" bg="black" mr={5} as="a">
+                Browse Jobs
+              </Button>
+            </Link>
+            <Link href="/blog" passHref>
+              <Button colorScheme="purple" bg="black" mr={5} as="a">
+                Blog
+              </Button>
+            </Link>
+
             <Link href="/api/auth/login">
               <Button colorScheme="gray.700" bg='purple' variant="outline" as="a" mr={5}>
                 Login
