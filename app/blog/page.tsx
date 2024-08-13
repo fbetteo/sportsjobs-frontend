@@ -16,6 +16,37 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { parse, format } from 'date-fns';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+
+    return {
+        title: `Blog about sports analytics and best practices for job seekers - SportsJobs Online`,
+        description: `Content, blogposts, recommendations and articles about working in sports analytics and how to land a job in the sports industry. SportsJobs Online is the best place to find sports analytics jobs`,
+        openGraph: {
+            title: `Blog about sports analytics and best practices for job seekers - SportsJobs Online`,
+            description: `Content, blogposts, recommendations and articles about working in sports analytics and how to land a job in the sports industry. SportsJobs Online is the best place to find sports analytics jobs`,
+            url: `https://www.sportsjobs.online`,
+            siteName: 'SportsJobs Online',
+            images: [
+                {
+                    url: 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                    width: 800,
+                    height: 600,
+                    alt: `Sportsjobs Online Logo`,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `Blog about sports analytics and best practices for job seekers - SportsJobs Online`,
+            description: `Content, blogposts, recommendations and articles about working in sports analytics and how to land a job in the sports industry. SportsJobs Online is the best place to find sports analytics jobs`,
+            images: [
+                'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+            ],
+        },
+    };
+}
 
 export default async function BlogPage() {
     const blogPosts = await fetchBlogPosts(100, JSON.stringify(""));

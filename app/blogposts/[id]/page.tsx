@@ -12,6 +12,45 @@ import SenjaWallOfLove from '@/components/WallOfLove';
 
 
 
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const blog_details = await fetchBlogPostDetails(params.id);
+
+    if (!blog_details) {
+        return {
+            title: 'Job Not Found - SportsJobs Online',
+            description: 'The job you are looking for does not exist.',
+        };
+    }
+
+    return {
+        title: `${blog_details.title} - SportsJobs Online`,
+        description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+        openGraph: {
+            title: `${blog_details.title} - SportsJobs Online`,
+            description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            url: `https://www.sportsjobs.online`,
+            siteName: 'SportsJobs Online',
+            images: [
+                {
+                    url: blog_details.cover[0].url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                    width: 800,
+                    height: 600,
+                    alt: `Cover of ${blog_details.title}`,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${blog_details.title} - SportsJobs Online`,
+            description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            images: [
+                blog_details.cover[0].url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+            ],
+        },
+    };
+}
+
+
 
 
 export default async function BlogPostPage({ params }: { params: { id: string } }) {
