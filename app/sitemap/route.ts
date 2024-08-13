@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { fetchJobs } from '../../lib/fetchJobs';
+import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
 
 export async function GET() {
   // Use the correct base URL depending on your environment
@@ -12,10 +13,17 @@ export async function GET() {
     throw new Error('Expected jobs to be an array');
   }
 
+  const blogposts = await fetchBlogPosts(100, JSON.stringify(""));
+  if (!Array.isArray(blogposts)) {
+    throw new Error('Expected blogposts to be an array');
+  }
+
+
   // Define static pages
-  const staticPages = ['', '/signup'].map((route) => `${baseUrl}${route}`);
+  const staticPages = ['', '/signup', '/blog'].map((route) => `${baseUrl}${route}`);
   const jobUrls = jobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
-  const allPages = [...staticPages, ...jobUrls];
+  const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.id}`);
+  const allPages = [...staticPages, ...jobUrls, ...blogpostsUrls];
 
   // Generate sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
