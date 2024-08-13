@@ -1,4 +1,3 @@
-// app/privacy-policy/page.tsx
 import { Box, Heading, Text } from '@chakra-ui/react';
 
 const PrivacyPolicyPage = () => {
@@ -32,7 +31,7 @@ const PrivacyPolicyPage = () => {
                 3. Payment Processing
             </Heading>
             <Text mb={4}>
-                Payment processing on our site is handled by Stripe. We do not store or have access to your credit card information. Stripe's use of your personal information is governed by their Privacy Policy.
+                Payment processing on our site is handled by Stripe. We do not store or have access to your credit card information. Stripe&apos;s use of your personal information is governed by their Privacy Policy.
             </Text>
 
             <Heading as="h2" size="md" mt={6} mb={4}>

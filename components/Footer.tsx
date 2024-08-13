@@ -9,7 +9,7 @@ const Footer = () => {
                 © 2024 Calibrated AI LLC | Built by{' '}
                 <Link href="https://twitter.com/franbetteo" isExternal color="teal.200">
                     @franbetteo
-                </Link>. I'd love to hear your feedback — Get in touch via DM or{' '}
+                </Link>. I&apos;d love to hear your feedback — Get in touch via DM or{' '}
                 <Link href="mailto:franco@sportsjobs.online" color="teal.200">
                     franco@sportsjobs.online
                 </Link>
