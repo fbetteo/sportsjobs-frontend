@@ -1,5 +1,5 @@
 // components/Footer.tsx
-import { Box, Text, Link, HStack, IconButton } from '@chakra-ui/react';
+import { Box, Text, Link, HStack, IconButton, Image, Flex } from '@chakra-ui/react';
 import { FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
@@ -33,6 +33,16 @@ const Footer = () => {
                     bg="teal.500"
                     _hover={{ bg: "teal.400" }}
                 />
+                <Link
+                    href="https://www.jobboardfinder.com/jobboard-sportsjobsonline-usa?utm_source=logo_referenced&utm_medium=logo_jobboard&utm_content=logo_referenced&utm_campaign=logo_jobboard"
+                    title="JobboardFinder - Any e-recruitment media, anywhere"
+                    isExternal
+                >
+                    <Image
+                        src="https://www.jobboardfinder.com/img/logo_referenced_on_jobboard_finder_90x90.png"
+                        alt="JobboardFinder - Search the best job board worldwide"
+                    />
+                </Link>
             </HStack>
             <Text mt={2} fontSize="sm">
                 <Link href="/privacy-policy" color="teal.200" >
