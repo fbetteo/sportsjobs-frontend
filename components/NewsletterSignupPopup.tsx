@@ -1,8 +1,9 @@
 // components/SignupPopup.tsx (updated)
 
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Input, FormControl, FormLabel, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
+import { Box, Button, Input, FormControl, FormLabel, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Text, Flex, Icon } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0/client'; //
+import { FaStar, FaArrowRight } from 'react-icons/fa';
 
 const SignupPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,19 +13,23 @@ const SignupPopup = () => {
 
     useEffect(() => {
         if (!user) {
-            const timer = setTimeout(() => {
-                if (!localStorage.getItem('signupPopupShown')) {
-                    setIsOpen(true);
-                }
-            }, 10000); // 10 seconds
+            const lastShown = localStorage.getItem('signupPopupShown');
+            const currentTime = new Date().getTime();
 
-            return () => clearTimeout(timer);
+            if (!lastShown || currentTime - parseInt(lastShown) > 24 * 60 * 60 * 1000) { // 24 hours
+                const timer = setTimeout(() => {
+                    setIsOpen(true);
+                }, 5000); // 5 seconds
+
+                return () => clearTimeout(timer);
+            }
         }
     }, [user]);
 
     const handleClose = () => {
         setIsOpen(false);
-        localStorage.setItem('signupPopupShown', 'true');
+        const currentTime = new Date().getTime();
+        localStorage.setItem('signupPopupShown', currentTime.toString());
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -64,23 +69,38 @@ const SignupPopup = () => {
     return (
         <Modal isOpen={isOpen} onClose={handleClose} size='xl'>
             <ModalOverlay />
-            <ModalContent bg='purple.900'>
-                <ModalHeader>Do you want to keep updated with jobs and news? 💡</ModalHeader>
+            <ModalContent bg='purple.700'>
+                <ModalHeader>Get Exclusive Job Alerts and Industry News Weekly!🚀</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody >
+                    <Flex alignItems="center" mb={4}>
+                        {/* Star Icons */}
+                        <Icon as={FaStar} color="yellow.400" mr={1} />
+                        <Icon as={FaStar} color="yellow.400" mr={1} />
+                        <Icon as={FaStar} color="yellow.400" mr={1} />
+                        <Icon as={FaStar} color="yellow.400" mr={1} />
+                        <Icon as={FaStar} color="yellow.400" />
+                        <Box ml={2} fontSize="sm" color="gray.200">
+                            Trusted by 300+ professionals
+                        </Box>
+                    </Flex>
                     <Box as="form" onSubmit={handleSubmit}>
                         <FormControl>
-                            <FormLabel htmlFor="email">Email address</FormLabel>
+                            <FormLabel htmlFor="email">Join hundreds of professionals who trust us getting summaries and content weekly. No spam, ever.</FormLabel>
                             <Input
                                 id="email"
                                 type="email"
+                                placeholder='Enter your email'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
+                                width='auto'
                             />
                         </FormControl>
-                        <Button mt={4} colorScheme="yellow" type="submit">
-                            Subscribe to the newsletter
+                        <Button mt={4} bg="#D4A017" color="black"
+                            _hover={{ bg: '#B8860B' }}
+                            _active={{ bg: '#A67C00' }} type="submit">
+                            Join Now
                         </Button>
                     </Box>
                 </ModalBody>
