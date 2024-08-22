@@ -90,6 +90,9 @@ export default function Home() {
     <VStack spacing={10} align="stretch">
       <Flex direction="column" width="100%" mb={10}>
         <Introduction />
+        <Center >
+          <NewsletterSignupForm />
+        </Center>
         <Center>
           <HStack mb={10}>
             <Button onClick={handleOpenForm} colorScheme="purple">

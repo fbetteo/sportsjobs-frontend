@@ -16,7 +16,7 @@ const SignupPopup = () => {
                 if (!localStorage.getItem('signupPopupShown')) {
                     setIsOpen(true);
                 }
-            }, 7000); // 10 seconds
+            }, 10000); // 10 seconds
 
             return () => clearTimeout(timer);
         }
@@ -65,7 +65,7 @@ const SignupPopup = () => {
         <Modal isOpen={isOpen} onClose={handleClose} size='xl'>
             <ModalOverlay />
             <ModalContent bg='purple.900'>
-                <ModalHeader>Join hundreds of people getting the latest news and content related to working in sports.</ModalHeader>
+                <ModalHeader>Do you want to keep updated with jobs and news? 💡</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody >
                     <Box as="form" onSubmit={handleSubmit}>

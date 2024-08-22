@@ -4,7 +4,7 @@ import { Box, Heading, Text, VStack } from '@chakra-ui/react';
 
 const Introduction = () => {
     return (
-        <VStack spacing={4} align="center" p={4} mb={10}>
+        <VStack spacing={4} align="center" p={4} mb={1} >
             <Heading as="h1" size="2xl" textAlign="center">
                 Find Your Dream Job in Sports Analytics and Betting
             </Heading>
