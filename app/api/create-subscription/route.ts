@@ -37,9 +37,8 @@ export async function POST(req: NextRequest) {
 
     if (latestInvoice && typeof latestInvoice.payment_intent !== 'string' && latestInvoice.payment_intent?.status === 'succeeded') {
           const accessToken = await getAuth0AccessToken();
-          console.log(accessToken)
+          // console.log(accessToken)
           console.log(email)
-          console.log(password)
 
         // Create a user in Auth0
         await createAuth0User(email, password, accessToken);

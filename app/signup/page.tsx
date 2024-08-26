@@ -115,8 +115,8 @@ const CheckoutForm = () => {
                     <FormLabel>Choose a Plan</FormLabel>
                     <Select bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
                         _focus={{ bg: 'gray.600' }} placeholder="Select Plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
-                        <option value="Monthly" style={{ backgroundColor: 'black', color: 'white' }}>Monthly - $4.99/month</option>
-                        <option value="Yearly" style={{ backgroundColor: 'black', color: 'white' }}>Yearly - $29.99/Year</option>
+                        <option value="monthly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Monthly - $4.99/month</option>
+                        <option value="yearly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Yearly - $29.99/Year</option>
                     </Select>
                 </FormControl>
                 <FormControl id="card" isRequired>
