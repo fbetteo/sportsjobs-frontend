@@ -20,13 +20,12 @@ export async function POST(req: NextRequest) {
         default_payment_method: paymentMethodId
       }
     });
-
     // Create a subscription
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [
         {
-          price: plan === 'Monthly' ? process.env.STRIPE_MONTHLY_PRICE_ID! : process.env.STRIPE_YEARLY_PRICE_ID!
+          price: plan === 'monthly_subscription' ? process.env.STRIPE_MONTHLY_PRICE_ID! : process.env.STRIPE_YEARLY_PRICE_ID!
         }
       ],
       expand: ['latest_invoice.payment_intent']

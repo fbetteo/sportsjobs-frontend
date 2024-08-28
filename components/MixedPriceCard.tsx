@@ -81,7 +81,7 @@ const MixedPricingCard = () => {
                                 <Text key={idx}>{feature}</Text>
                             ))}
                         </Stack> */}
-                        <Button colorScheme="purple" onClick={() => handleSelectPlan(plan.planName)}>Choose Plan</Button>
+                        <Button colorScheme="purple" onClick={() => handleSelectPlan(plan.airtablePlanName)}>Choose Plan</Button>
                     </Box>
                 ))}
             </Flex>
