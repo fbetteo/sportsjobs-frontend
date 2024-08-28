@@ -3,6 +3,7 @@
 'use client';
 
 import { Suspense, useState, useEffect } from 'react';
+import { useToast } from '@chakra-ui/react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
     Elements,
@@ -27,6 +28,7 @@ import { Providers } from '../providers';
 import { useSearchParams } from 'next/navigation';
 import SenjaWallOfLove from '@/components/WallOfLove';
 import MixedPricingCard from '@/components/MixedPriceCard';
+import { validatePasswordStrength } from '../../lib/validatePasswordStrength';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -50,6 +52,7 @@ const CheckoutForm = () => {
     const [plan, setPlan] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const searchParams = useSearchParams();
+    const toast = useToast();
 
     useEffect(() => {
         const planParam = searchParams.get('plan');
@@ -62,7 +65,21 @@ const CheckoutForm = () => {
         event.preventDefault();
         setIsLoading(true);
 
+        const passwordError = validatePasswordStrength(password);
+        if (passwordError) {
+            toast({
+                title: "Password Error",
+                description: passwordError,
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            }); // Show the error to the user
+            setIsLoading(false);
+            return; // Stop the submission if password is weak
+        }
+
         if (!stripe || !elements) return;
+
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
