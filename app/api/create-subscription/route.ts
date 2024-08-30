@@ -9,12 +9,42 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest) {
-    const { email, paymentMethodId, plan, password } = await req.json();
+    const { email, name, paymentMethodId, plan, password, promoCode } = await req.json();
 
   try {
+
+      // Validate the promo code if provided
+    let couponId: string | undefined;
+      if (promoCode) {
+        try {
+          const promotionCodes = await stripe.promotionCodes.list({
+              code: promoCode,
+              active: true,
+              limit: 1,
+          });
+
+          if (promotionCodes.data.length > 0) {
+              couponId = promotionCodes.data[0].coupon.id;
+          } else {
+              return NextResponse.json({
+                  error: 'invalid_promo_code',
+                  message: 'Invalid or inactive promo code provided.',
+              }, { status: 400 });
+          }
+          } catch (error) {
+              return NextResponse.json({
+                  error: 'promo_code_error',
+                  message: 'Error while applying promo code.',
+              }, { status: 500 });
+          }
+      }
+
+
+
     // Create a customer
     const customer = await stripe.customers.create({
       email,
+      name,
       payment_method: paymentMethodId,
       invoice_settings: {
         default_payment_method: paymentMethodId
@@ -28,6 +58,7 @@ export async function POST(req: NextRequest) {
           price: plan === 'monthly_subscription' ? process.env.STRIPE_MONTHLY_PRICE_ID! : process.env.STRIPE_YEARLY_PRICE_ID!
         }
       ],
+      coupon: couponId,// Apply coupon if available
       expand: ['latest_invoice.payment_intent']
     });
 
@@ -58,7 +89,7 @@ export async function POST(req: NextRequest) {
   
       try {
         // Create a record in Airtable
-        await createAirtableRecord(email, plan);
+        await createAirtableRecord(name, email, plan);
         // Create a user account in your database here
       } catch (airtableError) {
         console.error('Registration Error:', airtableError);

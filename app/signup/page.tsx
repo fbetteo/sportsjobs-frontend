@@ -48,8 +48,10 @@ const CardInput = () => (
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [promoCode, setPromoCode] = useState('');
     const [plan, setPlan] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const searchParams = useSearchParams();
@@ -87,6 +89,7 @@ const CheckoutForm = () => {
             type: 'card',
             card: elements.getElement(CardElement)!,
             billing_details: {
+                name,
                 email
             }
         });
@@ -102,9 +105,11 @@ const CheckoutForm = () => {
                 },
                 body: JSON.stringify({
                     email,
+                    name,
                     paymentMethodId: paymentMethod.id,
                     plan,
-                    password
+                    password,
+                    promoCode
                 })
             });
 
@@ -146,6 +151,27 @@ const CheckoutForm = () => {
                     position: "top",
                     variant: "solid",
                 });
+            } else if (subscription.error === 'invalid_promo_code') {
+                toast({
+                    title: "Promo Code Error",
+                    description: subscription.message,
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
+            } else if (subscription.error === 'promo_code_error') {
+                toast({
+                    title: "Promo Code Error",
+                    description: subscription.message,
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
+
             } else {
                 toast({
                     title: "Subscription Error",
@@ -165,6 +191,10 @@ const CheckoutForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
+                <FormControl id="name" isRequired>
+                    <FormLabel>Name</FormLabel>
+                    <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                </FormControl>
                 <FormControl id="email" isRequired>
                     <FormLabel >Email</FormLabel>
                     <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -180,6 +210,10 @@ const CheckoutForm = () => {
                         <option value="monthly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Monthly - $4.99/month</option>
                         <option value="yearly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Yearly - $29.99/Year</option>
                     </Select>
+                </FormControl>
+                <FormControl id="promo-code">
+                    <FormLabel>Promo Code</FormLabel>
+                    <Input type="text" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
                 </FormControl>
                 <FormControl id="card" isRequired>
                     <FormLabel>Card Details</FormLabel>
