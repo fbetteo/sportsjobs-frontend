@@ -29,6 +29,7 @@ import { useSearchParams } from 'next/navigation';
 import SenjaWallOfLove from '@/components/WallOfLove';
 import MixedPricingCard from '@/components/MixedPriceCard';
 import { validatePasswordStrength } from '../../lib/validatePasswordStrength';
+import { useRouter } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -53,6 +54,7 @@ const CheckoutForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const searchParams = useSearchParams();
     const toast = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         const planParam = searchParams.get('plan');
@@ -109,8 +111,51 @@ const CheckoutForm = () => {
             const subscription = await response.json();
 
             if (subscription.status === 'active') {
-                alert('Subscription successful!');
+                toast({
+                    title: "Subscription Successful",
+                    description: "Your subscription is now active. Redirecting to the main page...",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
+                setTimeout(() => {
+                    router.push('/');
+                }, 3000);
+
+            } else if (subscription.error === 'auth0_error') {
+                toast({
+                    title: "Account Creation Error",
+                    description: subscription.message,
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
+
+                console.error('Subscription failed', subscription);
+            } else if (subscription.error === 'airtable_error') {
+                toast({
+                    title: "Account Creation Error",
+                    description: subscription.message,
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
             } else {
+                toast({
+                    title: "Subscription Error",
+                    description: "An error occurred while creating your subscription. Please check your card validity and try again later.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                    variant: "solid",
+                });
                 console.error('Subscription failed', subscription);
             }
             setIsLoading(false);
