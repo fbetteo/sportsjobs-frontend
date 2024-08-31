@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: 'https://www.sportsjobs.online',
     images: [
       {
-        url: 'https://postimg.cc/CnFZSGLH', // 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+        url: 'https://i.postimg.cc/brn10g7M/opengraph.png',
         alt: `Logo of Sportsjobs Online`,
       }]
   },
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
     description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. SportsJobs Online is the best place to find sports analytics jobs.',
   },
   // You can add more metadata as needed
+  // 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
 };
 
 
