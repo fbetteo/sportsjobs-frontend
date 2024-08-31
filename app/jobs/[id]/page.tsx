@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         openGraph: {
             title: `${jobDetails.title} jobs - SportsJobs Online`,
             description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            url: `https://www.sportsjobs.online}`,
+            url: `https://www.sportsjobs.online`,
             siteName: 'SportsJobs Online',
             images: [
                 {
