@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
         logo_permanent_url: record.get('logo_permanent_url'),
         remote_string: record.get('remote_string'),
         days_ago_text: record.get('days_ago_text'),
+        sport_list: record.get('sport_list'),
         industry: record.get('industry'),
         job_area: record.get('job_area'),
         apply_url: record.get('url'),

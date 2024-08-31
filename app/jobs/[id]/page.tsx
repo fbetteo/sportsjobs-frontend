@@ -47,11 +47,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     }
 
     return {
-        title: `${jobDetails.title} at ${jobDetails.company} - SportsJobs Online`,
-        description: `Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+        title: `${jobDetails.title} at ${jobDetails.company} jobs- SportsJobs Online`,
+        description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+        keywords: `${jobDetails.sport_list} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
         openGraph: {
-            title: `${jobDetails.title} - SportsJobs Online`,
-            description: `Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            title: `${jobDetails.title} jobs - SportsJobs Online`,
+            description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
             url: `https://www.sportsjobs.online}`,
             siteName: 'SportsJobs Online',
             images: [
@@ -66,7 +67,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         twitter: {
             card: 'summary_large_image',
             title: `${jobDetails.title} - SportsJobs Online`,
-            description: `Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
             images: [
                 jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
             ],
