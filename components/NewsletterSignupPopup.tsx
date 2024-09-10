@@ -35,6 +35,24 @@ const SignupPopup = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        try {
+            // Ensure the sparkloop instance has been initialized before tracking
+            if (window.SL && typeof window.SL.trackSubscriber === 'function') {
+                window.SL.trackSubscriber(email); // Track the subscriber manually
+            } else {
+                throw new Error('SparkLoop not initialized or trackSubscriber not available');
+            }
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Failed to track subscriber with SparkLoop: ' + ((error as Error).message as string),
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
         const res = await fetch('/api/subscribe-newsletter', {
             method: 'POST',
             headers: {
