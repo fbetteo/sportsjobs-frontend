@@ -31,7 +31,7 @@ const fetchDropdownOptions = async () => {
         const seniorities = ['Internship', 'Junior', 'With Experience']; // Add your seniority levels here
         const remotes = ['Office', 'Remote', 'Global Remote']; // Add your remote options here
         const hours = ['Fulltime', 'Part time']; // Add your hours options here
-        const sport_list = ['Golf', 'Football', 'Basketball', 'Baseball', 'Tennis', 'Hockey', 'Formula 1']; // Add your sports options here
+        const sport_list = ['Golf', 'Football - NFL', 'Football - Soccer', 'Basketball', 'Baseball', 'Tennis', 'Hockey', 'Formula 1']; // Add your sports options here
         const skills =[
             "Manager", "Sports", "SQL", "Statistics", "Excel", "Data", "IT", "Analytics", "Salesforce",
             "Python", "Data Science", "Tableau", "AWS", "Swift", "Media", "Google Analytics", "Postgres", 
