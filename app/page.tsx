@@ -18,10 +18,35 @@ import UserFormPopup from "../components/AlertsPopupForm";
 import MixedPricingCard from "@/components/MixedPriceCard";
 import SenjaWallOfLove from "@/components/WallOfLove";
 import JobListFeatured from "@/components/JobListFeatured";
+import { useRef } from 'react';
 
 
 
 export default function Home() {
+
+  // Use this function locally to check behaviour for logged in users.
+  // Replace  with useUserMock in the useState declaration below.
+  // const useUserMock = () => {
+  //   const { user, error, isLoading } = useUser();
+
+  //   // Simulate a logged-in user if in development mode
+  //   if (process.env.NODE_ENV === 'development') {
+  //     return {
+  //       user: {
+  //         name: 'Developer User',
+  //         email: 'developer@example.com',
+  //         picture: 'https://via.placeholder.com/150',
+  //       },
+  //       error: null,
+  //       isLoading: false,
+  //     };
+  //   }
+
+  //   return { user, error, isLoading };
+  // };
+
+
+
   const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
   const [jobs, setJobs] = useState([]);
   const [featuredJobs, setFeaturedJobs] = useState([]);
@@ -29,6 +54,12 @@ export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
 
+  const pricingSectionRef = useRef<HTMLDivElement>(null);
+  const scrollToPricing = () => {
+    if (pricingSectionRef.current) {
+      pricingSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleFilterChange = (newFilters: { country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }) => {
     setFilters(newFilters);
@@ -119,10 +150,10 @@ export default function Home() {
           <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
         </Center>
         <Center>
-          <JobFilter onFilterChange={handleFilterChange} />
+          <JobFilter onFilterChange={handleFilterChange} user={user} />
         </Center>
         <JobListFeatured jobs={featuredJobs} />
-        <JobList jobs={jobs} />
+        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
       </Flex>
       <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
         {/* <Heading as="h2" size="lg" mb={5}>
@@ -133,7 +164,9 @@ export default function Home() {
             <PricingCard key={index} {...plan} />
           ))}
         </SimpleGrid> */}
-        <MixedPricingCard />
+        <div ref={pricingSectionRef}>
+          <MixedPricingCard />
+        </div>
         <SenjaWallOfLove />
       </Flex>
     </VStack>

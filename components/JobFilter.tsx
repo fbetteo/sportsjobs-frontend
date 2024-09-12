@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Select, VStack, Box, Button, HStack, Flex } from '@chakra-ui/react';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 interface JobFilterProps {
     onFilterChange: (filters: { country?: string; seniority?: string; remote?: string; industry: string; sport: string; job_area: string }) => void;
+    user: UserProfile | undefined;
 }
 
 interface DropdownData {
@@ -35,7 +37,7 @@ interface DropdownData {
 // };
 
 
-const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
+const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
     const [country, setCountry] = useState('');
     const [seniority, setSeniority] = useState('');
     const [remote, setRemote] = useState('');
@@ -92,6 +94,8 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange }) => {
             wrap="nowrap"
             marginBottom={10}
             justify="space-between"
+        // filter={user ? 'none' : 'blur(2px)'}
+        // pointerEvents={user ? 'auto' : 'none'}
         >
             <Select
                 flex="1"
