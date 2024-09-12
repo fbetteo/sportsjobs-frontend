@@ -139,11 +139,35 @@ export default function Home() {
           <NewsletterSignupForm />
         </Center>
         <Center>
-          <HStack mb={10}>
-            <Button onClick={handleOpenForm} colorScheme="purple">
+          <HStack
+            mb={10}
+            spacing={{ base: 2, md: 5 }}  // Smaller spacing on mobile, larger on desktop
+            wrap="nowrap"                 // Ensure no wrapping happens
+            justify="center"              // Center items
+            w="100%"                      // Ensure the HStack takes full width of the screen
+            overflow="hidden"             // Prevent horizontal scroll
+          >
+            <Button
+              onClick={handleOpenForm}
+              colorScheme="purple"
+              size="sm"                   // Fixed smaller size on mobile
+              w="fit-content"             // Shrinks to fit its content
+              flexShrink={1}              // Ensure it doesn't grow beyond necessary
+              mr={{ base: 2, md: 5 }}      // Smaller margin on mobile
+            >
               🔔 Receive Emails For New Jobs
             </Button>
-            <Button as="a" href="https://rezi.ai/?via=franco" target="_blank" colorScheme="purple">
+
+            <Button
+              as="a"
+              href="https://rezi.ai/?via=franco"
+              target="_blank"
+              colorScheme="purple"
+              size="sm"                   // Fixed smaller size on mobile
+              w="fit-content"             // Shrinks to fit its content
+              flexShrink={1}              // Ensure it doesn't grow beyond necessary
+              mr={{ base: 2, md: 5 }}      // Smaller margin on mobile
+            >
               📝 Create your resume with AI
             </Button>
           </HStack>
