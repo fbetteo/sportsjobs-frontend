@@ -44,6 +44,7 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
             width="100%"
             maxW="800px" // Constrain the width of the list on large screens
             mx="auto" // Center the list horizontally
+            mb={4}
         >
             {jobs.map((job) => (
                 <ListItem
@@ -63,7 +64,7 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
                         seniority={job.seniority}
                         days_ago_text={job.days_ago_text}
                         remote_string={job.remote_string}
-                        isFeatured={false}
+                        isFeatured={true}
                     />
                 </ListItem>
             ))}

@@ -1,6 +1,6 @@
-// app/components/JobCard.tsx
-import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Link as ChakraLink, Badge } from "@chakra-ui/react";
 import Link from 'next/link';
+import { motion } from "framer-motion";
 
 interface JobCardProps {
     id: string;
@@ -13,23 +13,62 @@ interface JobCardProps {
     seniority: string;
     days_ago_text: string;
     remote_string: string;
+    isFeatured?: boolean;
 }
 
-export function JobCard({ id, title, company, salary, location, logo_permanent_url, description, seniority, days_ago_text, remote_string }: JobCardProps) {
+export function JobCard({
+    id,
+    title,
+    company,
+    salary,
+    location,
+    logo_permanent_url,
+    description,
+    seniority,
+    days_ago_text,
+    remote_string,
+    isFeatured
+}: JobCardProps) {
     return (
         <Link href={`/jobs/${id}`} passHref>
             <ChakraLink _hover={{ textDecoration: 'none' }}>
+                {/* Use motion.div from framer-motion for subtle hover effects */}
                 <Box
+                    // as={motion.div}
                     p={5}
                     shadow="md"
-                    borderWidth="1px"
-                    borderRadius="md"
+                    borderWidth={isFeatured ? "2px" : "1px"}
+                    borderRadius="lg"
                     width="100%"
                     maxW="800px"
                     margin="auto"
-                    bg="gray.300"
-                    color="black"
+                    bg={isFeatured ? "linear-gradient(135deg, #f6d365 0%, #fda085 100%)" : "gray.300"}
+                    color={isFeatured ? "black" : "black"}
+                    border={isFeatured ? "2px solid orange" : "1px solid gray"}
+                    // whileHover={{ scale: 1.02 }} // Small scale effect on hover
+                    // transition="0.3s"
+                    position="relative"
+                    overflow="hidden"
+                    _hover={{
+                        bg: isFeatured ? "linear-gradient(135deg, #fda085 0%, #f6d365 100%)" : "gray.400", // Hover color change
+                        shadow: "lg", // Increase shadow on hover for a subtle depth effect
+                    }}
                 >
+                    {isFeatured && (
+                        <Badge
+                            position="absolute"
+                            top={2}
+                            left={2}
+                            colorScheme="yellow"
+                            fontSize="sm"
+                            px={3}
+                            py={1}
+                            borderRadius="full"
+                            boxShadow="md"
+                        >
+                            Featured
+                        </Badge>
+                    )}
                     <Flex
                         direction={{ base: "column", md: "row" }}
                         align="center"
@@ -45,11 +84,23 @@ export function JobCard({ id, title, company, salary, location, logo_permanent_u
                                 mr={{ base: 0, md: 4 }}
                                 mb={{ base: 4, md: 0 }}
                                 alignSelf={{ base: "center", md: "flex-start" }}
+                                borderRadius="full"
+                                border={isFeatured ? "2px solid orange" : "none"}
                             />
                         )}
                         <Box flex="1">
-                            <Text fontSize="md" color="gray.700">{company}</Text>
-                            <Heading fontSize="xl">{title}</Heading>
+                            <Text fontSize="lg" color="gray.600" fontWeight="semibold">
+                                {company}
+                            </Text>
+                            <Heading
+                                fontSize="2xl"
+                                color={isFeatured ? "orange.800" : "black"}
+                                fontWeight="bold"
+                                lineHeight="shorter"
+                                mb={2}
+                            >
+                                {title}
+                            </Heading>
                         </Box>
                     </Flex>
                     <Divider mb={4} />
@@ -65,23 +116,23 @@ export function JobCard({ id, title, company, salary, location, logo_permanent_u
                             width="100%"
                         >
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold">Location</Text>
+                                <Text fontWeight="bold" color="gray.700">Location</Text>
                                 <Text>{location}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold">Remote</Text>
+                                <Text fontWeight="bold" color="gray.700">Remote</Text>
                                 <Text>{remote_string}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold">Salary</Text>
+                                <Text fontWeight="bold" color="gray.700">Salary</Text>
                                 <Text>{salary || "-"}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold">Seniority</Text>
+                                <Text fontWeight="bold" color="gray.700">Seniority</Text>
                                 <Text>{seniority}</Text>
                             </VStack>
                         </HStack>
-                        <Tag colorScheme="green" size="lg" mt={{ base: 4, md: 0 }} alignSelf={{ base: "center", md: "flex-end" }}>
+                        <Tag colorScheme={isFeatured ? "orange" : "green"} size="lg" mt={{ base: 4, md: 0 }} alignSelf={{ base: "center", md: "flex-end" }}>
                             {days_ago_text}
                         </Tag>
                     </Flex>
