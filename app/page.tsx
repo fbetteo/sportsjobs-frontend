@@ -2,6 +2,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { fetchJobs } from "../lib/fetchJobs";
+import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
 import { Box, Heading, List, ListItem, Text, SimpleGrid, VStack, Container, Flex, HStack, Select, Button, Input, Center } from "@chakra-ui/react";
 import { Providers } from "./providers";
 import { JobCard } from "../components/JobCard";
@@ -16,12 +17,14 @@ import NewsletterSignupForm from "@/components/NewsletterSignupForm";
 import UserFormPopup from "../components/AlertsPopupForm";
 import MixedPricingCard from "@/components/MixedPriceCard";
 import SenjaWallOfLove from "@/components/WallOfLove";
+import JobListFeatured from "@/components/JobListFeatured";
 
 
 
 export default function Home() {
   const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
   const [jobs, setJobs] = useState([]);
+  const [featuredJobs, setFeaturedJobs] = useState([]);
   const { user, isLoading: userLoading } = useUser();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
@@ -60,7 +63,18 @@ export default function Home() {
       }
     };
 
+    const fetchFeaturedData = async () => {
+      try {
+        const jobLimit = user ? 250 : 5;
+        const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
+        setFeaturedJobs(fetchedJobsFeatured);
+      } catch (error) {
+        console.error("Failed to fetch featured jobs:", error);
+      }
+    };
+
     getOptions();
+    fetchFeaturedData();
   }, []);
 
   useEffect(() => {
@@ -107,6 +121,7 @@ export default function Home() {
         <Center>
           <JobFilter onFilterChange={handleFilterChange} />
         </Center>
+        <JobListFeatured jobs={featuredJobs} />
         <JobList jobs={jobs} />
       </Flex>
       <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
