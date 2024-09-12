@@ -141,38 +141,23 @@ export default function Home() {
         <Center>
           <HStack
             mb={10}
-            spacing={{ base: 2, md: 5 }}  // Adjust spacing based on screen size
-            wrap="nowrap"                 // Ensure no wrapping
-            justify="center"              // Center items
-            w="100%"                      // Full width for the HStack
-            overflow="hidden"             // Prevent horizontal scrolling
+            spacing={4} // Adjust spacing for better wrapping
+            flexWrap="wrap" // Allow buttons to wrap if needed
+            justify="center" // Center them when they wrap
           >
             <Button
               onClick={handleOpenForm}
               colorScheme="purple"
-              size="sm"                    // Smaller button size on mobile
-              minWidth="150px"             // Prevent shrinking below 150px
-              maxWidth="100%"              // Ensure it doesn't overflow the container
-              textOverflow="ellipsis"      // Handle text overflow inside the button
-              whiteSpace="nowrap"          // Prevent text wrapping
-              flexShrink={1}               // Allow button to shrink if needed
-              mr={{ base: 2, md: 5 }}      // Adjust margin
+              w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
             >
               🔔 Receive Emails For New Jobs
             </Button>
-
             <Button
               as="a"
               href="https://rezi.ai/?via=franco"
               target="_blank"
               colorScheme="purple"
-              size="sm"                    // Smaller button size on mobile
-              minWidth="150px"             // Prevent shrinking below 150px
-              maxWidth="100%"              // Ensure it doesn't overflow the container
-              textOverflow="ellipsis"      // Handle text overflow inside the button
-              whiteSpace="nowrap"          // Prevent text wrapping
-              flexShrink={1}               // Allow button to shrink if needed
-              mr={{ base: 2, md: 5 }}      // Adjust margin
+              w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
             >
               📝 Create your resume with AI
             </Button>
