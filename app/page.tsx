@@ -57,7 +57,7 @@ export default function Home() {
   const pricingSectionRef = useRef<HTMLDivElement>(null);
   const scrollToPricing = () => {
     if (pricingSectionRef.current) {
-      pricingSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      pricingSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   };
 
