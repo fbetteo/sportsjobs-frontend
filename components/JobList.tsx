@@ -1,15 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
 import { Box, List, ListItem, Spinner } from '@chakra-ui/react';
-import { fetchJobs } from '../lib/fetchJobs';
+// import { fetchJobs } from '../lib/fetchJobs';
 import { JobCard } from './JobCard';
 interface JobListProps {
     jobs: any[];
+    user: UserProfile | undefined;
+    scrollToPricing: () => void;
 }
-const JobList: React.FC<JobListProps> = ({ jobs }) => {
-    const { user, isLoading: userLoading } = useUser();
+const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     // useEffect(() => {
@@ -64,6 +65,8 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
                         days_ago_text={job.days_ago_text}
                         remote_string={job.remote_string}
                         isFeatured={false}
+                        user={user}
+                        scrollToPricing={scrollToPricing}
                     />
                 </ListItem>
             ))}

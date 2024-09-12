@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import { Box, List, ListItem, Spinner } from '@chakra-ui/react';
 import { fetchJobs } from '../lib/fetchJobs';
 import { JobCard } from './JobCard';
@@ -9,7 +8,6 @@ interface JobListProps {
     jobs: any[];
 }
 const JobList: React.FC<JobListProps> = ({ jobs }) => {
-    const { user, isLoading: userLoading } = useUser();
     const [isLoading, setIsLoading] = useState(true);
 
     // useEffect(() => {
@@ -64,7 +62,10 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
                         seniority={job.seniority}
                         days_ago_text={job.days_ago_text}
                         remote_string={job.remote_string}
+                        // static parameters. they will be featured and the user status doesn't matter
                         isFeatured={true}
+                        user={undefined}
+                        scrollToPricing={() => { }}
                     />
                 </ListItem>
             ))}

@@ -1,6 +1,6 @@
 import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Link as ChakraLink, Badge } from "@chakra-ui/react";
 import Link from 'next/link';
-import { motion } from "framer-motion";
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 interface JobCardProps {
     id: string;
@@ -14,6 +14,8 @@ interface JobCardProps {
     days_ago_text: string;
     remote_string: string;
     isFeatured?: boolean;
+    user: UserProfile | undefined;
+    scrollToPricing: () => void;
 }
 
 export function JobCard({
@@ -27,11 +29,20 @@ export function JobCard({
     seniority,
     days_ago_text,
     remote_string,
-    isFeatured
+    isFeatured,
+    user,
+    scrollToPricing
 }: JobCardProps) {
     return (
         <Link href={`/jobs/${id}`} passHref>
-            <ChakraLink _hover={{ textDecoration: 'none' }}>
+            <ChakraLink _hover={{ textDecoration: 'none' }}
+                onClick={(e) => {
+                    if (!user && !isFeatured) {
+                        e.preventDefault(); // Prevent link navigation if the user is not logged in
+                        scrollToPricing();
+                    }
+                }}
+            >
                 {/* Use motion.div from framer-motion for subtle hover effects */}
                 <Box
                     // as={motion.div}
@@ -52,7 +63,9 @@ export function JobCard({
                     _hover={{
                         bg: isFeatured ? "linear-gradient(135deg, #fda085 0%, #f6d365 100%)" : "gray.400", // Hover color change
                         shadow: "lg", // Increase shadow on hover for a subtle depth effect
+
                     }}
+                    pointerEvents={'none'}
                 >
                     {isFeatured && (
                         <Badge
@@ -86,11 +99,13 @@ export function JobCard({
                                 alignSelf={{ base: "center", md: "flex-start" }}
                                 borderRadius="full"
                                 border={isFeatured ? "2px solid orange" : "none"}
+                                filter={isFeatured ? "none" : user ? "none" : 'blur(12px)'}
                             />
                         )}
                         <Box flex="1">
-                            <Text fontSize="lg" color="gray.600" fontWeight="semibold">
-                                {company}
+                            <Text fontSize="lg" color="gray.600" fontWeight="semibold" >
+                                {isFeatured || user ? company : "Unlock the Team or Company name"}
+
                             </Text>
                             <Heading
                                 fontSize="2xl"
