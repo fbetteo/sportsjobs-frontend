@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <VStack spacing={10} align="stretch">
-      <Flex direction="column" width="100%" mb={10}>
+      <Flex direction="column" width="100%" mb={-15}>
         <Introduction />
         <Center >
           <NewsletterSignupForm />
