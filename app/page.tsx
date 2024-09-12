@@ -141,19 +141,22 @@ export default function Home() {
         <Center>
           <HStack
             mb={10}
-            spacing={{ base: 2, md: 5 }}  // Smaller spacing on mobile, larger on desktop
-            wrap="nowrap"                 // Ensure no wrapping happens
+            spacing={{ base: 2, md: 5 }}  // Adjust spacing based on screen size
+            wrap="nowrap"                 // Ensure no wrapping
             justify="center"              // Center items
-            w="100%"                      // Ensure the HStack takes full width of the screen
-            overflow="hidden"             // Prevent horizontal scroll
+            w="100%"                      // Full width for the HStack
+            overflow="hidden"             // Prevent horizontal scrolling
           >
             <Button
               onClick={handleOpenForm}
               colorScheme="purple"
-              size="sm"                   // Fixed smaller size on mobile
-              w="fit-content"             // Shrinks to fit its content
-              flexShrink={1}              // Ensure it doesn't grow beyond necessary
-              mr={{ base: 2, md: 5 }}      // Smaller margin on mobile
+              size="sm"                    // Smaller button size on mobile
+              minWidth="150px"             // Prevent shrinking below 150px
+              maxWidth="100%"              // Ensure it doesn't overflow the container
+              textOverflow="ellipsis"      // Handle text overflow inside the button
+              whiteSpace="nowrap"          // Prevent text wrapping
+              flexShrink={1}               // Allow button to shrink if needed
+              mr={{ base: 2, md: 5 }}      // Adjust margin
             >
               🔔 Receive Emails For New Jobs
             </Button>
@@ -163,10 +166,13 @@ export default function Home() {
               href="https://rezi.ai/?via=franco"
               target="_blank"
               colorScheme="purple"
-              size="sm"                   // Fixed smaller size on mobile
-              w="fit-content"             // Shrinks to fit its content
-              flexShrink={1}              // Ensure it doesn't grow beyond necessary
-              mr={{ base: 2, md: 5 }}      // Smaller margin on mobile
+              size="sm"                    // Smaller button size on mobile
+              minWidth="150px"             // Prevent shrinking below 150px
+              maxWidth="100%"              // Ensure it doesn't overflow the container
+              textOverflow="ellipsis"      // Handle text overflow inside the button
+              whiteSpace="nowrap"          // Prevent text wrapping
+              flexShrink={1}               // Allow button to shrink if needed
+              mr={{ base: 2, md: 5 }}      // Adjust margin
             >
               📝 Create your resume with AI
             </Button>
