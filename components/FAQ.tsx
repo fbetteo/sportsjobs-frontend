@@ -21,7 +21,7 @@ const FAQ = () => {
                         </AccordionButton>
                     </h2>
                     <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
-                        SportsJobs exists because looking for sports analytics or software/engineering in sports jobs can be truly uncomfortable. The jobs are scattered across the web, and it's often hard to find them. You need to look in each team's website or different companies that you might not know about. Opportunities in this area are hard to find as there is a limited amount of teams and sports, but there are more than you think and it's a growing field.
+                        SportsJobs exists because looking for sports analytics or software/engineering in sports jobs can be truly uncomfortable. The jobs are scattered across the web, and it&apos;s often hard to find them. You need to look in each team&apos;s website or different companies that you might not know about. Opportunities in this area are hard to find as there is a limited amount of teams and sports, but there are more than you think and it&apos;s a growing field.
                     </AccordionPanel>
                 </AccordionItem>
 
@@ -66,7 +66,7 @@ const FAQ = () => {
                         </AccordionButton>
                     </h2>
                     <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
-                        It's a problem of the industry. Most companies/teams don't provide a salary range in the job description. We prioritize the ones that include the salary, but the information is lacking in general. We are considering adding some estimated salary based on historical data.
+                        It&apos;s a problem of the industry. Most companies/teams don&apos;t provide a salary range in the job description. We prioritize the ones that include the salary, but the information is lacking in general. We are considering adding some estimated salary based on historical data.
                     </AccordionPanel>
                 </AccordionItem>
 
@@ -95,7 +95,7 @@ const FAQ = () => {
                         </AccordionButton>
                     </h2>
                     <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
-                        Absolutely! We don't store anything related to your confidential information, everything is handled by top third parties. Payments are done through Stripe payment system and the user management is done with Auth0. Rest assured!
+                        Absolutely! We don&apos;t store anything related to your confidential information, everything is handled by top third parties. Payments are done through Stripe payment system and the user management is done with Auth0. Rest assured!
                     </AccordionPanel>
                 </AccordionItem>
 
