@@ -51,7 +51,7 @@ export function JobCard({
                     borderWidth={isFeatured ? "2px" : "1px"}
                     borderRadius="lg"
                     width="100%"
-                    maxW="800px"
+                    // maxW="800px"
                     margin="auto"
                     bg={isFeatured ? "linear-gradient(135deg, #f6d365 0%, #fda085 100%)" : "gray.300"}
                     color={isFeatured ? "black" : "black"}

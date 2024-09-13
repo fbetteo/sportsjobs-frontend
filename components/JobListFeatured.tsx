@@ -40,7 +40,7 @@ const JobList: React.FC<JobListProps> = ({ jobs }) => {
         <List
             spacing={5}
             width="100%"
-            maxW="800px" // Constrain the width of the list on large screens
+            // maxW="800px" // Constrain the width of the list on large screens
             mx="auto" // Center the list horizontally
             mb={4}
         >
