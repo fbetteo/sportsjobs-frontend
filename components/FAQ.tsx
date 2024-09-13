@@ -20,7 +20,7 @@ const FAQ = () => {
                             <AccordionIcon textAlign="right" />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         SportsJobs exists because looking for sports analytics or software/engineering in sports jobs can be truly uncomfortable. The jobs are scattered across the web, and it's often hard to find them. You need to look in each team's website or different companies that you might not know about. Opportunities in this area are hard to find as there is a limited amount of teams and sports, but there are more than you think and it's a growing field.
                     </AccordionPanel>
                 </AccordionItem>
@@ -35,7 +35,7 @@ const FAQ = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         We charge an affordable fee because our focus is the job seeker and that requires time and effort. We want to keep a high quality curated list of jobs, increase the sports list, research and answer questions, create content around sports analytics and grow the community. The time you save by using SportsJobs is worth the fee (~ 1 hour wage per year) compared to the time of going through all the websites multiple times a month.
                     </AccordionPanel>
                 </AccordionItem>
@@ -50,7 +50,7 @@ const FAQ = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         Currently, we are adding around 200 jobs per month. We are committed to increasing that by adding more sports and scanning more companies. We scan daily all major sports teams and companies, and we manually include ones that we get from our network or from specific posts that might not be present on their website (LinkedIn announcements, Twitter/X, Discord channels, etc.).
                     </AccordionPanel>
                 </AccordionItem>
@@ -65,7 +65,7 @@ const FAQ = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         It's a problem of the industry. Most companies/teams don't provide a salary range in the job description. We prioritize the ones that include the salary, but the information is lacking in general. We are considering adding some estimated salary based on historical data.
                     </AccordionPanel>
                 </AccordionItem>
@@ -80,7 +80,7 @@ const FAQ = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         We focus on data-related jobs in sports. This includes sports analytics, software engineering, data science, data engineering, data analysis, business intelligence, machine learning, AI, etc. We also include some jobs that are related to sports but not directly data-related, such as sports marketing, sports business, sports management, etc.
                     </AccordionPanel>
                 </AccordionItem>
@@ -94,7 +94,7 @@ const FAQ = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel width="100%" maxW="3xl" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
                         Absolutely! We don't store anything related to your confidential information, everything is handled by top third parties. Payments are done through Stripe payment system and the user management is done with Auth0. Rest assured!
                     </AccordionPanel>
                 </AccordionItem>
