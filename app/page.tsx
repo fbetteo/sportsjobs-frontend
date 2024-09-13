@@ -19,6 +19,7 @@ import MixedPricingCard from "@/components/MixedPriceCard";
 import SenjaWallOfLove from "@/components/WallOfLove";
 import JobListFeatured from "@/components/JobListFeatured";
 import { useRef } from 'react';
+import FAQ from "@/components/FAQ";
 
 
 
@@ -164,26 +165,19 @@ export default function Home() {
           </HStack>
           <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
         </Center>
-        <Center>
-          <JobFilter onFilterChange={handleFilterChange} user={user} />
+        <Center width="100%">
+          <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
+            <JobFilter onFilterChange={handleFilterChange} user={user} />
+            <JobListFeatured jobs={featuredJobs} />
+            <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
+            <div ref={pricingSectionRef}>
+              <MixedPricingCard />
+            </div>
+            <FAQ />
+            <SenjaWallOfLove />
+          </Box>
         </Center>
-        <JobListFeatured jobs={featuredJobs} />
-        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
       </Flex>
-      <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
-        {/* <Heading as="h2" size="lg" mb={5}>
-          Choose a Plan
-        </Heading> */}
-        {/* <SimpleGrid ml={400} columns={{ base: 1, md: 3 }} spacing={8} width='80%' justifyContent="center">
-          {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} {...plan} />
-          ))}
-        </SimpleGrid> */}
-        <div ref={pricingSectionRef}>
-          <MixedPricingCard />
-        </div>
-        <SenjaWallOfLove />
-      </Flex>
-    </VStack>
+    </VStack >
   );
 }

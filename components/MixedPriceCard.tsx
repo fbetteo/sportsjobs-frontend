@@ -16,7 +16,7 @@ const MixedPricingCard = () => {
     };
 
     return (
-        <Box p={4} maxW="3xl" mx="auto">
+        <Box p={4} mx="auto">
             <Flex justify="center" mb={2}>
                 <ChevronDownIcon w={100} h={100} color="gray.500" />
             </Flex>
