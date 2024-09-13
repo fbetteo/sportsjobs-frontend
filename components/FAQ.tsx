@@ -60,7 +60,7 @@ const FAQ = () => {
                     <h2>
                         <AccordionButton justifyContent="space-between">
                             <Box flex="1" textAlign="left" fontSize="xl" fontWeight="bold" maxW="3xl" width="100%">
-                                Why many of the job posts don't have a salary range?
+                                Why many of the job posts don&apos;t have a salary range?
                             </Box>
                             <AccordionIcon />
                         </AccordionButton>
