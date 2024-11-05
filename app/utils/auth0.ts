@@ -1,4 +1,3 @@
-
 import fetch from 'node-fetch';
 
 export async function getAuth0AccessToken() {
@@ -46,4 +45,28 @@ export async function createAuth0User(email: string, password: string, accessTok
 
   const data = await response.json();
   return data;
+}
+
+export async function disableAuth0User(email: string, accessToken: string) {
+  const response = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users-by-email?email=${email}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const users: any = await response.json();
+  if (users.length === 0) {
+    throw new Error('User not found');
+  }
+
+  const userId = users[0].user_id;
+
+  await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ blocked: true }),
+  });
 }

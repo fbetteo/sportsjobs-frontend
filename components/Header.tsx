@@ -25,8 +25,6 @@
 //   );
 // };
 
-// export default Header;
-// components/Header.tsx
 
 'use client';
 
@@ -85,6 +83,9 @@ const Header = () => {
                 <Avatar size="sm" src={user.picture ?? ""} />
               </MenuButton>
               <MenuList>
+                <MenuItem color="black">
+                  <Link href="/settings">Settings</Link>
+                </MenuItem>
                 <MenuItem color="black">
                   <Link href="/api/auth/logout">Logout</Link>
                 </MenuItem>
