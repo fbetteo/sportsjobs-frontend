@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Script from "next/script";
-import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,12 +36,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const pathname = usePathname(); // Get the current path
 
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href={`https://www.sportsjobs.online${pathname}`} />
         {/* Google Tag (gtag.js) */}
         <Script
           async
