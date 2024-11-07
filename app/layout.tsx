@@ -3,16 +3,17 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Script from "next/script";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Sports analytics and data science jobs | Software sports jobs',
-  description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. SportsJobs Online is the best place to find sports analytics jobs.',
+  title: 'Find Your Dream Job in Sports Analytics and Betting',
+  description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
   keywords: 'sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers',
   openGraph: {
     title: 'Sports analytics and data science jobs | Software sports jobs',
-    description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. SportsJobs Online is the best place to find sports analytics jobs.',
+    description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
     type: 'website',
     url: 'https://www.sportsjobs.online',
     images: [
@@ -23,12 +24,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'Sports analytics and data science jobs | Software sports jobs',
-    description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. SportsJobs Online is the best place to find sports analytics jobs.',
+    description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. ',
   },
   // You can add more metadata as needed
   // 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
 };
-
 
 
 export default function RootLayout({
@@ -36,9 +36,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const pathname = usePathname(); // Get the current path
+
   return (
     <html lang="en">
       <head>
+        <link rel="canonical" href={`https://www.sportsjobs.online${pathname}`} />
         {/* Google Tag (gtag.js) */}
         <Script
           async
