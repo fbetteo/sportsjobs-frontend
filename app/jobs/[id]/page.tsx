@@ -34,8 +34,6 @@ const industryJobTypeMapping: { [key: string]: string } = {
     Esports: '🎮 esports',
 };
 
-
-
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     const jobDetails = await fetchJobDetails(params.id);
 
@@ -53,7 +51,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         openGraph: {
             title: `${jobDetails.title} jobs - SportsJobs Online`,
             description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            url: `https://www.sportsjobs.online`,
+            url: `https://www.sportsjobs.online/jobs/${params.id}`,
             siteName: 'SportsJobs Online',
             images: [
                 {
@@ -75,7 +73,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     };
 }
 
-
 export default async function JobDetailsPage({ params }: { params: { id: string } }) {
     const job = await fetchJobDetails(params.id);
 
@@ -89,7 +86,7 @@ export default async function JobDetailsPage({ params }: { params: { id: string 
         );
     }
 
-    const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🥅 sports';
+    const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '���� sports';
     const descriptionHtml = marked(job.description);
     const datePosted = new Date(job.start_date);
     const validThrough = format(addMonths(datePosted, 2), 'yyyy-MM-dd');
@@ -152,6 +149,9 @@ export default async function JobDetailsPage({ params }: { params: { id: string 
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jobPostingSchema }} />
             <main>
+                <head>
+                    <link rel="canonical" href={`https://www.sportsjobs.online/jobs/${params.id}`} />
+                </head>
                 <Box p={5} color="white" bg="black" minHeight="100vh">
                     <Flex direction="column" align="center" justify="center" textAlign="center">
                         <Image src={job.logo_permanent_url} alt={`Logo of ${job.company}`} boxSize="100px" objectFit="contain" mb={4} />
