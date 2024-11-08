@@ -1,5 +1,12 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 
+export async function generateMetadata() {
+    return {
+        title: 'Privacy Policy - SportsJobs Online',
+        description: 'Read the privacy policy of SportsJobs Online.',
+    };
+}
+
 const PrivacyPolicyPage = () => {
     return (
         <Box p={8} maxW="800px" mx="auto">

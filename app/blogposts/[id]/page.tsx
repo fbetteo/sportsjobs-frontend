@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         openGraph: {
             title: `${blog_details.title} - SportsJobs Online`,
             description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            url: `https://www.sportsjobs.online`,
+            url: `https://www.sportsjobs.online/blogposts/${params.id}`,
             siteName: 'SportsJobs Online',
             images: [
                 {
@@ -71,6 +71,9 @@ export default async function BlogPostPage({ params }: { params: { id: string } 
     return (
         <>
             <main>
+                <head>
+                    <link rel="canonical" href={`https://www.sportsjobs.online/blogposts/${params.id}`} />
+                </head>
                 <Box p={5} minHeight="100vh">
                     <Flex direction="column" align="center" justify="center" textAlign="center" maxW="800px" mx="auto">
                         <Image
