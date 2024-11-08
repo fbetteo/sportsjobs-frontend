@@ -133,51 +133,56 @@ export default function Home() {
   };
 
   return (
-    <VStack spacing={10} align="stretch">
-      <Flex direction="column" width="100%" mb={-15}>
-        <Introduction />
-        <Center >
-          <NewsletterSignupForm />
-        </Center>
-        <Center>
-          <HStack
-            mb={10}
-            spacing={4} // Adjust spacing for better wrapping
-            flexWrap="wrap" // Allow buttons to wrap if needed
-            justify="center" // Center them when they wrap
-          >
-            <Button
-              onClick={handleOpenForm}
-              colorScheme="purple"
-              w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
+    <main>
+      <head>
+        <link rel="canonical" href={`https://www.sportsjobs.online`} />
+      </head>
+      <VStack spacing={10} align="stretch">
+        <Flex direction="column" width="100%" mb={-15}>
+          <Introduction />
+          <Center >
+            <NewsletterSignupForm />
+          </Center>
+          <Center>
+            <HStack
+              mb={10}
+              spacing={4} // Adjust spacing for better wrapping
+              flexWrap="wrap" // Allow buttons to wrap if needed
+              justify="center" // Center them when they wrap
             >
-              🔔 Receive Emails For New Jobs
-            </Button>
-            <Button
-              as="a"
-              href="https://rezi.ai/?via=franco"
-              target="_blank"
-              colorScheme="purple"
-              w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
-            >
-              📝 Create your resume with AI
-            </Button>
-          </HStack>
-          <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
-        </Center>
-        <Center width="100%">
-          <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
-            <JobFilter onFilterChange={handleFilterChange} user={user} />
-            <JobListFeatured jobs={featuredJobs} />
-            <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
-            <div ref={pricingSectionRef}>
-              <MixedPricingCard />
-            </div>
-            <FAQ />
-            <SenjaWallOfLove />
-          </Box>
-        </Center>
-      </Flex>
-    </VStack >
+              <Button
+                onClick={handleOpenForm}
+                colorScheme="purple"
+                w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
+              >
+                🔔 Receive Emails For New Jobs
+              </Button>
+              <Button
+                as="a"
+                href="https://rezi.ai/?via=franco"
+                target="_blank"
+                colorScheme="purple"
+                w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
+              >
+                📝 Create your resume with AI
+              </Button>
+            </HStack>
+            <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
+          </Center>
+          <Center width="100%">
+            <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
+              <JobFilter onFilterChange={handleFilterChange} user={user} />
+              <JobListFeatured jobs={featuredJobs} />
+              <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
+              <div ref={pricingSectionRef}>
+                <MixedPricingCard />
+              </div>
+              <FAQ />
+              <SenjaWallOfLove />
+            </Box>
+          </Center>
+        </Flex>
+      </VStack >
+    </main>
   );
 }
