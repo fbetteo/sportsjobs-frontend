@@ -4,17 +4,27 @@ import { NextResponse } from 'next/server';
 // This is to redirect old dynamic jobposts to new ones or home page
 
 export async function GET(request: Request) {
-  // Extract the slug from the URL
-  const url = new URL(request.url);
-  const pathParts = url.pathname.split('/'); 
-  const jobId = pathParts[pathParts.length - 1];
-  const job = await fetchJobDetails(jobId);
+  try {
+    // Extract the slug from the URL
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/'); 
+    const jobId = pathParts[pathParts.length - 1];
+    
+    // Fetch the job details
+    const job = await fetchJobDetails(jobId);
 
-  if (job) {
-    // If the job exists, redirect to the new URL
-    return NextResponse.redirect(`https://www.sportsjobs.online/jobs/${job.id}`, 301);
-  } else {
-    // If the job doesn't exist, redirect to the homepage
+    if (job) {
+      // If the job exists, redirect to the new URL
+      return NextResponse.redirect(`https://www.sportsjobs.online/jobs/${job.id}`, 301);
+    } else {
+      // If the job doesn't exist, redirect to the homepage
+      return NextResponse.redirect('https://www.sportsjobs.online/', 301);
+    }
+  } catch (error) {
+    // Log the error for debugging if needed
+    console.error('Error fetching job details:', error);
+
+    // Redirect to the homepage on any error
     return NextResponse.redirect('https://www.sportsjobs.online/', 301);
   }
 }
