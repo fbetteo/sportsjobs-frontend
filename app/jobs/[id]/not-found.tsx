@@ -8,7 +8,7 @@ export default function NotFound() {
                     This job is no longer available
                 </Heading>
                 <Text>
-                    The job posting you're looking for has expired or been removed.
+                    The job posting you are looking for has expired or been removed.
                 </Text>
                 <Text fontSize="sm" color="gray.400">
                     Jobs typically stay active for 60 days or until filled.
