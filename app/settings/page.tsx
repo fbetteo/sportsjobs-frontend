@@ -1,14 +1,16 @@
 'use client';
 
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { Box, Button, Heading, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Heading, VStack, useToast, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import ConfirmCancelModal from '../../components/ConfirmCancelModal';
 
 const SettingsPage = () => {
     const { user, error, isLoading } = useUser();
     const router = useRouter();
     const toast = useToast(); // Chakra toast hook for notifications
+    const { isOpen, onOpen, onClose } = useDisclosure(); // Chakra hook for modal control
 
     useEffect(() => {
         if (!isLoading && !user) {
@@ -77,10 +79,16 @@ const SettingsPage = () => {
                 <Button colorScheme="blue" onClick={handleUpdateSubscription}>
                     Update Subscription
                 </Button>
-                <Button colorScheme="red" onClick={handleCancelSubscription}>
+                <Button colorScheme="red" onClick={onOpen}>
                     Cancel Subscription
                 </Button>
             </VStack>
+
+            <ConfirmCancelModal
+                isOpen={isOpen}
+                onClose={onClose}
+                onConfirm={handleCancelSubscription}
+            />
         </Box>
     );
 };
