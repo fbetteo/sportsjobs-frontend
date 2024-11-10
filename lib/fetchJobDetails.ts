@@ -1,16 +1,19 @@
 // lib/fetchJobDetails.ts
 export const fetchJobDetails = async (id: string) => {
-
   const baseUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.sportsjobs.online' 
-  : 'http://localhost:3000';
+    ? 'https://www.sportsjobs.online' 
+    : 'http://localhost:3000';
   
+  try {
     const response = await fetch(`${baseUrl}/api/get-job-details?id=${id}`);
     const data = await response.json();
-  
-    if (response.ok) {
+
+    if (response.ok && data.job) {
       return data.job;
-    } else {
-      throw new Error(data.error || 'Failed to fetch jobs');
     }
-  };
+    
+    return null; // This will trigger notFound() for any error case
+  } catch (error) {
+    return null; // Convert network/fetch errors to null as well
+  }
+};
