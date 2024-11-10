@@ -8,6 +8,7 @@ import MixedPricingCard from '@/components/MixedPriceCard';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import { redirect, notFound } from 'next/navigation';
 
 interface Job {
     id: string;
@@ -36,45 +37,51 @@ const industryJobTypeMapping: { [key: string]: string } = {
 };
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-    const jobDetails = await fetchJobDetails(params.id);
+    try {
+        const jobDetails = await fetchJobDetails(params.id);
+        if (!jobDetails) {
+            return {
+                title: 'Job Not Found - SportsJobs Online',
+                description: 'This job posting is no longer available.',
+            };
+        }
 
-    if (!jobDetails) {
+        return {
+            title: `${jobDetails.title} at ${jobDetails.company} jobs- SportsJobs Online`,
+            description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            keywords: `${jobDetails.sport_list} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
+            alternates: {
+                canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
+            },
+            openGraph: {
+                title: `${jobDetails.title} jobs - SportsJobs Online`,
+                description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                url: `https://www.sportsjobs.online/jobs/${params.id}`,
+                siteName: 'SportsJobs Online',
+                images: [
+                    {
+                        url: jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                        width: 800,
+                        height: 600,
+                        alt: `Logo of ${jobDetails.company}`,
+                    },
+                ],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: `${jobDetails.title} - SportsJobs Online`,
+                description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                images: [
+                    jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                ],
+            },
+        };
+    } catch (error) {
         return {
             title: 'Job Not Found - SportsJobs Online',
-            description: 'The job you are looking for does not exist.',
+            description: 'This job posting is no longer available.',
         };
     }
-
-    return {
-        title: `${jobDetails.title} at ${jobDetails.company} jobs- SportsJobs Online`,
-        description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-        keywords: `${jobDetails.sport_list} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
-        alternates: {
-            canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
-        },
-        openGraph: {
-            title: `${jobDetails.title} jobs - SportsJobs Online`,
-            description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            url: `https://www.sportsjobs.online/jobs/${params.id}`,
-            siteName: 'SportsJobs Online',
-            images: [
-                {
-                    url: jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
-                    width: 800,
-                    height: 600,
-                    alt: `Logo of ${jobDetails.company}`,
-                },
-            ],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: `${jobDetails.title} - SportsJobs Online`,
-            description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            images: [
-                jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
-            ],
-        },
-    };
 }
 
 export default async function JobDetailsPage({ params }: { params: { id: string } }) {
@@ -93,18 +100,11 @@ export default async function JobDetailsPage({ params }: { params: { id: string 
 
 async function JobDetails({ params }: { params: { id: string } }) {
     const job = await fetchJobDetails(params.id);
-
     if (!job) {
-        return (
-            <Box p={5}>
-                <Heading as="h1" size="xl" mb={5}>
-                    Job Not Found
-                </Heading>
-            </Box>
-        );
+        notFound();
     }
 
-    const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '���� sports';
+    const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🎯 sports';
     const descriptionHtml = marked(job.description);
     const datePosted = new Date(job.start_date);
     const validThrough = format(addMonths(datePosted, 2), 'yyyy-MM-dd');
