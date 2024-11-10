@@ -7,6 +7,7 @@ import { Box, Heading, Text, Image, Badge, HStack, Flex, Button } from '@chakra-
 import MixedPricingCard from '@/components/MixedPriceCard';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 interface Job {
     id: string;
@@ -48,6 +49,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         title: `${jobDetails.title} at ${jobDetails.company} jobs- SportsJobs Online`,
         description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
         keywords: `${jobDetails.sport_list} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
+        alternates: {
+            canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
+        },
         openGraph: {
             title: `${jobDetails.title} jobs - SportsJobs Online`,
             description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
@@ -74,6 +78,20 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function JobDetailsPage({ params }: { params: { id: string } }) {
+    return (
+        <Suspense fallback={
+            <Box p={5} color="white" bg="black" minHeight="100vh">
+                <Flex direction="column" align="center" justify="center" textAlign="center">
+                    <Heading as="h1" size="xl" mb={5}>Loading...</Heading>
+                </Flex>
+            </Box>
+        }>
+            <JobDetails params={params} />
+        </Suspense>
+    );
+}
+
+async function JobDetails({ params }: { params: { id: string } }) {
     const job = await fetchJobDetails(params.id);
 
     if (!job) {
@@ -149,9 +167,6 @@ export default async function JobDetailsPage({ params }: { params: { id: string 
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jobPostingSchema }} />
             <main>
-                <head>
-                    <link rel="canonical" href={`https://www.sportsjobs.online/jobs/${params.id}`} />
-                </head>
                 <Box p={5} color="white" bg="black" minHeight="100vh">
                     <Flex direction="column" align="center" justify="center" textAlign="center">
                         <Image src={job.logo_permanent_url} alt={`Logo of ${job.company}`} boxSize="100px" objectFit="contain" mb={4} />
