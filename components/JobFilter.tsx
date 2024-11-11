@@ -94,8 +94,10 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
             wrap="nowrap"
             marginBottom={10}
             justify="space-between"
-        // filter={user ? 'none' : 'blur(2px)'}
-        // pointerEvents={user ? 'auto' : 'none'}
+            filter={user ? 'none' : 'blur(2px)'}
+            pointerEvents={user ? 'auto' : 'none'}
+            cursor={user ? 'pointer' : 'not-allowed'}
+            opacity={user ? 1 : 0.7}
         >
             <Select
                 flex="1"
