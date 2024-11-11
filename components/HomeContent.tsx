@@ -143,7 +143,7 @@ export default function HomeContent() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const jobLimit = user ? 250 : 5;
+                const jobLimit = user ? 250 : 8;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
                 console.log(filters)
                 if (Array.isArray(fetchedJobs)) {
