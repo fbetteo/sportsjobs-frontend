@@ -37,10 +37,10 @@ export function JobCard({
         <Link href={`/jobs/${id}`} passHref>
             <ChakraLink _hover={{ textDecoration: 'none' }}
                 onClick={(e) => {
-                    if (!user && !isFeatured) {
-                        e.preventDefault(); // Prevent link navigation if the user is not logged in
-                        scrollToPricing();
-                    }
+                    // if (!user && !isFeatured) {
+                    //     e.preventDefault(); // Prevent link navigation if the user is not logged in
+                    //     scrollToPricing();
+                    // }
                 }}
             >
                 {/* Use motion.div from framer-motion for subtle hover effects */}
@@ -99,13 +99,12 @@ export function JobCard({
                                 alignSelf={{ base: "center", md: "flex-start" }}
                                 borderRadius="full"
                                 border={isFeatured ? "2px solid orange" : "none"}
-                                filter={isFeatured ? "none" : user ? "none" : 'blur(12px)'}
+                                filter="none"
                             />
                         )}
                         <Box flex="1">
-                            <Text fontSize="lg" color="gray.600" fontWeight="semibold" >
-                                {isFeatured || user ? company : "Unlock the Team or Company name"}
-
+                            <Text fontSize="lg" color="gray.600" fontWeight="semibold">
+                                {company}
                             </Text>
                             <Heading
                                 fontSize="2xl"
