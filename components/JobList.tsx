@@ -11,6 +11,8 @@ interface JobListProps {
     scrollToPricing: () => void;
 }
 const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
+    const FREE_JOB_LIMIT = 3; // Number of jobs to show unblurred for non-logged in users
+
     const [isLoading, setIsLoading] = useState(true);
 
     // useEffect(() => {
@@ -46,13 +48,32 @@ const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
             // maxW="5xl" // Constrain the width of the list on large screens
             mx="auto" // Center the list horizontally
         >
-            {jobs.map((job) => (
+            {jobs.map((job, index) => (
                 <ListItem
                     key={job.id}
                     width="100%"
-                    // display="flex"
                     justifyContent="center" // Center the JobCard within the ListItem
+                    opacity={!user && index >= FREE_JOB_LIMIT ? 0.7 : 1}
+                    position="relative"
                 >
+                    {!user && index >= FREE_JOB_LIMIT && (
+                        <Box
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            bg="blackAlpha.200"
+                            backdropFilter="blur(4px)"
+                            zIndex={1}
+                            borderRadius="lg"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            cursor="pointer"
+                            onClick={scrollToPricing}
+                        />
+                    )}
                     <JobCard
                         id={job.id}
                         company={job.company}
