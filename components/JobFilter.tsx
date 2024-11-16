@@ -86,7 +86,7 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
 
     useEffect(() => {
         onFilterChange({ country, remote, seniority, industry, sport, job_area });
-    }, [country, remote, seniority, industry, sport, job_area, onFilterChange]);
+    }, [country, remote, seniority, industry, sport, job_area]);
 
     return (
         <Flex
