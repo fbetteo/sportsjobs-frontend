@@ -58,6 +58,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
                 description: `${jobDetails.sport_list} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
                 url: `https://www.sportsjobs.online/jobs/${params.id}`,
                 siteName: 'SportsJobs Online',
+                type: 'website',
                 images: [
                     {
                         url: jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',

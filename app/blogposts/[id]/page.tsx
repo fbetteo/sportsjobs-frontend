@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
             title: `${blog_details.title} - SportsJobs Online`,
             description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
             url: `https://www.sportsjobs.online/blogposts/${params.id}`,
+            type: 'website',
             siteName: 'SportsJobs Online',
             images: [
                 {

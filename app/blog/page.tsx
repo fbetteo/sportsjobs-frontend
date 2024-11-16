@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
             description: `Content, blogposts, recommendations and articles about working in sports analytics and how to land a job in the sports industry. SportsJobs Online is the best place to find sports analytics jobs`,
             url: `https://www.sportsjobs.online`,
             siteName: 'SportsJobs Online',
+            type: 'website',
             images: [
                 {
                     url: 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
