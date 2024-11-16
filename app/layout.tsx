@@ -60,7 +60,9 @@ export default function RootLayout({
         />
         {/* <link rel="canonical" href="https://www.sportsjobs.online" /> */}
       </head>
-      <body className={inter.className}><Providers>{children}</Providers></body>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
