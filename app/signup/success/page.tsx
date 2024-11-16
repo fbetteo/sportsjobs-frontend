@@ -1,5 +1,6 @@
 'use client';
 
+import React, { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -20,7 +21,7 @@ import {
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { validatePasswordStrength } from '../../../lib/validatePasswordStrength';
 
-const SuccessPage = () => {
+const SuccessPageContent = () => {
     const searchParams = useSearchParams();
     const toast = useToast();
     const { user } = useUser();
@@ -137,5 +138,11 @@ const SuccessPage = () => {
         </Container>
     );
 };
+
+const SuccessPage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <SuccessPageContent />
+    </Suspense>
+);
 
 export default SuccessPage;
