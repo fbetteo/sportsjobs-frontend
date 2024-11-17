@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
                 price: priceId,
                 quantity: 1,
             }],
-            mode: priceId === process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID_DEBUG ? 'payment' : 'subscription',
+            mode: priceId === process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID ? 'payment' : 'subscription',
             allow_promotion_codes: true,
             billing_address_collection: 'required',
             success_url: new URL('/signup/success?session_id={CHECKOUT_SESSION_ID}', baseUrl).toString(),

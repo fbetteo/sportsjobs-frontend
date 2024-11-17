@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
         // Get plan type from session metadata
         const planType = session.metadata?.mode === 'payment' ? 'lifetime' : 
-                        (session.metadata?.priceId === process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID_DEBUG ? 'monthly_subscription' : 'yearly_subscription');
+                        (session.metadata?.priceId === process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID ? 'monthly_subscription' : 'yearly_subscription');
 
         // Create Airtable record for Google-authenticated user
         await createAirtableRecord(name, email, planType);

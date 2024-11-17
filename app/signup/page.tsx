@@ -147,7 +147,7 @@ const SignupPage = () => {
                             '📱 Mobile-friendly job search',
                             '💰 Most popular choice',
                         ]}
-                        priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID_DEBUG!}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId, true)}
                     />
                     <PricingCard
@@ -163,7 +163,7 @@ const SignupPage = () => {
                             '💰 Most popular choice',
                             '↪️ Cancel anytime',
                         ]}
-                        priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID_DEBUG!}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId)}
                         isPopular={true}
                     />
@@ -179,7 +179,7 @@ const SignupPage = () => {
                             '📱 Mobile-friendly job search',
                             '↪️ Cancel anytime',
                         ]}
-                        priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID_DEBUG!}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId)}
                     />
                 </SimpleGrid>
