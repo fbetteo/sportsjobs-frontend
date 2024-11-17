@@ -30,6 +30,21 @@ const FAQ = () => {
                     <h2>
                         <AccordionButton justifyContent="space-between">
                             <Box flex="1" textAlign="left" fontSize="xl" fontWeight="bold" maxW="3xl" width="100%">
+                                How much time do I need to find a job?
+                            </Box>
+                            <AccordionIcon />
+                        </AccordionButton>
+                    </h2>
+                    <AccordionPanel width="100%" pb={4} fontSize="md" transition="max-height 0.5s ease-in-out" overflow="hidden">
+                        In the current job market, it can take up to 6 months to find a job in this niche. The time can vary depending on the specific sport, your skills, experience and the location you are looking for. SportsJobs can help you save time by providing a curated list of jobs, daily alerts, and advanced filters to find the job that fits you the best. If you are serious about finding a job in sports analytics, Sportsjobs will save you an enormous amount of time.
+                    </AccordionPanel>
+                </AccordionItem>
+
+                {/* Second FAQ Item */}
+                <AccordionItem>
+                    <h2>
+                        <AccordionButton justifyContent="space-between">
+                            <Box flex="1" textAlign="left" fontSize="xl" fontWeight="bold" maxW="3xl" width="100%">
                                 Why is there a fee to use it?
                             </Box>
                             <AccordionIcon />
