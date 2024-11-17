@@ -1,266 +1,192 @@
-// app/signup/page.tsx
-
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
-import { useToast } from '@chakra-ui/react';
-import { loadStripe } from '@stripe/stripe-js';
-import {
-    Elements,
-    CardElement,
-    useStripe,
-    useElements
-} from '@stripe/react-stripe-js';
 import {
     Box,
     Button,
-    FormControl,
-    FormLabel,
-    Input,
-    Select,
-    VStack,
-    Heading,
-    Text,
     Container,
-    Spinner
+    Heading,
+    VStack,
+    Text,
+    SimpleGrid,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+    useToast,
 } from '@chakra-ui/react';
-import { Providers } from '../providers';
-import { useSearchParams } from 'next/navigation';
-import SenjaWallOfLove from '@/components/WallOfLove';
-import MixedPricingCard from '@/components/MixedPriceCard';
-import { validatePasswordStrength } from '../../lib/validatePasswordStrength';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import FAQ from "../../components/FAQ";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-
-const CardInput = () => (
+const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isPopular }: {
+    title: string;
+    price: string;
+    period: string;
+    features: string[];
+    priceId: string;
+    onSubscribe: (priceId: string) => void;
+    isPopular?: boolean;
+}) => (
     <Box
-        p={4}
-        borderWidth="1px"
-        borderRadius="md"
-        borderColor="gray.300"
-        bg="white"
+        borderWidth="2px"
+        borderRadius="xl"
+        p={6}
+        bg={isPopular ? 'teal.700' : 'gray.700'}
+        textAlign="center"
+        position="relative"
+        transform={isPopular ? 'scale(1.05)' : 'none'}
+        transition="transform 0.2s"
+        _hover={{ transform: 'translateY(-8px)' }}
+        boxShadow={isPopular ? '0 4px 20px rgba(0,0,0,0.3)' : '0 2px 10px rgba(0,0,0,0.1)'}
     >
-        <CardElement options={{ hidePostalCode: true }} />
+        {isPopular && (
+            <Box
+                position="absolute"
+                top="-4"
+                right="-4"
+                bg="yellow.400"
+                color="gray.800"
+                fontSize="sm"
+                fontWeight="bold"
+                px={3}
+                py={1}
+                borderRadius="full"
+            >
+                MOST POPULAR
+            </Box>
+        )}
+        <Heading size="lg" mb={4} color={isPopular ? 'white' : 'teal.200'}>{title}</Heading>
+        <Text fontSize="4xl" fontWeight="bold" mb={2}>
+            {price}
+        </Text>
+        <Text mb={6} color={isPopular ? 'teal.100' : 'gray.400'}>{period}</Text>
+        <VStack spacing={4} mb={8} align="start">
+            {features.map((feature, index) => (
+                <Text key={index} display="flex" alignItems="center" fontSize="md">
+                    {feature}
+                </Text>
+            ))}
+        </VStack>
+        <Button
+            colorScheme={isPopular ? 'yellow' : 'teal'}
+            width="full"
+            size="lg"
+            onClick={() => onSubscribe(priceId)}
+            _hover={{
+                transform: 'scale(1.05)',
+            }}
+        >
+            Get Started Now
+        </Button>
     </Box>
 );
 
-const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [promoCode, setPromoCode] = useState('');
-    const [plan, setPlan] = useState('');
+const SignupPage = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const searchParams = useSearchParams();
     const toast = useToast();
-    const router = useRouter();
 
-    useEffect(() => {
-        const planParam = searchParams.get('plan');
-        if (planParam) {
-            setPlan(planParam);
-        }
-    }, [searchParams]);
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleSubscribe = async (priceId: string, isLifetime = false) => {
         setIsLoading(true);
-
-        const passwordError = validatePasswordStrength(password);
-        if (passwordError) {
-            toast({
-                title: "Password Error",
-                description: passwordError,
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-            }); // Show the error to the user
-            setIsLoading(false);
-            return; // Stop the submission if password is weak
-        }
-
-        if (!stripe || !elements) return;
-
-
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: 'card',
-            card: elements.getElement(CardElement)!,
-            billing_details: {
-                name,
-                email
-            }
-        });
-
-        if (error) {
-            console.error(error);
-            setIsLoading(false);
-        } else {
+        try {
             const response = await fetch('/api/create-subscription', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    email,
-                    name,
-                    paymentMethodId: paymentMethod.id,
-                    plan,
-                    password,
-                    promoCode
-                })
+                    priceId,
+                    mode: isLifetime ? 'payment' : 'subscription'
+                }),
             });
 
-            const subscription = await response.json();
-
-            if (subscription.status === 'active') {
-                toast({
-                    title: "Subscription Successful",
-                    description: "Your subscription is now active. Redirecting to the main page...",
-                    status: "success",
-                    duration: 3000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-                setTimeout(() => {
-                    router.push('/');
-                }, 3000);
-
-            } else if (subscription.error === 'auth0_error') {
-                toast({
-                    title: "Account Creation Error",
-                    description: subscription.message,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-
-                console.error('Subscription failed', subscription);
-            } else if (subscription.error === 'airtable_error') {
-                toast({
-                    title: "Account Creation Error",
-                    description: subscription.message,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-            } else if (subscription.error === 'invalid_promo_code') {
-                toast({
-                    title: "Promo Code Error",
-                    description: subscription.message,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-            } else if (subscription.error === 'promo_code_error') {
-                toast({
-                    title: "Promo Code Error",
-                    description: subscription.message,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-
-            } else {
-                toast({
-                    title: "Subscription Error",
-                    description: "An error occurred while creating your subscription. Please check your card validity and try again later.",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top",
-                    variant: "solid",
-                });
-                console.error('Subscription failed', subscription);
-            }
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            if (data.url) window.location.href = data.url;
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: error instanceof Error ? error.message : 'Something went wrong',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <VStack spacing={4}>
-                <FormControl id="name" isRequired>
-                    <FormLabel>Name</FormLabel>
-                    <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                </FormControl>
-                <FormControl id="email" isRequired>
-                    <FormLabel >Email</FormLabel>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </FormControl>
-                <FormControl id="password" isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </FormControl>
-                <FormControl id="plan" isRequired>
-                    <FormLabel>Choose a Plan</FormLabel>
-                    <Select bg="gray.700" _hover={{ bg: 'gray.600' }} _placeholder={{ color: "white" }}
-                        _focus={{ bg: 'gray.600' }} placeholder="Select Plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
-                        <option value="monthly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Monthly - $4.99/month</option>
-                        <option value="yearly_subscription" style={{ backgroundColor: 'black', color: 'white' }}>Yearly - $29.99/Year</option>
-                    </Select>
-                </FormControl>
-                <FormControl id="promo-code">
-                    <FormLabel>Promo Code</FormLabel>
-                    <Input type="text" value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
-                </FormControl>
-                <FormControl id="card" isRequired>
-                    <FormLabel>Card Details</FormLabel>
-                    <CardInput />
-                </FormControl>
-                <Button
-                    mt={4}
-                    colorScheme="teal"
-                    type="submit"
-                    isLoading={isLoading}
-                    disabled={!stripe || !elements}
-                >
-                    Sign Up
-                </Button>
+        <Container maxW="container.xl" py={16}>
+            <VStack spacing={10}>
+                <Box textAlign="center" mb={8}>
+                    <Heading size="2xl" mb={4}>Invest in Your Sports Career</Heading>
+                    <Text fontSize="xl" color="gray.400" mb={4}>
+                        Choose the perfect plan to unlock your next career opportunity
+                    </Text>
+                    <VStack spacing={4} px={{ base: 4, md: 20 }}>
+                        <Text fontSize="lg" color="gray.400">
+                            <Text as="span" color="teal.300" fontWeight="bold">Annual Plan</Text> - Our most popular choice! Perfect for both active job seekers and professionals
+                            who want to stay aware of opportunities. Enjoy flexibility and continuous access throughout the year.
+                        </Text>
+                        <Text fontSize="lg" color="gray.400">
+                            <Text as="span" color="teal.300" fontWeight="bold">Lifetime Access</Text> - A one-time investment that pays off. Get all the benefits of the annual plan
+                            without recurring payments. Ideal for career-focused professionals who want long-term access.
+                        </Text>
+                    </VStack>
+                </Box>
+
+                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
+                    <PricingCard
+                        title="Lifetime Access"
+                        price="$43.00"
+                        period="one-time payment"
+                        features={[
+                            '🌟 One-time payment, lifetime access',
+                            '💰 Best value for long-term career growth',
+                            '💼 Unlimited access to all job posts',
+                            '🎯 Advanced filtering tools',
+                            '🔔 Personalized daily job alerts',
+                            '📱 Mobile-friendly job search',
+                        ]}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
+                        onSubscribe={(priceId) => handleSubscribe(priceId, true)}
+                    />
+                    <PricingCard
+                        title="Annual Plan"
+                        price="$29.99"
+                        period="per year"
+                        features={[
+                            '🏆 Save 50% compared to monthly',
+                            '💼 Unlimited access to all job posts',
+                            '🎯 Advanced filtering tools',
+                            '🔔 Personalized daily job alerts',
+                            '📱 Mobile-friendly job search',
+                            '💰 Most popular choice',
+                            '↪️ Cancel anytime',
+                        ]}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
+                        onSubscribe={(priceId) => handleSubscribe(priceId)}
+                        isPopular={true}
+                    />
+                    <PricingCard
+                        title="Monthly Plan"
+                        price="$4.99"
+                        period="per month"
+                        features={[
+                            '🤸‍♂️ Flexible for short time job hunting',
+                            '💼 Unlimited access to all job posts',
+                            '🎯 Advanced filtering tools',
+                            '🔔 Personalized daily job alerts',
+                            '📱 Mobile-friendly job search',
+                            '↪️ Cancel anytime',
+                        ]}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
+                        onSubscribe={(priceId) => handleSubscribe(priceId)}
+                    />
+                </SimpleGrid>
+
+                <FAQ />
             </VStack>
-        </form>
+        </Container>
     );
 };
-
-const SignupPage = () => (
-    <Elements stripe={stripePromise}>
-        <Container centerContent>
-            <Box
-                p={8}
-                maxWidth="500px"
-                width="100%"
-                borderWidth="1px"
-                borderRadius="lg"
-                boxShadow="lg"
-                bg="gray.700"
-            >
-                <VStack spacing={4} align="stretch">
-                    <Heading as="h1" size="lg" textAlign="center">
-                        Sign Up
-                    </Heading>
-                    <Text fontSize="lg" textAlign="center">
-                        Choose a plan and enter your payment details to get started.
-                    </Text>
-                    <Suspense fallback={<Spinner size="xl" />}>
-                        <CheckoutForm />
-                    </Suspense>
-                </VStack>
-            </Box>
-        </Container>
-        <MixedPricingCard />
-        <SenjaWallOfLove />
-    </Elements>
-);
 
 export default SignupPage;
