@@ -145,7 +145,6 @@ const SignupPage = () => {
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
-                            '💰 Most popular choice',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId, true)}
