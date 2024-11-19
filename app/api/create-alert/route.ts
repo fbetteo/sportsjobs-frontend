@@ -25,6 +25,21 @@ export async function POST(req: NextRequest) {
       },
     ]);
 
+    // Hetzner via FastaPI
+    const response = await fetch('http://'+process.env.HETZNER_POSTGRES_HOST+':8000' + '/add_alert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
+      },
+      body: JSON.stringify({ name, email, country, seniority, sport_list, skills, remote_office, hours }),
+    });
+
+
+    const data = await response.json();
+    console.log('Response from Hetzner server:', data);
+
+
     return NextResponse.json({ error: '' }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: (error  as Error).message || (error as Error).toString() }, { status: 500 });
