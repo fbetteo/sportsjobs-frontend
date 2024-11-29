@@ -21,7 +21,7 @@ export async function createAirtableRecord(name: string, email: string, plan: st
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
       },
-      body: JSON.stringify({ name, email, plan }),
+      body: JSON.stringify({ name, email, plan, creation_date: new Date().toISOString() }),
     });
 
 
