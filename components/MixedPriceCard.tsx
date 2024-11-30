@@ -16,7 +16,7 @@ const MixedPricingCard = () => {
     };
 
     return (
-        <Box p={4} mx="auto">
+        <Box p={4} maxW="container.lg" mx="auto" width="100%">
             <Flex justify="center" mb={2}>
                 <ChevronDownIcon w={100} h={100} color="gray.500" />
             </Flex>
@@ -26,26 +26,32 @@ const MixedPricingCard = () => {
             <Text fontSize="2xl" textAlign="center" mb={8}>
                 Subscribe to membership and unlock all jobs
             </Text>
-            <Flex justify="space-around" mb={8}>
-                <Stack mr={3} spacing={3} align="center">
+            <Flex
+                direction={{ base: "column", md: "row" }}
+                justify="space-around"
+                mb={8}
+                align="center"
+                gap={6}
+            >
+                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
                     <Icon as={FaBasketballBall} w={10} h={10} />
                     <Text fontWeight="bold">Sports Analytics</Text>
-                    <Text>We scan all major sports and leagues</Text>
+                    <Text textAlign="center">We scan all major sports and leagues</Text>
                 </Stack>
-                <Stack mr={3} spacing={3} align="center">
+                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
                     <Icon as={FaCalendarDay} w={10} h={10} />
                     <Text fontWeight="bold">Updated Daily</Text>
-                    <Text>New jobs are added every day as companies post them</Text>
+                    <Text textAlign="center">New jobs are added every day as companies post them</Text>
                 </Stack>
-                <Stack mr={3} spacing={3} align="center">
+                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
                     <Icon as={FaFilter} w={10} h={10} />
                     <Text fontWeight="bold">Refined Search</Text>
-                    <Text>Use filters like skill, location, etc to narrow results</Text>
+                    <Text textAlign="center">Use filters like skill, location, etc to narrow results</Text>
                 </Stack>
-                <Stack spacing={3} align="center">
+                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
                     <Icon as={FaBell} w={10} h={10} />
                     <Text fontWeight="bold">Alerts</Text>
-                    <Text>You can get daily alerts in your email for a specific search</Text>
+                    <Text textAlign="center">You can get daily alerts in your email for a specific search</Text>
                 </Stack>
             </Flex>
             <List spacing={3} mb={8}>
@@ -58,7 +64,11 @@ const MixedPricingCard = () => {
                     Daily updates and notifications based on your preferences
                 </ListItem>
             </List>
-            <Flex justify="space-around">
+            <Flex
+                direction={{ base: "column", md: "row" }}
+                justify="space-around"
+                gap={4}
+            >
                 {pricingPlans.map((plan, index) => (
                     <Box
                         key={index}
@@ -66,7 +76,7 @@ const MixedPricingCard = () => {
                         borderWidth="1px"
                         borderRadius="md"
                         textAlign="center"
-                        w="45%"
+                        w={{ base: "100%", md: "45%" }}
                         boxShadow="md"
                         bg='gray.700'
                     >

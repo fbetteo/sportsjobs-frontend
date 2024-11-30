@@ -205,12 +205,12 @@ export default function HomeContent() {
                         </Button>
                         <Button
                             as="a"
-                            href="https://rezi.ai/?via=franco"
+                            href="https://applyall.com/?ref=sportsjobs"
                             target="_blank"
                             colorScheme="purple"
                             w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
                         >
-                            📝 Create your resume with AI
+                            📝 Automate your job applications with AI
                         </Button>
                     </HStack>
                     <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
