@@ -106,8 +106,11 @@ async function JobDetails({ params }: { params: { id: string } }) {
     }
 
     const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🎯 sports';
+    // console.log("JOB", job);
+    console.log("INDSUR", job.industry);
     const descriptionHtml = marked(job.description);
     const datePosted = new Date(job.start_date);
+    console.log("DATE", datePosted);
     const validThrough = format(addMonths(datePosted, 2), 'yyyy-MM-dd');
 
     const jobTypeMapping: { [key: string]: string } = {
