@@ -1,41 +1,69 @@
 // app/api/get-jobs/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import Airtable from 'airtable';
+// import Airtable from 'airtable';
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN ?? '' }).base(process.env.AIRTABLE_BASE ?? '');
+// const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN ?? '' }).base(process.env.AIRTABLE_BASE ?? '');
+// Helper function to calculate days ago text
+function getDaysAgoText(creationDate: string): string {
+  const created = new Date(creationDate);
+  const today = new Date();
+  const diffTime = Math.abs(today.getTime() - created.getTime());
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    return 'Posted Today';
+  }
+  return `Posted ${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get('limit') || '5', 10);
 
-    let filterFormula = '';
-    filterFormula += `AND({featured} = '0 - top')`;
+  // let filterFormula = '';
+  // filterFormula += `AND({featured} = '0 - top')`;
+  const filters: Record<string, string> = {};
+  filters.featured = '0 - top';
 
+  const requestBody = {
+      limit,
+      filters: Object.keys(filters).length > 0 ? filters : null,
+      sort_by: "creation_date",
+      sort_direction: "desc"
+    };
+  
   try {
-    const records = await base('jobs')
-      .select({
-        view: 'Grid view',
-        maxRecords: limit,
-        sort: [{ field: 'creation_date', direction: 'desc' }],
-        filterByFormula: filterFormula ? `AND(${filterFormula})` : '',
-      })
-      .all();
+    // Fetch from Hetzner server
+    const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/jobs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-    const jobs = records.map((record) => ({
-      id: record.id,
-      title: record.get('Name'),
-      company: record.get('company'),
-      description: record.get('desciption'),
-      location: record.get('location'),
-      salary: record.get('salary'),
-      country: record.get('country'),
-      seniority: record.get('seniority'),
-      remote: record.get('remote'),
-      skills: record.get('skills'),
-      logo_permanent_url: record.get('logo_permanent_url'),
-      remote_string: record.get('remote_string'),
-      days_ago_text: record.get('days_ago_text'),
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const records = await response.json();
+
+    const jobs = records.map((record: any) => ({
+      id: record.job_id,
+      title: record.name,
+      company: record.company,
+      description: record.description,
+      location: record.location,
+      salary: record.salary,
+      country: record.country,
+      seniority: record.seniority,
+      remote: record.remote,
+      skills: record.skills,
+      logo_permanent_url: record.logo_permanent_url,
+      remote_office: record.remote_office,
+      days_ago_text: getDaysAgoText(record.creation_date),
     }));
 
     return NextResponse.json({ jobs });
