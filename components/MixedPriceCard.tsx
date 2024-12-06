@@ -72,26 +72,66 @@ const MixedPricingCard = () => {
                 {pricingPlans.map((plan, index) => (
                     <Box
                         key={index}
-                        p={4}
-                        borderWidth="1px"
-                        borderRadius="md"
+                        p={6}
+                        borderWidth="2px"
+                        borderRadius="xl"
                         textAlign="center"
                         w={{ base: "100%", md: "45%" }}
-                        boxShadow="md"
+                        boxShadow="lg"
                         bg='gray.700'
+                        transition="all 0.3s"
+                        position="relative"
+                        _hover={{
+                            transform: "translateY(-8px)",
+                            boxShadow: "xl",
+                        }}
+                        borderColor={plan.planName === "Yearly" ? "purple.400" : "transparent"}
                     >
-                        <Text fontSize="2xl" fontWeight="bold" mb={4}>
+                        {plan.planName === "Yearly" && (
+                            <Text
+                                position="absolute"
+                                top="-4"
+                                left="50%"
+                                transform="translateX(-50%)"
+                                bg="purple.500"
+                                color="white"
+                                px={4}
+                                py={1}
+                                borderRadius="full"
+                                fontSize="sm"
+                                fontWeight="bold"
+                            >
+                                Most Popular
+                            </Text>
+                        )}
+                        <Text fontSize="3xl" fontWeight="bold" mb={2}>
                             {plan.planName}
                         </Text>
-                        <Text fontSize="xl" mb={4}>
+                        <Text fontSize="4xl" fontWeight="bold" mb={2}>
                             {plan.price}
                         </Text>
-                        {/* <Stack spacing={2} mb={4}>
+                        <Text fontSize="sm" color="gray.300" mb={6}>
+                            {plan.planName === "Yearly" ? "Only $2.5/month billed annually" : "Billed monthly"}
+                        </Text>
+                        <Stack spacing={3} mb={6}>
                             {plan.features.map((feature, idx) => (
-                                <Text key={idx}>{feature}</Text>
+                                <Flex key={idx} align="center" justify="center">
+                                    <Text>{feature}</Text>
+                                </Flex>
                             ))}
-                        </Stack> */}
-                        <Button colorScheme="purple" onClick={() => handleSelectPlan(plan.airtablePlanName)}>Choose Plan</Button>
+                        </Stack>
+                        <Button
+                            colorScheme="purple"
+                            size="lg"
+                            w="full"
+                            onClick={() => handleSelectPlan(plan.airtablePlanName)}
+                            _hover={{
+                                transform: "scale(1.05)",
+                            }}
+                            transition="all 0.2s"
+                        >
+                            Get Started Now
+                        </Button>
                     </Box>
                 ))}
             </Flex>
