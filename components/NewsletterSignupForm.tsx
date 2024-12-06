@@ -32,43 +32,37 @@ const NewsletterSignupForm = () => {
         e.preventDefault();
 
         try {
-            // Ensure the sparkloop instance has been initialized before tracking
-            if (window.SL && typeof window.SL.trackSubscriber === 'function') {
-                window.SL.trackSubscriber(email); // Track the subscriber manually
-            } else {
-                throw new Error('SparkLoop not initialized or trackSubscriber not available');
+            const res = await fetch('/api/subscribe-newsletter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+                toast({
+                    title: 'Error',
+                    description: data.error,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                return;
             }
-        } catch (error) {
-            toast({
-                title: 'Error',
-                description: 'Failed to track subscriber with SparkLoop: ' + ((error as Error).message as string),
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
 
+            // Only track with Sparkloop after successful subscription
+            try {
+                if (window.SL && typeof window.SL.trackSubscriber === 'function') {
+                    await window.SL.trackSubscriber(email);
+                }
+            } catch (sparkloopError) {
+                console.error('Sparkloop tracking error:', sparkloopError);
+                // Don't show this error to user since subscription was successful
+            }
 
-        const res = await fetch('/api/subscribe-newsletter', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-        });
-
-        const { error } = await res.json();
-
-        if (error) {
-            toast({
-                title: 'Error',
-                description: error,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-        } else {
             toast({
                 title: 'Success',
                 description: 'You have been subscribed!',
@@ -78,6 +72,15 @@ const NewsletterSignupForm = () => {
             });
             setEmail('');
             setShowUpscribe(true);
+
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Failed to subscribe. Please try again.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
         }
     };
 
