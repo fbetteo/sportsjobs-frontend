@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
       
       console.log('Sending filters:', JSON.stringify(filters)); // Debug log
       const jobs = await fetchJobs(1, JSON.stringify(filters));
-      console.log('Received jobs:', jobs); // Debug log
+      // console.log('Received jobs:', jobs); // Debug log
 
       if (jobs?.length > 0) {
         const newId = jobs[0].id || jobs[0].job_id;
