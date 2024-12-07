@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
   const industry = searchParams.get('industry');
   const sport = searchParams.get('sport');
   const job_area = searchParams.get('job_area');
+  const airtable_id = searchParams.get('airtable_id');
 
 
   // try {
@@ -42,6 +43,7 @@ export async function GET(req: NextRequest) {
   if (industry) filters.industry = industry;
   if (sport) filters.sport_list = sport;
   if (job_area) filters.job_area = job_area;
+  if (airtable_id) filters.airtable_id = airtable_id;
   
   const requestBody = {
     limit,

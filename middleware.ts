@@ -1,56 +1,40 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-// import { getSession } from '@auth0/nextjs-auth0';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { IncomingMessage, ServerResponse } from 'http';
+import { fetchJobs } from './lib/fetchJobs';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-
-  // Check if the request is for an old Airtable job URL
-  const oldIdMatch = pathname.match(/^\/jobs\/(rec[a-zA-Z0-9_-]+)$/);
+  const oldIdMatch = pathname.match(/^\/jobs\/(rec[A-Za-z0-9]{14,17})/);
+  console.log('Pathname:', pathname);
+  
   if (oldIdMatch) {
     const airtableId = oldIdMatch[1];
-
+    console.log('Airtable ID:', airtableId);
+    
     try {
-      // Query the database for the corresponding Postgres ID
-      const filters: Record<string, string> = {};
-      if (airtableId) filters.airtable_id = airtableId;
-
-      const requestBody = {
-        limit: 1,
-        filters: Object.keys(filters).length > 0 ? filters : null,
-        sort_by: "creation_date",
-        sort_direction: "desc"
+      // Format filter exactly as your working curl command
+      const filters = {
+        airtable_id: airtableId.trim() // Ensure no whitespace
       };
-    
-      const result = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/jobs`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
-        },
-        body: JSON.stringify(requestBody),
-      });
+      
+      console.log('Sending filters:', JSON.stringify(filters)); // Debug log
+      const jobs = await fetchJobs(1, JSON.stringify(filters));
+      console.log('Received jobs:', jobs); // Debug log
 
-      if (!result.ok) {
-        throw new Error(`HTTP error! status: ${result.status}`);
+      if (jobs?.length > 0) {
+        const newId = jobs[0].id || jobs[0].job_id;
+        if (newId) {
+          return NextResponse.redirect(`${request.nextUrl.origin}/jobs/${newId}`, 301);
+        }
       }
-    
-      const records = await result.json();
-      // console.log(records);
-
-      if (records && records.length > 0)  {
-        const newId = records[0].job_id;
-        const newUrl = new URL(`/jobs/${newId}`, request.url);
-        return NextResponse.redirect(newUrl, 301);
-      }
+      // Fallback to jobs page if no match
+      return NextResponse.redirect(`${request.nextUrl.origin}/jobs`, 302);
     } catch (error) {
-      console.error('Database query failed:', error);
+      console.error('Job lookup failed:', error);
+      return NextResponse.redirect(`${request.nextUrl.origin}/jobs`, 302);
     }
   }
-  // Continue to the requested route if no mapping is found
   return NextResponse.next();
 }
 
