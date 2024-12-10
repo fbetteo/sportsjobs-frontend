@@ -8,7 +8,8 @@ export const fetchBlogPostDetails = async (id: string) => {
       const response = await fetch(`${baseUrl}/api/get-blogpost-details?id=${id}`,  {
         cache: 'no-store', // Ensures the request is not cached
       });
-    const data = await response.json();
+  const data = await response.json();
+  console.log('data:', data);
     
       if (response.ok) {
         return data.blogpost;

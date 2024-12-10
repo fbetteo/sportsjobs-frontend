@@ -1,28 +1,37 @@
-
 import { NextRequest, NextResponse } from 'next/server';
-import Airtable from 'airtable';
-
-const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN ?? '' }).base(process.env.AIRTABLE_BASE ?? '');
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id') ?? '';
+  console.log('id:', id);
+  const requestBody = {
+    limit: 1,
+    filters: { blog_id: id },
+    sort_by: "creation_date",
+    sort_direction: "desc"
+  };
 
   try {
-      const record = await base('blog').find(id);
+    const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/blog`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-      const blogpost=   {
-        id: record.id,
-        title: record.get('Title'),
-        content: record.get('content'),
-        content_image: record.get('content_image'),
-        short_description: record.get('short_description'),
-        cover: record.get('cover'),
-        old_blog_post_url: record.get('blog_post_url'),
-        new_post_date: record.get('post_date'),
-    };
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    return NextResponse.json({ blogpost });
+    const data = await response.json();
+    console.log('data:', data);
+    if (!data || data.length === 0) {
+      throw new Error('Blog post not found');
+    }
+
+    return NextResponse.json({ blogpost: data[0] });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
