@@ -16,6 +16,7 @@ interface JobCardProps {
     isFeatured?: boolean;
     user: UserProfile | undefined;
     scrollToPricing: () => void;
+    url?: string;
 }
 
 export function JobCard({
@@ -31,9 +32,12 @@ export function JobCard({
     remote_string,
     isFeatured,
     user,
-    scrollToPricing
+    scrollToPricing,
+    url
 }: JobCardProps) {
+    // const isLinkedInUrl = url?.includes("linkedin.com");
     return (
+        // <Link href={isLinkedInUrl && url ? url : `/jobs/${id}`} passHref> 
         <Link href={`/jobs/${id}`} passHref>
             <ChakraLink _hover={{ textDecoration: 'none' }}
                 onClick={(e) => {
@@ -128,21 +132,22 @@ export function JobCard({
                             wrap={{ base: "wrap", md: "nowrap" }}
                             justify={{ base: "center", md: "flex-start" }}
                             width="100%"
+                            alignItems="flex-start" // Add this line to ensure alignment
                         >
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700">Location</Text>
+                                <Text fontWeight="bold" color="gray.700" width="100px">Location</Text>
                                 <Text>{location}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700">Remote</Text>
+                                <Text fontWeight="bold" color="gray.700" width="100px" >Remote</Text>
                                 <Text>{remote_string}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700">Salary</Text>
+                                <Text fontWeight="bold" color="gray.700" width="100px">Salary</Text>
                                 <Text>{salary || "-"}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700">Seniority</Text>
+                                <Text fontWeight="bold" color="gray.700" width="100px">Seniority</Text>
                                 <Text>{seniority}</Text>
                             </VStack>
                         </HStack>

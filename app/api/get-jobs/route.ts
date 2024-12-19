@@ -145,6 +145,7 @@ export async function GET(req: NextRequest) {
       logo_permanent_url: record.logo_permanent_url,
       remote_office: record.remote_office,
       days_ago_text: getDaysAgoText(record.creation_date),
+      url: record.url,
     }));
     
 

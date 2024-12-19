@@ -88,6 +88,7 @@ const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
                         isFeatured={false}
                         user={user}
                         scrollToPricing={scrollToPricing}
+                        url={job.url}
                     />
                 </ListItem>
             ))}
