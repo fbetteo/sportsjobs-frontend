@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import FAQ from "../../components/FAQ";
+import WallOfLove from "../../components/WallOfLove";
 
 const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isPopular }: {
     title: string;
@@ -183,6 +184,7 @@ const SignupPage = () => {
                     />
                 </SimpleGrid>
 
+                <WallOfLove />
                 <FAQ />
             </VStack>
         </Container>
