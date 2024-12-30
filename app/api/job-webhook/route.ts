@@ -67,25 +67,44 @@ export async function POST(req: NextRequest) {
 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
-            const jobData = JSON.parse(session.metadata?.jobData || '{}');
             
-            // First create job in database
-            const formattedJobData = formatJobData(jobData, session);
-            
-            const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:9000/add_job`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}` // Match authorization header
-                },
-                body: JSON.stringify(formattedJobData)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Job creation failed: ${await response.text()}`);
+            // Check if this is a job posting by verifying metadata format
+            if (!session.metadata?.jobData) {
+                console.log('Not a job posting webhook, skipping...');
+                return NextResponse.json({ received: true });
             }
 
-            console.log('Job created in database with logo');
+            try {
+                const jobData = JSON.parse(session.metadata.jobData);
+                
+                // Additional verification: job postings must have these fields
+                if (!jobData.company || !jobData.name || !jobData.description) {
+                    console.log('Invalid job data format, skipping...');
+                    return NextResponse.json({ received: true });
+                }
+
+                // Proceed with job creation
+                const formattedJobData = formatJobData(jobData, session);
+                
+                const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/add_job`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}` // Match authorization header
+                    },
+                    body: JSON.stringify(formattedJobData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Job creation failed: ${await response.text()}`);
+                }
+
+                console.log('Job created in database with logo');
+            } catch (parseError) {
+                console.error('Error processing job data:', parseError);
+                // Still return success to Stripe but log the error
+                return NextResponse.json({ received: true });
+            }
         }
 
         return NextResponse.json({ received: true });
