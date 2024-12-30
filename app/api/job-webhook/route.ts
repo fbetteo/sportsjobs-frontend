@@ -57,8 +57,8 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        console.log('Stripe-Signature:', signature);
-        console.log('Webhook Secret:', process.env.STRIPE_WEBHOOK_SECRET);
+        // console.log('Stripe-Signature:', signature);
+        // console.log('Webhook Secret:', process.env.STRIPE_WEBHOOK_SECRET);
 
         const event = stripe.webhooks.constructEvent(
             body,
