@@ -230,7 +230,7 @@ const PostJobPage = () => {
                     />
                     <VStack spacing={4}>
                         <Text fontSize="lg" fontStyle="italic" color="gray.300">
-                            "Within 48 hours of posting our Performance Analyst role, we received applications from highly qualified candidates. The quality of applicants exceeded our expectations!"
+                            &quot;Within 48 hours of posting our Performance Analyst role, we received applications from highly qualified candidates. The quality of applicants exceeded our expectations!&quot;
                         </Text>
                         <HStack>
                             <Text fontWeight="bold" color="teal.300">Sarah Thompson</Text>
@@ -261,7 +261,7 @@ const PostJobPage = () => {
                             borderColor="gray.600"
                         />
                         <Text fontSize="sm" color="gray.400" mt={1}>
-                            Your organization's official name as you'd like it to appear
+                            Your organization&apos;s official name as you&apos;d like it to appear
                         </Text>
                     </FormControl>
 
@@ -275,7 +275,7 @@ const PostJobPage = () => {
                             borderColor="gray.600"
                         />
                         <Text fontSize="sm" color="gray.400" mt={1}>
-                            Be specific — e.g., "Performance Analyst" rather than just "Analyst"
+                            Be specific — e.g., &quot;Performance Analyst&quot; rather than just &quot;Analyst&quot;
                         </Text>
                     </FormControl>
 
@@ -289,7 +289,7 @@ const PostJobPage = () => {
                             borderColor="gray.600"
                         />
                         <Text fontSize="sm" color="gray.400" mt={1}>
-                            Free format. Can be remote, city, country, continent,  specific Timezone. E.g., "Remote", "New York, USA", "Europe", "PST Timezone"
+                            Free format. Can be remote, city, country, continent,  specific Timezone. E.g., &quot;Remote&quot;, &quot;New York, USA&quot;, &quot;Europe&quot;, &quot;PST Timezone&quot;
                         </Text>
                     </FormControl>
 
@@ -318,7 +318,7 @@ const PostJobPage = () => {
                             ))}
                         </Select>
                         <Text fontSize="sm" color="gray.400" mt={1}>
-                            If you can't find the country in the list (or it's fully remote), please select "Other" and specify in the location field or the remote field.
+                            If you can&apos;t find the country in the list (or it&apos;s fully remote), please select &quot;Other&quot; and specify in the location field or the remote field.
                         </Text>
                     </FormControl>
 

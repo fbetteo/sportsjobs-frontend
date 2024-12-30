@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
                         unit_amount: totalAmount * 100,
                         product_data: {
                             name: 'Job Posting',
-                            description: `Job listing for ${jobData.name} at ${jobData.company}${jobData.companyLogo ? ' (includes company logo)' : ''}`.substring(0, 255),
+                            description: `Job listing for ${jobData.name.replace(/["']/g, '')} at ${jobData.company.replace(/["']/g, '')}${jobData.companyLogo ? ' (includes company logo)' : ''}`.substring(0, 255),
                         },
                     },
                     quantity: 1,
