@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 
+// Replace old config with new route segment config
+export const runtime = 'nodejs';
+export const preferredRegion = 'auto';
+export const dynamic = 'force-dynamic';
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
@@ -37,12 +42,6 @@ const formatJobData = (jobData: any, session: Stripe.Checkout.Session) => {
         payment_status: "completed",
         payment_amount: session.amount_total,
     };
-};
-
-export const config = {
-    api: {
-        bodyParser: false,
-    },
 };
 
 export async function POST(req: NextRequest) {
