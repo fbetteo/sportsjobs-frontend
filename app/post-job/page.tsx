@@ -201,8 +201,7 @@ const PostJobPage = () => {
             <VStack spacing={6} mb={12} textAlign="center">
                 <Heading
                     size="2xl"
-                    bgGradient="linear(to-r, purple.400, teal.400)"
-                    backgroundClip="text"
+                    color="white"
                 >
                     Reach Top Sports Industry Talent
                 </Heading>
@@ -211,33 +210,14 @@ const PostJobPage = () => {
                 </Text>
 
                 {/* Testimonial Card */}
-                <Box
-                    bg="gray.800"
-                    p={6}
-                    borderRadius="xl"
-                    mt={8}
-                    maxW="2xl"
-                    position="relative"
-                >
-                    <Icon
-                        as={ImQuotesLeft}
-                        position="absolute"
-                        top={-4}
-                        left={-4}
-                        w={8}
-                        h={8}
-                        color="purple.400"
-                    />
-                    <VStack spacing={4}>
-                        <Text fontSize="lg" fontStyle="italic" color="gray.300">
-                            &quot;Within 48 hours of posting our Performance Analyst role, we received applications from highly qualified candidates. The quality of applicants exceeded our expectations!&quot;
-                        </Text>
-                        <HStack>
-                            <Text fontWeight="bold" color="teal.300">Sarah Thompson</Text>
-                            <Text color="gray.400">- HR Director, Premier League Club</Text>
-                        </HStack>
-                    </VStack>
-                </Box>
+                <VStack spacing={4} mt={8} maxW="2xl">
+                    <Text fontSize="md" color="gray.400" fontStyle="italic">
+                        &quot;Within 48 hours of posting our Data Analyst role, we received applications from highly qualified candidates. Franco was super helpful all the way.&quot;
+                    </Text>
+                    {/* <Text fontSize="sm" color="gray.500">
+                        Sarah Thompson, HR Director, Premier League Club
+                    </Text> */}
+                </VStack>
             </VStack>
 
             {/* Form Section */}
