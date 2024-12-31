@@ -210,7 +210,12 @@ export default function HomeContent() {
                             colorScheme="purple"
                             w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
                         >
-                            📝 Automate your job applications with AI
+                            <Box display={{ base: 'none', md: 'block' }}>
+                                📝 Automate your job applications with AI
+                            </Box>
+                            <Box display={{ base: 'block', md: 'none' }}>
+                                📝 Auto-Apply with AI
+                            </Box>
                         </Button>
                     </HStack>
                     <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
