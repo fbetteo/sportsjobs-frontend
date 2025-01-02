@@ -74,6 +74,7 @@ const Header = () => {
               colorScheme="yellow"
               size="md"
               mr={{ base: 2, md: 5 }}
+              display={{ base: 'none', md: 'inline-flex' }} // Hide on mobile, show on desktop
             >
               Post a Job
             </Button>
@@ -101,6 +102,7 @@ const Header = () => {
               colorScheme="yellow"
               size="md"
               mr={{ base: 2, md: 5 }}
+              display={{ base: 'none', md: 'inline-flex' }} // Hide on mobile, show on desktop
             >
               Post a Job
             </Button>
