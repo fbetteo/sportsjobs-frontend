@@ -13,6 +13,7 @@ import MixedPricingCard from "./MixedPriceCard";
 import SenjaWallOfLove from "./WallOfLove";
 import JobListFeatured from "./JobListFeatured";
 import FAQ from "./FAQ";
+import PostJobLink from './PostJobLink';
 
 interface CachedData {
     data: any;
@@ -223,6 +224,9 @@ export default function HomeContent() {
                 <Center width="100%">
                     <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
                         <JobFilter onFilterChange={handleFilterChange} user={user} />
+                        <Box mb={4}>
+                            <PostJobLink />
+                        </Box>
                         <JobListFeatured jobs={featuredJobs} />
                         <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
                         <div ref={pricingSectionRef}>
