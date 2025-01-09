@@ -68,16 +68,6 @@ const Header = () => {
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
-            <Button
-              as={Link}
-              href="/post-job"
-              colorScheme="yellow"
-              size="md"
-              mr={{ base: 2, md: 5 }}
-              display={{ base: 'none', md: 'inline-flex' }} // Hide on mobile, show on desktop
-            >
-              Post a Job
-            </Button>
             <Menu>
               <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                 <Avatar size="sm" src={user.picture ?? ""} />
@@ -96,16 +86,6 @@ const Header = () => {
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
-            <Button
-              as={Link}
-              href="/post-job"
-              colorScheme="yellow"
-              size="md"
-              mr={{ base: 2, md: 5 }}
-              display={{ base: 'none', md: 'inline-flex' }} // Hide on mobile, show on desktop
-            >
-              Post a Job
-            </Button>
             <Link href="/api/auth/login" passHref>
               <Button
                 colorScheme="gray.700"
