@@ -31,6 +31,7 @@ import { countries } from '@/utils/countries';
 import { skillsList } from '@/utils/skills';  // Add this import
 import { FiUpload } from 'react-icons/fi';
 import { ImQuotesLeft } from 'react-icons/im';
+import SenjaRecruiterWidget from '@/components/SenjaRecruiterWidget';
 
 interface FormData {
     company: string;
@@ -211,9 +212,10 @@ const PostJobPage = () => {
 
                 {/* Testimonial Card */}
                 <VStack spacing={4} mt={8} maxW="2xl">
-                    <Text fontSize="md" color="gray.400" fontStyle="italic">
+                    {/* <Text fontSize="md" color="gray.400" fontStyle="italic">
                         &quot;Within 48 hours of posting our Data Analyst role, we received applications from highly qualified candidates. Franco was super helpful all the way.&quot;
-                    </Text>
+                    </Text> */}
+                    <SenjaRecruiterWidget />
                     {/* <Text fontSize="sm" color="gray.500">
                         Sarah Thompson, HR Director, Premier League Club
                     </Text> */}
