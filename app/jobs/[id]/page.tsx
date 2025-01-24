@@ -105,12 +105,19 @@ async function JobDetails({ params }: { params: { id: string } }) {
         notFound();
     }
 
+    // Add salary parsing helper
+    const extractSalaryValue = (salaryString: string): number | null => {
+        const matches = salaryString.match(/\d+/g);
+        if (matches && matches.length > 0) {
+            // Get the first number found in the string
+            return parseInt(matches[0], 10);
+        }
+        return null;
+    };
+
     const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🎯 sports';
-    // console.log("JOB", job);
-    console.log("INDSUR", job.industry);
     const descriptionHtml = marked(job.description);
     const datePosted = new Date(job.start_date);
-    console.log("DATE", datePosted);
     const validThrough = format(addMonths(datePosted, 2), 'yyyy-MM-dd');
 
     const jobTypeMapping: { [key: string]: string } = {
@@ -124,8 +131,8 @@ async function JobDetails({ params }: { params: { id: string } }) {
         mappedJobType = 'INTERN';
     }
 
-    // Schema.org JSON-LD script
-    const jobPostingSchema = JSON.stringify({
+    // Create base schema
+    const schemaData: any = {
         "@context": "http://schema.org",
         "@type": "JobPosting",
         "title": job.title,
@@ -155,17 +162,28 @@ async function JobDetails({ params }: { params: { id: string } }) {
             "@type": "Country",
             "name": job.country,
         },
-        "baseSalary": {
+    };
+
+    // Only add salary if we can extract a valid number
+    const salaryValue = extractSalaryValue(job.salary);
+    if (salaryValue) {
+        schemaData.baseSalary = {
             "@type": "MonetaryAmount",
             "currency": "USD",
             "value": {
                 "@type": "QuantitativeValue",
-                "value": job.salary,
-                "unitText": "YEAR",
-            },
-        },
-        "jobLocationType": job.remote === "Yes" ? "TELECOMMUTE" : "",
-    });
+                "value": salaryValue,
+                "unitText": "YEAR"
+            }
+        };
+    }
+
+    // Add remote work type if applicable
+    if (job.remote === "Yes") {
+        schemaData.jobLocationType = "TELECOMMUTE";
+    }
+
+    const jobPostingSchema = JSON.stringify(schemaData);
 
     return (
         <>
