@@ -22,7 +22,7 @@ export async function GET() {
   // Define static pages
   const staticPages = ['', '/signup', '/blog'].map((route) => `${baseUrl}${route}`);
   const jobUrls = jobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
-  const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.id}`);
+  const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);
   const allPages = [...staticPages, ...jobUrls, ...blogpostsUrls];
 
   // Generate sitemap XML
