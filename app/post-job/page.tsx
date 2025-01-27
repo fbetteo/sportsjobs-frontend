@@ -204,10 +204,11 @@ const PostJobPage = () => {
                     size="2xl"
                     color="white"
                 >
-                    Reach Top Sports Industry Talent
+                    Hire your next top employee
                 </Heading>
                 <Text fontSize="xl" color="gray.300" maxW="2xl">
-                    Distribute your open positions to our audience of sports industry professionals. Get seen by 2000 monthly niche job seekers including a selected group that pays for premium access and benefit from our social media promotion.
+                    Distribute your open positions to our audience of sports industry professionals. Get seen by 2000 monthly niche job seekers including a selected group that pays for premium access.
+                    You get your job post featured at the top for 30 days and we share it in the newsletter and all our social media channels.
                 </Text>
 
                 {/* Testimonial Card */}
