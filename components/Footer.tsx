@@ -2,6 +2,8 @@
 import { Box, Text, Link, HStack, IconButton, Image, Flex } from '@chakra-ui/react';
 import { FaTwitter, FaLinkedin } from 'react-icons/fa';
 
+import JobsByLocation from './JobsByLocation'; // Import the new component
+
 const Footer = () => {
     return (
         <Box as="footer" py={4} textAlign="center" bg="gray.700" color="white">
@@ -49,7 +51,9 @@ const Footer = () => {
                     Privacy Policy
                 </Link>
             </Text>
+            <JobsByLocation /> {/* Add the new component here */}
         </Box>
+
     );
 };
 
