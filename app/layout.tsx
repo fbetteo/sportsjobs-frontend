@@ -7,10 +7,11 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Find Your Dream Job in Sports Analytics and Betting',
+  title: 'Sportsjobs Online | Find Your Dream Job in Sports Analytics and Betting',
   description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
   keywords: 'sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers',
   openGraph: {
+    siteName: 'Sportsjobs Online',
     title: 'Sports analytics and data science jobs | Software sports jobs',
     description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
     type: 'website',
