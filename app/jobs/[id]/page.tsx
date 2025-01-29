@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         return {
             title: `${jobDetails.title} at ${jobDetails.company} jobs - SportsJobs Online`,
             description: `${jobDetails.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            keywords: `${jobDetails.sport_list} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
+            keywords: `${jobDetails.sport_list ?? "Sports"} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
             alternates: {
                 canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
             },
