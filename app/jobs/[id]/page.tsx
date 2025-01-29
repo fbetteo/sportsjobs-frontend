@@ -118,15 +118,16 @@ async function JobDetails({ params }: { params: { id: string } }) {
     const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🎯 sports';
     const descriptionHtml = marked(job.description);
     const datePosted = new Date(job.start_date);
-    const validThrough = format(addMonths(datePosted, 2), 'yyyy-MM-dd');
+    const validThrough = format(addMonths(datePosted, 3), 'yyyy-MM-dd');
 
     const jobTypeMapping: { [key: string]: string } = {
         fulltime: 'FULL_TIME',
+        "{fulltime}": 'FULL_TIME',
         "part time": 'PART_TIME',
         // Add more mappings if necessary
     };
 
-    let mappedJobType = jobTypeMapping[job.hours[0]?.toLowerCase()] || job.hours[0];
+    let mappedJobType = jobTypeMapping[job.hours?.toLowerCase()] || job.hours;
     if (job.seniority?.toLowerCase() === 'internship') {
         mappedJobType = 'INTERN';
     }
@@ -179,7 +180,8 @@ async function JobDetails({ params }: { params: { id: string } }) {
     }
 
     // Add remote work type if applicable
-    if (job.remote === "Yes") {
+    // I've modifeid this since in my DB now Remote is being handled wrongly
+    if (job.remote_string?.toUpperCase().includes("REMOTE")) {
         schemaData.jobLocationType = "TELECOMMUTE";
     }
 
