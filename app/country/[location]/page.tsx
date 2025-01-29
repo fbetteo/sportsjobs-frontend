@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchJobs } from "../../../lib/fetchJobs";
 import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
-import { Box, Button, Center, Flex, HStack, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, HStack, VStack, Text } from "@chakra-ui/react";
 import JobList from "../../../components/JobList";
 import JobFilter from '../../../components/JobFilter';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -188,7 +188,17 @@ export default function CountryContent({ params }: Props) {
     return (
         <VStack spacing={10} align="stretch">
             <Flex direction="column" width="100%" mb={-15}>
-                <Introduction />
+                <VStack spacing={4} align="center" p={4} mb={1} >
+                    <Heading as="h1" size="2xl" textAlign="center">
+                        Sports Analytics and Betting jobs in {locationName}
+                    </Heading>
+                    <Text fontSize="md" textAlign="center">
+                        Search hundreds of sports analytics, engineering, data, and marketing jobs in {locationName}.
+                    </Text>
+                    <Text fontSize="md" textAlign="center">
+                        Join hundreds of people getting the latest news and content related to working in sports.
+                    </Text>
+                </VStack>
                 <Center >
                     <NewsletterSignupForm />
                 </Center>
