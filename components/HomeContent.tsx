@@ -122,7 +122,7 @@ export default function HomeContent() {
 
         const fetchFeaturedData = async () => {
             try {
-                const jobLimit = user ? 250 : 5;
+                const jobLimit = user ? 300 : 5;
                 const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
                 if (Array.isArray(fetchedJobsFeatured)) {
                     setFeaturedJobs(fetchedJobsFeatured);
@@ -144,7 +144,7 @@ export default function HomeContent() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const jobLimit = user ? 250 : 8;
+                const jobLimit = user ? 300 : 8;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
                 console.log(filters)
                 if (Array.isArray(fetchedJobs)) {
