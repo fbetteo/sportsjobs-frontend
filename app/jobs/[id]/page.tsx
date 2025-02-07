@@ -9,6 +9,8 @@ import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { redirect, notFound } from 'next/navigation';
+import SimilarJobs from '@/components/SimilarJobs';
+
 
 interface Job {
     id: string;
@@ -254,6 +256,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             Apply Now
                         </Button>
                     </Flex>
+                    <SimilarJobs currentJobId={job.id} country={job.country} />
                 </Box>
                 <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
                     <MixedPricingCard />
