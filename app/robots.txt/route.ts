@@ -5,6 +5,7 @@ export async function GET() {
   const robotsTxt = `
     User-agent: *
     Disallow: /job-details/
+    Disallow: /api/dropdown-options
     Allow: /
 
     Sitemap: https://www.sportsjobs.online/sitemap.xml
