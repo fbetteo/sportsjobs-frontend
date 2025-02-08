@@ -13,20 +13,30 @@ interface SimilarJob {
 
 interface SimilarJobsProps {
     currentJobId: string;
-    country: string;
+    country?: string;
+    filter?: string;
+    sportList?: string[];
+    seniority?: string;
 }
 
-export default async function SimilarJobs({ currentJobId, country }: SimilarJobsProps) {
-    // Fetch similar jobs using the fetchJobs utility
+export default async function SimilarJobs({ currentJobId, country, filter, sportList, seniority }: SimilarJobsProps) {
+    // Fetch jobs from the same country
     const filters = {
-        country: country
+        country: country,
+        sport: sportList,
+        seniority: seniority
     };
 
-    const jobs = await fetchJobs(4, JSON.stringify(filters));
 
-    // Filter out current job and limit to 3 jobs
-    const similarJobs = jobs
-        .filter((job: SimilarJob) => job.id !== currentJobId)
+    // Fetch more jobs to have a better pool for randomization
+    const jobs = await fetchJobs(100, JSON.stringify(filters));
+
+    // Filter out current job
+    const availableJobs = jobs.filter((job: SimilarJob) => job.id !== currentJobId);
+
+    // Randomly select 3 jobs from the available pool
+    const similarJobs = availableJobs
+        .sort(() => Math.random() - 0.5) // Randomize the order
         .slice(0, 3);
 
     if (similarJobs.length === 0) {
@@ -36,7 +46,7 @@ export default async function SimilarJobs({ currentJobId, country }: SimilarJobs
     return (
         <Box width="100%" mt={8}>
             <Heading as="h2" size="md" mb={4} color="white">
-                Similar Jobs
+                Similar Jobs by {filter}
             </Heading>
             <VStack spacing={4} align="stretch">
                 {similarJobs.map((job: SimilarJob) => (
@@ -52,7 +62,7 @@ export default async function SimilarJobs({ currentJobId, country }: SimilarJobs
                             >
                                 <Flex align="center">
                                     <Image
-                                        src={job.logo_permanent_url}
+                                        src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
                                         alt={`${job.company} logo`}
                                         boxSize="50px"
                                         objectFit="contain"

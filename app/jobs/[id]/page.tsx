@@ -256,7 +256,9 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             Apply Now
                         </Button>
                     </Flex>
-                    <SimilarJobs currentJobId={job.id} country={job.country} />
+                    <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
+                    {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
+                    <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}
                 </Box>
                 <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
                     <MixedPricingCard />
