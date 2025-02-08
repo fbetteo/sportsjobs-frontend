@@ -92,20 +92,18 @@ export function JobCard({
                         mb={4}
                         textAlign={{ base: "center", md: "left" }}
                     >
-                        {logo_permanent_url && (
-                            <Image
-                                src={logo_permanent_url}
-                                alt={`${title} logo`}
-                                boxSize="80px"
-                                objectFit="contain"
-                                mr={{ base: 0, md: 4 }}
-                                mb={{ base: 4, md: 0 }}
-                                alignSelf={{ base: "center", md: "flex-start" }}
-                                borderRadius="full"
-                                border={isFeatured ? "2px solid orange" : "none"}
-                                filter="none"
-                            />
-                        )}
+                        <Image
+                            src={logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                            alt={`${title} logo`}
+                            boxSize="80px"
+                            objectFit="contain"
+                            mr={{ base: 0, md: 4 }}
+                            mb={{ base: 4, md: 0 }}
+                            alignSelf={{ base: "center", md: "flex-start" }}
+                            borderRadius="full"
+                            border={isFeatured ? "2px solid orange" : "none"}
+                            filter="none"
+                        />
                         <Box flex="1">
                             <Text fontSize="lg" color="gray.600" fontWeight="semibold">
                                 {company}

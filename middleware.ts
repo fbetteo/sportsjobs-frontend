@@ -27,10 +27,10 @@ export async function middleware(request: NextRequest) {
           return NextResponse.redirect(`${request.nextUrl.origin}/jobs/${newId}`, 301);
         }
       }
-      return NextResponse.redirect(`${request.nextUrl.origin}/jobs`, 302);
+      return NextResponse.redirect(`${request.nextUrl.origin}`, 302);
     } catch (error) {
       console.error('Job lookup failed:', error);
-      return NextResponse.redirect(`${request.nextUrl.origin}/jobs`, 302);
+      return NextResponse.redirect(`${request.nextUrl.origin}`, 302);
     }
   }
 
