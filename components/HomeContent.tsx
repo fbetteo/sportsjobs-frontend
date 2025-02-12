@@ -41,10 +41,15 @@ interface Job {
     // ...add other job properties you need
 }
 
-export default function HomeContent() {
+interface HomeContentProps {
+    initialJobs: Job[];
+    initialFeaturedJobs: Job[];
+}
+
+export default function HomeContent({ initialJobs, initialFeaturedJobs }: HomeContentProps) {
     const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
-    const [jobs, setJobs] = useState<Job[]>([]);  // properly type the jobs state
-    const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // properly type featured jobs
+    const [jobs, setJobs] = useState<Job[]>(initialJobs);  // Initialize with server-side jobs
+    const [featuredJobs, setFeaturedJobs] = useState<Job[]>(initialFeaturedJobs); // Initialize with server-side featured jobs
     const { user, isLoading: userLoading } = useUser();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
@@ -156,11 +161,15 @@ export default function HomeContent() {
     }, [user]);
 
     useEffect(() => {
+        // Only fetch new jobs if filters change or user changes
         const fetchData = async () => {
+            if (Object.keys(filters).length === 0 && jobs.length > 0) {
+                return; // Skip initial fetch if we have jobs and no filters
+            }
+
             try {
                 const jobLimit = user ? 300 : 8;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
-                console.log(filters)
                 if (Array.isArray(fetchedJobs)) {
                     setJobs(fetchedJobs);
                     sessionStorage.setItem('jobsList', JSON.stringify({
@@ -170,7 +179,7 @@ export default function HomeContent() {
                 }
             } catch (error) {
                 console.error("Failed to fetch jobs:", error);
-                setJobs([]); // Set empty array on error
+                setJobs([]);
             }
         };
 
