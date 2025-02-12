@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import dynamic from 'next/dynamic';
 import { fetchJobs } from "../lib/fetchJobs";
 import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
 import { Box, Button, Center, Flex, HStack, VStack } from "@chakra-ui/react";
@@ -9,11 +10,24 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Introduction from './Introduction';
 import NewsletterSignupForm from "./NewsletterSignupForm";
 import UserFormPopup from "./AlertsPopupForm";
-import MixedPricingCard from "./MixedPriceCard";
-import SenjaWallOfLove from "./WallOfLove";
-import JobListFeatured from "./JobListFeatured";
-import FAQ from "./FAQ";
 import PostJobLink from './PostJobLink';
+import JobListFeatured from './JobListFeatured';
+
+// Lazy load non-critical components
+const FAQ = dynamic(() => import('./FAQ'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
+
+const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
+
+const MixedPricingCard = dynamic(() => import('./MixedPriceCard'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
 
 interface CachedData {
     data: any;
@@ -27,10 +41,15 @@ interface Job {
     // ...add other job properties you need
 }
 
-export default function HomeContent() {
+interface HomeContentProps {
+    initialJobs: Job[];
+    initialFeaturedJobs: Job[];
+}
+
+export default function HomeContent({ initialJobs, initialFeaturedJobs }: HomeContentProps) {
     const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
-    const [jobs, setJobs] = useState<Job[]>([]);  // properly type the jobs state
-    const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // properly type featured jobs
+    const [jobs, setJobs] = useState<Job[]>(initialJobs);  // Initialize with server-side jobs
+    const [featuredJobs, setFeaturedJobs] = useState<Job[]>(initialFeaturedJobs); // Initialize with server-side featured jobs
     const { user, isLoading: userLoading } = useUser();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
@@ -142,11 +161,15 @@ export default function HomeContent() {
     }, [user]);
 
     useEffect(() => {
+        // Only fetch new jobs if filters change or user changes
         const fetchData = async () => {
+            if (Object.keys(filters).length === 0 && jobs.length > 0) {
+                return; // Skip initial fetch if we have jobs and no filters
+            }
+
             try {
                 const jobLimit = user ? 300 : 8;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
-                console.log(filters)
                 if (Array.isArray(fetchedJobs)) {
                     setJobs(fetchedJobs);
                     sessionStorage.setItem('jobsList', JSON.stringify({
@@ -156,7 +179,7 @@ export default function HomeContent() {
                 }
             } catch (error) {
                 console.error("Failed to fetch jobs:", error);
-                setJobs([]); // Set empty array on error
+                setJobs([]);
             }
         };
 
@@ -184,18 +207,19 @@ export default function HomeContent() {
     };
 
     return (
-        <VStack spacing={10} align="stretch">
+        <VStack spacing={10} align="stretch" minHeight="100vh">
             <Flex direction="column" width="100%" mb={-15}>
                 <Introduction />
-                <Center >
+                <Center minHeight="150px"> {/* Reserve space for NewsletterSignupForm */}
                     <NewsletterSignupForm />
                 </Center>
-                <Center>
+                <Center minHeight="80px"> {/* Reserve space for buttons */}
                     <HStack
                         mb={10}
                         spacing={4} // Adjust spacing for better wrapping
                         flexWrap="wrap" // Allow buttons to wrap if needed
                         justify="center" // Center them when they wrap
+                        minHeight="40px"
                     >
                         <Button
                             onClick={handleOpenForm}
@@ -222,7 +246,12 @@ export default function HomeContent() {
                     <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
                 </Center>
                 <Center width="100%">
-                    <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
+                    <Box
+                        width="100%"
+                        px={4}
+                        maxW="container.lg"
+                        minHeight={{ base: "500px", md: "600px" }} /* Reserve space for job listings */
+                    >
                         <JobFilter onFilterChange={handleFilterChange} user={user} />
                         <Box mb={4}>
                             <PostJobLink />
@@ -230,10 +259,16 @@ export default function HomeContent() {
                         <JobListFeatured jobs={featuredJobs} />
                         <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
                         <div ref={pricingSectionRef}>
-                            <MixedPricingCard />
+                            <Suspense fallback={<Box minH="200px" />}>
+                                <MixedPricingCard />
+                            </Suspense>
                         </div>
-                        <FAQ />
-                        <SenjaWallOfLove />
+                        <Suspense fallback={<Box minH="200px" />}>
+                            <FAQ />
+                        </Suspense>
+                        <Suspense fallback={<Box minH="200px" />}>
+                            <SenjaWallOfLove />
+                        </Suspense>
                     </Box>
                 </Center>
             </Flex>
