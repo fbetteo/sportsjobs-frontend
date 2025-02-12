@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import dynamic from 'next/dynamic';
 import { fetchJobs } from "../lib/fetchJobs";
 import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
 import { Box, Button, Center, Flex, HStack, VStack } from "@chakra-ui/react";
@@ -9,11 +10,24 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Introduction from './Introduction';
 import NewsletterSignupForm from "./NewsletterSignupForm";
 import UserFormPopup from "./AlertsPopupForm";
-import MixedPricingCard from "./MixedPriceCard";
-import SenjaWallOfLove from "./WallOfLove";
-import JobListFeatured from "./JobListFeatured";
-import FAQ from "./FAQ";
 import PostJobLink from './PostJobLink';
+import JobListFeatured from './JobListFeatured';
+
+// Lazy load non-critical components
+const FAQ = dynamic(() => import('./FAQ'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
+
+const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
+
+const MixedPricingCard = dynamic(() => import('./MixedPriceCard'), {
+    loading: () => <Box minH="200px" />,
+    ssr: false
+});
 
 interface CachedData {
     data: any;
@@ -184,18 +198,19 @@ export default function HomeContent() {
     };
 
     return (
-        <VStack spacing={10} align="stretch">
+        <VStack spacing={10} align="stretch" minHeight="100vh">
             <Flex direction="column" width="100%" mb={-15}>
                 <Introduction />
-                <Center >
+                <Center minHeight="150px"> {/* Reserve space for NewsletterSignupForm */}
                     <NewsletterSignupForm />
                 </Center>
-                <Center>
+                <Center minHeight="80px"> {/* Reserve space for buttons */}
                     <HStack
                         mb={10}
                         spacing={4} // Adjust spacing for better wrapping
                         flexWrap="wrap" // Allow buttons to wrap if needed
                         justify="center" // Center them when they wrap
+                        minHeight="40px"
                     >
                         <Button
                             onClick={handleOpenForm}
@@ -222,7 +237,12 @@ export default function HomeContent() {
                     <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
                 </Center>
                 <Center width="100%">
-                    <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
+                    <Box
+                        width="100%"
+                        px={4}
+                        maxW="container.lg"
+                        minHeight={{ base: "500px", md: "600px" }} /* Reserve space for job listings */
+                    >
                         <JobFilter onFilterChange={handleFilterChange} user={user} />
                         <Box mb={4}>
                             <PostJobLink />
@@ -230,10 +250,16 @@ export default function HomeContent() {
                         <JobListFeatured jobs={featuredJobs} />
                         <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
                         <div ref={pricingSectionRef}>
-                            <MixedPricingCard />
+                            <Suspense fallback={<Box minH="200px" />}>
+                                <MixedPricingCard />
+                            </Suspense>
                         </div>
-                        <FAQ />
-                        <SenjaWallOfLove />
+                        <Suspense fallback={<Box minH="200px" />}>
+                            <FAQ />
+                        </Suspense>
+                        <Suspense fallback={<Box minH="200px" />}>
+                            <SenjaWallOfLove />
+                        </Suspense>
                     </Box>
                 </Center>
             </Flex>
