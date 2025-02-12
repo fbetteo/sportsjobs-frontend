@@ -195,7 +195,16 @@ async function JobDetails({ params }: { params: { id: string } }) {
             <main>
                 <Box p={5} color="white" bg="black" minHeight="100vh">
                     <Flex direction="column" align="center" justify="center" textAlign="center">
-                        <Image src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"} alt={`Logo of ${job.company}`} boxSize="100px" objectFit="contain" mb={4} />
+                        <Image
+                            src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                            alt={`Logo of ${job.company}`}
+                            width="100px"
+                            height="100px"
+                            boxSize="100px"
+                            objectFit="contain"
+                            mb={4}
+                            fallback={<Box width="100px" height="100px" bg="gray.200" />}
+                        />
                         <Heading as="h1" size="lg" mb={2}>
                             {job.title}
                         </Heading>
