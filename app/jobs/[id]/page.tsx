@@ -265,9 +265,10 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             Apply Now
                         </Button>
                     </Flex>
-                    <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
-                    {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
-                    <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}
+                    {/* Wrap the SimilarJobs component in its own Suspense */}
+                    <Suspense fallback={<Box p={4} color="white">Loading similar jobs...</Box>}>
+                        <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
+                    </Suspense>
                 </Box>
                 <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
                     <MixedPricingCard />
