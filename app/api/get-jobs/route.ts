@@ -149,14 +149,7 @@ export async function GET(req: NextRequest) {
     }));
     
 
-    return NextResponse.json(
-      { jobs },
-      {
-        headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-        },
-      }
-    );
+    return NextResponse.json({ jobs });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }

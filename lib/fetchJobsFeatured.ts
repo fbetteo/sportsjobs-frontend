@@ -5,16 +5,11 @@ const baseUrl = process.env.NODE_ENV === 'production'
 
 export async function fetchJobsFeatured(limit: number) {
     try {
-        const response = await fetch(`${baseUrl}/api/get-jobs-featured?limit=${limit}`, {
-            next: {
-                revalidate: 3600 // Cache for 1 hour
-            }
-        });
-        
+        const response = await fetch(`${baseUrl}/api/get-jobs-featured?limit=${limit}`);
         const data = await response.json();
-        return data.jobs || [];
+        return data.jobs || []; // Ensure we always return an array
     } catch (error) {
         console.error('Error fetching featured jobs:', error);
-        return [];
+        return []; // Return empty array on error
     }
 }
