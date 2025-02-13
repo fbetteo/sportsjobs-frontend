@@ -51,6 +51,11 @@ const Footer = () => {
                     Privacy Policy
                 </Link>
             </Text>
+            <Text mt={2} fontSize="sm">
+                <Link href="https://climate.stripe.com/83mJaI" color="teal.200" >
+                    Sportsjobs Online contributes revenue to removing CO2 from atmosphere
+                </Link>
+            </Text>
             <JobsByLocation /> {/* Add the new component here */}
         </Box>
 
