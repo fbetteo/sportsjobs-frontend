@@ -8,7 +8,7 @@ export async function GET() {
   ? 'https://www.sportsjobs.online' 
   : 'http://localhost:3000';
 
-  const jobs = await fetchJobs(500, JSON.stringify(""));
+  const jobs = await fetchJobs(1000, JSON.stringify(""));
   if (!Array.isArray(jobs)) {
     throw new Error('Expected jobs to be an array');
   }
