@@ -68,6 +68,7 @@ const MixedPricingCard = () => {
                 direction={{ base: "column", md: "row" }}
                 justify="space-around"
                 gap={4}
+                minH={{ base: "auto", md: "400px" }}
             >
                 {pricingPlans.map((plan, index) => (
                     <Box
@@ -77,6 +78,7 @@ const MixedPricingCard = () => {
                         borderRadius="xl"
                         textAlign="center"
                         w={{ base: "100%", md: "45%" }}
+                        h={{ base: "auto", md: "600px" }}
                         boxShadow="lg"
                         bg='gray.700'
                         transition="all 0.3s"

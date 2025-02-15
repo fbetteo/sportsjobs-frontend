@@ -25,7 +25,14 @@ const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
 });
 
 const MixedPricingCard = dynamic(() => import('./MixedPriceCard'), {
-    loading: () => <Box minH="200px" />,
+    loading: () => (
+        <Box
+            minH={{ base: "1000px", md: "800px" }}
+            width="100%"
+            bg="gray.800"
+            borderRadius="xl"
+        />
+    ),
     ssr: false
 });
 
@@ -249,11 +256,22 @@ export default function HomeContent() {
                         </Box>
                         <JobListFeatured jobs={featuredJobs} />
                         <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
-                        <div ref={pricingSectionRef}>
-                            <Suspense fallback={<Box minH="200px" />}>
+                        <Box
+                            ref={pricingSectionRef}
+                            minH={{ base: "1000px", md: "800px" }}
+                            width="100%"
+                        >
+                            <Suspense fallback={
+                                <Box
+                                    minH={{ base: "1000px", md: "800px" }}
+                                    width="100%"
+                                    bg="gray.800"
+                                    borderRadius="xl"
+                                />
+                            }>
                                 <MixedPricingCard />
                             </Suspense>
-                        </div>
+                        </Box>
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
                         </Suspense>
