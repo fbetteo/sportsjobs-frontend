@@ -35,7 +35,7 @@ const Footer = () => {
                     bg="teal.500"
                     _hover={{ bg: "teal.400" }}
                 />
-                <Link
+                {/* <Link
                     href="https://www.jobboardfinder.com/jobboard-sportsjobsonline-usa?utm_source=logo_referenced&utm_medium=logo_jobboard&utm_content=logo_referenced&utm_campaign=logo_jobboard"
                     title="JobboardFinder - Any e-recruitment media, anywhere"
                     isExternal
@@ -44,7 +44,7 @@ const Footer = () => {
                         src="https://www.jobboardfinder.com/img/logo_referenced_on_jobboard_finder_90x90.png"
                         alt="JobboardFinder - Search the best job board worldwide"
                     />
-                </Link>
+                </Link> */}
             </HStack>
             <Text mt={2} fontSize="sm">
                 <Link href="/privacy-policy" color="teal.200" >
