@@ -8,10 +8,19 @@ export async function GET() {
   ? 'https://www.sportsjobs.online' 
   : 'http://localhost:3000';
 
-  const jobs = await fetchJobs(1000, JSON.stringify(""));
+  const jobs = await fetchJobs(500, JSON.stringify(""));
   if (!Array.isArray(jobs)) {
     throw new Error('Expected jobs to be an array');
   }
+
+  // Filter jobs to only include those from the last 60 days
+  const sixtyDaysAgo = new Date();
+  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+  
+  const recentJobs = jobs.filter((job: any) => {
+    const jobDate = new Date(job.start_date);
+    return jobDate >= sixtyDaysAgo;
+  });
 
   const blogposts = await fetchBlogPosts(100, JSON.stringify(""));
   if (!Array.isArray(blogposts)) {
@@ -21,7 +30,7 @@ export async function GET() {
 
   // Define static pages
   const staticPages = ['', '/signup', '/blog'].map((route) => `${baseUrl}${route}`);
-  const jobUrls = jobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
+  const jobUrls = recentJobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
   const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);
   const allPages = [...staticPages, ...jobUrls, ...blogpostsUrls];
 

@@ -134,6 +134,7 @@ export async function GET(req: NextRequest) {
     const jobs = records.map((record: any) => ({
       id: record.job_id,
       title: record.name,
+      start_date: record.creation_date,
       company: record.company,
       description: record.description,
       location: record.location,
