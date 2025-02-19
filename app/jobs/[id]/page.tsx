@@ -4,14 +4,36 @@ import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { marked } from 'marked';
 import { addMonths, format } from 'date-fns';
 import { Box, Heading, Text, Image, Badge, HStack, Flex, Button } from '@chakra-ui/react';
-import MixedPricingCard from '@/components/MixedPriceCard';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { redirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
+import dynamic from 'next/dynamic';
 
+const SenjaWallOfLove = dynamic(() => import('@/components/WallOfLove'), {
+    loading: () => (
+        <Box
+            minH={{ base: "1000px", md: "800px" }}
+            width="100%"
+            bg="gray.800"
+            borderRadius="xl"
+        />
+    ),
+    ssr: false
+});
 
+const MixedPricingCard = dynamic(() => import('@/components/MixedPriceCard'), {
+    loading: () => (
+        <Box
+            minH={{ base: "1000px", md: "800px" }}
+            width="100%"
+            bg="gray.800"
+            borderRadius="xl"
+        />
+    ),
+    ssr: false
+});
 interface Job {
     id: string;
     title: string;
@@ -269,9 +291,26 @@ async function JobDetails({ params }: { params: { id: string } }) {
                     {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
                     <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}
                 </Box>
-                <Flex direction="column" width="100%" flexDirection="column" alignItems="center">
+                <Suspense fallback={
+                    <Box
+                        minH={{ base: "1000px", md: "800px" }}
+                        width="100%"
+                        bg="gray.800"
+                        borderRadius="xl"
+                    />
+                }>
                     <MixedPricingCard />
-                </Flex>
+                </Suspense>
+                <Suspense fallback={
+                    <Box
+                        minH={{ base: "1000px", md: "800px" }}
+                        width="100%"
+                        bg="gray.800"
+                        borderRadius="xl"
+                    />
+                }>
+                    <SenjaWallOfLove />
+                </Suspense>
             </main>
         </>
     );
