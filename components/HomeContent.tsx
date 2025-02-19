@@ -20,7 +20,14 @@ const FAQ = dynamic(() => import('./FAQ'), {
 });
 
 const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
-    loading: () => <Box minH="200px" />,
+    loading: () => (
+        <Box
+            minH={{ base: "1000px", md: "800px" }}
+            width="100%"
+            bg="gray.800"
+            borderRadius="xl"
+        />
+    ),
     ssr: false
 });
 
@@ -275,7 +282,14 @@ export default function HomeContent() {
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
                         </Suspense>
-                        <Suspense fallback={<Box minH="200px" />}>
+                        <Suspense fallback={
+                            <Box
+                                minH={{ base: "1000px", md: "800px" }}
+                                width="100%"
+                                bg="gray.800"
+                                borderRadius="xl"
+                            />
+                        }>
                             <SenjaWallOfLove />
                         </Suspense>
                     </Box>
