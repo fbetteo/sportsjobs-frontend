@@ -6,6 +6,9 @@ export default function JobsByLocation() {
             <Text fontWeight="bold" fontSize="lg" mb={3}>Jobs by location</Text>
             <VStack align="start" spacing={2} color="gray.300">
                 <Link href="/country/united-states">United States</Link>
+                <Link href="/country/canada">Canada</Link>
+                <Link href="/country/united-kingdom">United Kingdom</Link>
+                <Link href="/country/india">India</Link>
             </VStack>
         </Box>
     );
