@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Script from "next/script";
+import PromotekitScript from '@/components/PromotekitScript'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,15 +60,7 @@ export default function RootLayout({
             `,
           }}
         />
-        <Script
-          src="https://cdn.promotekit.com/promotekit.js"
-          data-promotekit="7247f082-1ade-46c5-8f50-8a0c1edba365"
-          strategy="lazyOnload"  // Changed from afterInteractive for better performance
-          onLoad={() => {
-            console.log('Promotekit script loaded')
-            console.log('Referral ID:', (window as any).promotekit_referral)
-          }}
-        />
+        <PromotekitScript />
         {/* <link rel="canonical" href="https://www.sportsjobs.online" /> */}
       </head>
       <body className={inter.className}>
