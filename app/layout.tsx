@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Script from "next/script";
+import PromotekitScript from '@/components/PromotekitScript'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <PromotekitScript />
         {/* <link rel="canonical" href="https://www.sportsjobs.online" /> */}
       </head>
       <body className={inter.className}>

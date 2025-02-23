@@ -24,6 +24,7 @@ Logo.displayName = 'Logo';
 const BrowseJobsButton = memo(() => (
   <Link href="/" passHref>
     <Button
+      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
       mr={{ base: 2, md: 5 }}
@@ -40,6 +41,7 @@ BrowseJobsButton.displayName = 'BrowseJobsButton';
 const BlogButton = memo(() => (
   <Link href="/blog" passHref>
     <Button
+      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
       mr={{ base: 2, md: 5 }}
@@ -51,6 +53,22 @@ const BlogButton = memo(() => (
 ));
 
 BlogButton.displayName = 'BlogButton';
+
+// Memoized Affiliates Button
+const AffiliatesButton = memo(() => (
+  <Link href="/affiliates" passHref>
+    <Button
+      colorScheme="purple"
+      bg="black"
+      mr={{ base: 2, md: 5 }}
+      size={{ base: 'sm', md: 'md' }}
+    >
+      Affiliates
+    </Button>
+  </Link>
+));
+
+AffiliatesButton.displayName = 'AffiliatesButton';
 
 const Header = () => {
   const router = useRouter();
@@ -68,6 +86,7 @@ const Header = () => {
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
+            <AffiliatesButton />
             <Menu>
               <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                 <Avatar size="sm" src={user.picture ?? ""} />
@@ -86,6 +105,7 @@ const Header = () => {
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
+            <AffiliatesButton />
             <Link href="/api/auth/login" passHref>
               <Button
                 colorScheme="gray.700"
