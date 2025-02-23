@@ -1,6 +1,7 @@
 import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Link as ChakraLink, Badge } from "@chakra-ui/react";
 import Link from 'next/link';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
+import { encodeJobId } from '@/utils/jobIdEncoder';
 
 interface JobCardProps {
     id: string;
@@ -35,10 +36,18 @@ export function JobCard({
     scrollToPricing,
     url
 }: JobCardProps) {
-    // const isLinkedInUrl = url?.includes("linkedin.com");
+    // Only encode IDs greater than this threshold
+    const ENCODING_START_ID = 7485; // Adjust this number as needed
+
+    const shouldEncodeId = () => {
+        const numericId = parseInt(id, 10);
+        return numericId >= ENCODING_START_ID;
+    };
+
+    const displayId = shouldEncodeId() ? encodeJobId(parseInt(id, 10)) : id;
+
     return (
-        // <Link href={isLinkedInUrl && url ? url : `/jobs/${id}`} passHref> 
-        <Link href={`/jobs/${id}`} passHref>
+        <Link href={`/jobs/${displayId}`} passHref>
             <ChakraLink _hover={{ textDecoration: 'none' }}
                 onClick={(e) => {
                     // if (!user && !isFeatured) {
