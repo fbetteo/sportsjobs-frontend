@@ -39,6 +39,7 @@ const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isP
         transition="transform 0.2s"
         _hover={{ transform: 'translateY(-8px)' }}
         boxShadow={isPopular ? '0 4px 20px rgba(0,0,0,0.3)' : '0 2px 10px rgba(0,0,0,0.1)'}
+
     >
         {isPopular && (
             <Box
@@ -135,6 +136,20 @@ const SignupPage = () => {
                     </VStack>
                 </Box>
 
+                <Box
+                    p={4}
+                    bg="gray.700"
+                    borderRadius="xl"
+                    textAlign="center"
+                    width="full"
+                    mb={8}
+                >
+                    <Text fontSize="lg" color="green.300" fontWeight="bold">
+                        🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
+                    </Text>
+                </Box>
+
+
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
                         title="Lifetime Access"
@@ -184,6 +199,7 @@ const SignupPage = () => {
                         onSubscribe={(priceId) => handleSubscribe(priceId)}
                     />
                 </SimpleGrid>
+
 
                 <WallOfLove />
                 <FAQ />

@@ -64,6 +64,17 @@ const MixedPricingCard = () => {
                     Daily updates and notifications based on your preferences
                 </ListItem>
             </List>
+            <Box
+                p={4}
+                bg="gray.700"
+                borderRadius="xl"
+                textAlign="center"
+                mb={8}
+            >
+                <Text fontSize="lg" color="green.300" fontWeight="bold">
+                    🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
+                </Text>
+            </Box>
             <Flex
                 direction={{ base: "column", md: "row" }}
                 justify="space-around"

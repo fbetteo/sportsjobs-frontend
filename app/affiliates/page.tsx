@@ -88,7 +88,7 @@ const AffiliatePage = () => {
                         <Icon as={FaUserCheck} w={10} h={10} color="purple.400" />
                         <Heading size="md" textAlign="center">Somebody signs up</Heading>
                         <Text textAlign="center">
-                            Someone clicks your link and buys a subscription. They're tracked to you, and you get 30% for life.
+                            Someone clicks your link and buys a subscription. They&apos;re tracked to you, and you get 30% for life.
                         </Text>
                     </VStack>
 
