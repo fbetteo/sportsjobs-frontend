@@ -59,6 +59,11 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          src="https://cdn.promotekit.com/promotekit.js"
+          data-promotekit="7247f082-1ade-46c5-8f50-8a0c1edba365"
+          strategy="lazyOnload"  // Changed from afterInteractive for better performance
+        />
         {/* <link rel="canonical" href="https://www.sportsjobs.online" /> */}
       </head>
       <body className={inter.className}>
