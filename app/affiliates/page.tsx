@@ -103,7 +103,7 @@ const AffiliatePage = () => {
                         <Icon as={FaMoneyCheckAlt} w={10} h={10} color="purple.400" />
                         <Heading size="md" textAlign="center">Earn $$$</Heading>
                         <Text textAlign="center">
-                            Check in any time to see how many customers you've referred, and redeem your payments with one click.
+                            Check in any time to see how many customers you&apos;ve referred, and redeem your payments with one click.
                         </Text>
                     </VStack>
                 </SimpleGrid>
