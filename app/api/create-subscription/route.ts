@@ -16,7 +16,7 @@ const getBaseUrl = (req: NextRequest) => {
 
 export async function POST(req: NextRequest) {
     try {
-        const { priceId } = await req.json();
+        const { priceId, referral } = await req.json();
 
         if (!priceId) {
             return NextResponse.json(
@@ -39,7 +39,8 @@ export async function POST(req: NextRequest) {
             success_url: new URL('/signup/success?session_id={CHECKOUT_SESSION_ID}', baseUrl).toString(),
             cancel_url: new URL('/signup?canceled=true', baseUrl).toString(),
             metadata: {
-                priceId
+                priceId,
+                promotekit_referral: referral || ''
             }
         });
 

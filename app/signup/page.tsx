@@ -94,7 +94,8 @@ const SignupPage = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     priceId,
-                    mode: isLifetime ? 'payment' : 'subscription'
+                    mode: isLifetime ? 'payment' : 'subscription',
+                    referral: (window as any).promotekit_referral || null
                 }),
             });
 
