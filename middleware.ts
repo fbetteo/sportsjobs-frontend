@@ -6,6 +6,10 @@ import { fetchBlogPosts } from './lib/fetchBlogPosts';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname === '/member-plan') {
+    return NextResponse.redirect(`${request.nextUrl.origin}/signup`, 301);
+  }
+
   const oldJobIdMatch = pathname.match(/^\/jobs\/(rec[A-Za-z0-9]{14,17})/);
   const oldBlogIdMatch = pathname.match(/^\/blogposts\/(rec[A-Za-z0-9]{14,17})/);
   console.log('Pathname:', pathname);
@@ -65,5 +69,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/jobs/:path*', '/blogposts/:path*'],
+  matcher: ['/jobs/:path*', '/blogposts/:path*', '/member-plan'],
 };
