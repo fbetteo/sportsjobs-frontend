@@ -29,6 +29,7 @@
     "next-auth": "^4.24.7",
     "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
+    "posthog-js": "^1.223.5",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
