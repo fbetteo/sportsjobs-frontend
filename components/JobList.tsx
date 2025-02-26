@@ -8,10 +8,11 @@ import { JobCard } from './JobCard';
 interface JobListProps {
     jobs: any[];
     user: UserProfile | undefined;
+    free_job_limit?: number;
     scrollToPricing: () => void;
 }
-const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
-    const FREE_JOB_LIMIT = 3; // Number of jobs to show unblurred for non-logged in users
+const JobList: React.FC<JobListProps> = ({ jobs, user, free_job_limit = 3, scrollToPricing }) => {
+    //  free_job_limit Number of jobs to show unblurred for non-logged in users
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -53,10 +54,10 @@ const JobList: React.FC<JobListProps> = ({ jobs, user, scrollToPricing }) => {
                     key={job.id}
                     width="100%"
                     justifyContent="center" // Center the JobCard within the ListItem
-                    opacity={!user && index >= FREE_JOB_LIMIT ? 0.7 : 1}
+                    opacity={!user && index >= free_job_limit ? 0.7 : 1}
                     position="relative"
                 >
-                    {!user && index >= FREE_JOB_LIMIT && (
+                    {!user && index >= free_job_limit && (
                         <Box
                             position="absolute"
                             top={0}

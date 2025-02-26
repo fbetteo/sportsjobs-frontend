@@ -1,5 +1,5 @@
 // components/Footer.tsx
-import { Box, Text, Link, HStack, IconButton, Image, Flex } from '@chakra-ui/react';
+import { Box, Text, Link, HStack, IconButton, Grid, VStack } from '@chakra-ui/react';
 import { FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 import JobsByLocation from './JobsByLocation'; // Import the new component
@@ -56,7 +56,19 @@ const Footer = () => {
                     Sportsjobs Online contributes revenue to removing CO2 from atmosphere
                 </Link>
             </Text>
-            <JobsByLocation /> {/* Add the new component here */}
+            <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6} mt={10} px={5}>
+                <JobsByLocation />
+
+                <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
+                    <Text fontWeight="bold" fontSize="lg" mb={3}>Companies</Text>
+                    <VStack align="start" spacing={2} color="gray.300">
+                        <Link href="/company-jobs">Browse All Companies</Link>
+                        {/* <Link href="/top-companies">Top Hiring Companies</Link>
+                        <Link href="/remote-companies">Companies Hiring Remote</Link>
+                        <Link href="/tech-companies">Sports Tech Companies</Link> */}
+                    </VStack>
+                </Box>
+            </Grid>
         </Box>
 
     );
