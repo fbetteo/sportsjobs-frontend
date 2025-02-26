@@ -10,8 +10,7 @@ export async function GET(req: NextRequest) {
         'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
       },
       body: JSON.stringify({
-        sort_by: "company_name",
-        sort_direction: "asc"
+        
       }),
     });
 
