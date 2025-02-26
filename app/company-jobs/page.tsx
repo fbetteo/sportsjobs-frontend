@@ -1,22 +1,43 @@
+'use client';
+import { useState, useEffect, useRef } from "react";
 import { Box, Container, Heading, SimpleGrid, LinkBox, LinkOverlay, Text, Alert, AlertIcon } from '@chakra-ui/react';
 import { fetchCompanies } from '@/lib/fetchCompanies';
 
-export async function generateMetadata() {
-    return {
-        title: 'Sports Industry Companies - SportsJobs Online',
-        description: 'Browse companies hiring in sports analytics, data science, and software engineering. Find your next career opportunity in the sports industry.',
-        keywords: 'sports companies, sports employers, sports industry jobs, sports analytics companies',
-    };
-}
+// export async function generateMetadata() {
+//     return {
+//         title: 'Sports Industry Companies - SportsJobs Online',
+//         description: 'Browse companies hiring in sports analytics, data science, and software engineering. Find your next career opportunity in the sports industry.',
+//         keywords: 'sports companies, sports employers, sports industry jobs, sports analytics companies',
+//     };
+// }
 
 interface Company {
     company: string;
     count: number;
 }
 
-export default async function CompaniesPage() {
+export default function CompaniesPage() {
+    const [companies, setCompanies] = useState<Company[]>([]);
 
-    const companies = await fetchCompanies();
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedCompanies = await fetchCompanies();
+                if (Array.isArray(fetchedCompanies)) {
+                    setCompanies(fetchedCompanies);
+                    sessionStorage.setItem('companiesList', JSON.stringify({
+                        data: fetchedCompanies,
+                        timestamp: Date.now()
+                    }));
+                }
+            } catch (error) {
+                console.error("Failed to fetch jobs:", error);
+                setCompanies([]); // Set empty array on error
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Container maxW="container.xl" py={8}>
