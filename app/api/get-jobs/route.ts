@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get('limit') || '5', 10);
   const country = searchParams.get('country');
+  const company = searchParams.get('company');
   const remote = searchParams.get('remote');
   const seniority = searchParams.get('seniority');
   const industry = searchParams.get('industry');
@@ -44,7 +45,8 @@ export async function GET(req: NextRequest) {
   if (sport) filters.sport_list = sport;
   if (job_area) filters.job_area = job_area;
   if (airtable_id) filters.airtable_id = airtable_id;
-  
+  if (company) filters.company = company;
+
   const requestBody = {
     limit,
     filters: Object.keys(filters).length > 0 ? filters : null,

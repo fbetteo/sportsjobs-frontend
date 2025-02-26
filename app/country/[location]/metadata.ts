@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: { location: string 
         openGraph: {
             title: `Sports Analytics Jobs in ${location}`,
             description: `Find sports analytics and data jobs in ${location}`, 
-            url: `https://www.sportsjobs.online/${params.location}`,
+            url: `https://www.sportsjobs.online/country/${params.location}`,
             siteName: 'SportsJobs Online',
             images: [{
                 url: 'https://sportsjobs.online/og-image.png',
