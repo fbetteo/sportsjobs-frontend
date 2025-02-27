@@ -1,6 +1,21 @@
 import { NextResponse } from 'next/server';
 import { fetchJobs } from '../../lib/fetchJobs';
 import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
+import { fetchCompanies } from '@/lib/fetchCompanies';
+
+// Add this helper function at the top of the file, after the imports
+function escapeXml(unsafe: string): string {
+  return unsafe.replace(/[<>&'"]/g, (c) => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case "'": return '&apos;';
+      case '"': return '&quot;';
+      default: return c;
+    }
+  });
+}
 
 export async function GET() {
   // Use the correct base URL depending on your environment
@@ -27,12 +42,20 @@ export async function GET() {
     throw new Error('Expected blogposts to be an array');
   }
 
+  // Fetch companies
+  const companies = await fetchCompanies();
+  if (!Array.isArray(companies)) {
+    throw new Error('Expected companies to be an array');
+  }
 
   // Define static pages
-  const staticPages = ['', '/signup', '/blog'].map((route) => `${baseUrl}${route}`);
+  const staticPages = ['', '/signup', '/blog', '/company-jobs'].map((route) => `${baseUrl}${route}`);
   const jobUrls = recentJobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
   const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);
-  const allPages = [...staticPages, ...jobUrls, ...blogpostsUrls];
+  const companyUrls = companies.map((company: any) => 
+    `${baseUrl}/company/${company.company.toLowerCase().replace(/\s+/g, '-')}`
+  );
+  const allPages = [...staticPages, ...jobUrls, ...blogpostsUrls, ...companyUrls];
 
   // Generate sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -41,7 +64,7 @@ export async function GET() {
         .map((url) => {
           return `
             <url>
-              <loc>${url}</loc>
+               <loc>${escapeXml(url)}</loc>
               <changefreq>weekly</changefreq>
               <priority>0.7</priority>
             </url>
