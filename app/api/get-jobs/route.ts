@@ -134,7 +134,8 @@ export async function GET(req: NextRequest) {
     //   }));
 
     const jobs = records.map((record: any) => ({
-      id: record.job_id,
+      id: record.slug || record.job_id, // Prefer slug if available
+      job_id: record.job_id, // Keep original ID for reference
       title: record.name,
       start_date: record.creation_date,
       company: record.company,
@@ -149,6 +150,7 @@ export async function GET(req: NextRequest) {
       remote_office: record.remote_office,
       days_ago_text: getDaysAgoText(record.creation_date),
       url: record.url,
+      slug: record.slug,
     }));
     
 

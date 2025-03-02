@@ -51,7 +51,8 @@ export async function GET(req: NextRequest) {
     const records = await response.json();
 
     const jobs = records.map((record: any) => ({
-      id: record.job_id,
+      id: record.slug || record.job_id, // Prefer slug if available
+      job_id: record.job_id, // Keep original ID for reference
       title: record.name,
       company: record.company,
       description: record.description,

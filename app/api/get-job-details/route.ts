@@ -19,7 +19,12 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const job_id_param = searchParams.get('id') ?? '';
 
-  const filters = { job_id: job_id_param};
+  // Determine if it's a numeric ID or a slug
+  const isNumeric = /^\d+$/.test(job_id_param);
+
+  const filters = isNumeric 
+  ? { job_id: job_id_param } 
+  : { slug: job_id_param };
 
   const requestBody = {
     limit: 1,
@@ -55,6 +60,15 @@ export async function GET(req: NextRequest) {
 
     const record = data[0];
 
+      // Security check: If job has a slug but user accessed via numeric ID, redirect or reject
+    if (isNumeric && record.slug && record.slug.trim() !== '') {
+      // Option 1: Redirect to the slug URL
+      // return NextResponse.redirect(`/jobs/${record.slug}`);
+      
+      // Option 2: Return 404 to hide existence of the job via numeric ID
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
+    }
+
     const job = {
       id: record.job_id,
       title: record.name,
@@ -76,6 +90,7 @@ export async function GET(req: NextRequest) {
       industry: record.industry,
       job_area: record.job_area,
       apply_url: record.url,
+      slug: record.slug,
   };
 
     return NextResponse.json({ job });
