@@ -63,7 +63,7 @@ const AffiliatesButton = memo(() => (
       mr={{ base: 2, md: 5 }}
       size={{ base: 'sm', md: 'md' }}
     >
-      Affiliates
+      Earn $
     </Button>
   </Link>
 ));
