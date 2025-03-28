@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
                         (session.metadata?.priceId === process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID ? 'monthly_subscription' : 'yearly_subscription');
 
         // Create Airtable record
-        await createAirtableRecord(name, email, planType);
+        // await createAirtableRecord(name, email, planType);
 
         return NextResponse.json({ success: true });
     } catch (error) {
