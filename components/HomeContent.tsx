@@ -217,23 +217,24 @@ export default function HomeContent() {
                 <Introduction />
                 <Center minHeight="150px"> {/* Reserve space for NewsletterSignupForm */}
                     <NewsletterSignupForm />
-                </Center>
-                <Center minHeight="80px"> {/* Reserve space for buttons */}
+                </Center>                <Center minHeight="80px"> {/* Reserve space for buttons */}
                     <HStack
                         mb={10}
-                        spacing={4} // Adjust spacing for better wrapping
-                        flexWrap="wrap" // Allow buttons to wrap if needed
-                        justify="center" // Center them when they wrap
+                        spacing={4}
+                        justify="center"
                         minHeight="40px"
                     >
                         <Button
                             onClick={handleOpenForm}
                             colorScheme="purple"
-                            w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
+                            w={{ base: "90%", md: "auto" }}
+                            px={6}
+                            py={5}
+                            fontSize={{ base: "x-small", md: "small" }}
                         >
                             🔔 Receive Emails For New Jobs
                         </Button>
-                        <Button
+                        {/* <Button
                             as="a"
                             href="https://applyall.com/?ref=sportsjobs"
                             target="_blank"
@@ -246,7 +247,7 @@ export default function HomeContent() {
                             <Box display={{ base: 'block', md: 'none' }}>
                                 📝 Auto-Apply with AI
                             </Box>
-                        </Button>
+                        </Button> */}
                     </HStack>
                     <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} />
                 </Center>
