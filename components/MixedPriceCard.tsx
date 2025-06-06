@@ -75,6 +75,36 @@ const MixedPricingCard = () => {
                     🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
                 </Text>
             </Box>
+
+            {/* Price increase banner */}
+            <Box
+                p={4}
+                bg="red.700"
+                borderRadius="xl"
+                textAlign="center"
+                mb={8}
+                borderWidth="2px"
+                borderColor="red.500"
+                animation="pulse 2s infinite"
+                sx={{
+                    "@keyframes pulse": {
+                        "0%": { opacity: 0.8 },
+                        "50%": { opacity: 1 },
+                        "100%": { opacity: 0.8 }
+                    }
+                }}
+            >
+                <Text fontSize="xl" color="white" fontWeight="bold">
+                    ⚠️ LIMITED TIME OFFER: Prices will increase in June 9th week!
+                </Text>
+                <Text fontSize="md" color="white" mt={1}>
+                    Lock in our current rates before the upcoming price change.
+                </Text>
+                <Text fontSize="md" color="white" mt={1}>
+                    We are working  hard to bring you more opportunities, more help getting jobs and more features in general.
+                </Text>
+            </Box>
+
             <Flex
                 direction={{ base: "column", md: "row" }}
                 justify="space-around"
