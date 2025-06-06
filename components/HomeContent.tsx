@@ -12,6 +12,7 @@ import NewsletterSignupForm from "./NewsletterSignupForm";
 import UserFormPopup from "./AlertsPopupForm";
 import PostJobLink from './PostJobLink';
 import JobListFeatured from './JobListFeatured';
+import FeaturedCompanies from './FeaturedCompanies';
 
 // Lazy load non-critical components
 const FAQ = dynamic(() => import('./FAQ'), {
@@ -146,9 +147,7 @@ export default function HomeContent() {
                 setDropwdownOptions(sortedOptions);
                 localStorage.setItem('dropdownOptions', JSON.stringify(sortedOptions));
             }
-        };
-
-        const fetchFeaturedData = async () => {
+        }; const fetchFeaturedData = async () => {
             try {
                 const jobLimit = user ? 300 : 5;
                 const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
@@ -164,6 +163,7 @@ export default function HomeContent() {
                 setFeaturedJobs([]); // Set empty array on error
             }
         };
+
 
         getOptions();
         fetchFeaturedData();
@@ -257,11 +257,11 @@ export default function HomeContent() {
                         px={4}
                         maxW="container.lg"
                         minHeight={{ base: "500px", md: "600px" }} /* Reserve space for job listings */
-                    >
-                        <JobFilter onFilterChange={handleFilterChange} user={user} />
+                    >                        <JobFilter onFilterChange={handleFilterChange} user={user} />
                         <Box mb={4}>
                             <PostJobLink />
                         </Box>
+                        <FeaturedCompanies />
                         <JobListFeatured jobs={featuredJobs} />
                         <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
                         <Box

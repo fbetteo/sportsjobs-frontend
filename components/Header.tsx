@@ -41,7 +41,7 @@ BrowseJobsButton.displayName = 'BrowseJobsButton';
 const BlogButton = memo(() => (
   <Link href="/blog" passHref>
     <Button
-      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
+      // display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
       mr={{ base: 2, md: 5 }}
@@ -54,10 +54,28 @@ const BlogButton = memo(() => (
 
 BlogButton.displayName = 'BlogButton';
 
+// Memoized Advertise Button
+const AdvertiseButton = memo(() => (
+  <Link href="/advertise" passHref>
+    <Button
+      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
+      colorScheme="purple"
+      bg="black"
+      mr={{ base: 2, md: 5 }}
+      size={{ base: 'sm', md: 'md' }}
+    >
+      Advertise
+    </Button>
+  </Link>
+));
+
+AdvertiseButton.displayName = 'AdvertiseButton';
+
 // Memoized Affiliates Button
 const AffiliatesButton = memo(() => (
   <Link href="/affiliates" passHref>
     <Button
+      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
       mr={{ base: 2, md: 5 }}
@@ -81,11 +99,11 @@ const Header = () => {
     <Box bg="black" color="white" px={4} py={2}>
       <Flex justify="space-between" align="center" wrap="wrap">
         <Logo />
-        {/* Menu for logged-in users */}
-        {user ? (
+        {/* Menu for logged-in users */}        {user ? (
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
+            <AdvertiseButton />
             <AffiliatesButton />
             <Menu>
               <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
@@ -105,6 +123,7 @@ const Header = () => {
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
             <BlogButton />
+            <AdvertiseButton />
             <AffiliatesButton />
             <Link href="/api/auth/login" passHref>
               <Button

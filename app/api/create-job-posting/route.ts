@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Calculate total price
-        let totalAmount = 199; // Base price: $199
+        let totalAmount = 50; // Base price: $50
         if (jobData.companyLogo) totalAmount += 49; // Updated logo price
 
         // Clean job data before sending to Stripe

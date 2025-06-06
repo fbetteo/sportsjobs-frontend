@@ -191,7 +191,7 @@ const PostJobPage = () => {
     };
 
     const calculateTotal = () => {
-        let total = 199; // Base price
+        let total = 50; // Base price
         if (formData.companyLogo) total += 49; // Logo price
         return total;
     };
