@@ -48,6 +48,20 @@ const FeaturedCompanies = () => {
         }
     ];
 
+    const trackCompanyClick = (companyName: string, companySlug: string, position: number) => {
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'company_click', {
+                event_category: 'engagement',
+                event_label: companyName,
+                company_name: companyName,
+                company_slug: companySlug,
+                section: 'featured_companies',
+                position: position + 1,
+                value: 1
+            });
+        }
+    };
+
     if (!companies || companies.length === 0) {
         return null;
     }
@@ -78,11 +92,12 @@ const FeaturedCompanies = () => {
                     }}
                     gap={4}
                 >
-                    {companies.slice(0, 4).map((company) => (
+                    {companies.slice(0, 4).map((company, index) => (
                         <Box
                             key={company.id}
                             as={NextLink}
                             href={`/company/${company.slug}`}
+                            onClick={() => trackCompanyClick(company.name, company.slug, index)}
                             p={6}
                             bg="gray.700"
                             borderRadius="xl"
