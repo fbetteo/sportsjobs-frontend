@@ -153,7 +153,7 @@ const SignupPage = () => {
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
                         title="Lifetime Access"
-                        price="$43.00"
+                        price="$59"
                         period="one-time payment"
                         features={[
                             '🌟 One-time payment, lifetime access',
@@ -171,7 +171,7 @@ const SignupPage = () => {
                         price="$29.99"
                         period="per year"
                         features={[
-                            '🏆 Save 50% compared to monthly',
+                            '🏆 Save 64% compared to monthly',
                             '💼 Unlimited access to all job posts',
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
@@ -182,10 +182,9 @@ const SignupPage = () => {
                         priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId)}
                         isPopular={true}
-                    />
-                    <PricingCard
+                    />                    <PricingCard
                         title="Monthly Plan"
-                        price="$4.99"
+                        price="$6.99"
                         period="per month"
                         features={[
                             '🤸‍♂️ Flexible for short time job hunting',
