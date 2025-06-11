@@ -18,14 +18,14 @@ const AdvertisePage = () => {
         {
             title: "Advertise your product",
             price: "$99 per month",
-            description: "Highlight your company in the homepage.\n\nAdvertise your product to our niche audience of sports analytics and software professionals.",
+            description: "Highlight your company in the homepage. \n\nGet promoted in one newsletter edition (top and main section of the newsletter) \n\nAdvertise your product to our niche audience of sports analytics and software professionals.",
             buttonText: "Email us",
             buttonColor: "blue",
             buttonLink: "mailto:franco@sportsjobs.online?subject=Product Advertisement Inquiry"
         },
         {
             title: "Highlight your company",
-            price: "$349 per month",
+            price: "$250 per month",
             description: "* Unlimited job posts.\n* Highlight your company in the homepage.\n* Feature your jobs posts in the website and newsletter.\n* Get promoted in LinkedIn.\n* Reach thousands of professionals in the sports industry.",
             buttonText: "Email us to get all the details",
             buttonColor: "teal",
@@ -174,6 +174,72 @@ const AdvertisePage = () => {
                         </Box>
                         ))}
                     </Grid>
+
+                    {/* Website Statistics */}
+                    <Box
+                        w="full"
+                        py={10}
+                        px={6}
+                        bg="purple.900"
+                        borderRadius="xl"
+                        maxW="6xl"
+                    >
+                        <VStack spacing={6} align="center" mb={8}>
+                            <Heading as="h3" size="xl">
+                                Our Reach
+                            </Heading>
+                            <Text fontSize="lg" maxW="3xl" textAlign="center">
+                                SportsJobs Online connects your brand with an engaged community of sports industry professionals
+                            </Text>
+                        </VStack>
+
+                        <Grid
+                            templateColumns={{ base: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr 1fr 1fr" }}
+                            gap={8}
+                            textAlign="center"
+                        >
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                    2,000+
+                                </Text>
+                                <Text fontSize="md">
+                                    Monthly Unique Visitors
+                                </Text>
+                            </VStack>
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                    5,000+
+                                </Text>
+                                <Text fontSize="md">
+                                    Monthly Page Views
+                                </Text>
+                            </VStack>
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                    1,000+
+                                </Text>
+                                <Text fontSize="md">
+                                    Newsletter Subscribers
+                                </Text>
+                            </VStack>
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                    63%
+                                </Text>
+                                <Text fontSize="md">
+                                    Newsletter Open Rate
+                                </Text>
+                            </VStack>
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                    12%
+                                </Text>
+                                <Text fontSize="md">
+                                    Average Click-through Rate
+                                </Text>
+                            </VStack>
+                        </Grid>
+                    </Box>
 
                     {/* Additional Info */}
                     <VStack spacing={4} textAlign="center" maxW="2xl">
