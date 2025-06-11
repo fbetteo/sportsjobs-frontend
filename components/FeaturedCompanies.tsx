@@ -9,6 +9,7 @@ interface FeaturedCompany {
     tagline?: string;
     logo_url?: string;
     job_count?: number;
+    external_url?: string; // For companies that redirect to external sites
 }
 
 const FeaturedCompanies = () => {
@@ -21,14 +22,14 @@ const FeaturedCompanies = () => {
             tagline: 'Get every sports story that matters.',
             logo_url: 'https://lever-client-logos.s3.us-west-2.amazonaws.com/8ff13c41-d891-40d4-b9d8-de9c995ff06f-1600385441351.png', // Add your logo URL here
             job_count: 5
-        },
-        {
+        }, {
             id: '2',
             name: 'Brooks Running',
             slug: 'Brooks-Running',
             tagline: 'Shop runner favorites',
-            logo_url: 'https://lever-client-logos.s3.amazonaws.com/f0a2961a-09a7-412e-9b8f-0d186769bc1a-1501529042183.png', // Add your logo URL here
-            job_count: 3
+            logo_url: 'https://lever-client-logos.s3.amazonaws.com/f0a2961a-09a7-412e-9b8f-0d186769bc1a-1501529042183.png',
+            job_count: 3,
+            external_url: 'https://www.brooksrunning.com/' // Redirects to external site
         },
         {
             id: '3',
@@ -46,9 +47,7 @@ const FeaturedCompanies = () => {
             logo_url: 'https://play-lh.googleusercontent.com/dDjFtNHe0GExF_0ldvkanmLP3MR3khTepvsn_HrlwsKX7-50itYY3YT1ohxsvmyhcg', // Add your logo URL here
             job_count: 2
         }
-    ];
-
-    const trackCompanyClick = (companyName: string, companySlug: string, position: number) => {
+    ]; const trackCompanyClick = (companyName: string, companySlug: string, position: number, isExternal: boolean = false) => {
         if (typeof window !== 'undefined' && (window as any).gtag) {
             (window as any).gtag('event', 'company_click', {
                 event_category: 'engagement',
@@ -57,6 +56,7 @@ const FeaturedCompanies = () => {
                 company_slug: companySlug,
                 section: 'featured_companies',
                 position: position + 1,
+                click_type: isExternal ? 'external' : 'internal',
                 value: 1
             });
         }
@@ -91,13 +91,17 @@ const FeaturedCompanies = () => {
                         lg: "repeat(4, 1fr)"
                     }}
                     gap={4}
-                >
-                    {companies.slice(0, 4).map((company, index) => (
+                >                    {companies.slice(0, 4).map((company, index) => {
+                    const isExternal = !!company.external_url;
+                    const href = isExternal ? company.external_url! : `/company/${company.slug}`;
+
+                    return (
                         <Box
                             key={company.id}
-                            as={NextLink}
-                            href={`/company/${company.slug}`}
-                            onClick={() => trackCompanyClick(company.name, company.slug, index)}
+                            as={isExternal ? 'a' : NextLink}
+                            href={href}
+                            {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+                            onClick={() => trackCompanyClick(company.name, company.slug, index, isExternal)}
                             p={6}
                             bg="gray.700"
                             borderRadius="xl"
@@ -174,7 +178,8 @@ const FeaturedCompanies = () => {
                                 )} */}
                             </VStack>
                         </Box>
-                    ))}
+                    )
+                })}
                 </Grid>
             </VStack>
         </Box>
