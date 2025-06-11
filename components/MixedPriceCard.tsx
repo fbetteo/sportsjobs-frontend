@@ -77,7 +77,7 @@ const MixedPricingCard = () => {
             </Box>
 
             {/* Price increase banner */}
-            <Box
+            {/* <Box
                 p={4}
                 bg="red.700"
                 borderRadius="xl"
@@ -103,7 +103,7 @@ const MixedPricingCard = () => {
                 <Text fontSize="md" color="white" mt={1}>
                     We are working  hard to bring you more opportunities, more help getting jobs and more features in general.
                 </Text>
-            </Box>
+            </Box> */}
 
             <Flex
                 direction={{ base: "column", md: "row" }}
