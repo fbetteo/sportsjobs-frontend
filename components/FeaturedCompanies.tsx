@@ -17,11 +17,12 @@ const FeaturedCompanies = () => {
     const companies: FeaturedCompany[] = [
         {
             id: '1',
-            name: 'The Athletic',
-            slug: 'the-athletic',
-            tagline: 'Get every sports story that matters.',
-            logo_url: 'https://lever-client-logos.s3.us-west-2.amazonaws.com/8ff13c41-d891-40d4-b9d8-de9c995ff06f-1600385441351.png', // Add your logo URL here
-            job_count: 5
+            name: 'tailoredU',
+            slug: 'tailoredU',
+            tagline: 'Build job-ready skills for your sports analytics career',
+            logo_url: 'https://cdn.sportsjobs.online/company-logos/tailoredU/tailoredU_sportsonline.jpg', // Add your logo URL here
+            job_count: 5,
+            external_url: 'https://tailoredu.com/?utm_source=sportsjobs.online&utm_medium=job_board&utm_campaign=launch_061225' // Redirects to external site
         }, {
             id: '2',
             name: 'Brooks Running',
