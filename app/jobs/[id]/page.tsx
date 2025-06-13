@@ -1,4 +1,6 @@
 // app/jobs/[id]/page.tsx
+export const dynamic = 'force-static';
+export const revalidate = 2592000; // 60 days (2 months)
 
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { marked } from 'marked';
@@ -9,9 +11,9 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { redirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
-import dynamic from 'next/dynamic';
+import { default as dynamicImport } from 'next/dynamic';
 
-const SenjaWallOfLove = dynamic(() => import('@/components/WallOfLove'), {
+const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
         <Box
             minH={{ base: "1000px", md: "800px" }}
@@ -23,7 +25,7 @@ const SenjaWallOfLove = dynamic(() => import('@/components/WallOfLove'), {
     ssr: false
 });
 
-const MixedPricingCard = dynamic(() => import('@/components/MixedPriceCard'), {
+const MixedPricingCard = dynamicImport(() => import('@/components/MixedPriceCard'), {
     loading: () => (
         <Box
             minH={{ base: "1000px", md: "800px" }}
