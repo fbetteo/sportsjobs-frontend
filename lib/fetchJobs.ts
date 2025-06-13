@@ -19,7 +19,7 @@ export async function fetchJobs(limit: number, filters: string) {
         
         const response = await fetch(`${baseUrl}/api/get-jobs?${params.toString()}`);
         const data = await response.json();
-        console.log('API Response:', data); // Debug log
+        // console.log('API Response:', data); // Debug log
         return data.jobs || [];
     } catch (error) {
         console.error('Error in fetchJobs:', error);

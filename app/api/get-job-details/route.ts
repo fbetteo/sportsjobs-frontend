@@ -33,22 +33,19 @@ export async function GET(req: NextRequest) {
     sort_direction: "desc"
   };
 
-  try {
-    // Fetch from Hetzner server
-    const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/jobs`, {
+  try {    // Fetch from Hetzner server
+    const fetchResponse = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/jobs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
       },
       body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    });    if (!fetchResponse.ok) {
+      throw new Error(`HTTP error! status: ${fetchResponse.status}`);
     }
     
-    const data = await response.json();
+    const data = await fetchResponse.json();
     if (!data) {
       throw new Error('No data received from server');
     }
@@ -67,9 +64,7 @@ export async function GET(req: NextRequest) {
       
       // Option 2: Return 404 to hide existence of the job via numeric ID
       return NextResponse.json({ error: "Job not found" }, { status: 404 });
-    }
-
-    const job = {
+    }    const job = {
       id: record.job_id,
       title: record.name,
       company: record.company,
@@ -91,9 +86,14 @@ export async function GET(req: NextRequest) {
       job_area: record.job_area,
       apply_url: record.url,
       slug: record.slug,
-  };
-
-    return NextResponse.json({ job });
+  };    const apiResponse = NextResponse.json({ job });
+    
+    // Set cache control headers
+    apiResponse.headers.set('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
+    apiResponse.headers.set('CDN-Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
+    apiResponse.headers.set('Vercel-CDN-Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
+    
+    return apiResponse;
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
