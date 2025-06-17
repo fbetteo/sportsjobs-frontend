@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     url: 'https://www.sportsjobs.online',
     images: [
       {
-        url: 'https://i.postimg.cc/BZM7MP36/www-sportsjobs-online-High-res-Screenshot.png',
+        url: 'https://i.postimg.cc/gjWHz15T/www-sportsjobs-online-High-res-Screenshot.png',
         alt: `Logo of Sportsjobs Online`,
       }]
   },
