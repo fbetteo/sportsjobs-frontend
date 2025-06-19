@@ -27,7 +27,17 @@ const fetchDropdownOptions = async () => {
     //     const skills = uniqueValues('skills');
     //     const sport_list = uniqueValues('sport_list');
 
-        const countries = ['united states', 'greece', 'india', 'germany', 'united kingdom', 'spain', 'denmark', 'czechia', 'poland', 'serbia', 'cyprus', 'lithuania', 'canada', 'switzerland', 'malta', 'hungary', 'france', 'colombia', 'belgium', 'philippines']
+      // const countries = ['united states', 'greece', 'india', 'germany', 'united kingdom', 'spain', 'denmark', 'czechia', 'poland', 'serbia', 'cyprus', 'lithuania', 'canada', 'switzerland', 'malta', 'hungary', 'france', 'colombia', 'belgium', 'philippines']
+      
+        const countries = [
+        'egypt', 'poland', 'cyprus', 'argentina', 'germany','lithuania',
+        'vietnam', 'colombia', 'denmark', 'portugal', 'canada', 'switzerland',
+        'belgium', 'united arab emirates', 'france', 'united states', 'brazil',
+        'ireland', 'cameroon', 'australia', 'czechia', 'hungary', 'spain',
+        'austria', 'netherlands', 'india', 'bulgaria', 'united kingdom',
+        'estonia', 'italy', 'serbia', 'mexico', 'philippines', 'malta',
+        'greece', 'ukraine'
+      ];
         const seniorities = ['Internship', 'Junior', 'With Experience']; // Add your seniority levels here
         const remotes = ['Office', 'Remote', 'Global Remote']; // Add your remote options here
         const hours = ['Fulltime', 'Part time']; // Add your hours options here
