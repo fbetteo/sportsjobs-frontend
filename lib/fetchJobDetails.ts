@@ -19,10 +19,10 @@ export const fetchJobDetails = async (id: string) => {
       const validThrough = addMonths(startDate, 2); // Calculate validThrough (2 months)
 
       if (isPast(validThrough)) {
-          return null; // Job is expired
+          return { job, expired: true }; // Job is expired
       }
 
-      return job;
+      return { job, expired: false };
     }
     
     return null; // This will trigger notFound() for any error case

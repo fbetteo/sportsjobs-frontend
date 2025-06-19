@@ -11,8 +11,10 @@ export async function GET(request: Request) {
     const jobId = pathParts[pathParts.length - 1];
     
     // Fetch the job details
-    const job = await fetchJobDetails(jobId);
+    const jobResult = await fetchJobDetails(jobId);
+    if (!jobResult) return NextResponse.redirect('https://www.sportsjobs.online/', 301);
 
+    const { job, expired } = jobResult;
     if (job) {
       // If the job exists, redirect to the new URL
       return NextResponse.redirect(`https://www.sportsjobs.online/jobs/${job.id}`, 301);

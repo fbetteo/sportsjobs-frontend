@@ -5,7 +5,7 @@ export const revalidate = 2592000; // 60 days (2 months)
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { marked } from 'marked';
 import { addMonths, format } from 'date-fns';
-import { Box, Heading, Text, Image, Badge, HStack, Flex, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Alert, AlertIcon } from '@chakra-ui/react';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -64,42 +64,43 @@ const industryJobTypeMapping: { [key: string]: string } = {
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     try {
-        const jobDetails = await fetchJobDetails(params.id);
-        if (!jobDetails) {
+        const jobResult = await fetchJobDetails(params.id);
+        if (!jobResult) {
             return {
                 title: 'Job Not Found - SportsJobs Online',
                 description: 'This job posting is no longer available.',
             };
         }
 
+        const { job, expired } = jobResult;
+
         return {
-            title: `${jobDetails.title} at ${jobDetails.company} jobs - SportsJobs Online`,
-            description: `${jobDetails.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
-            keywords: `${jobDetails.sport_list ?? "Sports"} jobs, ${jobDetails.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
+            title: `${job.title} at ${job.company} jobs - SportsJobs Online`,
+            description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`, keywords: `${job.sport_list ?? "Sports"} jobs, ${job.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
             alternates: {
                 canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
             },
             openGraph: {
-                title: `${jobDetails.title} jobs - SportsJobs Online`,
-                description: `${jobDetails.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                title: `${job.title} jobs - SportsJobs Online`,
+                description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
                 url: `https://www.sportsjobs.online/jobs/${params.id}`,
                 siteName: 'SportsJobs Online',
                 type: 'website',
                 images: [
                     {
-                        url: jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                        url: job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
                         width: 800,
                         height: 600,
-                        alt: `Logo of ${jobDetails.company}`,
+                        alt: `Logo of ${job.company}`,
                     },
                 ],
             },
             twitter: {
                 card: 'summary_large_image',
-                title: `${jobDetails.title} - SportsJobs Online`,
-                description: `${jobDetails.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${jobDetails.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                title: `${job.title} - SportsJobs Online`,
+                description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
                 images: [
-                    jobDetails.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                    job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
                 ],
             },
         };
@@ -126,10 +127,11 @@ export default async function JobDetailsPage({ params }: { params: { id: string 
 }
 
 async function JobDetails({ params }: { params: { id: string } }) {
-    const job = await fetchJobDetails(params.id);
-    if (!job) {
+    const jobResult = await fetchJobDetails(params.id);
+    if (!jobResult || !jobResult.job) {
         notFound();
     }
+    const { job, expired } = jobResult;
 
     // Add salary parsing helper
     const extractSalaryValue = (salaryString: string): number | null => {
@@ -215,7 +217,6 @@ async function JobDetails({ params }: { params: { id: string } }) {
 
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jobPostingSchema }} />
             <main>
                 <Box p={5} color="white" bg="black" minHeight="100vh">
                     <Flex direction="column" align="center" justify="center" textAlign="center">
@@ -241,19 +242,22 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             <Badge colorScheme="orange" border="1px" borderColor="gray.200" px={4} py={2}>{job.seniority}</Badge>
                         </HStack>
                         <Flex wrap="wrap" justify="flex-start" align="center" mb={4}>
-                            <Button
-                                as="a"
-                                href={job.apply_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                colorScheme="purple"
-                                size="lg"
-                                px={4}
-                                py={2}
-                                m={1}
-                            >
-                                Apply Now
-                            </Button>
+                            {/* Apply button only if not expired */}
+                            {!expired && (
+                                <Button
+                                    as="a"
+                                    href={job.apply_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    colorScheme="purple"
+                                    size="lg"
+                                    px={4}
+                                    py={2}
+                                    m={1}
+                                >
+                                    Apply Now
+                                </Button>
+                            )}
                         </Flex>
                         <Flex>
                             <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" ml={4}>
@@ -271,23 +275,60 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 </Badge>
                             </Box>
                         </Flex>
+
+                        {/* Smaller message above the description */}
+                        {expired && (
+                            <Text fontSize="l" color="gray.200" mb={4} textAlign="center">
+                                Note: This job has expired and is no longer accepting applications.
+                            </Text>
+                        )}
                         <Box mt={4} textAlign="left" width="80%">
                             <div className={styles.markdown} dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         </Box>
-                        <Button
-                            as="a"
-                            href={job.apply_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            colorScheme="purple"
-                            size="lg"
-                            px={4}
-                            py={2}
-                            m={1}
-                            mt={5}
-                        >
-                            Apply Now
-                        </Button>
+                        {/* Apply button only if not expired */}
+                        {!expired && (
+                            <Button
+                                as="a"
+                                href={job.apply_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                colorScheme="purple"
+                                size="lg"
+                                px={4}
+                                py={2}
+                                m={1}
+                                mt={5}
+                            >
+                                Apply Now
+                            </Button>
+                        )}
+                        {/* Expired message */}
+                        {expired && (
+                            <Alert
+                                status="info"
+                                variant="left-accent"
+                                flexDirection="column"
+                                alignItems="flex-start"
+                                justifyContent="center"
+                                textAlign="left"
+                                borderRadius="md"
+                                bg="gray.100"
+                                color="gray.800"
+                                mt={6}
+                                p={4}
+                            >
+                                <Heading as="h2" size="md" mb={2}>
+                                    This job is no longer available
+                                </Heading>
+                                <Text fontSize="sm" mb={2}>
+                                    The job posting you are looking for has expired or been removed.
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">
+                                    Jobs typically stay active for 60 days or until filled.
+                                </Text>
+                            </Alert>
+                        )}
+
                     </Flex>
                     <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
                     {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
@@ -314,6 +355,13 @@ async function JobDetails({ params }: { params: { id: string } }) {
                     <SenjaWallOfLove />
                 </Suspense>
             </main>
+            {/* JobPosting schema only if not expired */}
+            {!expired && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: jobPostingSchema }}
+                />
+            )}
         </>
     );
 }
