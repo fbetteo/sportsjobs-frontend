@@ -1,8 +1,6 @@
 // app/jobs/[id]/page.tsx
 
-import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { marked } from 'marked';
-import { addMonths, format } from 'date-fns';
 import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Divider } from '@chakra-ui/react';
 import MixedPricingCard from '@/components/MixedPriceCard';
 import styles from '../../../markdown.module.css';
