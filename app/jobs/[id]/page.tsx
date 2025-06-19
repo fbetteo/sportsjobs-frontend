@@ -275,6 +275,13 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 </Badge>
                             </Box>
                         </Flex>
+
+                        {/* Smaller message above the description */}
+                        {expired && (
+                            <Text fontSize="l" color="gray.200" mb={4} textAlign="center">
+                                Note: This job has expired and is no longer accepting applications.
+                            </Text>
+                        )}
                         <Box mt={4} textAlign="left" width="80%">
                             <div className={styles.markdown} dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         </Box>
@@ -297,11 +304,31 @@ async function JobDetails({ params }: { params: { id: string } }) {
                         )}
                         {/* Expired message */}
                         {expired && (
-                            <Alert status="warning" my={4}>
-                                <AlertIcon />
-                                This job has expired and is no longer accepting applications.
+                            <Alert
+                                status="info"
+                                variant="left-accent"
+                                flexDirection="column"
+                                alignItems="flex-start"
+                                justifyContent="center"
+                                textAlign="left"
+                                borderRadius="md"
+                                bg="gray.100"
+                                color="gray.800"
+                                mt={6}
+                                p={4}
+                            >
+                                <Heading as="h2" size="md" mb={2}>
+                                    This job is no longer available
+                                </Heading>
+                                <Text fontSize="sm" mb={2}>
+                                    The job posting you are looking for has expired or been removed.
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">
+                                    Jobs typically stay active for 60 days or until filled.
+                                </Text>
                             </Alert>
                         )}
+
                     </Flex>
                     <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
                     {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
