@@ -6,10 +6,17 @@ import { FaBasketballBall, FaCalendarDay, FaFilter, FaBell, FaCheckCircle } from
 import { pricingPlans } from '../pricingPlans';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 
 const MixedPricingCard = () => {
     const router = useRouter();
+    const { user } = useUser();
+
+    // Don't render pricing card if user is logged in
+    if (user) {
+        return null;
+    }
 
     const handleSelectPlan = (planName: string) => {
         router.push(`/signup?plan=${planName}`);

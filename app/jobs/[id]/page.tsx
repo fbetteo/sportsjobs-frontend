@@ -12,6 +12,7 @@ import { Suspense } from 'react';
 import { redirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
 import { default as dynamicImport } from 'next/dynamic';
+import MixedPricingCard from '@/components/MixedPriceCard';
 
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
@@ -25,17 +26,7 @@ const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     ssr: false
 });
 
-const MixedPricingCard = dynamicImport(() => import('@/components/MixedPriceCard'), {
-    loading: () => (
-        <Box
-            minH={{ base: "1000px", md: "800px" }}
-            width="100%"
-            bg="gray.800"
-            borderRadius="xl"
-        />
-    ),
-    ssr: false
-});
+// Using MixedPricingCard component directly
 interface Job {
     id: string;
     title: string;
@@ -332,8 +323,8 @@ async function JobDetails({ params }: { params: { id: string } }) {
                     </Flex>
                     <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
                     {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
-                    <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}
-                </Box>
+                    <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}                </Box>
+                {/* MixedPricingCard already handles showing only for non-authenticated users */}
                 <Suspense fallback={
                     <Box
                         minH={{ base: "1000px", md: "800px" }}
