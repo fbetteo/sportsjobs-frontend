@@ -99,7 +99,7 @@ const SignupPopup = () => {
                         <Icon as={FaStar} color="yellow.400" mr={1} />
                         <Icon as={FaStar} color="yellow.400" />
                         <Box ml={2} fontSize="sm" color="gray.200">
-                            Trusted by 300+ professionals
+                            Trusted by 1000+ professionals
                         </Box>
                     </Flex>
                     <Box as="form" onSubmit={handleSubmit}>
