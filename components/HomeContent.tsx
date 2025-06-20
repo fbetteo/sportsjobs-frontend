@@ -13,6 +13,7 @@ import UserFormPopup from "./AlertsPopupForm";
 import PostJobLink from './PostJobLink';
 import JobListFeatured from './JobListFeatured';
 import FeaturedCompanies from './FeaturedCompanies';
+import MixedPricingCard from './MixedPriceCard';
 
 // Lazy load non-critical components
 const FAQ = dynamic(() => import('./FAQ'), {
@@ -32,17 +33,7 @@ const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
     ssr: false
 });
 
-const MixedPricingCard = dynamic(() => import('./MixedPriceCard'), {
-    loading: () => (
-        <Box
-            minH={{ base: "1000px", md: "800px" }}
-            width="100%"
-            bg="gray.800"
-            borderRadius="xl"
-        />
-    ),
-    ssr: false
-});
+// Pricing card is now directly imported
 
 interface CachedData {
     data: any;
@@ -262,13 +253,12 @@ export default function HomeContent() {
                             <PostJobLink />
                         </Box>
                         <FeaturedCompanies />
-                        <JobListFeatured jobs={featuredJobs} />
-                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
+                        <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
                         <Box
                             ref={pricingSectionRef}
-                            minH={{ base: "1000px", md: "800px" }}
                             width="100%"
                         >
+                            {/* MixedPricingCard already handles user authentication internally */}
                             <Suspense fallback={
                                 <Box
                                     minH={{ base: "1000px", md: "800px" }}

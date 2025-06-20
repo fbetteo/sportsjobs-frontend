@@ -147,7 +147,7 @@ export async function GET(req: NextRequest) {
       remote: record.remote,
       skills: record.skills,
       logo_permanent_url: record.logo_permanent_url,
-      remote_office: record.remote_office,
+      remote_string: record.remote_office,
       days_ago_text: getDaysAgoText(record.creation_date),
       url: record.url,
       slug: record.slug,
