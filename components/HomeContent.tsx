@@ -14,6 +14,7 @@ import PostJobLink from './PostJobLink';
 import JobListFeatured from './JobListFeatured';
 import FeaturedCompanies from './FeaturedCompanies';
 import MixedPricingCard from './MixedPriceCard';
+import JourneyLink from './JourneyLink';
 
 // Lazy load non-critical components
 const FAQ = dynamic(() => import('./FAQ'), {
@@ -283,7 +284,12 @@ export default function HomeContent() {
                         }>
                             <SenjaWallOfLove />
                         </Suspense>
+                        <Box mb={8}>
+                            <JourneyLink />
+                        </Box>
+
                     </Box>
+
                 </Center>
             </Flex>
         </VStack>
