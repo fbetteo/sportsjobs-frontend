@@ -6,7 +6,6 @@ export async function GET() {
     User-agent: *
     Disallow: /job-details/
     Disallow: /api/dropdown-options
-    Disallow: /cdn-cgi/
     Allow: /
 
     Sitemap: https://www.sportsjobs.online/sitemap.xml
