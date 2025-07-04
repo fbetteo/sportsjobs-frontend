@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     url: 'https://www.sportsjobs.online',
     images: [
       {
-        url: 'https://www.sportsjobs.online/opengraph.png',
+        url: 'https://www.sportsjobs.online/opengraph-img.png',
         width: 1200,
         height: 630,
         alt: 'Sportsjobs Online - Find Your Dream Job in Sports Analytics',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: 'Sports analytics and data science jobs | Software sports jobs',
     description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. ',
     images: [
-      'https://www.sportsjobs.online/og-image.png'
+      'https://www.sportsjobs.online/opengraph-img.png'
     ]
   },
   // You can add more metadata as needed
