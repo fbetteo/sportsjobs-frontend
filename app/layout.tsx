@@ -28,10 +28,8 @@ export const metadata: Metadata = {
     title: 'Sports analytics and data science jobs | Software sports jobs',
     description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more. ',
     images: [
-      {
-        url: 'https://i.postimg.cc/gjWHz15T/www-sportsjobs-online-High-res-Screenshot.png',
-        alt: `Logo of Sportsjobs Online`,
-      }]
+      'https://i.postimg.cc/gjWHz15T/www-sportsjobs-online-High-res-Screenshot.png'
+    ]
   },
   // You can add more metadata as needed
   // 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
