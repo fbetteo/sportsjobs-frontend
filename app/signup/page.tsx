@@ -17,7 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import FAQ from "../../components/FAQ";
-import WallOfLove from "../../components/WallOfLove";
+import WallOfLove from "../../components/SenjaMarquee";
+import SenjaMarquee from '../../components/SenjaMarquee';
 
 const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isPopular }: {
     title: string;
@@ -149,7 +150,7 @@ const SignupPage = () => {
                     </Text>
                 </Box>
 
-
+                <SenjaMarquee />
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
                         title="Lifetime Access"
@@ -200,7 +201,7 @@ const SignupPage = () => {
                 </SimpleGrid>
 
 
-                <WallOfLove />
+
                 <FAQ />
             </VStack>
         </Container>
