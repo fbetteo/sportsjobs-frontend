@@ -161,7 +161,7 @@ const MixedPricingCard = () => {
                             {plan.price}
                         </Text>
                         <Text fontSize="sm" color="gray.300" mb={6}>
-                            {plan.planName === "Yearly" ? "Only $2.5/month billed annually" :
+                            {plan.planName === "Yearly" ? "Only $3.25/month billed annually" :
                                 plan.planName === "Monthly" ? "Billed Monthly" : ""}
                         </Text>
                         <Stack spacing={3} mb={6}>
