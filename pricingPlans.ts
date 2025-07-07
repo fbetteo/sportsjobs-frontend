@@ -16,9 +16,9 @@ export const pricingPlans = [
   {
     planName: 'Yearly',
     airtablePlanName: 'yearly_subscription',
-    price: '$29.99/year',
+    price: '$39/year',
     features: [
-      '🏆 Save 64% compared to monthly',
+      '🏆 Save 50% compared to monthly',
       '💼 Unlimited access to all job posts',
       '🎯 Advanced filtering tools',
       '🔔 Personalized daily job alerts',

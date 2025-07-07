@@ -17,7 +17,6 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import FAQ from "../../components/FAQ";
-import WallOfLove from "../../components/SenjaMarquee";
 import SenjaMarquee from '../../components/SenjaMarquee';
 
 const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isPopular }: {
@@ -169,10 +168,10 @@ const SignupPage = () => {
                     />
                     <PricingCard
                         title="Annual Plan"
-                        price="$29.99"
+                        price="$39"
                         period="per year"
                         features={[
-                            '🏆 Save 64% compared to monthly',
+                            '🏆 Save 50% compared to monthly',
                             '💼 Unlimited access to all job posts',
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
