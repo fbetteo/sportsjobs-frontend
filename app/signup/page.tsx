@@ -149,7 +149,7 @@ const SignupPage = () => {
                     </Text>
                 </Box>
 
-                <SenjaMarquee />
+
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
                         title="Lifetime Access"
@@ -200,7 +200,7 @@ const SignupPage = () => {
                 </SimpleGrid>
 
 
-
+                <SenjaMarquee />
                 <FAQ />
             </VStack>
         </Container>
