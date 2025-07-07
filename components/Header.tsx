@@ -37,6 +37,23 @@ const BrowseJobsButton = memo(() => (
 
 BrowseJobsButton.displayName = 'BrowseJobsButton';
 
+// Memoized Mobile Jobs Button
+const MobileJobsButton = memo(() => (
+  <Link href="/" passHref>
+    <Button
+      display={{ base: 'inline-flex', md: 'none' }}  // Show on mobile only
+      colorScheme="purple"
+      bg="black"
+      mr={{ base: 2, md: 5 }}
+      size={{ base: 'sm', md: 'md' }}
+    >
+      Jobs
+    </Button>
+  </Link>
+));
+
+MobileJobsButton.displayName = 'MobileJobsButton';
+
 // Memoized Blog Button
 const BlogButton = memo(() => (
   <Link href="/blog" passHref>
@@ -102,6 +119,7 @@ const Header = () => {
         {/* Menu for logged-in users */}        {user ? (
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
+            <MobileJobsButton />
             <BlogButton />
             <AdvertiseButton />
             <AffiliatesButton />
@@ -122,6 +140,7 @@ const Header = () => {
         ) : (
           <Flex align="center" wrap="wrap" justify="flex-end">
             <BrowseJobsButton />
+            <MobileJobsButton />
             <BlogButton />
             <AdvertiseButton />
             <AffiliatesButton />
