@@ -3,6 +3,7 @@
 import { marked } from 'marked';
 import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Divider } from '@chakra-ui/react';
 import MixedPricingCard from '@/components/MixedPriceCard';
+import BackToMainButton from '@/components/BackToMainButton';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { fetchBlogPostDetails } from '@/lib/fetchBlogPostDetails';
@@ -89,6 +90,9 @@ export default async function BlogPostPage({ params }: { params: { id: string } 
                         <Heading as="h1" size="2xl" mb={4} fontWeight="bold">
                             {blogpost.title}
                         </Heading>
+                        <Flex justify="center" mb={4}>
+                            <BackToMainButton variant="compact" />
+                        </Flex>
                         <Divider borderColor="gray.300" mb={6} />
                         <Box mt={4} textAlign="left" width="100%" lineHeight="tall">
                             <div className={styles.markdown} dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
@@ -96,6 +100,7 @@ export default async function BlogPostPage({ params }: { params: { id: string } 
                     </Flex>
                 </Box>
                 <Flex direction="column" width="100%" alignItems="center" py={10} >
+                    <BackToMainButton />
                     <MixedPricingCard />
                     <SenjaWallOfLove />
                 </Flex>
