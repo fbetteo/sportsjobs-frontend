@@ -192,7 +192,7 @@ export default function CompanyContent({ params }: Props) {
             <Flex direction="column" width="100%" mb={-15}>
                 <VStack spacing={4} align="center" p={4} mb={1} >
                     <Heading as="h1" size="2xl" textAlign="center">
-                        Jobs in {companyNameFormatted} | Sports Analytics and Betting jobs
+                        Jobs in {companyNameFormatted} | {companyNameFormatted} careers | Sports Analytics jobs
                     </Heading>
                     <Text fontSize="md" textAlign="center">
                         Search sports analytics, engineering, data, and marketing jobs in {companyNameFormatted}.

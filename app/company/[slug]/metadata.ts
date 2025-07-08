@@ -8,7 +8,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     return {
         title: `Sports Analytics Jobs in ${company} | SportsJobs Online`,
         description: `Find sports analytics, data science and software jobs in ${company}. Browse job opportunities and careers in sports data analytics.`,
-        keywords: `${company} sports jobs, ${company} analytics jobs, sports data jobs ${company}, sports careers ${company}`,
+        keywords: `${company} sports jobs, ${company} analytics jobs, sports data jobs ${company}, sports careers ${company}, ${company} careers`,
         openGraph: {
             title: `Sports Analytics Jobs in ${company}`,
             description: `Find sports analytics and data jobs in ${company}`, 
