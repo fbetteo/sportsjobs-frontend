@@ -11,7 +11,10 @@ const Footer = () => {
                 © 2025 Calibrated AI LLC | Built by{' '}
                 <Link href="https://twitter.com/franbetteo" isExternal color="teal.200">
                     @franbetteo
-                </Link>. I&apos;d love to hear your feedback — Get in touch via DM or{' '}
+                </Link>{' '}
+                (<Link href="https://www.fbetteo.com" isExternal color="gray.400" fontSize="sm">
+                    fbetteo.com
+                </Link>). I&apos;d love to hear your feedback — Get in touch via DM or{' '}
                 <Link href="mailto:franco@sportsjobs.online" color="teal.200">
                     franco@sportsjobs.online
                 </Link>
