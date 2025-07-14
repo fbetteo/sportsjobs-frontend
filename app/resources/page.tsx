@@ -99,7 +99,7 @@ const ResourceCard = ({
 
                     {promoCode && isAuthenticated && (
                         <Text fontSize="xs" color="green.300" fontWeight="semibold">
-                            🎯 Use code "{promoCode}" for {discount} off - Exclusive for SportsJobs users!
+                            🎯 Use code &quot;{promoCode}&quot; for {discount} off - Exclusive for SportsJobs users!
                         </Text>
                     )}
 
@@ -143,7 +143,7 @@ export default function ResourcesPage() {
                     </Text>
                     {!isAuthenticated && (
                         <Text fontSize="md" color="orange.300" mt={4} fontWeight="semibold">
-                            🔐 Sign up to unlock all the jobs and exclusive discount codes that save you more than your subscription costs!"
+                            🔐 Sign up to unlock all the jobs and exclusive discount codes that save you more than your subscription costs!
                         </Text>
                     )}
                 </Box>

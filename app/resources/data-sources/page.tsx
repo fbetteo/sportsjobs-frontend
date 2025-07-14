@@ -147,7 +147,7 @@ export default function DataSourcesPage() {
 
                 {/* Features Overview */}
                 <Box w="full" bg="gray.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="gray.600">
-                    <Heading size="lg" mb={4} color="white">🎯 What You'll Find</Heading>
+                    <Heading size="lg" mb={4} color="white">🎯 What You&apos;ll Find</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6}>
                         <VStack align="start" spacing={3}>
                             <Text color="white" fontWeight="semibold">Free Data Sources</Text>
@@ -175,7 +175,7 @@ export default function DataSourcesPage() {
                 <Box w="full" bg="blue.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="blue.600">
                     <Heading size="lg" mb={4} color="white">🚀 Coming Soon</Heading>
                     <Text color="gray.300" mb={4}>
-                        We're continuously adding new sports and data sources to help you find exactly what you need:
+                        We&apos;re continuously adding new sports and data sources to help you find exactly what you need:
                     </Text>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
                         <VStack align="start" spacing={1}>

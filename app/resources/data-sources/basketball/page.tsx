@@ -238,7 +238,7 @@ export default function BasketballDataSourcesPage() {
                 <Box w="full" bg="gray.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="gray.600">
                     <Heading size="lg" mb={4} color="white">🏀 Coming Soon to Basketball Data</Heading>
                     <Text color="gray.300" mb={4}>
-                        We're working on adding these basketball data sources:
+                        We&apos;re working on adding these basketball data sources:
                     </Text>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
                         <VStack align="start" spacing={2}>

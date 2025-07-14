@@ -175,7 +175,7 @@ export default function SoccerDataSourcesPage() {
                     <Text fontSize="lg" color="gray.300" maxW="3xl">
                         Global soccer data covering major leagues worldwide including Premier League, La Liga,
                         Serie A, Bundesliga, MLS, and more. Access match data, player statistics, transfer information,
-                        and tactical analysis for the world's most popular sport.
+                        and tactical analysis for the world&apos;s most popular sport.
                     </Text>
                 </Box>
 
@@ -238,7 +238,7 @@ export default function SoccerDataSourcesPage() {
                 <Box w="full" bg="gray.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="gray.600">
                     <Heading size="lg" mb={4} color="white">⚽ Coming Soon to Soccer Data</Heading>
                     <Text color="gray.300" mb={4}>
-                        We're working on adding these soccer data sources:
+                        We&apos;re working on adding these soccer data sources:
                     </Text>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
                         <VStack align="start" spacing={2}>

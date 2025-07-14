@@ -175,7 +175,7 @@ export default function NFLDataSourcesPage() {
                     <Text fontSize="lg" color="gray.300" maxW="3xl">
                         Comprehensive collection of NFL data sources including player tracking, game statistics,
                         draft data, and advanced analytics. Perfect for building models, creating visualizations,
-                        or conducting research on America's most popular sport.
+                        or conducting research on America&apos;s most popular sport.
                     </Text>
                 </Box>
 
@@ -238,7 +238,7 @@ export default function NFLDataSourcesPage() {
                 <Box w="full" bg="gray.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="gray.600">
                     <Heading size="lg" mb={4} color="white">🚀 Coming Soon to NFL Data</Heading>
                     <Text color="gray.300" mb={4}>
-                        We're working on adding these premium NFL data sources:
+                        We&apos;re working on adding these premium NFL data sources:
                     </Text>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
                         <VStack align="start" spacing={2}>
