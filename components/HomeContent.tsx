@@ -15,6 +15,7 @@ import JobListFeatured from './JobListFeatured';
 import FeaturedCompanies from './FeaturedCompanies';
 import MixedPricingCard from './MixedPriceCard';
 import JourneyLink from './JourneyLink';
+import FeedbackButton from './FeedbackButton';
 
 // Lazy load non-critical components
 const FAQ = dynamic(() => import('./FAQ'), {
@@ -274,6 +275,18 @@ export default function HomeContent() {
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
                         </Suspense>
+
+                        {/* Feedback Section */}
+                        <Center py={8}>
+                            <VStack spacing={3}>
+                                <FeedbackButton
+                                    size="lg"
+                                    variant="solid"
+                                    colorScheme="purple"
+                                />
+                            </VStack>
+                        </Center>
+
                         <Suspense fallback={
                             <Box
                                 minH={{ base: "1000px", md: "800px" }}

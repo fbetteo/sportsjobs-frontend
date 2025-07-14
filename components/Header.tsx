@@ -1,6 +1,26 @@
 'use client';
 
-import { Box, Flex, Button, Image, Avatar, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Button,
+  Image,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  VStack
+} from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/navigation';
@@ -24,11 +44,10 @@ Logo.displayName = 'Logo';
 const BrowseJobsButton = memo(() => (
   <Link href="/" passHref>
     <Button
-      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
-      mr={{ base: 2, md: 5 }}
-      size={{ base: 'sm', md: 'md' }}
+      mr={5}
+      size="md"
     >
       Browse Jobs
     </Button>
@@ -37,32 +56,14 @@ const BrowseJobsButton = memo(() => (
 
 BrowseJobsButton.displayName = 'BrowseJobsButton';
 
-// Memoized Mobile Jobs Button
-const MobileJobsButton = memo(() => (
-  <Link href="/" passHref>
-    <Button
-      display={{ base: 'inline-flex', md: 'none' }}  // Show on mobile only
-      colorScheme="purple"
-      bg="black"
-      mr={{ base: 2, md: 5 }}
-      size={{ base: 'sm', md: 'md' }}
-    >
-      Jobs
-    </Button>
-  </Link>
-));
-
-MobileJobsButton.displayName = 'MobileJobsButton';
-
 // Memoized Blog Button
 const BlogButton = memo(() => (
   <Link href="/blog" passHref>
     <Button
-      // display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
-      mr={{ base: 2, md: 5 }}
-      size={{ base: 'sm', md: 'md' }}
+      mr={5}
+      size="md"
     >
       Blog
     </Button>
@@ -71,15 +72,30 @@ const BlogButton = memo(() => (
 
 BlogButton.displayName = 'BlogButton';
 
+// Memoized Resources Button
+const ResourcesButton = memo(() => (
+  <Link href="/resources" passHref>
+    <Button
+      colorScheme="purple"
+      bg="black"
+      mr={5}
+      size="md"
+    >
+      Resources
+    </Button>
+  </Link>
+));
+
+ResourcesButton.displayName = 'ResourcesButton';
+
 // Memoized Advertise Button
 const AdvertiseButton = memo(() => (
   <Link href="/advertise" passHref>
     <Button
-      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
-      mr={{ base: 2, md: 5 }}
-      size={{ base: 'sm', md: 'md' }}
+      mr={5}
+      size="md"
     >
       Advertise
     </Button>
@@ -92,11 +108,10 @@ AdvertiseButton.displayName = 'AdvertiseButton';
 const AffiliatesButton = memo(() => (
   <Link href="/affiliates" passHref>
     <Button
-      display={{ base: 'none', md: 'inline-flex' }}  // Hide on mobile
       colorScheme="purple"
       bg="black"
-      mr={{ base: 2, md: 5 }}
-      size={{ base: 'sm', md: 'md' }}
+      mr={5}
+      size="md"
     >
       Earn $
     </Button>
@@ -108,65 +123,168 @@ AffiliatesButton.displayName = 'AffiliatesButton';
 const Header = () => {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   return (
     <Box bg="black" color="white" px={4} py={2}>
-      <Flex justify="space-between" align="center" wrap="wrap">
+      <Flex justify="space-between" align="center">
         <Logo />
-        {/* Menu for logged-in users */}        {user ? (
-          <Flex align="center" wrap="wrap" justify="flex-end">
-            <BrowseJobsButton />
-            <MobileJobsButton />
-            <BlogButton />
-            <AdvertiseButton />
-            <AffiliatesButton />
-            <Menu>
-              <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
-                <Avatar size="sm" src={user.picture ?? ""} />
-              </MenuButton>
-              <MenuList>
-                <MenuItem color="black">
-                  <Link href="/settings">Settings</Link>
-                </MenuItem>
-                <MenuItem color="black">
-                  <Link href="/api/auth/logout">Logout</Link>
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
-        ) : (
-          <Flex align="center" wrap="wrap" justify="flex-end">
-            <BrowseJobsButton />
-            <MobileJobsButton />
-            <BlogButton />
-            <AdvertiseButton />
-            <AffiliatesButton />
-            <Link href="/api/auth/login" passHref>
+
+        {/* Desktop Navigation */}
+        <Flex align="center" display={{ base: 'none', lg: 'flex' }}>
+          {user ? (
+            <>
+              <BrowseJobsButton />
+              <BlogButton />
+              <ResourcesButton />
+              <AdvertiseButton />
+              <AffiliatesButton />
+              <Menu>
+                <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
+                  <Avatar size="sm" src={user.picture ?? ""} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem color="black">
+                    <Link href="/settings">Settings</Link>
+                  </MenuItem>
+                  <MenuItem color="black">
+                    <Link href="/api/auth/logout">Logout</Link>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <BrowseJobsButton />
+              <BlogButton />
+              <ResourcesButton />
+              <AdvertiseButton />
+              <AffiliatesButton />
+              <Link href="/api/auth/login" passHref>
+                <Button
+                  colorScheme="gray.700"
+                  bg="purple"
+                  variant="outline"
+                  mr={{ base: 2, md: 5 }}
+                  size="md"
+                >
+                  Login
+                </Button>
+              </Link>
               <Button
                 colorScheme="gray.700"
                 bg="purple"
                 variant="outline"
-                mr={{ base: 2, md: 5 }}
-                size={{ base: 'sm', md: 'md' }} // Reduce size on mobile
+                size="md"
+                onClick={() => router.push('/signup')}
               >
-                Login
+                SignUp
               </Button>
-            </Link>
+            </>
+          )}
+        </Flex>
 
-            <Button
-              colorScheme="gray.700"
-              bg="purple"
-              variant="outline"
-              size={{ base: 'sm', md: 'md' }} // Reduce size on mobile
-              onClick={() => router.push('/signup')}
-            >
-              SignUp
-            </Button>
-          </Flex>
-        )}
+        {/* Mobile Hamburger */}
+        <IconButton
+          display={{ base: 'flex', lg: 'none' }}
+          onClick={onOpen}
+          icon={<HamburgerIcon />}
+          variant="outline"
+          aria-label="Open Menu"
+          colorScheme="purple"
+        />
+
+        {/* Mobile Drawer */}
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+          <DrawerOverlay />
+          <DrawerContent bg="black" color="white">
+            <DrawerCloseButton />
+            <DrawerHeader>Menu</DrawerHeader>
+            <DrawerBody>
+              <VStack spacing={4} align="stretch">
+                <Link href="/" onClick={onClose}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                    Browse Jobs
+                  </Button>
+                </Link>
+                <Link href="/blog" onClick={onClose}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                    Blog
+                  </Button>
+                </Link>
+                <Link href="/resources" onClick={onClose}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                    Resources
+                  </Button>
+                </Link>
+                <Link href="/advertise" onClick={onClose}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                    Advertise
+                  </Button>
+                </Link>
+                <Link href="/affiliates" onClick={onClose}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                    Earn $
+                  </Button>
+                </Link>
+
+                <Button
+                  w="full"
+                  variant="ghost"
+                  justifyContent="flex-start"
+                  color="white"
+                  _hover={{ bg: "gray.700" }}
+                  onClick={() => {
+                    window.open('https://sportsjobsonline.featurebase.app/', '_blank', 'noopener,noreferrer');
+                    onClose();
+                  }}
+                >
+                  💬 Feedback
+                </Button>
+
+                {user ? (
+                  <>
+                    <Link href="/settings" onClick={onClose}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                        Settings
+                      </Button>
+                    </Link>
+                    <Link href="/api/auth/logout" onClick={onClose}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                        Logout
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/api/auth/login" onClick={onClose}>
+                      <Button w="full" colorScheme="purple" variant="solid">
+                        Login
+                      </Button>
+                    </Link>
+                    <Button
+                      w="full"
+                      colorScheme="purple"
+                      variant="outline"
+                      color="white"
+                      borderColor="purple.500"
+                      _hover={{ bg: "purple.600" }}
+                      onClick={() => {
+                        router.push('/signup');
+                        onClose();
+                      }}
+                    >
+                      SignUp
+                    </Button>
+                  </>
+                )}
+              </VStack>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       </Flex>
     </Box>
   );

@@ -14,9 +14,12 @@ const Footer = () => {
                 </Link>{' '}
                 (<Link href="https://www.fbetteo.com" isExternal color="gray.400" fontSize="sm">
                     fbetteo.com
-                </Link>). I&apos;d love to hear your feedback — Get in touch via DM or{' '}
+                </Link>). I&apos;d love to hear your feedback — Get in touch via DM,{' '}
                 <Link href="mailto:franco@sportsjobs.online" color="teal.200">
                     franco@sportsjobs.online
+                </Link>, or{' '}
+                <Link href="https://sportsjobsonline.featurebase.app/" isExternal color="teal.200">
+                    submit feedback here
                 </Link>
             </Text>
             <HStack justify="center" spacing={4}>
@@ -59,7 +62,7 @@ const Footer = () => {
                     Sportsjobs Online contributes revenue to removing CO2 from atmosphere
                 </Link>
             </Text>
-            <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6} mt={10} px={5}>
+            <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} mt={10} px={5}>
                 <JobsByLocation />
 
                 <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
@@ -69,6 +72,17 @@ const Footer = () => {
                         {/* <Link href="/top-companies">Top Hiring Companies</Link>
                         <Link href="/remote-companies">Companies Hiring Remote</Link>
                         <Link href="/tech-companies">Sports Tech Companies</Link> */}
+                    </VStack>
+                </Box>
+
+                <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
+                    <Text fontWeight="bold" fontSize="lg" mb={3}>Resources</Text>
+                    <VStack align="start" spacing={2} color="gray.300">
+                        <Link href="/resources">Job Seeker Resources</Link>
+                        <Link href="/blog">Career Blog</Link>
+                        {/* Future links:
+                        <Link href="/resources/tutorials">Tutorials</Link>
+                        <Link href="/resources/tools">Tools</Link> */}
                     </VStack>
                 </Box>
             </Grid>

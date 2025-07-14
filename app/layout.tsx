@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Script from "next/script";
 import PromotekitScript from '@/components/PromotekitScript'
+import FeedbackButton from '@/components/FeedbackButton'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -71,6 +72,10 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
+        <FeedbackButton
+          position="fixed"
+          size="md"
+        />
       </body>
     </html>
   );
