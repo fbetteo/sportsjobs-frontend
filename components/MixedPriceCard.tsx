@@ -23,62 +23,92 @@ const MixedPricingCard = () => {
     };
 
     return (
-        <Box p={4} maxW="container.lg" mx="auto" width="100%">
-            <Flex justify="center" mb={2}>
-                <ChevronDownIcon w={100} h={100} color="gray.500" />
+        <Box p={6} maxW="container.xl" mx="auto" width="100%">
+            <Flex justify="center" mb={4}>
+                <ChevronDownIcon w={80} h={80} color="purple.400" />
             </Flex>
-            <Text fontSize="3xl" fontWeight="bold" textAlign="center" mb={6}>
+            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" textAlign="center" mb={4} color="white">
                 Hundreds of jobs are waiting for you!
             </Text>
-            <Text fontSize="2xl" textAlign="center" mb={8}>
+            <Text fontSize={{ base: "lg", md: "2xl" }} textAlign="center" mb={10} color="gray.300">
                 Subscribe to membership and unlock all jobs
             </Text>
-            <Flex
-                direction={{ base: "column", md: "row" }}
-                justify="space-around"
-                mb={8}
-                align="center"
-                gap={6}
-            >
-                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
-                    <Icon as={FaBasketballBall} w={10} h={10} />
-                    <Text fontWeight="bold">Sports Analytics</Text>
-                    <Text textAlign="center">We scan all major sports and leagues</Text>
-                </Stack>
-                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
-                    <Icon as={FaCalendarDay} w={10} h={10} />
-                    <Text fontWeight="bold">Updated Daily</Text>
-                    <Text textAlign="center">New jobs are added every day as companies post them</Text>
-                </Stack>
-                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
-                    <Icon as={FaFilter} w={10} h={10} />
-                    <Text fontWeight="bold">Refined Search</Text>
-                    <Text textAlign="center">Use filters like skill, location, etc to narrow results</Text>
-                </Stack>
-                <Stack mb={{ base: 4, md: 0 }} spacing={3} align="center">
-                    <Icon as={FaBell} w={10} h={10} />
-                    <Text fontWeight="bold">Alerts</Text>
-                    <Text textAlign="center">You can get daily alerts in your email for a specific search</Text>
-                </Stack>
-            </Flex>
-            <List spacing={3} mb={8}>
-                <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Access to job postings from top teams and companies
-                </ListItem>
-                <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Daily updates and notifications based on your preferences
-                </ListItem>
-            </List>
+
+            {/* Features Grid */}
             <Box
-                p={4}
-                bg="gray.700"
+                mb={12}
+                bg="gray.800"
+                borderRadius="2xl"
+                p={8}
+                borderWidth="1px"
+                borderColor="gray.700"
+            >
+                <Flex
+                    direction={{ base: "column", md: "row" }}
+                    justify="space-around"
+                    align="center"
+                    gap={8}
+                >
+                    <Stack spacing={3} align="center" flex="1">
+                        <Icon as={FaBasketballBall} w={12} h={12} color="purple.400" />
+                        <Text fontWeight="bold" fontSize="lg" color="white">Sports Analytics</Text>
+                        <Text textAlign="center" color="gray.300" fontSize="sm">
+                            We scan all major sports and leagues
+                        </Text>
+                    </Stack>
+                    <Stack spacing={3} align="center" flex="1">
+                        <Icon as={FaCalendarDay} w={12} h={12} color="purple.400" />
+                        <Text fontWeight="bold" fontSize="lg" color="white">Updated Daily</Text>
+                        <Text textAlign="center" color="gray.300" fontSize="sm">
+                            New jobs are added every day as companies post them
+                        </Text>
+                    </Stack>
+                    <Stack spacing={3} align="center" flex="1">
+                        <Icon as={FaFilter} w={12} h={12} color="purple.400" />
+                        <Text fontWeight="bold" fontSize="lg" color="white">Refined Search</Text>
+                        <Text textAlign="center" color="gray.300" fontSize="sm">
+                            Use filters like skill, location, etc to narrow results
+                        </Text>
+                    </Stack>
+                    <Stack spacing={3} align="center" flex="1">
+                        <Icon as={FaBell} w={12} h={12} color="purple.400" />
+                        <Text fontWeight="bold" fontSize="lg" color="white">Alerts</Text>
+                        <Text textAlign="center" color="gray.300" fontSize="sm">
+                            You can get daily alerts in your email for a specific search
+                        </Text>
+                    </Stack>
+                </Flex>
+            </Box>
+
+            {/* Key Benefits */}
+            <Box mb={8}>
+                <List spacing={4} mb={8}>
+                    <ListItem display="flex" alignItems="center">
+                        <ListIcon as={FaCheckCircle} color="green.400" fontSize="xl" />
+                        <Text color="gray.200" fontSize="lg">
+                            Access to job postings from top teams and companies
+                        </Text>
+                    </ListItem>
+                    <ListItem display="flex" alignItems="center">
+                        <ListIcon as={FaCheckCircle} color="green.400" fontSize="xl" />
+                        <Text color="gray.200" fontSize="lg">
+                            Daily updates and notifications based on your preferences
+                        </Text>
+                    </ListItem>
+                </List>
+            </Box>
+
+            {/* Social Proof */}
+            <Box
+                p={6}
+                bg="gradient(to-r, green.700, green.600)"
                 borderRadius="xl"
                 textAlign="center"
-                mb={8}
+                mb={12}
+                borderWidth="1px"
+                borderColor="green.500"
             >
-                <Text fontSize="lg" color="green.300" fontWeight="bold">
+                <Text fontSize="xl" color="white" fontWeight="bold">
                     🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
                 </Text>
             </Box>
@@ -113,73 +143,104 @@ const MixedPricingCard = () => {
             </Box> */}
 
             <Flex
-                direction={{ base: "column", md: "row" }}
-                justify="space-around"
-                gap={4}
-                minH={{ base: "auto", md: "400px" }}
+                direction={{ base: "column", lg: "row" }}
+                justify="center"
+                align="stretch"
+                gap={6}
+                maxW="1200px"
+                mx="auto"
             >
                 {pricingPlans.map((plan, index) => (
                     <Box
                         key={index}
-                        p={6}
+                        flex={{ base: "none", lg: "1" }}
+                        w={{ base: "100%", lg: "calc(33.333% - 16px)" }}
+                        minW={{ base: "100%", lg: "350px" }}
+                        maxW={{ base: "100%", lg: "350px" }}
+                        p={8}
                         borderWidth="2px"
                         borderRadius="xl"
                         textAlign="center"
-                        w={{ base: "100%", md: "45%" }}
-                        h={{ base: "auto", md: "600px" }}
-                        boxShadow="lg"
-                        bg='gray.700'
+                        boxShadow="xl"
+                        bg="gray.700"
                         transition="all 0.3s"
                         position="relative"
+                        display="flex"
+                        flexDirection="column"
                         _hover={{
-                            transform: "translateY(-8px)",
-                            boxShadow: "xl",
+                            transform: "translateY(-4px)",
+                            boxShadow: "2xl",
+                            borderColor: "purple.400"
                         }}
-                        borderColor={plan.planName === "Yearly" ? "purple.400" : "transparent"}
+                        borderColor={plan.planName === "Yearly" ? "purple.400" : "gray.600"}
                     >
                         {plan.planName === "Yearly" && (
                             <Text
                                 position="absolute"
-                                top="-4"
+                                top="-12px"
                                 left="50%"
                                 transform="translateX(-50%)"
                                 bg="purple.500"
                                 color="white"
-                                px={4}
-                                py={1}
+                                px={6}
+                                py={2}
                                 borderRadius="full"
                                 fontSize="sm"
                                 fontWeight="bold"
+                                boxShadow="lg"
                             >
                                 Most Popular
                             </Text>
                         )}
-                        <Text fontSize="3xl" fontWeight="bold" mb={2}>
-                            {plan.planName}
-                        </Text>
-                        <Text fontSize="4xl" fontWeight="bold" mb={2}>
-                            {plan.price}
-                        </Text>
-                        <Text fontSize="sm" color="gray.300" mb={6}>
-                            {plan.planName === "Yearly" ? "Only $3.25/month billed annually" :
-                                plan.planName === "Monthly" ? "Billed Monthly" : ""}
-                        </Text>
-                        <Stack spacing={3} mb={6}>
-                            {plan.features.map((feature, idx) => (
-                                <Flex key={idx} align="center" justify="center">
-                                    <Text>{feature}</Text>
-                                </Flex>
-                            ))}
-                        </Stack>
+
+                        {/* Header Section */}
+                        <Box mb={6}>
+                            <Text fontSize="2xl" fontWeight="bold" mb={3} color="white">
+                                {plan.planName}
+                            </Text>
+                            <Text fontSize="3xl" fontWeight="bold" mb={2} color="purple.300">
+                                {plan.price}
+                            </Text>
+                            <Text fontSize="md" color="gray.300" minH="20px">
+                                {plan.planName === "Yearly" ? "Only $3.25/month billed annually" :
+                                    plan.planName === "Monthly" ? "Billed Monthly" :
+                                        plan.planName === "Lifetime" ? "One-time payment" : ""}
+                            </Text>
+                        </Box>
+
+                        {/* Features Section */}
+                        <Box flex="1" mb={6}>
+                            <Stack spacing={4} align="stretch">
+                                {plan.features.map((feature, idx) => (
+                                    <Flex key={idx} align="flex-start" textAlign="left">
+                                        <Text
+                                            fontSize="sm"
+                                            color="gray.100"
+                                            lineHeight="1.5"
+                                            w="100%"
+                                        >
+                                            {feature}
+                                        </Text>
+                                    </Flex>
+                                ))}
+                            </Stack>
+                        </Box>
+
+                        {/* Button Section */}
                         <Button
                             colorScheme="purple"
                             size="lg"
                             w="full"
+                            py={6}
+                            fontSize="lg"
+                            fontWeight="bold"
                             onClick={() => handleSelectPlan(plan.airtablePlanName)}
                             _hover={{
-                                transform: "scale(1.05)",
+                                transform: "scale(1.02)",
+                                bg: "purple.500"
                             }}
                             transition="all 0.2s"
+                            boxShadow="lg"
                         >
                             Get Started Now
                         </Button>
