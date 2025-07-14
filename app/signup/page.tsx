@@ -149,6 +149,30 @@ const SignupPage = () => {
                     </Text>
                 </Box>
 
+                <Box
+                    p={6}
+                    bg="purple.800"
+                    borderRadius="xl"
+                    textAlign="center"
+                    width="full"
+                    mb={8}
+                    borderWidth="2px"
+                    borderColor="purple.500"
+                >
+                    <Text fontSize="xl" color="white" fontWeight="bold" mb={3}>
+                        🎁 Exclusive Member Benefits
+                    </Text>
+                    <Text fontSize="lg" color="purple.200" mb={2}>
+                        Get access to exclusive discount codes on premium courses and tools
+                    </Text>
+                    <Text fontSize="md" color="purple.300">
+                        💸 <Text as="span" color="yellow.300" fontWeight="bold">Your first discount typically pays for your entire subscription</Text> 💸
+                    </Text>
+                    <Text fontSize="sm" color="purple.400" mt={2}>
+                        Save 10-30% on courses from TailoredU, Udemy, and other premium learning platforms
+                    </Text>
+                </Box>
+
 
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
@@ -162,6 +186,8 @@ const SignupPage = () => {
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
+                            '🎁 Exclusive discount codes on courses & tools',
+                            '💸 Save more than your subscription cost',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId, true)}
@@ -177,6 +203,8 @@ const SignupPage = () => {
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
                             '💰 Most popular choice',
+                            '🎁 Exclusive discount codes on courses & tools',
+                            '💸 Save more than your subscription cost',
                             '↪️ Cancel anytime',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
@@ -192,6 +220,8 @@ const SignupPage = () => {
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
+                            '🎁 Exclusive discount codes on courses & tools',
+                            '💸 Save more than your subscription cost',
                             '↪️ Cancel anytime',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
