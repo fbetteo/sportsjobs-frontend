@@ -215,7 +215,7 @@ export default function BooksPage() {
                 <Box w="full" bg="gray.900" p={6} borderRadius="lg" borderWidth="1px" borderColor="gray.600">
                     <Heading size="lg" mb={4} color="white">📖 More Books Coming Soon</Heading>
                     <Text color="gray.300" mb={4}>
-                        We're building a comprehensive library of sports analytics books covering:
+                        We&apos;re building a comprehensive library of sports analytics books covering:
                     </Text>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
                         <VStack align="start" spacing={2}>
@@ -232,7 +232,7 @@ export default function BooksPage() {
                         </VStack>
                     </Grid>
                     <Text color="teal.300" fontSize="sm" mt={4} fontStyle="italic">
-                        💡 Have a book recommendation? Contact us and we'll add it to our collection!
+                        💡 Have a book recommendation? Contact us and we&apos;ll add it to our collection!
                     </Text>
                 </Box>
 
