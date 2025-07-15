@@ -1,3 +1,7 @@
+---
+applyTo: "**"
+---
+
 # Copilot Instructions for Sportsjobs Frontend
 
 ## Project Overview

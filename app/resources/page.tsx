@@ -385,6 +385,14 @@ export default function ResourcesPage() {
                             isAuthenticated={isAuthenticated}
                             hideTypeBadge={true}
                         />
+                        <ResourceCard
+                            title="Golf Data Sources"
+                            description="Professional golf data from PGA Tour, European Tour, and major championships including player statistics, tournament results, and course analytics."
+                            url="/resources/data-sources/golf"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                            hideTypeBadge={true}
+                        />
                     </Grid>
                 </Box>
 
