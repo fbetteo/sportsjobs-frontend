@@ -201,7 +201,7 @@ export default function BasketballDataSourcesPage() {
                         <DataSourceCard
                             title="NBA Stats API"
                             description="Official NBA statistics API providing comprehensive player and team data, game logs, shot charts, and advanced metrics. The most reliable source for NBA analytics."
-                            url="https://stats.nba.com/"
+                            url="https://stats.nba.com/?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
                             type="API"
                             pricing="Free"
                             difficulty="Intermediate"
@@ -218,7 +218,7 @@ export default function BasketballDataSourcesPage() {
                         <DataSourceCard
                             title="Basketball Reference"
                             description="Comprehensive basketball statistics database with historical data, advanced metrics, and detailed player/team information. Excellent for research and analysis."
-                            url="https://basketball-reference.com/"
+                            url="https://basketball-reference.com/?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
                             type="Dataset"
                             pricing="Free"
                             difficulty="Beginner"

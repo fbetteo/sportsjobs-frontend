@@ -155,7 +155,7 @@ export default function ResourcesPage() {
                         <ResourceCard
                             title="Build Job Ready Skills in Sports Analytics "
                             description="TailoredU is a cutting-edge learning platform that prepares emerging sports analysts for entry-level jobs and helps professional analysts upskill."
-                            url="hhttps://tailoredu.com/?utm_source=sportsjobs.online&utm_medium=job_board&utm_campaign=resources"
+                            url="https://tailoredu.com/?utm_source=sportsjobs.online&utm_medium=job_board&utm_campaign=resources"
                             type="tutorial"
                             promoCode="SPORTSJOBS10"
                             discount="10% off"
@@ -207,37 +207,23 @@ export default function ResourcesPage() {
                 {/* Video Content Section */}
                 <Box w="full">
                     <Heading size="lg" mb={6} color="white">🎥 Video Content</Heading>
-                    {/* <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+                    <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
                         <ResourceCard
-                            title="Sports Analytics Fundamentals"
-                            description="YouTube series covering the basics of sports analytics and data science."
-                            url="https://www.youtube.com/results?search_query=sports+analytics+tutorial"
+                            title="CT Data Science Lab"
+                            description="Connecticut Statistical Data Science Lab channel featuring data science tutorials, sports analytics projects, and educational content for aspiring data scientists and analysts."
+                            url="https://www.youtube.com/@ctdatasciencelab"
                             type="video"
                             isAuthenticated={isAuthenticated}
                         />
                         <ResourceCard
-                            title="Interview Prep for Sports Jobs"
-                            description="Common interview questions and how to answer them for sports analytics roles."
-                            url="https://www.youtube.com/results?search_query=data+science+interview+prep"
+                            title="Course: mathematical modelling of football"
+                            description="This series of videos (combination of live videos and prerecorded) take us all the way from loading in data in to Python, through plotting data, expected goals, evaluating actions, working with tracking data, to analysing fitness."
+                            url="https://www.youtube.com/playlist?list=PLedeYskZY0vBOdQ6Uc9eZjZ2-nz1JT3R7"
                             type="video"
                             isAuthenticated={isAuthenticated}
                         />
-                        <ResourceCard
-                            title="Building Sports Dashboards"
-                            description="Step-by-step guide to creating interactive sports analytics dashboards."
-                            url="https://www.youtube.com/results?search_query=sports+dashboard+tutorial"
-                            type="video"
-                            isAuthenticated={isAuthenticated}
-                        />
-                        <ResourceCard
-                            title="Sports Betting Analytics Explained"
-                            description="Deep dive into the mathematics and statistics behind sports betting."
-                            url="https://www.youtube.com/results?search_query=sports+betting+analytics"
-                            type="video"
-                            isPremium={true}
-                            isAuthenticated={isAuthenticated}
-                        />
-                    </Grid> */}
+
+                    </Grid>
                 </Box>
 
                 {/* Tools Section */}
@@ -362,6 +348,14 @@ export default function ResourcesPage() {
                     <Heading size="lg" mb={6} color="white">📊 Sports Data Sources</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
                         <ResourceCard
+                            title="SCORE Sports Data Repository"
+                            description="The SCORE Network Sports Data Repository curates interesting datasets across a variety of sports for use in statistics and data science education."
+                            url="https://data.scorenetwork.org/?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                            hideTypeBadge={true}
+                        />
+                        <ResourceCard
                             title="NFL Data Sources"
                             description="Comprehensive APIs, databases, and tools for NFL statistics, player tracking, and game data. Includes free and premium options for advanced analytics."
                             url="/resources/data-sources/nfl"
@@ -411,6 +405,20 @@ export default function ResourcesPage() {
                             title="Hockey Big Data Cup"
                             description="Hockey analytics competition focusing on NHL tracking data. Analyze player movements, team strategies, and game dynamics. Perfect for breaking into hockey analytics."
                             url="https://stathletes.com/big-data-cup?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                        />
+                        <ResourceCard
+                            title="SMT's Data Challenge​"
+                            description="While there are many well established sports analytics conferences, they are often not accessible to students due to technical level, cost, or space limitations. Connecticut Sports Analytics Symposium (CSAS) is a continuation of the UConn Sports Analytics Symposium (UCSAS) which started in 2019 with a broadened scope. Check the Data Challenge of each year!"
+                            url="https://statds.org/events.html?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                        />
+                        <ResourceCard
+                            title=" Baylor’s National Collegiate Sports Analytics Competition​"
+                            description="Join the nation’s most promising business analytics students as they step into the spotlight at the National Collegiate Sports Analytics Championship. This premier event invites students from universities of all sizes to present their cutting-edge analyses to a panel of esteemed judges, all of whom are seasoned professionals in the field of analytics. It’s a unique opportunity for aspiring analysts to shine, showcasing their skills in a rigorous, real-world scenario"
+                            url="https://sites.baylor.edu/ncbc/national-collegiate-business-championships/sports-analytics/?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
                             type="guide"
                             isAuthenticated={isAuthenticated}
                         />
