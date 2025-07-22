@@ -356,6 +356,14 @@ export default function ResourcesPage() {
                             hideTypeBadge={true}
                         />
                         <ResourceCard
+                            title="SportsDataverse"
+                            description="Lots of R and Python packages to access sports data. An open source sports analytics and data organization."
+                            url="https://www.sportsdataverse.org/?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=resources"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                            hideTypeBadge={true}
+                        />
+                        <ResourceCard
                             title="NFL Data Sources"
                             description="Comprehensive APIs, databases, and tools for NFL statistics, player tracking, and game data. Includes free and premium options for advanced analytics."
                             url="/resources/data-sources/nfl"
