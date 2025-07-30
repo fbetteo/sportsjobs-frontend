@@ -17,7 +17,7 @@ const FeaturedCompanies = () => {
     const companies: FeaturedCompany[] = [
         {
             id: '1',
-            name: 'Athlyticz',
+            name: 'AthlyticZ',
             slug: 'athlyticz',
             tagline: 'Master Data Science Through the Lens of Sports',
             logo_url: '/athlyticz.jpeg',
