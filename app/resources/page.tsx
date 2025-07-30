@@ -12,7 +12,8 @@ import {
     Link,
     Card,
     CardBody,
-    Button
+    Button,
+    Image
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaYoutube, FaBook, FaTools, FaBriefcase, FaLock } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -26,7 +27,9 @@ const ResourceCard = ({
     promoCode,
     discount,
     isAuthenticated,
-    hideTypeBadge = false
+    hideTypeBadge = false,
+    isFeatured = false,
+    logoSrc
 }: {
     title: string;
     description: string;
@@ -37,6 +40,8 @@ const ResourceCard = ({
     discount?: string;
     isAuthenticated?: boolean;
     hideTypeBadge?: boolean;
+    isFeatured?: boolean;
+    logoSrc?: string;
 }) => {
     const getIcon = () => {
         switch (type) {
@@ -57,7 +62,26 @@ const ResourceCard = ({
     };
 
     return (
-        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: 'teal.400' }}>
+        <Card
+            bg={isFeatured ? "purple.900" : "gray.800"}
+            borderColor={isFeatured ? "purple.400" : "gray.600"}
+            borderWidth={isFeatured ? "2px" : "1px"}
+            _hover={{ borderColor: isFeatured ? 'purple.300' : 'teal.400' }}
+            position="relative"
+        >
+            {isFeatured && (
+                <Badge
+                    position="absolute"
+                    top={2}
+                    right={2}
+                    colorScheme="yellow"
+                    variant="solid"
+                    fontSize="xs"
+                    zIndex={1}
+                >
+                    ⭐ FEATURED
+                </Badge>
+            )}
             <CardBody>
                 <VStack align="start" spacing={3}>
                     <HStack wrap="wrap">
@@ -94,7 +118,22 @@ const ResourceCard = ({
                         )}
                     </HStack>
 
-                    <Heading size="md" color="white">{title}</Heading>
+                    {logoSrc ? (
+                        <HStack spacing={3} align="center">
+                            <Image
+                                src={logoSrc}
+                                alt={`${title} logo`}
+                                boxSize="40px"
+                                objectFit="contain"
+                                borderRadius="md"
+                                bg="white"
+                                p={1}
+                            />
+                            <Heading size="md" color="white">{title}</Heading>
+                        </HStack>
+                    ) : (
+                        <Heading size="md" color="white">{title}</Heading>
+                    )}
                     <Text color="gray.300" fontSize="sm">{description}</Text>
 
                     {promoCode && isAuthenticated && (
@@ -152,6 +191,18 @@ export default function ResourcesPage() {
                 <Box w="full">
                     <Heading size="lg" mb={6} color="white">📚 Tutorials & Courses</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+                        <ResourceCard
+                            title="AthlyticZ - Master Data Science
+Through the Lens of Sports"
+                            description="Advance your career in Data Science with project-based training in Machine Learning using Python, R Programming, Shiny Application Development, Bayesian Modeling using Stan, and more. Get lifetime access to asynchronous courses taught by industry experts."
+                            url="https://athlyticz.com/affiliate-courses?am_id=sportsjobs"
+                            type="tutorial"
+                            isFeatured={true}
+                            promoCode="SPORTSJOBS"
+                            discount="Special pricing"
+                            isAuthenticated={isAuthenticated}
+                            logoSrc="/athlyticz.jpeg"
+                        />
                         <ResourceCard
                             title="Build Job Ready Skills in Sports Analytics "
                             description="TailoredU is a cutting-edge learning platform that prepares emerging sports analysts for entry-level jobs and helps professional analysts upskill."

@@ -17,26 +17,27 @@ const FeaturedCompanies = () => {
     const companies: FeaturedCompany[] = [
         {
             id: '1',
+            name: 'Athlyticz',
+            slug: 'athlyticz',
+            tagline: 'Master Data Science Through the Lens of Sports',
+            logo_url: '/athlyticz.jpeg',
+            job_count: 0,
+            external_url: 'https://athlyticz.com/affiliate-courses?am_id=sportsjobs'
+        },
+        {
+            id: '2',
             name: 'The Athletic',
             slug: 'the-athletic',
             tagline: 'Get every sports story that matters.',
-            logo_url: 'https://lever-client-logos.s3.us-west-2.amazonaws.com/8ff13c41-d891-40d4-b9d8-de9c995ff06f-1600385441351.png', // Add your logo URL here
+            logo_url: 'https://lever-client-logos.s3.us-west-2.amazonaws.com/8ff13c41-d891-40d4-b9d8-de9c995ff06f-1600385441351.png',
             job_count: 5
-        }, {
-            id: '2',
-            name: 'Brooks Running',
-            slug: 'Brooks-Running',
-            tagline: 'Shop runner favorites',
-            logo_url: 'https://lever-client-logos.s3.amazonaws.com/f0a2961a-09a7-412e-9b8f-0d186769bc1a-1501529042183.png',
-            job_count: 3,
-            external_url: 'https://www.brooksrunning.com/' // Redirects to external site
         },
         {
             id: '3',
             name: 'Fanatics',
             slug: 'Fanatics',
             tagline: 'Fanatics is not just our name. It is who we are',
-            logo_url: 'https://lever-client-logos.s3.amazonaws.com/a26ea84a-d8a3-4394-9927-2b0243d2df5a-1552380484471.png', // Add your logo URL here
+            logo_url: 'https://lever-client-logos.s3.amazonaws.com/a26ea84a-d8a3-4394-9927-2b0243d2df5a-1552380484471.png',
             job_count: 8
         },
         {
@@ -44,7 +45,7 @@ const FeaturedCompanies = () => {
             name: 'The Score',
             slug: 'The-Score',
             tagline: 'We Empower the Fan Experience',
-            logo_url: 'https://play-lh.googleusercontent.com/dDjFtNHe0GExF_0ldvkanmLP3MR3khTepvsn_HrlwsKX7-50itYY3YT1ohxsvmyhcg', // Add your logo URL here
+            logo_url: 'https://play-lh.googleusercontent.com/dDjFtNHe0GExF_0ldvkanmLP3MR3khTepvsn_HrlwsKX7-50itYY3YT1ohxsvmyhcg',
             job_count: 2
         }
     ]; const trackCompanyClick = (companyName: string, companySlug: string, position: number, isExternal: boolean = false) => {
