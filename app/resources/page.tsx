@@ -123,7 +123,7 @@ const ResourceCard = ({
                             <Image
                                 src={logoSrc}
                                 alt={`${title} logo`}
-                                boxSize="40px"
+                                boxSize="64px"
                                 objectFit="contain"
                                 borderRadius="md"
                                 bg="white"
@@ -201,7 +201,7 @@ Through the Lens of Sports"
                             promoCode="SPORTSJOBS"
                             discount="Special pricing"
                             isAuthenticated={isAuthenticated}
-                            logoSrc="/athlyticz.jpeg"
+                            logoSrc="/athlyticz.png"
                         />
                         <ResourceCard
                             title="Build Job Ready Skills in Sports Analytics "

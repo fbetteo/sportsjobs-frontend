@@ -20,7 +20,7 @@ const FeaturedCompanies = () => {
             name: 'AthlyticZ',
             slug: 'athlyticz',
             tagline: 'Master Data Science Through the Lens of Sports',
-            logo_url: '/athlyticz.jpeg',
+            logo_url: '/athlyticz.png',
             job_count: 0,
             external_url: 'https://athlyticz.com/affiliate-courses?am_id=sportsjobs'
         },
