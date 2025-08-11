@@ -378,6 +378,15 @@ Through the Lens of Sports"
                             isAuthenticated={isAuthenticated}
                         />
                     </Grid> */}
+                    <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+                        <ResourceCard
+                            title="Samford University - Careers & Education in Sports Analytics "
+                            description="To prepare individuals for a career in one of these exciting fields, Samford's Center for Sports Analytics partners with Brock School of Business to offer rigorous sports analytics curricula for mathematically gifted and highly motived candidates paired with a real-world analytics internship in the sports industry."
+                            url="https://www.samford.edu/sports-analytics/careers-and-education"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                        />
+                    </Grid>
                 </Box>
 
                 {/* Books Section */}

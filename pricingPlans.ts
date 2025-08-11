@@ -1,21 +1,23 @@
 // pricingPlans.ts
 export const pricingPlans = [
+  
+
   {
-    planName: 'Lifetime',
-    airtablePlanName: 'lifetime',
-    price: '$59',
+    planName: 'Monthly',
+    airtablePlanName: 'monthly_subscription',
+    price: '$6.99/month',
     features: [
-      '🌟 One-time payment, lifetime access',
-      '💰 Best value for long-term career growth',
+      '🤸‍♂️ Flexible for short time job hunting',
       '💼 Unlimited access to all job posts',
       '🎯 Advanced filtering tools',
       '🔔 Personalized daily job alerts',
       '📱 Mobile-friendly job search',
       '🎁 Exclusive discount codes on courses & tools',
       '💸 Save more than your subscription cost',
+      '↪️ Cancel anytime',
     ],
   },
-  {
+    {
     planName: 'Yearly',
     airtablePlanName: 'yearly_subscription',
     price: '$39/year',
@@ -32,18 +34,18 @@ export const pricingPlans = [
     ],
   },
   {
-    planName: 'Monthly',
-    airtablePlanName: 'monthly_subscription',
-    price: '$6.99/month',
+    planName: 'Lifetime',
+    airtablePlanName: 'lifetime',
+    price: '$59',
     features: [
-      '🤸‍♂️ Flexible for short time job hunting',
+      '🌟 One-time payment, lifetime access',
+      '💰 Best value for long-term career growth',
       '💼 Unlimited access to all job posts',
       '🎯 Advanced filtering tools',
       '🔔 Personalized daily job alerts',
       '📱 Mobile-friendly job search',
       '🎁 Exclusive discount codes on courses & tools',
       '💸 Save more than your subscription cost',
-      '↪️ Cancel anytime',
     ],
   },
 ];

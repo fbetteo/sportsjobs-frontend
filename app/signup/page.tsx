@@ -124,16 +124,7 @@ const SignupPage = () => {
                     <Text fontSize="xl" color="gray.400" mb={4}>
                         Choose the perfect plan to unlock your next career opportunity
                     </Text>
-                    <VStack spacing={4} px={{ base: 4, md: 20 }}>
-                        <Text fontSize="lg" color="gray.400">
-                            <Text as="span" color="teal.300" fontWeight="bold">Annual Plan</Text> - Our most popular choice! Perfect for both active job seekers and professionals
-                            who want to stay aware of opportunities. Enjoy flexibility and continuous access throughout the year.
-                        </Text>
-                        <Text fontSize="lg" color="gray.400">
-                            <Text as="span" color="teal.300" fontWeight="bold">Lifetime Access</Text> - A one-time investment that pays off. Get all the benefits of the annual plan
-                            without recurring payments. Ideal for career-focused professionals who want long-term access.
-                        </Text>
-                    </VStack>
+
                 </Box>
 
                 <Box
@@ -176,21 +167,21 @@ const SignupPage = () => {
 
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} width="full">
                     <PricingCard
-                        title="Lifetime Access"
-                        price="$59"
-                        period="one-time payment"
+                        title="Monthly Plan"
+                        price="$6.99"
+                        period="per month"
                         features={[
-                            '🌟 One-time payment, lifetime access',
-                            '💰 Best value for long-term career growth',
+                            '🤸‍♂️ Flexible for short time job hunting',
                             '💼 Unlimited access to all job posts',
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
                             '🎁 Exclusive discount codes on courses & tools',
                             '💸 Save more than your subscription cost',
+                            '↪️ Cancel anytime',
                         ]}
-                        priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
-                        onSubscribe={(priceId) => handleSubscribe(priceId, true)}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
+                        onSubscribe={(priceId) => handleSubscribe(priceId)}
                     />
                     <PricingCard
                         title="Annual Plan"
@@ -210,27 +201,38 @@ const SignupPage = () => {
                         priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
                         onSubscribe={(priceId) => handleSubscribe(priceId)}
                         isPopular={true}
-                    />                    <PricingCard
-                        title="Monthly Plan"
-                        price="$6.99"
-                        period="per month"
+                    />
+                    <PricingCard
+                        title="Lifetime Access"
+                        price="$59"
+                        period="one-time payment"
                         features={[
-                            '🤸‍♂️ Flexible for short time job hunting',
+                            '🌟 One-time payment, lifetime access',
+                            '💰 Best value for long-term career growth',
                             '💼 Unlimited access to all job posts',
                             '🎯 Advanced filtering tools',
                             '🔔 Personalized daily job alerts',
                             '📱 Mobile-friendly job search',
                             '🎁 Exclusive discount codes on courses & tools',
                             '💸 Save more than your subscription cost',
-                            '↪️ Cancel anytime',
                         ]}
-                        priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
-                        onSubscribe={(priceId) => handleSubscribe(priceId)}
+                        priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
+                        onSubscribe={(priceId) => handleSubscribe(priceId, true)}
                     />
                 </SimpleGrid>
 
 
                 <SenjaMarquee />
+                <VStack spacing={4} px={{ base: 4, md: 20 }}>
+                    <Text fontSize="lg" color="gray.400">
+                        <Text as="span" color="teal.300" fontWeight="bold">Annual Plan</Text> - Our most popular choice! Perfect for both active job seekers and professionals
+                        who want to stay aware of opportunities. Enjoy flexibility and continuous access throughout the year.
+                    </Text>
+                    <Text fontSize="lg" color="gray.400">
+                        <Text as="span" color="teal.300" fontWeight="bold">Lifetime Access</Text> - A one-time investment that pays off. Get all the benefits of the annual plan
+                        without recurring payments. Ideal for career-focused professionals who want long-term access.
+                    </Text>
+                </VStack>
                 <FAQ />
             </VStack>
         </Container>
