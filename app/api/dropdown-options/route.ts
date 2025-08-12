@@ -62,5 +62,13 @@ const fetchDropdownOptions = async () => {
   
   export async function GET() {
     const options = await fetchDropdownOptions();
-    return NextResponse.json(options);
+    
+    // Create response with cache headers
+    const apiResponse = NextResponse.json(options);
+    
+    // Cache for 24 hours (dropdown options rarely change)
+    // s-maxage=86400 (24 hours), max-age=3600 (1 hour browser)
+    apiResponse.headers.set('Cache-Control', 'public, s-maxage=86400, max-age=3600, stale-while-revalidate=172800');
+    
+    return apiResponse;
   }

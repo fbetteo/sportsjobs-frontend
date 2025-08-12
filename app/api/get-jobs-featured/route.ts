@@ -81,7 +81,13 @@ export async function GET(req: NextRequest) {
       return baseJob;
     });
 
-    return NextResponse.json({ jobs });
+    // Create response with cache headers  
+    const apiResponse = NextResponse.json({ jobs });
+    
+    // Cache for 10 minutes at edge (featured jobs change less frequently)
+    apiResponse.headers.set('Cache-Control', 'public, s-maxage=9000, max-age=9000, stale-while-revalidate=18000');
+    
+    return apiResponse;
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
