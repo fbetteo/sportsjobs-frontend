@@ -46,6 +46,13 @@ interface Job {
     id: string;
     title: string;
     company: string;
+    salary?: string;
+    location?: string;
+    logo_permanent_url?: string;
+    description?: string; // Optional for list view
+    seniority?: string;
+    days_ago_text?: string;
+    remote_string?: string;
     // ...add other job properties you need
 }
 
@@ -56,6 +63,14 @@ export default function HomeContent() {
     const { user, isLoading: userLoading } = useUser();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
+
+    // Track previous user to prevent unnecessary refetches
+    const prevUserRef = useRef<typeof user>(undefined);
+    const userChanged = user?.sub !== prevUserRef.current?.sub;
+
+    // Debounce timeout refs
+    const featuredJobsTimeoutRef = useRef<NodeJS.Timeout>();
+    const regularJobsTimeoutRef = useRef<NodeJS.Timeout>();
 
     const pricingSectionRef = useRef<HTMLDivElement>(null);
     const scrollToPricing = () => {
@@ -126,6 +141,11 @@ export default function HomeContent() {
     }, []);
 
     useEffect(() => {
+        // Clear existing timeout
+        if (featuredJobsTimeoutRef.current) {
+            clearTimeout(featuredJobsTimeoutRef.current);
+        }
+
         const getOptions = async () => {
             const localOptions = localStorage.getItem('dropdownOptions');
             if (localOptions) {
@@ -140,7 +160,9 @@ export default function HomeContent() {
                 setDropwdownOptions(sortedOptions);
                 localStorage.setItem('dropdownOptions', JSON.stringify(sortedOptions));
             }
-        }; const fetchFeaturedData = async () => {
+        };
+
+        const fetchFeaturedData = async () => {
             try {
                 const jobLimit = user ? 300 : 5;
                 const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
@@ -157,12 +179,30 @@ export default function HomeContent() {
             }
         };
 
+        // Only fetch when user actually changes (not just Auth0 state updates)
+        if (userChanged || !prevUserRef.current) {
+            // Debounce the API calls by 300ms
+            featuredJobsTimeoutRef.current = setTimeout(() => {
+                getOptions();
+                fetchFeaturedData();
+                prevUserRef.current = user; // Update the ref
+            }, 300);
+        }
 
-        getOptions();
-        fetchFeaturedData();
-    }, [user]);
+        // Cleanup timeout on unmount
+        return () => {
+            if (featuredJobsTimeoutRef.current) {
+                clearTimeout(featuredJobsTimeoutRef.current);
+            }
+        };
+    }, [user, userChanged]);
 
     useEffect(() => {
+        // Clear existing timeout
+        if (regularJobsTimeoutRef.current) {
+            clearTimeout(regularJobsTimeoutRef.current);
+        }
+
         const fetchData = async () => {
             try {
                 const jobLimit = user ? 300 : 8;
@@ -181,8 +221,25 @@ export default function HomeContent() {
             }
         };
 
-        fetchData();
-    }, [user, filters]);
+        // Debounce regular jobs fetch
+        regularJobsTimeoutRef.current = setTimeout(() => {
+            // Only fetch when user actually changes OR filters change
+            if (userChanged || !prevUserRef.current) {
+                fetchData();
+                prevUserRef.current = user; // Update the ref
+            } else {
+                // If only filters changed (not user), still fetch
+                fetchData();
+            }
+        }, 300);
+
+        // Cleanup timeout on unmount
+        return () => {
+            if (regularJobsTimeoutRef.current) {
+                clearTimeout(regularJobsTimeoutRef.current);
+            }
+        };
+    }, [user, filters, userChanged]);
 
     // Save scroll position before navigation
     useEffect(() => {
