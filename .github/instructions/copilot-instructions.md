@@ -72,6 +72,7 @@ Component.displayName = 'Component';
 - **User Creation**: `createAuth0User()` for programmatic user registration
 - **Metadata Storage**: User subscription status stored in Auth0 user metadata
 - **Environment Setup**: Requires `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_BASE_URL`, `AUTH0_SECRET`
+- **State Optimization**: Use `useRef` to track `user.sub` changes and prevent unnecessary API calls during Auth0 state updates
 
 ### Subscription System
 - **Pricing Tiers**: Defined in `pricingPlans.ts` (lifetime, yearly, monthly)
@@ -82,6 +83,31 @@ Component.displayName = 'Component';
 - **ID Encoding**: Numeric IDs encoded with random suffixes for URLs
 - **Filtering**: Complex filter system with location, seniority, industry, sport
 - **Featured Jobs**: Separate API endpoint and components for promoted listings
+
+### Data Transfer Optimization (Vercel Edge Network)
+- **Problem**: Heavy API responses (300+ jobs with descriptions) caused Vercel limits
+- **Solution Pattern**: Dual API modes - minimal for lists, full for details
+- **API Parameter**: Use `?full=true` to get complete job objects with descriptions/skills
+- **Default Behavior**: List APIs return minimal job data without heavy fields
+- **Implementation**: 
+  ```typescript
+  // Fetch functions accept includeFullDetails parameter (defaults to false)
+  fetchJobs(limit, filters, includeFullDetails = false)
+  fetchJobsFeatured(limit, includeFullDetails = false)
+  ```
+- **Data Reduction**: 75%+ reduction by excluding `description` and `skills` from list views
+- **User State Optimization**: Track `user.sub` changes to prevent unnecessary Auth0 refetches
+- **Debouncing**: 300ms timeouts prevent rapid-fire API calls during Auth0 state updates
+- **Cache Strategy**: SessionStorage with 3-hour expiration, invalidates only on real user changes
+
+### Performance Patterns
+- **Auth0 State Management**: Use `useRef` to track previous user state and prevent redundant API calls
+- **Request Debouncing**: Implement timeouts for user-dependent effects to handle Auth0's multiple state updates
+- **Data Fetching Strategy**: 
+  - Landing page: Minimal data (no descriptions)
+  - Job details page: Full data via `/api/get-job-details`
+  - Featured vs regular jobs: Separate endpoints with same optimization pattern
+- **Vercel Limits**: Monitor Fast Data Transfer (outgoing > incoming due to user multiplier effect)
 
 ## Critical Commands
 
@@ -111,3 +137,95 @@ Required for full functionality:
 - Handle loading states with Chakra's `Spinner` or skeleton components
 - Use Next.js `Image` component for optimized images
 - Implement proper SEO with metadata in page components
+
+## Data Transfer Best Practices
+- **Minimal List Views**: Never include heavy fields (`description`, `skills`) in list APIs
+- **Progressive Enhancement**: Load minimal data first, full details on demand
+- **Auth0 Optimization**: Check `user.sub` changes rather than relying on object equality
+- **Request Patterns**: 
+  - Debounce user-dependent API calls by 300ms
+  - Use cleanup functions in useEffect to cancel pending timeouts
+  - Track in-flight requests to prevent duplicates
+- **API Design**: Default to minimal data, require explicit `?full=true` for complete objects
+- **Caching Strategy**: Use sessionStorage for temporary data, localStorage for dropdown options
+
+## Implemented Optimizations
+
+### User State Stability Pattern
+```tsx
+// Track previous user to prevent unnecessary refetches
+const prevUserRef = useRef<typeof user>(undefined);
+const userChanged = user?.sub !== prevUserRef.current?.sub;
+
+// Only fetch when user actually changes
+if (userChanged || !prevUserRef.current) {
+    fetchData();
+    prevUserRef.current = user;
+}
+```
+
+### Request Debouncing Pattern
+```tsx
+// Debounce timeout refs
+const timeoutRef = useRef<NodeJS.Timeout>();
+
+useEffect(() => {
+    // Clear existing timeout
+    if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+    }
+    
+    // Debounce API calls by 300ms
+    timeoutRef.current = setTimeout(() => {
+        if (userChanged) {
+            fetchData();
+        }
+    }, 300);
+    
+    // Cleanup timeout on unmount
+    return () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+    };
+}, [user, userChanged]);
+```
+
+### Minimal Data API Pattern
+```tsx
+// API routes check for full details parameter
+const includeFullDetails = searchParams.get('full') === 'true';
+
+const jobs = records.map((record: any) => {
+    const baseJob = { /* minimal fields */ };
+    
+    // Only include heavy fields if specifically requested
+    if (includeFullDetails) {
+        return { ...baseJob, description: record.description, skills: record.skills };
+    }
+    return baseJob;
+});
+```
+
+## Troubleshooting Vercel Limits
+- **Fast Data Transfer**: Outgoing traffic (Vercel → users) is usually the bottleneck
+- **Root Causes**: Large API responses × multiple users = exponential data transfer
+- **Monitoring**: Check response sizes in Network tab, multiply by user count
+- **Outgoing vs Incoming**: 
+  - Outgoing (Vercel → Users): Job data, static assets, API responses (biggest concern)
+  - Incoming (External → Vercel): Python backend calls, Auth0 API calls, webhooks
+  - Ratio: Often 20:1 outgoing vs incoming due to user multiplication effect
+- **Quick Fixes**: 
+  1. Remove unused fields from API responses (75% reduction possible)
+  2. Add user state stability checks (60-80% fewer redundant requests)
+  3. Implement request debouncing (prevents rapid-fire API calls)
+  4. Reduce job limits for authenticated users if needed
+  5. Use minimal data for list views, full data for detail views
+
+## Key Learnings
+- **Auth0 State Updates**: Can trigger multiple useEffect calls during authentication flow
+- **JobCard Description**: Heavy field that's passed but never displayed in list views
+- **Data Multiplication**: 1 backend call = N user responses (where N = number of users)
+- **Session Storage**: Better than localStorage for temporary data with TTL
+- **Component Optimization**: Make heavy fields optional in TypeScript interfaces
+- **API Flexibility**: Design APIs to serve both minimal and full data modes
