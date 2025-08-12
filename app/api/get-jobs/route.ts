@@ -133,25 +133,39 @@ export async function GET(req: NextRequest) {
     //   days_ago_text: record.get('days_ago_text'),
     //   }));
 
-    const jobs = records.map((record: any) => ({
-      id: record.slug || record.job_id, // Prefer slug if available
-      job_id: record.job_id, // Keep original ID for reference
-      title: record.name,
-      start_date: record.creation_date,
-      company: record.company,
-      description: record.description,
-      location: record.location,
-      salary: record.salary,
-      country: record.country,
-      seniority: record.seniority,
-      remote: record.remote,
-      skills: record.skills,
-      logo_permanent_url: record.logo_permanent_url,
-      remote_string: record.remote_office,
-      days_ago_text: getDaysAgoText(record.creation_date),
-      url: record.url,
-      slug: record.slug,
-    }));
+    // Check if this is a request for minimal data (list view)
+    const includeFullDetails = searchParams.get('full') === 'true';
+    
+    const jobs = records.map((record: any) => {
+      const baseJob = {
+        id: record.slug || record.job_id, // Prefer slug if available
+        job_id: record.job_id, // Keep original ID for reference
+        title: record.name,
+        start_date: record.creation_date,
+        company: record.company,
+        location: record.location,
+        salary: record.salary,
+        country: record.country,
+        seniority: record.seniority,
+        remote: record.remote,
+        logo_permanent_url: record.logo_permanent_url,
+        remote_string: record.remote_office,
+        days_ago_text: getDaysAgoText(record.creation_date),
+        url: record.url,
+        slug: record.slug,
+      };
+
+      // Only include heavy fields if specifically requested
+      if (includeFullDetails) {
+        return {
+          ...baseJob,
+          description: record.description,
+          skills: record.skills,
+        };
+      }
+
+      return baseJob;
+    });
     
 
     return NextResponse.json({ jobs });

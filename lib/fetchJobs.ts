@@ -3,12 +3,17 @@ const baseUrl = process.env.NODE_ENV === 'production'
     ? 'https://www.sportsjobs.online' 
     : 'http://localhost:3000';
 
-export async function fetchJobs(limit: number, filters: string) {
+export async function fetchJobs(limit: number, filters: string, includeFullDetails: boolean = false) {
     try {
         // Parse filters and create URLSearchParams
         const filterObj = JSON.parse(filters);
         const params = new URLSearchParams();
         params.append('limit', limit.toString());
+        
+        // Add full details parameter (defaults to false for landing page)
+        if (includeFullDetails) {
+            params.append('full', 'true');
+        }
         
         // Handle filters separately to ensure proper encoding
         Object.entries(filterObj).forEach(([key, value]) => {

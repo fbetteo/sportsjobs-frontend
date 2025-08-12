@@ -10,7 +10,7 @@ interface JobCardProps {
     salary: string;
     location: string;
     logo_permanent_url: string;
-    description: string;
+    description?: string; // Make optional since it's not used in list view
     seniority: string;
     days_ago_text: string;
     remote_string: string;
