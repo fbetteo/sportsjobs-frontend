@@ -100,6 +100,26 @@ Component.displayName = 'Component';
 - **Debouncing**: 300ms timeouts prevent rapid-fire API calls during Auth0 state updates
 - **Cache Strategy**: SessionStorage with 3-hour expiration, invalidates only on real user changes
 
+### Fast Origin Transfer Optimization (Cache Headers)
+- **Problem**: Every API request hit origin (0% cache hit rate) causing excessive origin transfer
+- **Solution**: Implement strategic cache headers to reduce origin requests by 80-95%
+- **Cache Strategy**:
+  ```typescript
+  // Regular jobs API - 5 minute edge cache
+  'Cache-Control': 'public, s-maxage=300, max-age=60, stale-while-revalidate=600'
+  
+  // Featured jobs API - 10 minute edge cache (changes less frequently)  
+  'Cache-Control': 'public, s-maxage=600, max-age=120, stale-while-revalidate=1200'
+  
+  // Dropdown options API - 24 hour edge cache (rarely changes)
+  'Cache-Control': 'public, s-maxage=86400, max-age=3600, stale-while-revalidate=172800'
+  ```
+- **Cache Control Explained**:
+  - `s-maxage`: Edge cache duration (affects Fast Origin Transfer)
+  - `max-age`: Browser cache duration (affects Fast Data Transfer)
+  - `stale-while-revalidate`: Serve stale content while fetching fresh data in background
+- **Impact**: 3 origin requests per user → 1 origin request per 12-288 users (depending on endpoint)
+
 ### Performance Patterns
 - **Auth0 State Management**: Use `useRef` to track previous user state and prevent redundant API calls
 - **Request Debouncing**: Implement timeouts for user-dependent effects to handle Auth0's multiple state updates
@@ -207,20 +227,54 @@ const jobs = records.map((record: any) => {
 });
 ```
 
+### Cache Headers Implementation Pattern
+```tsx
+// API route with strategic cache headers
+const apiResponse = NextResponse.json({ jobs });
+
+// Set cache headers based on data volatility
+apiResponse.headers.set('Cache-Control', 'public, s-maxage=300, max-age=60, stale-while-revalidate=600');
+
+return apiResponse;
+```
+
+**Cache Duration Guidelines**:
+- **Static data** (dropdown options): 24 hours edge cache
+- **Semi-static data** (featured jobs): 10 minutes edge cache  
+- **Dynamic data** (job listings): 5 minutes edge cache
+- **User-specific data**: Minimal or no caching
+
 ## Troubleshooting Vercel Limits
-- **Fast Data Transfer**: Outgoing traffic (Vercel → users) is usually the bottleneck
-- **Root Causes**: Large API responses × multiple users = exponential data transfer
+
+### Fast Data Transfer (Outgoing: Vercel → Users)
+- **What it measures**: Data sent from Vercel (including edge cache) to users' browsers
+- **Main causes**: Large API responses × multiple users = exponential data transfer
 - **Monitoring**: Check response sizes in Network tab, multiply by user count
+- **Solutions**: 
+  1. Remove unused fields from API responses (75% reduction possible)
+  2. Add user state stability checks (60-80% fewer redundant requests)
+  3. Implement request debouncing (prevents rapid-fire API calls)
+  4. Use minimal data for list views, full data for detail views
+
+### Fast Origin Transfer (Origin → Vercel Edge)
+- **What it measures**: Data transferred from your app/server to Vercel's edge network
+- **Main causes**: High cache miss rate, frequent cache invalidation, large backend responses
+- **Key insight**: Edge cache hits still count toward Fast Data Transfer, but NOT Fast Origin Transfer
+- **Solutions**:
+  1. Add strategic cache headers (`s-maxage` for edge cache duration)
+  2. Optimize cache key strategy to reduce fragmentation
+  3. Combine multiple API endpoints to reduce origin requests
+  4. Use longer cache durations for semi-static content
+
+### Data Transfer Patterns
 - **Outgoing vs Incoming**: 
   - Outgoing (Vercel → Users): Job data, static assets, API responses (biggest concern)
   - Incoming (External → Vercel): Python backend calls, Auth0 API calls, webhooks
   - Ratio: Often 20:1 outgoing vs incoming due to user multiplication effect
-- **Quick Fixes**: 
-  1. Remove unused fields from API responses (75% reduction possible)
-  2. Add user state stability checks (60-80% fewer redundant requests)
-  3. Implement request debouncing (prevents rapid-fire API calls)
-  4. Reduce job limits for authenticated users if needed
-  5. Use minimal data for list views, full data for detail views
+- **Cache Impact**:
+  - Browser cache (`max-age`): Reduces Fast Data Transfer only
+  - Edge cache (`s-maxage`): Reduces Fast Origin Transfer only
+  - Both work together to optimize overall performance
 
 ## Key Learnings
 - **Auth0 State Updates**: Can trigger multiple useEffect calls during authentication flow
