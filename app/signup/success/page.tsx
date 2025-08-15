@@ -4,6 +4,7 @@ import React, { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Script from 'next/script';
 import {
     Container,
     VStack,
@@ -30,13 +31,22 @@ const SuccessPageContent = () => {
     const [formData, setFormData] = useState({ email: '', password: '', name: '' });
     const [passwordError, setPasswordError] = useState('');
 
-    const sessionId = searchParams.get('session_id');
+    const sessionId = searchParams?.get('session_id');
 
     useEffect(() => {
         if (user) {
             window.location.href = '/dashboard';
         }
     }, [user]);
+
+    useEffect(() => {
+        // Track Google Ads conversion when page loads
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'conversion', {
+                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq'
+            });
+        }
+    }, []);
 
     const handlePasswordSignup = async (e: React.FormEvent) => {
         e.preventDefault();

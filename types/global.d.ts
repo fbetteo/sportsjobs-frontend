@@ -1,6 +1,5 @@
-declare module 'sparkloop';
+// Global type declarations
 
-// Google Analytics/Ads gtag types
 declare global {
   interface Window {
     gtag: (

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import {
     Box,
     Container,
@@ -14,6 +15,15 @@ import Link from 'next/link';
 import { FiCheckCircle, FiMail } from 'react-icons/fi';
 
 const SuccessPage = () => {
+    useEffect(() => {
+        // Track Google Ads conversion when page loads
+        if (typeof window !== 'undefined' && window.gtag) {
+            window.gtag('event', 'conversion', {
+                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq'
+            });
+        }
+    }, []);
+
     return (
         <Container maxW="container.md" py={20}>
             <VStack spacing={8} textAlign="center">
