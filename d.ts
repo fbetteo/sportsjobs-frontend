@@ -1,15 +1,1 @@
-declare module 'sparkloop';
-
-// Google Analytics/Ads gtag types
-declare global {
-  interface Window {
-    gtag: (
-      command: 'config' | 'event',
-      targetId: string,
-      config?: any
-    ) => void;
-    dataLayer: any[];
-  }
-}
-
-export {};
+// This file is kept for backwards compatibility but types have been moved to types/global.d.ts
