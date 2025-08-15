@@ -1,15 +1,7 @@
 // components/SignupForm.tsx
-declare global {
-    interface Window {
-        SL: {
-            trackSubscriber: (email: string) => void;
-        };
-    }
-}
 
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, useToast, Flex, Text } from '@chakra-ui/react';
-import sparkloop from 'sparkloop';
 
 const NewsletterSignupForm = () => {
     const [email, setEmail] = useState('');
@@ -17,11 +9,19 @@ const NewsletterSignupForm = () => {
     const toast = useToast();
 
     useEffect(() => {
+        // Only load sparkloop on client side
+        if (typeof window === 'undefined') return;
+        
         try {
-            // Initialize SparkLoop with options
-            console.log("CARGANDO SPARKLOOP")
-            const opts = { scan_forms: false }; // Prevent SparkLoop from scanning forms automatically
-            sparkloop('team_88199bebd026', opts); // Replace with your actual SparkLoop team ID
+            // Dynamic import to avoid SSR issues
+            import('sparkloop').then((sparkloopModule) => {
+                const sparkloop = sparkloopModule.default || sparkloopModule;
+                console.log("CARGANDO SPARKLOOP")
+                const opts = { scan_forms: false }; // Prevent SparkLoop from scanning forms automatically
+                sparkloop('team_88199bebd026', opts); // Replace with your actual SparkLoop team ID
+            }).catch((error) => {
+                console.error('Error loading SparkLoop:', error);
+            });
         } catch (error) {
             console.error('Error initializing SparkLoop:', error);
         }

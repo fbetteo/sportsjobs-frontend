@@ -14,9 +14,9 @@ export async function fetchBlogPosts(limit: number, filters: string) {
             if (value) params.append(key, value.toString());
         });
 
+        // Use revalidation instead of no-store for better static generation support
         const response = await fetch(`${baseUrl}/api/get-blogposts?${params.toString()}`, {
-            cache: 'no-store',
-            next: { revalidate: 0 }
+            next: { revalidate: 9000 } // 
         });
         
         const data = await response.json();

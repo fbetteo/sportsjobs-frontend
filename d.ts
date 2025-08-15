@@ -1,1 +1,1 @@
-// This file is kept for backwards compatibility but types have been moved to types/global.d.ts
+declare module 'sparkloop';
