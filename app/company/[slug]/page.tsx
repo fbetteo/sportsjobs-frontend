@@ -148,7 +148,7 @@ export default function CompanyContent({ params }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const jobLimit = user ? 250 : 8;
+                const jobLimit = user ? 250 : 100;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
                 console.log(filters)
                 if (Array.isArray(fetchedJobs)) {
@@ -242,7 +242,7 @@ export default function CompanyContent({ params }: Props) {
                             <PostJobLink />
                         </Box>
                         <JobListFeatured jobs={featuredJobs} />
-                        <JobList jobs={jobs} user={user} free_job_limit={1} scrollToPricing={scrollToPricing} />
+                        <JobList jobs={jobs} user={user} free_job_limit={100} scrollToPricing={scrollToPricing} />
                         <div ref={pricingSectionRef}>
                             <MixedPricingCard />
                         </div>
