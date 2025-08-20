@@ -172,7 +172,7 @@ export async function GET(req: NextRequest) {
     
     // Cache for 30 minutes at edge (300 seconds)
     // s-maxage = edge cache, max-age = browser cache
-    apiResponse.headers.set('Cache-Control', 'public, s-maxage=9000, max-age=9000, stale-while-revalidate=18000');
+    apiResponse.headers.set('Cache-Control', 'public, s-maxage=600, max-age=600, stale-while-revalidate=1200');
     
     return apiResponse;
   } catch (error) {
