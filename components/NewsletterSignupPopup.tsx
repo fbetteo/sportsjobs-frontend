@@ -72,6 +72,19 @@ const SignupPopup = () => {
                 isClosable: true,
             });
         } else {
+            // Track Google Ads newsletter conversion
+            if (typeof window !== 'undefined' && window.gtag) {
+                window.gtag('event', 'conversion', {
+                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq' // Replace with your newsletter conversion label
+                });
+
+                // Also track as Google Analytics event for additional insights
+                window.gtag('event', 'newsletter_signup', {
+                    'event_category': 'engagement',
+                    'event_label': 'newsletter_popup'
+                });
+            }
+
             toast({
                 title: 'Success',
                 description: 'You have been subscribed!',

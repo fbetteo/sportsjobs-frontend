@@ -11,7 +11,7 @@ const NewsletterSignupForm = () => {
     useEffect(() => {
         // Only load sparkloop on client side
         if (typeof window === 'undefined') return;
-        
+
         try {
             // Dynamic import to avoid SSR issues
             import('sparkloop').then((sparkloopModule) => {
@@ -61,6 +61,19 @@ const NewsletterSignupForm = () => {
             } catch (sparkloopError) {
                 console.error('Sparkloop tracking error:', sparkloopError);
                 // Don't show this error to user since subscription was successful
+            }
+
+            // Track Google Ads newsletter conversion
+            if (typeof window !== 'undefined' && window.gtag) {
+                window.gtag('event', 'conversion', {
+                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq' // Replace with your newsletter conversion label
+                });
+
+                // Also track as Google Analytics event for additional insights
+                window.gtag('event', 'newsletter_signup', {
+                    'event_category': 'engagement',
+                    'event_label': 'newsletter_form'
+                });
             }
 
             toast({
