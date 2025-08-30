@@ -72,6 +72,22 @@ const SignupPopup = () => {
                 isClosable: true,
             });
         } else {
+            // Record signup in database
+            try {
+                await fetch('/api/add-newsletter-signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        source: 'website-modal'
+                    }),
+                });
+            } catch (dbError) {
+                console.error('Database recording error:', dbError);
+                // Don't show this error to user since newsletter subscription was successful
+            }
             // Track Google Ads newsletter conversion
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {

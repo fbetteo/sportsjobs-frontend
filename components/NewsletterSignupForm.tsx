@@ -32,6 +32,7 @@ const NewsletterSignupForm = () => {
         e.preventDefault();
 
         try {
+            // First, subscribe to newsletter via Beehiiv
             const res = await fetch('/api/subscribe-newsletter', {
                 method: 'POST',
                 headers: {
@@ -51,6 +52,23 @@ const NewsletterSignupForm = () => {
                     isClosable: true,
                 });
                 return;
+            }
+
+            // Record signup in database
+            try {
+                await fetch('/api/add-newsletter-signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        source: 'website-form'
+                    }),
+                });
+            } catch (dbError) {
+                console.error('Database recording error:', dbError);
+                // Don't show this error to user since newsletter subscription was successful
             }
 
             // Only track with Sparkloop after successful subscription
