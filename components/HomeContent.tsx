@@ -275,6 +275,17 @@ export default function HomeContent() {
                         minHeight="40px"
                     >
                         <Button
+                            as="a"
+                            href="/signup"
+                            colorScheme="purple"
+                            w={{ base: "90%", md: "auto" }}
+                            px={6}
+                            py={5}
+                            fontSize={{ base: "x-small", md: "small" }}
+                        >
+                            🔓 Unlock All Jobs
+                        </Button>
+                        <Button
                             onClick={handleOpenForm}
                             colorScheme="purple"
                             w={{ base: "90%", md: "auto" }}

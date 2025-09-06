@@ -120,9 +120,9 @@ const SignupPage = () => {
         <Container maxW="container.xl" py={16}>
             <VStack spacing={10}>
                 <Box textAlign="center" mb={8}>
-                    <Heading size="2xl" mb={4}>Invest in Your Sports Career</Heading>
+                    <Heading size="2xl" mb={4}>Find Sports Analytics Jobs That Others Never See</Heading>
                     <Text fontSize="xl" color="gray.400" mb={4}>
-                        Choose the perfect plan to unlock your next career opportunity
+                        Stop missing out on hidden opportunities in sports data, analytics, and tech roles
                     </Text>
 
                 </Box>
