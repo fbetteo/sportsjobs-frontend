@@ -340,6 +340,17 @@ export default function HomeContent() {
                                 <MixedPricingCard />
                             </Suspense>
                         </Box>
+                        <Suspense fallback={
+                            <Box
+                                minH={{ base: "1000px", md: "800px" }}
+                                width="100%"
+                                bg="gray.800"
+                                borderRadius="xl"
+                            />
+                        }>
+                            <SenjaWallOfLove />
+                        </Suspense>
+
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
                         </Suspense>
@@ -355,16 +366,6 @@ export default function HomeContent() {
                             </VStack>
                         </Center>
 
-                        <Suspense fallback={
-                            <Box
-                                minH={{ base: "1000px", md: "800px" }}
-                                width="100%"
-                                bg="gray.800"
-                                borderRadius="xl"
-                            />
-                        }>
-                            <SenjaWallOfLove />
-                        </Suspense>
                         <Box mb={8}>
                             <JourneyLink />
                         </Box>
