@@ -19,7 +19,7 @@ const SignupPopup = () => {
             if (!lastShown || currentTime - parseInt(lastShown) > 24 * 60 * 60 * 1000) { // 24 hours
                 const timer = setTimeout(() => {
                     setIsOpen(true);
-                }, 5000); // 5 seconds
+                }, 10000); // 5 seconds
 
                 return () => clearTimeout(timer);
             }
