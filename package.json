@@ -33,7 +33,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
-    "sparkloop": "^2.0.0",
+    "sparkloop": "^2.2.3",
     "stripe": "^16.6.0"
   },
   "devDependencies": {
