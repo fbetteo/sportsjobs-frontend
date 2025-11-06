@@ -9,7 +9,7 @@ const Introduction = () => {
                 Find Your Dream Job in Sports Analytics
             </Heading>
             <Text fontSize="2xl" textAlign="center">
-                All in one place. Stop wasting time with a dozen tabs.
+                All Sports analytics jobs in one place. Stop wasting time with a dozen tabs.
             </Text>            <Text fontSize="md" textAlign="center">
                 Search hundreds of sports analytics, engineering, data, and marketing jobs. Search by location, skills, and seniority.
             </Text>
