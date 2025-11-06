@@ -8,6 +8,10 @@ export async function GET() {
     Allow: /
 
     Sitemap: https://www.sportsjobs.online/sitemap.xml
+    
+    # LLM-friendly content for AI assistants
+    # See https://llmstxt.org for more information
+    Allow: /llms.txt
   `.trim(); // trim to remove any extra whitespace
 
   // Return the robots.txt content with the correct content type
