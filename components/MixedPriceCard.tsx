@@ -162,7 +162,7 @@ const MixedPricingCard = () => {
                         borderRadius="xl"
                         textAlign="center"
                         boxShadow="xl"
-                        bg="gray.700"
+                        bg={plan.planName === "Yearly" ? "purple.700" : "gray.700"}
                         transition="all 0.3s"
                         position="relative"
                         display="flex"
@@ -180,8 +180,8 @@ const MixedPricingCard = () => {
                                 top="-12px"
                                 left="50%"
                                 transform="translateX(-50%)"
-                                bg="purple.500"
-                                color="white"
+                                bg="yellow.400"
+                                color="gray.800"
                                 px={6}
                                 py={2}
                                 borderRadius="full"
@@ -189,7 +189,7 @@ const MixedPricingCard = () => {
                                 fontWeight="bold"
                                 boxShadow="lg"
                             >
-                                Most Popular
+                                BEST VALUE
                             </Text>
                         )}
 
@@ -202,9 +202,7 @@ const MixedPricingCard = () => {
                                 {plan.price}
                             </Text>
                             <Text fontSize="md" color="gray.300" minH="20px">
-                                {plan.planName === "Yearly" ? "Only $3.25/month billed annually" :
-                                    plan.planName === "Monthly" ? "Billed Monthly" :
-                                        plan.planName === "Lifetime" ? "One-time payment" : ""}
+                                {plan.period}
                             </Text>
                         </Box>
 
@@ -229,6 +227,8 @@ const MixedPricingCard = () => {
                         {/* Button Section */}
                         <Button
                             colorScheme="purple"
+                            bg={plan.planName === "Yearly" ? "yellow.400" : "purple.500"}
+                            color={plan.planName === "Yearly" ? "gray.800" : "white"}
                             size="lg"
                             w="full"
                             py={6}
@@ -237,12 +237,12 @@ const MixedPricingCard = () => {
                             onClick={() => handleSelectPlan(plan.airtablePlanName)}
                             _hover={{
                                 transform: "scale(1.02)",
-                                bg: "purple.500"
+                                bg: plan.planName === "Yearly" ? "yellow.300" : "purple.400"
                             }}
                             transition="all 0.2s"
                             boxShadow="lg"
                         >
-                            Get Started Now
+                            {plan.ctaText || 'Get Started Now'}
                         </Button>
                     </Box>
                 ))}

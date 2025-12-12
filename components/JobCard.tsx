@@ -58,25 +58,23 @@ export function JobCard({
             >
                 {/* Use motion.div from framer-motion for subtle hover effects */}
                 <Box
-                    // as={motion.div}
                     p={5}
                     shadow="md"
                     borderWidth={isFeatured ? "2px" : "1px"}
                     borderRadius="lg"
                     width="100%"
-                    // maxW="800px"
                     margin="auto"
-                    bg={isFeatured ? "linear-gradient(135deg, #f6d365 0%, #fda085 100%)" : "gray.300"}
-                    color={isFeatured ? "black" : "black"}
-                    border={isFeatured ? "2px solid orange" : "1px solid gray"}
-                    // whileHover={{ scale: 1.02 }} // Small scale effect on hover
-                    // transition="0.3s"
+                    bg={isFeatured ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" : "gray.800"}
+                    color="white"
+                    border={isFeatured ? "2px solid" : "1px solid"}
+                    borderColor={isFeatured ? "purple.400" : "gray.600"}
                     position="relative"
                     overflow="hidden"
+                    transition="all 0.2s"
                     _hover={{
-                        bg: isFeatured ? "linear-gradient(135deg, #fda085 0%, #f6d365 100%)" : "gray.400", // Hover color change
-                        shadow: "lg", // Increase shadow on hover for a subtle depth effect
-
+                        bg: isFeatured ? "linear-gradient(135deg, #764ba2 0%, #667eea 100%)" : "gray.700",
+                        shadow: "lg",
+                        borderColor: isFeatured ? "purple.300" : "purple.500",
                     }}
                     pointerEvents={'none'}
                 >
@@ -85,14 +83,15 @@ export function JobCard({
                             position="absolute"
                             top={2}
                             left={2}
-                            colorScheme="yellow"
+                            bg="purple.500"
+                            color="white"
                             fontSize="sm"
                             px={3}
                             py={1}
                             borderRadius="full"
                             boxShadow="md"
                         >
-                            Featured
+                            ⭐ Featured
                         </Badge>
                     )}
                     <Flex
@@ -110,16 +109,17 @@ export function JobCard({
                             mb={{ base: 4, md: 0 }}
                             alignSelf={{ base: "center", md: "flex-start" }}
                             borderRadius="full"
-                            border={isFeatured ? "2px solid orange" : "none"}
-                            filter="none"
+                            border={isFeatured ? "2px solid" : "none"}
+                            borderColor={isFeatured ? "purple.400" : "transparent"}
+                            bg="white"
                         />
                         <Box flex="1">
-                            <Text fontSize="lg" color="gray.600" fontWeight="semibold">
+                            <Text fontSize="lg" color="gray.400" fontWeight="semibold">
                                 {company}
                             </Text>
                             <Heading
                                 fontSize="2xl"
-                                color={isFeatured ? "orange.800" : "black"}
+                                color={isFeatured ? "white" : "white"}
                                 fontWeight="bold"
                                 lineHeight="shorter"
                                 mb={2}
@@ -142,23 +142,28 @@ export function JobCard({
                             alignItems="flex-start" // Add this line to ensure alignment
                         >
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700" width="100px">Location</Text>
-                                <Text>{location}</Text>
+                                <Text fontWeight="bold" color="gray.400" width="100px">Location</Text>
+                                <Text color="white">{location}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700" width="100px" >Remote</Text>
-                                <Text>{remote_string}</Text>
+                                <Text fontWeight="bold" color="gray.400" width="100px">Remote</Text>
+                                <Text color="white">{remote_string}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700" width="100px">Salary</Text>
-                                <Text>{salary || "-"}</Text>
+                                <Text fontWeight="bold" color="gray.400" width="100px">Salary</Text>
+                                <Text color="white">{salary || "-"}</Text>
                             </VStack>
                             <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                                <Text fontWeight="bold" color="gray.700" width="100px">Seniority</Text>
-                                <Text>{seniority}</Text>
+                                <Text fontWeight="bold" color="gray.400" width="100px">Seniority</Text>
+                                <Text color="white">{seniority}</Text>
                             </VStack>
                         </HStack>
-                        <Tag colorScheme={isFeatured ? "orange" : "green"} size="lg" mt={{ base: 4, md: 0 }} alignSelf={{ base: "center", md: "flex-end" }}>
+                        <Tag
+                            colorScheme={days_ago_text === "Posted Today" ? "green" : "purple"}
+                            size="lg"
+                            mt={{ base: 4, md: 0 }}
+                            alignSelf={{ base: "center", md: "flex-end" }}
+                        >
                             {days_ago_text}
                         </Tag>
                     </Flex>

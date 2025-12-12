@@ -137,10 +137,10 @@ const NewsletterSignupForm = () => {
                             />
                         </FormControl>
                         <Button
-                            bg="#D4A017"
+                            bg="purple.500"
                             color="white"
-                            _hover={{ bg: '#B8860B' }}
-                            _active={{ bg: '#A67C00' }}
+                            _hover={{ bg: 'purple.400' }}
+                            _active={{ bg: 'purple.600' }}
                             type="submit"
                             borderLeftRadius="0"
                             borderRightRadius="md"

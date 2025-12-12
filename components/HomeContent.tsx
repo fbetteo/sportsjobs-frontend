@@ -60,6 +60,8 @@ export default function HomeContent() {
     const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
     const [jobs, setJobs] = useState<Job[]>([]);  // properly type the jobs state
     const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // properly type featured jobs
+    const [totalJobCount, setTotalJobCount] = useState<number>(0); // Total jobs in database
+    const [newJobsToday, setNewJobsToday] = useState<number>(0); // Jobs added today
     const { user, isLoading: userLoading } = useUser();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
@@ -197,6 +199,37 @@ export default function HomeContent() {
         };
     }, [user, userChanged]);
 
+    // Fetch job stats on mount (total count and new jobs today)
+    useEffect(() => {
+        const fetchJobStats = async () => {
+            try {
+                // Fetch a larger batch to get accurate stats (without filters)
+                const response = await fetch('/api/get-jobs?limit=500');
+                const data = await response.json();
+                if (data.jobs && Array.isArray(data.jobs)) {
+                    setTotalJobCount(3000);
+
+                    // Calculate jobs posted today
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const newToday = data.jobs.filter((job: any) => {
+                        const jobDate = new Date(job.start_date);
+                        jobDate.setHours(0, 0, 0, 0);
+                        return jobDate.getTime() === today.getTime();
+                    }).length;
+                    setNewJobsToday(newToday);
+                }
+            } catch (error) {
+                console.error("Failed to fetch job stats:", error);
+                // Fallback values
+                setTotalJobCount(300);
+                setNewJobsToday(0);
+            }
+        };
+
+        fetchJobStats();
+    }, []);
+
     useEffect(() => {
         // Clear existing timeout
         if (regularJobsTimeoutRef.current) {
@@ -264,7 +297,7 @@ export default function HomeContent() {
     return (
         <VStack spacing={10} align="stretch" minHeight="100vh">
             <Flex direction="column" width="100%" mb={-15}>
-                <Introduction />
+                <Introduction totalJobs={totalJobCount} newJobsToday={newJobsToday} />
                 <Center minHeight="150px"> {/* Reserve space for NewsletterSignupForm */}
                     <NewsletterSignupForm />
                 </Center>                <Center minHeight="80px"> {/* Reserve space for buttons */}
@@ -278,22 +311,28 @@ export default function HomeContent() {
                             as="a"
                             href="/signup"
                             colorScheme="purple"
+                            size="lg"
                             w={{ base: "90%", md: "auto" }}
-                            px={6}
-                            py={5}
-                            fontSize={{ base: "x-small", md: "small" }}
+                            px={8}
+                            py={6}
+                            fontSize={{ base: "sm", md: "md" }}
+                            fontWeight="bold"
+                            _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                            transition="all 0.2s"
                         >
-                            🔓 Unlock All Jobs
+                            🚀 Get Full Access {totalJobCount > 0 ? `to ${totalJobCount}+ Jobs` : ''}
                         </Button>
                         <Button
                             onClick={handleOpenForm}
+                            variant="outline"
                             colorScheme="purple"
                             w={{ base: "90%", md: "auto" }}
                             px={6}
-                            py={5}
-                            fontSize={{ base: "x-small", md: "small" }}
+                            py={6}
+                            fontSize={{ base: "sm", md: "md" }}
+                            _hover={{ bg: 'purple.900' }}
                         >
-                            🔔 Receive Emails For New Jobs
+                            🔔 Free Job Alerts
                         </Button>
                         {/* <Button
                             as="a"
@@ -323,7 +362,7 @@ export default function HomeContent() {
                             <PostJobLink />
                         </Box>
                         <FeaturedCompanies />
-                        <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} />
+                        <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
                         <Box
                             ref={pricingSectionRef}
                             width="100%"

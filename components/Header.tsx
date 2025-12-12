@@ -140,8 +140,6 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
-              <AdvertiseButton />
-              <AffiliatesButton />
               <Menu>
                 <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                   <Avatar size="sm" src={user.picture ?? ""} />
@@ -161,27 +159,25 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
-              <AdvertiseButton />
-              <AffiliatesButton />
               <Link href="/api/auth/login" passHref>
                 <Button
-                  colorScheme="gray.700"
-                  bg="purple"
-                  variant="outline"
-                  mr={{ base: 2, md: 5 }}
+                  variant="ghost"
+                  color="white"
+                  _hover={{ bg: 'gray.800' }}
+                  mr={{ base: 2, md: 3 }}
                   size="md"
                 >
                   Login
                 </Button>
               </Link>
               <Button
-                colorScheme="gray.700"
-                bg="purple"
-                variant="outline"
+                colorScheme="purple"
+                bg="purple.500"
+                _hover={{ bg: 'purple.400' }}
                 size="md"
                 onClick={() => router.push('/signup')}
               >
-                SignUp
+                Get Access
               </Button>
             </>
           )}
@@ -218,16 +214,6 @@ const Header = () => {
                 <Link href="/resources" onClick={onClose}>
                   <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
                     Resources
-                  </Button>
-                </Link>
-                <Link href="/advertise" onClick={onClose}>
-                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
-                    Advertise
-                  </Button>
-                </Link>
-                <Link href="/affiliates" onClick={onClose}>
-                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
-                    Earn $
                   </Button>
                 </Link>
 
