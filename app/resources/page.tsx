@@ -66,7 +66,7 @@ const ResourceCard = ({
             bg={isFeatured ? "purple.900" : "gray.800"}
             borderColor={isFeatured ? "purple.400" : "gray.600"}
             borderWidth={isFeatured ? "2px" : "1px"}
-            _hover={{ borderColor: isFeatured ? 'purple.300' : 'teal.400' }}
+            _hover={{ borderColor: isFeatured ? 'purple.300' : 'purple.400' }}
             position="relative"
         >
             {isFeatured && (
@@ -153,11 +153,11 @@ const ResourceCard = ({
                         href={url}
                         isExternal
                         size="sm"
-                        colorScheme="teal"
+                        colorScheme="purple"
                         rightIcon={<FaExternalLinkAlt />}
                         _hover={{ textDecoration: 'none' }}
                     >
-                        View Resource
+                        Access Resource
                     </Button>
                 </VStack>
             </CardBody>
