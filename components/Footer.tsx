@@ -9,16 +9,16 @@ const Footer = () => {
         <Box as="footer" py={4} textAlign="center" bg="gray.700" color="white">
             <Text mb={2}>
                 © 2025 Calibrated AI LLC | Built by{' '}
-                <Link href="https://twitter.com/franbetteo" isExternal color="teal.200">
+                <Link href="https://twitter.com/franbetteo" isExternal color="purple.300">
                     @franbetteo
                 </Link>{' '}
                 (<Link href="https://www.fbetteo.com" isExternal color="gray.400" fontSize="sm">
                     fbetteo.com
                 </Link>). I&apos;d love to hear your feedback — Get in touch via DM,{' '}
-                <Link href="mailto:franco@sportsjobs.online" color="teal.200">
+                <Link href="mailto:franco@sportsjobs.online" color="purple.300">
                     franco@sportsjobs.online
                 </Link>, or{' '}
-                <Link href="https://sportsjobsonline.featurebase.app/" isExternal color="teal.200">
+                <Link href="https://sportsjobsonline.featurebase.app/" isExternal color="purple.300">
                     submit feedback here
                 </Link>
             </Text>
@@ -29,8 +29,8 @@ const Footer = () => {
                     target="_blank"
                     aria-label="Twitter"
                     icon={<FaTwitter />}
-                    bg="teal.500"
-                    _hover={{ bg: "teal.400" }}
+                    bg="purple.500"
+                    _hover={{ bg: "purple.400" }}
                 />
                 <IconButton
                     as="a"
@@ -38,8 +38,8 @@ const Footer = () => {
                     target="_blank"
                     aria-label="LinkedIn"
                     icon={<FaLinkedin />}
-                    bg="teal.500"
-                    _hover={{ bg: "teal.400" }}
+                    bg="purple.500"
+                    _hover={{ bg: "purple.400" }}
                 />
                 {/* <Link
                     href="https://www.jobboardfinder.com/jobboard-sportsjobsonline-usa?utm_source=logo_referenced&utm_medium=logo_jobboard&utm_content=logo_referenced&utm_campaign=logo_jobboard"
@@ -53,16 +53,16 @@ const Footer = () => {
                 </Link> */}
             </HStack>
             <Text mt={2} fontSize="sm">
-                <Link href="/privacy-policy" color="teal.200" >
+                <Link href="/privacy-policy" color="purple.300" >
                     Privacy Policy
                 </Link>
             </Text>
             <Text mt={2} fontSize="sm">
-                <Link href="https://climate.stripe.com/83mJaI" color="teal.200" >
+                <Link href="https://climate.stripe.com/83mJaI" color="purple.300" >
                     Sportsjobs Online contributes revenue to removing CO2 from atmosphere
                 </Link>
             </Text>
-            <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} mt={10} px={5}>
+            <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6} mt={10} px={5}>
                 <JobsByLocation />
 
                 <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
@@ -80,9 +80,15 @@ const Footer = () => {
                     <VStack align="start" spacing={2} color="gray.300">
                         <Link href="/resources">Job Seeker Resources</Link>
                         <Link href="/blog">Career Blog</Link>
-                        {/* Future links:
-                        <Link href="/resources/tutorials">Tutorials</Link>
-                        <Link href="/resources/tools">Tools</Link> */}
+                    </VStack>
+                </Box>
+
+                <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
+                    <Text fontWeight="bold" fontSize="lg" mb={3}>For Employers</Text>
+                    <VStack align="start" spacing={2} color="gray.300">
+                        <Link href="/advertise">Advertise Jobs</Link>
+                        <Link href="/affiliates">Affiliate Program</Link>
+                        <Link href="/post-job">Post a Job</Link>
                     </VStack>
                 </Box>
             </Grid>
