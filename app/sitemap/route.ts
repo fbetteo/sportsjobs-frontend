@@ -79,6 +79,9 @@ export async function GET() {
   return new NextResponse(sitemap, {
     headers: {
       'Content-Type': 'application/xml',
+      // Cache at edge for 24 hours (86400s), browser for 1 hour (3600s)
+      // Serve stale content for up to 48h while revalidating in background
+      'Cache-Control': 'public, s-maxage=86400, max-age=3600, stale-while-revalidate=172800',
     },
   });
 }

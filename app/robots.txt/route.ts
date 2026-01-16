@@ -18,6 +18,8 @@ export async function GET() {
   return new NextResponse(robotsTxt, {
     headers: {
       'Content-Type': 'text/plain',
+      // Cache robots.txt for 7 days (rarely changes)
+      'Cache-Control': 'public, s-maxage=604800, max-age=86400, stale-while-revalidate=1209600',
     },
   });
 }
