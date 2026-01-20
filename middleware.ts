@@ -10,6 +10,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(`${request.nextUrl.origin}/signup`, 301);
   }
 
+  // Early return for non-Airtable IDs - skip middleware processing for 90%+ of job requests
+  // Only process if path matches old Airtable ID pattern (rec + 14-17 alphanumeric chars)
+  const isOldJobId = /^\/jobs\/rec[A-Za-z0-9]{14,17}$/.test(pathname);
+  const isOldBlogId = /^\/blogposts\/rec[A-Za-z0-9]{14,17}$/.test(pathname);
+  
+  if (!isOldJobId && !isOldBlogId) {
+    return NextResponse.next();
+  }
+
   const oldJobIdMatch = pathname.match(/^\/jobs\/(rec[A-Za-z0-9]{14,17})/);
   const oldBlogIdMatch = pathname.match(/^\/blogposts\/(rec[A-Za-z0-9]{14,17})/);
   console.log('Pathname:', pathname);

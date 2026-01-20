@@ -7,6 +7,24 @@ export async function GET() {
     Disallow: /api/dropdown-options
     Allow: /
 
+    # Aggressive bot crawl rate limits
+    # GPTBot was doing 81K requests/12h - limit to ~1K/12h
+    User-agent: GPTBot
+    Crawl-delay: 30
+
+    # Other aggressive crawlers - moderate rate limiting
+    User-agent: meta-externalagent
+    Crawl-delay: 30
+
+    User-agent: barkrowler
+    Crawl-delay: 30
+
+    User-agent: petalbot
+    Crawl-delay: 30
+
+    User-agent: Bytespider
+    Crawl-delay: 30
+
     Sitemap: https://www.sportsjobs.online/sitemap.xml
     
     # LLM-friendly content for AI assistants
