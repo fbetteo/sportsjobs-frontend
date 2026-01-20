@@ -17,6 +17,15 @@ export const fetchJobDetails = async (id: string) => {
       const job = data.job;
       const startDate = new Date(job.start_date);
       const validThrough = addMonths(startDate, 2); // Calculate validThrough (2 months)
+      const now = new Date();
+
+      // Debug logging
+      console.log('Job ID:', job.id);
+      console.log('Start Date:', job.start_date);
+      console.log('Parsed Start Date:', startDate);
+      console.log('Valid Through:', validThrough);
+      console.log('Now:', now);
+      console.log('Is Past?:', isPast(validThrough));
 
       if (isPast(validThrough)) {
           return { job, expired: true }; // Job is expired
