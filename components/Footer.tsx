@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <Box as="footer" py={4} textAlign="center" bg="gray.700" color="white">
             <Text mb={2}>
-                © 2025 Calibrated AI LLC | Built by{' '}
+                © 2026 Calibrated AI LLC | Built by{' '}
                 <Link href="https://twitter.com/franbetteo" isExternal color="purple.300">
                     @franbetteo
                 </Link>{' '}
