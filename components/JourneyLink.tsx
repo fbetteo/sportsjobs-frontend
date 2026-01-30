@@ -10,6 +10,14 @@ export default function JourneyLink() {
             >
                 My journey to build sportsjobs.online
             </Link>
+            {' | '}
+            <Link
+                href="https://downloadyoutubetranscripts.com"
+                color="gray.400"
+                isExternal
+            >
+                My other project: Download YouTube Transcripts
+            </Link>
         </Text>
     );
 }
