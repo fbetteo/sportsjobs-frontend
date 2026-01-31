@@ -8,9 +8,9 @@ export async function GET() {
     Allow: /
 
     # Aggressive bot crawl rate limits
-    # GPTBot was doing 81K requests/12h - limit to ~1K/12h
+    # GPTBot was doing 81K requests/12h - block entirely
     User-agent: GPTBot
-    Crawl-delay: 30
+    Disallow: /
 
     # Other aggressive crawlers - moderate rate limiting
     User-agent: meta-externalagent
