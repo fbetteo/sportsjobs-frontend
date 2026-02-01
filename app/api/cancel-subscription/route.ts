@@ -32,8 +32,6 @@ export async function POST(req: NextRequest) {
         const accessToken = await getAuth0AccessToken();
         await disableAuth0User(email, accessToken);
 
-        // Update the Airtable record
-        await updateAirtableRecord(email, { plan: 'free' });
 
         return NextResponse.json({ status: 'canceled' });
     } catch (error) {
