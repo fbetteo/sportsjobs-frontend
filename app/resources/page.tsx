@@ -18,6 +18,9 @@ import {
 import { FaExternalLinkAlt, FaYoutube, FaBook, FaTools, FaBriefcase, FaLock } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
+// Toggle this to enable/disable the exclusive discount paywall in ResourceCard
+const SHOW_RESOURCE_PAYWALL = false; // set to false to turn off paywall site-wide
+
 const ResourceCard = ({
     title,
     description,
@@ -96,12 +99,13 @@ const ResourceCard = ({
                             </>
                         )}
                         {isPremium && <Badge colorScheme="purple">PREMIUM</Badge>}
-                        {promoCode && isAuthenticated && (
+                        {isPremium && <Badge colorScheme="purple">PREMIUM</Badge>}
+                        {promoCode && SHOW_RESOURCE_PAYWALL && isAuthenticated && (
                             <Badge colorScheme="green" variant="solid">
                                 💰 {promoCode} ({discount})
                             </Badge>
                         )}
-                        {promoCode && !isAuthenticated && (
+                        {promoCode && SHOW_RESOURCE_PAYWALL && !isAuthenticated && (
                             <Badge
                                 colorScheme="orange"
                                 variant="solid"
@@ -114,6 +118,11 @@ const ResourceCard = ({
                             >
                                 <FaLock />
                                 Exclusive Discount
+                            </Badge>
+                        )}
+                        {promoCode && !SHOW_RESOURCE_PAYWALL && (
+                            <Badge colorScheme="green" variant="subtle">
+                                Use our code!
                             </Badge>
                         )}
                     </HStack>
@@ -136,13 +145,13 @@ const ResourceCard = ({
                     )}
                     <Text color="gray.300" fontSize="sm">{description}</Text>
 
-                    {promoCode && isAuthenticated && (
+                    {promoCode && (!SHOW_RESOURCE_PAYWALL || isAuthenticated) && (
                         <Text fontSize="xs" color="green.300" fontWeight="semibold">
                             🎯 Use code &quot;{promoCode}&quot; for {discount} off - Exclusive for SportsJobs users!
                         </Text>
                     )}
 
-                    {promoCode && !isAuthenticated && (
+                    {promoCode && SHOW_RESOURCE_PAYWALL && !isAuthenticated && (
                         <Text fontSize="xs" color="orange.300" fontWeight="semibold">
                             🔒 Sign up as a premium user to unlock exclusive discount codes and save on courses!
                         </Text>
