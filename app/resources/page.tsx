@@ -204,13 +204,15 @@ Through the Lens of Sports"
                             logoSrc="/athlyticz.png"
                         />
                         <ResourceCard
-                            title="Build Job Ready Skills in Sports Analytics "
-                            description="TailoredU is a cutting-edge learning platform that prepares emerging sports analysts for entry-level jobs and helps professional analysts upskill."
-                            url="https://tailoredu.com/?utm_source=sportsjobs.online&utm_medium=job_board&utm_campaign=resources"
+                            title="TailoredSim - The next generation of job training"
+                            description="TailoredSim Job Simulator prepares workers to meet expectations in their role through realistic, hands-on training powered by AI with focus on sports analytics and data science roles."
+                            url="https://tailoredsim.com/"
                             type="tutorial"
-                            promoCode="SPORTSJOBS10"
-                            discount="10% off"
+                            isFeatured={true}
+                            promoCode="SPORTS2026JOBS"
+                            discount="20% off forever on annual and monthly subscriptions"
                             isAuthenticated={isAuthenticated}
+                            logoSrc="/tailoredsim-logo.png"
                         />
                         {/* <ResourceCard
                             title="SQL for Sports Databases"
