@@ -313,21 +313,23 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                         justify="center"
                         minHeight="40px"
                     >
-                        <Button
-                            as="a"
-                            href="/signup"
-                            colorScheme="purple"
-                            size="lg"
-                            w={{ base: "90%", md: "auto" }}
-                            px={8}
-                            py={6}
-                            fontSize={{ base: "sm", md: "md" }}
-                            fontWeight="bold"
-                            _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-                            transition="all 0.2s"
-                        >
-                            🚀 Get Full Access {totalJobCount > 0 ? `to ${totalJobCount}+ Jobs` : ''}
-                        </Button>
+                        {!user && (
+                            <Button
+                                as="a"
+                                href="/signup"
+                                colorScheme="purple"
+                                size="lg"
+                                w={{ base: "90%", md: "auto" }}
+                                px={8}
+                                py={6}
+                                fontSize={{ base: "sm", md: "md" }}
+                                fontWeight="bold"
+                                _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                                transition="all 0.2s"
+                            >
+                                🚀 Get Full Access {totalJobCount > 0 ? `to ${totalJobCount}+ Jobs` : ''}
+                            </Button>
+                        )}
                         <Button
                             onClick={handleOpenForm}
                             variant="outline"

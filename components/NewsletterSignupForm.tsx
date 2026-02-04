@@ -120,7 +120,7 @@ const NewsletterSignupForm = () => {
             {!showUpscribe ? (
                 <Box as="form" onSubmit={handleSubmit}>
                     <Text mb={2} fontSize="sm" color="gray.300">
-                        Do you want to keep updated with jobs and news? 💡
+                        Do you want to stay updated with jobs and news? 💡
                     </Text>
                     <Flex alignItems="center">
                         <FormControl>
