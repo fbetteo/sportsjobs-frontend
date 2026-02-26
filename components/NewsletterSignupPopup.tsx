@@ -137,7 +137,7 @@ const SignupPopup = () => {
                                 Join hundreds of professionals who trust us getting summaries and content weekly. No spam, ever.
 
                                 <Text as="strong" mt={2} display="block">
-                                    Gift 2025: Join now and receive a promo code
+                                    Gift 2026: Join now and receive a promo code
                                 </Text>
                             </FormLabel>
                             <Input
