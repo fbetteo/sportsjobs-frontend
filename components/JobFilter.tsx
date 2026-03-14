@@ -20,6 +20,16 @@ interface DropdownData {
     industries: string[];
 }
 
+const sanitizeOptions = (values: string[] = []) => {
+    return Array.from(
+        new Set(
+            values
+                .map((value) => value?.trim())
+                .filter((value): value is string => Boolean(value))
+        )
+    );
+};
+
 // const fetchFilterOptions = async () => {
 //     // Fetch options from Airtable. Replace with your actual fetching logic.
 //     // For example:
@@ -52,12 +62,12 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
             if (localOptions) {
                 const parsedLocalOptions = JSON.parse(localOptions);
                 const filterOptions = {
-                    countries: parsedLocalOptions.countries,
-                    remotes: parsedLocalOptions.remotes,
-                    seniorities: parsedLocalOptions.seniorities,
-                    industries: parsedLocalOptions.industries,
-                    sports: parsedLocalOptions.sport_list,
-                    job_areas: parsedLocalOptions.job_area
+                    countries: sanitizeOptions(parsedLocalOptions.countries),
+                    remotes: sanitizeOptions(parsedLocalOptions.remotes),
+                    seniorities: sanitizeOptions(parsedLocalOptions.seniorities),
+                    industries: sanitizeOptions(parsedLocalOptions.industries),
+                    sports: sanitizeOptions(parsedLocalOptions.sport_list),
+                    job_areas: sanitizeOptions(parsedLocalOptions.job_area)
                 }
                 setOptions(filterOptions);
             } else {
@@ -69,12 +79,12 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 }, {} as DropdownData);
 
                 const filterOptions = {
-                    countries: sortedOptions.countries,
-                    remotes: sortedOptions.remotes,
-                    seniorities: sortedOptions.seniorities,
-                    industries: sortedOptions.industries,
-                    sports: sortedOptions.sport_list,
-                    job_areas: sortedOptions.job_area
+                    countries: sanitizeOptions(sortedOptions.countries),
+                    remotes: sanitizeOptions(sortedOptions.remotes),
+                    seniorities: sanitizeOptions(sortedOptions.seniorities),
+                    industries: sanitizeOptions(sortedOptions.industries),
+                    sports: sanitizeOptions(sortedOptions.sport_list),
+                    job_areas: sanitizeOptions(sortedOptions.job_area)
                 }
                 setOptions(filterOptions);
                 localStorage.setItem('dropdownOptions', JSON.stringify(sortedOptions));
@@ -108,12 +118,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Country
+                </option>
+                {country && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear country filter
+                    </option>
+                )}
                 {options.countries.map((country) => (
                     <option key={country} value={country} style={{ backgroundColor: 'black', color: 'white' }}>
                         {country}
@@ -129,12 +145,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Remote"
                 value={remote}
                 onChange={(e) => setRemote(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Remote
+                </option>
+                {remote && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear remote filter
+                    </option>
+                )}
                 {options.remotes.map((remoteOption) => (
                     <option key={remoteOption} value={remoteOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {remoteOption}
@@ -150,12 +172,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Seniority"
                 value={seniority}
                 onChange={(e) => setSeniority(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Seniority
+                </option>
+                {seniority && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear seniority filter
+                    </option>
+                )}
                 {options.seniorities.map((seniorityOption) => (
                     <option key={seniorityOption} value={seniorityOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {seniorityOption}
@@ -171,12 +199,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Industry"
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Industry
+                </option>
+                {industry && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear industry filter
+                    </option>
+                )}
                 {options.industries.map((industryOption) => (
                     <option key={industryOption} value={industryOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {industryOption}
@@ -192,12 +226,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Sport"
                 value={sport}
                 onChange={(e) => setSport(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Sport
+                </option>
+                {sport && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear sport filter
+                    </option>
+                )}
                 {options.sports.map((sportOption) => (
                     <option key={sportOption} value={sportOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {sportOption}
@@ -213,12 +253,18 @@ const JobFilter: React.FC<JobFilterProps> = ({ onFilterChange, user }) => {
                 fontWeight="bold"
                 bg="gray.700"
                 _hover={{ bg: 'gray.600' }}
-                _placeholder={{ color: "white" }}
                 _focus={{ bg: 'gray.600' }}
-                placeholder="Job Area"
                 value={job_area}
                 onChange={(e) => setJobArea(e.target.value)}
             >
+                <option value="" disabled hidden style={{ backgroundColor: 'black', color: 'white' }}>
+                    Job Area
+                </option>
+                {job_area && (
+                    <option value="" style={{ backgroundColor: 'black', color: 'white' }}>
+                        Clear job area filter
+                    </option>
+                )}
                 {options.job_areas.map((jobAreaOption) => (
                     <option key={jobAreaOption} value={jobAreaOption} style={{ backgroundColor: 'black', color: 'white' }}>
                         {jobAreaOption}
