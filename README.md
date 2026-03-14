@@ -1,17 +1,17 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Agent Docs
+
+- Start with `AGENTS.md` for the routing map.
+- Use topic docs in `/docs` for focused context (frontend, auth, data/backend, payments, performance, integrations/webhooks, content/SEO, environment).
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
