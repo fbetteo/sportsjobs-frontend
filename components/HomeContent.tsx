@@ -35,6 +35,18 @@ const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
     ssr: false
 });
 
+const TestimonialsWallFromDB = dynamic(() => import('./TestimonialsWallFromDB'), {
+    loading: () => (
+        <Box
+            minH={{ base: "320px", md: "380px" }}
+            width="100%"
+            bg="gray.800"
+            borderRadius="xl"
+        />
+    ),
+    ssr: false
+});
+
 // Pricing card is now directly imported
 
 interface CachedData {
@@ -387,7 +399,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 <MixedPricingCard />
                             </Suspense>
                         </Box>
-                        <Suspense fallback={
+                        {/* <Suspense fallback={
                             <Box
                                 minH={{ base: "1000px", md: "800px" }}
                                 width="100%"
@@ -396,6 +408,17 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                             />
                         }>
                             <SenjaWallOfLove />
+                        </Suspense> */}
+
+                        <Suspense fallback={
+                            <Box
+                                minH={{ base: "320px", md: "380px" }}
+                                width="100%"
+                                bg="gray.800"
+                                borderRadius="xl"
+                            />
+                        }>
+                            <TestimonialsWallFromDB />
                         </Suspense>
 
                         <Suspense fallback={<Box minH="200px" />}>

@@ -16,6 +16,7 @@ import { FaLock, FaCreditCard, FaShieldAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import FAQ from "../../components/FAQ";
 import SenjaMarquee from '../../components/SenjaMarquee';
+import TestimonialsMarqueeFromDB from '../../components/TestimonialsMarqueeFromDB';
 
 const PricingCard = ({ title, price, period, features, priceId, onSubscribe, isPopular, ctaText }: {
     title: string;
@@ -225,8 +226,15 @@ const SignupPage = () => {
                     />
                 </SimpleGrid>
 
+                <VStack spacing={6} width="full">
+                    <Heading size="xl" textAlign="center">Wall of Love</Heading>
+                    <TestimonialsMarqueeFromDB />
+                </VStack>
 
-                <SenjaMarquee />
+                {/* <VStack spacing={6} width="full">
+                    <Heading size="xl" textAlign="center">Wall of Love (Senja)</Heading>
+                    <SenjaMarquee />
+                </VStack> */}
                 {/* Trust Signals */}
                 <HStack spacing={6} justify="center" flexWrap="wrap" py={4}>
                     <HStack spacing={2}>
