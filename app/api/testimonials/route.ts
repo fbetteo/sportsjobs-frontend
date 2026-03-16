@@ -21,6 +21,40 @@ interface BackendTestimonialPayload {
   rating: number | null;
 }
 
+export async function GET() {
+  try {
+    const backendPath = `http://${process.env.HETZNER_POSTGRES_HOST}:8000/testimonials`;
+    console.log('[testimonials][GET] Backend path:', backendPath);
+
+    const response = await fetch(backendPath, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
+      },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[testimonials][GET] Backend error:', response.status, errorText);
+      return NextResponse.json(
+        { error: errorText || `Backend returned ${response.status}` },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error('[testimonials][GET] Proxy failure:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to fetch testimonials.' },
+      { status: 500 }
+    );
+  }
+}
+
 function normalizeOptional(value?: string): string | null {
   if (!value) return null;
   const trimmed = value.trim();
