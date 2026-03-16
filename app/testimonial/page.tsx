@@ -16,10 +16,10 @@ import {
     Icon,
 } from '@chakra-ui/react';
 import { useSearchParams } from 'next/navigation';
-import { useMemo, useState, useEffect } from 'react';
+import { Suspense, useMemo, useState, useEffect } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-const TestimonialPage = () => {
+const TestimonialPageContent = () => {
     const searchParams = useSearchParams();
     const toast = useToast();
 
@@ -235,6 +235,14 @@ const TestimonialPage = () => {
                 </Box>
             </VStack>
         </Container>
+    );
+};
+
+const TestimonialPage = () => {
+    return (
+        <Suspense fallback={<Container maxW="container.md" py={16}><Text color="gray.300">Loading testimonial form...</Text></Container>}>
+            <TestimonialPageContent />
+        </Suspense>
     );
 };
 
