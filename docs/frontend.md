@@ -34,3 +34,13 @@ Use this guide for pages/components and UX changes.
 
 - Job pages may use slug-first IDs with fallback numeric handling.
 - Use existing helpers (for example `utils/jobIdEncoder.ts`) when touching ID formats.
+
+## Testimonials UX (Current)
+
+- Submission page is `app/testimonial/page.tsx`.
+- Form keeps fields minimal: name, role/company, testimonial, optional LinkedIn, optional email, rating (1-5), plus honeypot field.
+- Email prefill is supported through `?email=` query params.
+- Any component using `useSearchParams` in app pages must be rendered behind a `Suspense` boundary (current implementation does this in testimonial page).
+- DB-driven testimonial displays:
+	- `components/TestimonialsWallFromDB.tsx` for wall layout.
+	- `components/TestimonialsMarqueeFromDB.tsx` for marquee layout (used on signup page).

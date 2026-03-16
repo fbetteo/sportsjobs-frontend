@@ -23,6 +23,13 @@ Sportsjobs frontend is a Next.js 14 job board focused on sports analytics, data 
 - `lib/*`: frontend/server fetch helpers and app-level utilities
 - `app/utils/*`: server-side helper modules (Auth0/Airtable integrations)
 
+## Testimonials Surfaces
+
+- Public submit page: `app/testimonial/page.tsx` (client page, query-param prefill via `useSearchParams` inside a `Suspense` boundary)
+- API proxy: `app/api/testimonials/route.ts` (`GET` and `POST` proxy to backend `/testimonials`)
+- Homepage wall: `components/TestimonialsWallFromDB.tsx` (DB-backed masonry wall; Senja wall still exists as comparison)
+- Signup marquee: `components/TestimonialsMarqueeFromDB.tsx` (DB-backed two-row scrolling marquee)
+
 ## Integration Style
 
 - Job and listing data comes from a Python backend (Hetzner-hosted API).

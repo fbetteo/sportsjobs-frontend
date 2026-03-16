@@ -13,6 +13,26 @@
 - Typical endpoint pattern: POST to `http://$HETZNER_POSTGRES_HOST:8000/jobs`.
 - Backend calls require bearer auth header using `HEADER_AUTHORIZATION`.
 
+## Testimonials Integration
+
+- Local route: `app/api/testimonials/route.ts`
+- Backend path used by proxy: `http://$HETZNER_POSTGRES_HOST:8000/testimonials`
+- Methods:
+	- `GET`: fetch testimonials for frontend wall/marquee components
+	- `POST`: create testimonial from public form submission
+- `POST` frontend payload is validated/transformed before forwarding.
+	- Required: `name`, `content`
+	- Optional: `email`, `roleCompany`, `rating`
+	- Spam honeypot: `website` must be empty
+- Forwarded backend payload shape (matches current backend model):
+	- `name`
+	- `email`
+	- `role`
+	- `company`
+	- `content`
+	- `avatar_url`
+	- `rating`
+
 ## API Response Strategy
 
 - List endpoints return minimal fields by default.

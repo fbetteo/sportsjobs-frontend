@@ -22,6 +22,7 @@ Use this file as a map. Read only the sections relevant to your task.
 2. Open only the topic docs needed for your task.
 3. Prefer current implementation reality over stale assumptions.
 4. If docs and code disagree, trust code first and update docs in the same change.
+5. After any behavior, route, API contract, or component change, update `AGENTS.md` and relevant `docs/*.md` before finishing.
 
 ## Repo-Wide Defaults
 

@@ -28,6 +28,9 @@
 - `HETZNER_POSTGRES_HOST`
 - `HEADER_AUTHORIZATION`
 
+Notes:
+- `HETZNER_POSTGRES_HOST` should be host only (for example `localhost` or backend host), because current routes build URLs like `http://$HETZNER_POSTGRES_HOST:8000/...`.
+
 ### Stripe
 
 - `STRIPE_SECRET_KEY`
@@ -38,3 +41,4 @@
 - Keep secrets in environment configuration only.
 - Do not hardcode credentials in routes or components.
 - If adding a new integration, update this file with required env vars and route entry points.
+- Testimonials proxy route is `app/api/testimonials/route.ts` and requires both `HETZNER_POSTGRES_HOST` and `HEADER_AUTHORIZATION`.
