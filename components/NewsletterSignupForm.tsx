@@ -1,59 +1,19 @@
 // components/SignupForm.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, useToast, Flex, Text } from '@chakra-ui/react';
+
+const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
 const NewsletterSignupForm = () => {
     const [email, setEmail] = useState('');
     const [showUpscribe, setShowUpscribe] = useState(false);
     const toast = useToast();
 
-    useEffect(() => {
-        // Only load sparkloop on client side
-        if (typeof window === 'undefined') return;
-
-        try {
-            // Dynamic import to avoid SSR issues
-            import('sparkloop').then((sparkloopModule) => {
-                const sparkloop = sparkloopModule.default || sparkloopModule;
-                console.log("CARGANDO SPARKLOOP")
-                const opts = { scan_forms: false }; // Prevent SparkLoop from scanning forms automatically
-                sparkloop('team_88199bebd026', opts); // Replace with your actual SparkLoop team ID
-            }).catch((error) => {
-                console.error('Error loading SparkLoop:', error);
-            });
-        } catch (error) {
-            console.error('Error initializing SparkLoop:', error);
-        }
-    }, []);
-
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            // First, subscribe to newsletter via Beehiiv
-            const res = await fetch('/api/subscribe-newsletter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
-
-            const data = await res.json();
-
-            if (data.error) {
-                toast({
-                    title: 'Error',
-                    description: data.error,
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                });
-                return;
-            }
-
             // Record signup in database
             try {
                 await fetch('/api/add-newsletter-signup', {
@@ -71,16 +31,6 @@ const NewsletterSignupForm = () => {
                 // Don't show this error to user since newsletter subscription was successful
             }
 
-            // Only track with Sparkloop after successful subscription
-            try {
-                if (window.SL && typeof window.SL.trackSubscriber === 'function') {
-                    await window.SL.trackSubscriber(email);
-                }
-            } catch (sparkloopError) {
-                console.error('Sparkloop tracking error:', sparkloopError);
-                // Don't show this error to user since subscription was successful
-            }
-
             // Track Google Ads newsletter conversion
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {
@@ -94,9 +44,26 @@ const NewsletterSignupForm = () => {
                 });
             }
 
+            const normalizedEmail = encodeURIComponent(email.trim().toLowerCase());
+            const substackUrl = `${SUBSTACK_SUBSCRIBE_URL}?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=newsletter_form&email=${normalizedEmail}`;
+            const openedWindow = typeof window !== 'undefined'
+                ? window.open(substackUrl, '_blank', 'noopener,noreferrer')
+                : null;
+
+            if (!openedWindow) {
+                toast({
+                    title: 'Popup blocked',
+                    description: 'Please allow popups and try again to continue on Substack.',
+                    status: 'warning',
+                    duration: 6000,
+                    isClosable: true,
+                });
+                return;
+            }
+
             toast({
-                title: 'Success',
-                description: 'You have been subscribed!',
+                title: 'Almost done',
+                description: 'Please complete your subscription on Substack in the opened page.',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
@@ -120,7 +87,10 @@ const NewsletterSignupForm = () => {
             {!showUpscribe ? (
                 <Box as="form" onSubmit={handleSubmit}>
                     <Text mb={2} fontSize="sm" color="gray.300">
-                        Do you want to stay updated with jobs and news? 💡
+                        Get the free weekly newsletter with jobs and sports analytics news.  💡
+                    </Text>
+                    <Text mb={2} fontSize="xs" color="gray.400">
+                        Substack may show optional support, but you can skip it and subscribe for free.
                     </Text>
                     <Flex alignItems="center">
                         <FormControl>

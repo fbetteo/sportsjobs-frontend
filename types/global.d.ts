@@ -1,10 +1,5 @@
 // Global type declarations
 
-declare module 'sparkloop' {
-    const sparkloop: (teamId: string, opts?: Record<string, any>) => void;
-    export default sparkloop;
-}
-
 declare global {
   interface Window {
     gtag?: (
@@ -13,9 +8,6 @@ declare global {
       config?: any
     ) => void;
     dataLayer: any[];
-    SL?: {
-      trackSubscriber: (email: string) => void;
-    };
   }
 }
 

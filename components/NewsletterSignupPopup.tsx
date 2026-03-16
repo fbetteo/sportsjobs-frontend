@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Text, Flex, Icon } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0/client'; //
-import { FaStar, FaArrowRight } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
+
+const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
 const SignupPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [email, setEmail] = useState('');
     const toast = useToast();
-    const { user, isLoading: userLoading } = useUser(); // Adjust according to your auth implementation
+    const { user } = useUser();
 
     useEffect(() => {
         if (!user) {
@@ -19,7 +21,7 @@ const SignupPopup = () => {
             if (!lastShown || currentTime - parseInt(lastShown) > 24 * 60 * 60 * 1000) { // 24 hours
                 const timer = setTimeout(() => {
                     setIsOpen(true);
-                }, 10000); // 5 seconds
+                }, 10000); // 10 seconds
 
                 return () => clearTimeout(timer);
             }
@@ -36,42 +38,6 @@ const SignupPopup = () => {
         e.preventDefault();
 
         try {
-            // Ensure the sparkloop instance has been initialized before tracking
-            if (window.SL && typeof window.SL.trackSubscriber === 'function') {
-                window.SL.trackSubscriber(email); // Track the subscriber manually
-            } else {
-                throw new Error('SparkLoop not initialized or trackSubscriber not available');
-            }
-        } catch (error) {
-            toast({
-                title: 'Error',
-                description: 'Failed to track subscriber with SparkLoop: ' + ((error as Error).message as string),
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-
-        const res = await fetch('/api/subscribe-newsletter', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-        });
-
-        const { error } = await res.json();
-
-        if (error) {
-            toast({
-                title: 'Error',
-                description: error,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-        } else {
             // Record signup in database
             try {
                 await fetch('/api/add-newsletter-signup', {
@@ -101,15 +67,40 @@ const SignupPopup = () => {
                 });
             }
 
+            const normalizedEmail = encodeURIComponent(email.trim().toLowerCase());
+            const substackUrl = `${SUBSTACK_SUBSCRIBE_URL}?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=newsletter_popup&email=${normalizedEmail}`;
+            const openedWindow = typeof window !== 'undefined'
+                ? window.open(substackUrl, '_blank', 'noopener,noreferrer')
+                : null;
+
+            if (!openedWindow) {
+                toast({
+                    title: 'Popup blocked',
+                    description: 'Please allow popups and try again to continue on Substack.',
+                    status: 'warning',
+                    duration: 6000,
+                    isClosable: true,
+                });
+                return;
+            }
+
             toast({
-                title: 'Success',
-                description: 'You have been subscribed!',
+                title: 'Almost done',
+                description: 'Please complete your subscription on Substack in the opened page.',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
             });
             setEmail('');
             handleClose();
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Failed to start your subscription. Please try again.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
         }
     };
 
@@ -117,7 +108,7 @@ const SignupPopup = () => {
         <Modal isOpen={isOpen} onClose={handleClose} size='xl'>
             <ModalOverlay />
             <ModalContent bg='purple.700'>
-                <ModalHeader>Get Exclusive Job Alerts and Industry News Weekly!🚀</ModalHeader>
+                <ModalHeader>Get Free Weekly Job Alerts and Industry News!🚀</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody >
                     <Flex alignItems="center" mb={4}>
@@ -134,7 +125,11 @@ const SignupPopup = () => {
                     <Box as="form" onSubmit={handleSubmit}>
                         <FormControl>
                             <FormLabel htmlFor="email">
-                                Join hundreds of professionals who trust us getting summaries and content weekly. No spam, ever.
+                                Join thousands of professionals getting our free weekly summaries and job updates. No payment required.
+
+                                <Text mt={2} fontSize="xs" color="gray.300">
+                                    Substack may show optional support. You can skip it and keep the subscription free.
+                                </Text>
 
                                 <Text as="strong" mt={2} display="block">
                                     Gift 2026: Join now and receive a promo code
