@@ -92,7 +92,7 @@ const SignupPage = () => {
 
     const handleSubscribe = async (priceId: string, isLifetime = false, planName = 'monthly', priceValue = 6.99) => {
         setIsLoading(true);
-        
+
         // Fire standard GA4 begin_checkout event
         if (typeof window !== 'undefined' && (window as any).gtag) {
             (window as any).gtag('event', 'begin_checkout', {
