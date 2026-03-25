@@ -16,7 +16,7 @@ const getBaseUrl = (req: NextRequest) => {
 
 export async function POST(req: NextRequest) {
     try {
-        const { priceId, referral } = await req.json();
+        const { priceId, referral, planName, priceValue } = await req.json();
 
         if (!priceId) {
             return NextResponse.json(
@@ -27,6 +27,10 @@ export async function POST(req: NextRequest) {
 
         const baseUrl = getBaseUrl(req);
         
+        let successUrl = `/signup/success?session_id={CHECKOUT_SESSION_ID}`;
+        if (planName) successUrl += `&plan=${encodeURIComponent(planName)}`;
+        if (priceValue) successUrl += `&value=${encodeURIComponent(priceValue.toString())}`;
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
@@ -36,7 +40,7 @@ export async function POST(req: NextRequest) {
             mode: priceId === process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID ? 'payment' : 'subscription',
             allow_promotion_codes: true,
             billing_address_collection: 'required',
-            success_url: new URL('/signup/success?session_id={CHECKOUT_SESSION_ID}', baseUrl).toString(),
+            success_url: new URL(successUrl, baseUrl).toString(),
             cancel_url: new URL('/signup?canceled=true', baseUrl).toString(),
             metadata: {
                 priceId,

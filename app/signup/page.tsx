@@ -90,8 +90,25 @@ const SignupPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
-    const handleSubscribe = async (priceId: string, isLifetime = false) => {
+    const handleSubscribe = async (priceId: string, isLifetime = false, planName = 'monthly', priceValue = 6.99) => {
         setIsLoading(true);
+        
+        // Fire standard GA4 begin_checkout event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'begin_checkout', {
+                currency: 'USD',
+                value: priceValue,
+                items: [
+                    {
+                        item_id: priceId,
+                        item_name: `Subscription: ${planName}`,
+                        price: priceValue,
+                        quantity: 1
+                    }
+                ]
+            });
+        }
+
         try {
             const response = await fetch('/api/create-subscription', {
                 method: 'POST',
@@ -99,7 +116,9 @@ const SignupPage = () => {
                 body: JSON.stringify({
                     priceId,
                     mode: isLifetime ? 'payment' : 'subscription',
-                    referral: (window as any).promotekit_referral || null
+                    referral: (window as any).promotekit_referral || null,
+                    planName,
+                    priceValue
                 }),
             });
 
@@ -183,7 +202,7 @@ const SignupPage = () => {
                             '↪️ Cancel anytime',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!}
-                        onSubscribe={(priceId) => handleSubscribe(priceId)}
+                        onSubscribe={(priceId) => handleSubscribe(priceId, false, 'Monthly', 6.99)}
                         ctaText="Start for $6.99"
                     />
                     <PricingCard
@@ -202,7 +221,7 @@ const SignupPage = () => {
                             '↪️ Cancel anytime',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!}
-                        onSubscribe={(priceId) => handleSubscribe(priceId)}
+                        onSubscribe={(priceId) => handleSubscribe(priceId, false, 'Annual', 39.00)}
                         isPopular={true}
                         ctaText="Get Best Value"
                     />
@@ -221,7 +240,7 @@ const SignupPage = () => {
                             '💸 Save more than your subscription cost',
                         ]}
                         priceId={process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID!}
-                        onSubscribe={(priceId) => handleSubscribe(priceId, true)}
+                        onSubscribe={(priceId) => handleSubscribe(priceId, true, 'Lifetime', 59.00)}
                         ctaText="Lock In Forever"
                     />
                 </SimpleGrid>

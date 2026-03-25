@@ -32,6 +32,9 @@ const SuccessPageContent = () => {
     const [passwordError, setPasswordError] = useState('');
 
     const sessionId = searchParams?.get('session_id');
+    const planName = searchParams?.get('plan') || 'Subscription';
+    const rawValue = searchParams?.get('value');
+    const value = rawValue ? parseFloat(rawValue) : 0;
 
     useEffect(() => {
         if (user) {
@@ -40,13 +43,31 @@ const SuccessPageContent = () => {
     }, [user]);
 
     useEffect(() => {
-        // Track Google Ads conversion when page loads
         if (typeof window !== 'undefined' && window.gtag) {
+            // Track Google Ads conversion
             window.gtag('event', 'conversion', {
-                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq'
+                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
+                'value': value,
+                'currency': 'USD',
+                'transaction_id': sessionId
+            });
+
+            // Standard GA4 Purchase Event (Monetization dashboards)
+            window.gtag('event', 'purchase', {
+                transaction_id: sessionId,
+                value: value,
+                currency: 'USD',
+                items: [
+                    {
+                        item_id: planName.toLowerCase().replace(/\\s+/g, '_'),
+                        item_name: planName,
+                        price: value,
+                        quantity: 1
+                    }
+                ]
             });
         }
-    }, []);
+    }, [sessionId, planName, value]);
 
     const handlePasswordSignup = async (e: React.FormEvent) => {
         e.preventDefault();

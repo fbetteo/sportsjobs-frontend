@@ -60,10 +60,12 @@ const SignupPopup = () => {
                     'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq' // Replace with your newsletter conversion label
                 });
 
-                // Also track as Google Analytics event for additional insights
-                window.gtag('event', 'newsletter_signup', {
+                // Also track as standard Google Analytics lead event
+                window.gtag('event', 'generate_lead', {
                     'event_category': 'engagement',
-                    'event_label': 'newsletter_popup'
+                    'event_label': 'newsletter_popup',
+                    'currency': 'USD',
+                    'value': 0
                 });
             }
 
