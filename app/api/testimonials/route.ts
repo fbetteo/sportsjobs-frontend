@@ -4,7 +4,6 @@ interface TestimonialRequest {
   name: string;
   roleCompany?: string;
   content: string;
-  linkedin?: string;
   email?: string;
   website?: string;
   rating?: number;
@@ -61,15 +60,6 @@ function normalizeOptional(value?: string): string | null {
   return trimmed.length ? trimmed : null;
 }
 
-function isValidLinkedinUrl(value: string): boolean {
-  try {
-    const url = new URL(value);
-    return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('linkedin.com');
-  } catch {
-    return false;
-  }
-}
-
 function splitRoleCompany(value?: string): { role: string | null; company: string | null } {
   if (!value) return { role: null, company: null };
   const v = value.trim();
@@ -105,14 +95,6 @@ export async function POST(req: NextRequest) {
     if (payload.website && payload.website.trim().length > 0) {
       return NextResponse.json(
         { error: 'Spam submission rejected.' },
-        { status: 400 }
-      );
-    }
-
-    const linkedin = normalizeOptional(payload.linkedin);
-    if (linkedin && !isValidLinkedinUrl(linkedin)) {
-      return NextResponse.json(
-        { error: 'LinkedIn URL must be a valid linkedin.com URL.' },
         { status: 400 }
       );
     }

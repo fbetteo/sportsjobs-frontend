@@ -31,7 +31,6 @@ const TestimonialPageContent = () => {
         name: '',
         roleCompany: '',
         content: '',
-        linkedin: '',
         email: '',
         website: '',
         rating: 5,
@@ -75,7 +74,6 @@ const TestimonialPageContent = () => {
                 name: '',
                 roleCompany: '',
                 content: '',
-                linkedin: '',
                 website: '',
                 rating: 5,
             }));
@@ -178,19 +176,6 @@ const TestimonialPageContent = () => {
                                     </Button>
                                 ))}
                             </HStack>
-                        </FormControl>
-
-                        <FormControl>
-                            <FormLabel>LinkedIn URL (optional)</FormLabel>
-                            <Input
-                                name="linkedin"
-                                type="url"
-                                value={formData.linkedin}
-                                onChange={handleFieldChange}
-                                placeholder="https://www.linkedin.com/in/your-profile"
-                                bg="black"
-                                borderColor="gray.600"
-                            />
                         </FormControl>
 
                         <FormControl>
