@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
     Box,
     Container,
@@ -14,15 +15,38 @@ import {
 import Link from 'next/link';
 import { FiCheckCircle, FiMail } from 'react-icons/fi';
 
-const SuccessPage = () => {
+const SuccessPageContent = () => {
+    const searchParams = useSearchParams();
+    const sessionId = searchParams?.get('session_id') || '';
+    const rawValue = searchParams?.get('value');
+    const value = rawValue ? parseFloat(rawValue) : 50; // default to base price 50
+
     useEffect(() => {
-        // Track Google Ads conversion when page loads
         if (typeof window !== 'undefined' && window.gtag) {
+            // Track Google Ads conversion
             window.gtag('event', 'conversion', {
-                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq'
+                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
+                'value': value,
+                'currency': 'USD',
+                'transaction_id': sessionId
+            });
+
+            // Standard GA4 Purchase Event (Monetization dashboards)
+            window.gtag('event', 'purchase', {
+                transaction_id: sessionId,
+                value: value,
+                currency: 'USD',
+                items: [
+                    {
+                        item_id: 'job_posting',
+                        item_name: 'Job Posting',
+                        price: value,
+                        quantity: 1
+                    }
+                ]
             });
         }
-    }, []);
+    }, [sessionId, value]);
 
     return (
         <Container maxW="container.md" py={20}>
@@ -79,5 +103,11 @@ const SuccessPage = () => {
         </Container>
     );
 };
+
+const SuccessPage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <SuccessPageContent />
+    </Suspense>
+);
 
 export default SuccessPage;

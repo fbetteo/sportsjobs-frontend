@@ -11,6 +11,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Authentication and user identity: `docs/auth.md`
 - Data flow and backend integration: `docs/data-backend.md`
 - Payments and subscriptions: `docs/payments.md`
+- Analytics and attribution: `docs/analytics.md`
 - Performance and caching rules: `docs/performance.md`
 - Integrations and webhooks: `docs/integrations-webhooks.md`
 - Content and SEO rules: `docs/content-seo.md`

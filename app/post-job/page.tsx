@@ -79,6 +79,30 @@ const PostJobPage = () => {
         e.preventDefault();
         setIsLoading(true);
 
+        const totalValue = calculateTotal();
+
+        // Fire standard GA4 begin_checkout event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'begin_checkout', {
+                currency: 'USD',
+                value: totalValue,
+                items: [
+                    {
+                        item_id: 'job_posting',
+                        item_name: 'Job Posting',
+                        price: 50,
+                        quantity: 1
+                    },
+                    ...(formData.companyLogo ? [{
+                        item_id: 'company_logo',
+                        item_name: 'Company Logo Add-on',
+                        price: 49,
+                        quantity: 1
+                    }] : [])
+                ]
+            });
+        }
+
         try {
             const response = await fetch('/api/create-job-posting', {
                 method: 'POST',
