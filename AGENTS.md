@@ -15,6 +15,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Performance and caching rules: `docs/performance.md`
 - Integrations and webhooks: `docs/integrations-webhooks.md`
 - Content and SEO rules: `docs/content-seo.md`
+- Search-intent listing page notes: `docs/content-seo.md` and `docs/frontend.md`
 - Environment and runbook: `docs/environment.md`
 
 ## How To Use These Docs

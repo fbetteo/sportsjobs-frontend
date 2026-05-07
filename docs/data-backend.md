@@ -36,6 +36,7 @@
 ## API Response Strategy
 
 - List endpoints return minimal fields by default.
+- Minimal job list records include lightweight taxonomy fields (`sport_list`, `job_area`) so public listing pages can tag and filter jobs without requesting heavy descriptions.
 - Heavy fields (`description`, `skills`) should be included only when explicitly requested (for example with `full=true`).
 - Detail endpoints return complete records for a single job.
 

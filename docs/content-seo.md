@@ -17,6 +17,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - Blog listing and detail pages
 - Resources pages
 - Company and job detail pages
+- Search-intent landing pages, currently including `/sports-analytics-internships`
 
 ## Conventions
 
@@ -28,8 +29,14 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Indexing Strategy
 
 - Include high-value static pages plus dynamic job/company/blog URLs in sitemap.
+- Include index-worthy search-intent landing pages in the static sitemap list.
 - Exclude/internal-limit crawl for non-indexable API surfaces.
 - Use robots directives intentionally for known aggressive crawlers.
+
+## Search-Intent Landing Pages
+
+- `/sports-analytics-internships` uses page-level metadata, FAQ structured data, and canonical URL `https://www.sportsjobs.online/sports-analytics-internships`.
+- The page should keep a live or curated openings section before editorial guidance so it matches job-board search intent.
 
 ## Practical Rule
 

@@ -29,11 +29,17 @@ Use this guide for pages/components and UX changes.
 - Prefer calling local Next.js API routes from `lib/*` helpers.
 - Use `fetch`; do not introduce axios for new frontend/API code.
 - Keep list pages minimal and fetch heavy details only when needed.
+- Public SEO listing pages may server-fetch initial jobs through `lib/fetchJobsServer` and pass them into a client component for lightweight filtering.
 
 ## Routing and IDs
 
 - Job pages may use slug-first IDs with fallback numeric handling.
 - Use existing helpers (for example `utils/jobIdEncoder.ts`) when touching ID formats.
+
+## SEO Listing Pages
+
+- `/sports-analytics-internships` targets the sports analytics internships query with server-rendered internship listings and client-side filters for location, work type, and sport.
+- Keep this page focused on analytics-relevant student roles and preserve the live openings module, role taxonomy, requirements, FAQ, and signup/alert CTA.
 
 ## Testimonials UX (Current)
 
