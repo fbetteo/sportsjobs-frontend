@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import NextLink from 'next/link';
 import {
     Alert,
@@ -13,21 +12,18 @@ import {
     Container,
     Divider,
     Flex,
-    FormControl,
-    FormLabel,
     Heading,
     HStack,
     Image,
     LinkBox,
     LinkOverlay,
-    Select,
     SimpleGrid,
     Stack,
     Tag,
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { FaBell, FaExternalLinkAlt, FaFilter, FaLock } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaLock } from 'react-icons/fa';
 import NewsletterSignupForm from './NewsletterSignupForm';
 import { internshipFaqItems } from '@/lib/sportsAnalyticsInternshipsContent';
 
@@ -51,14 +47,6 @@ interface Props {
     initialJobs: InternshipJob[];
     lastChecked: string;
 }
-
-const defaultSports = ['Basketball', 'Football - NFL', 'Baseball', 'Football - Soccer', 'Hockey', 'Golf'];
-const workTypes = [
-    { value: 'Remote', label: 'Remote internships' },
-    { value: 'Global Remote', label: 'Global remote internships' },
-    { value: 'Office', label: 'Onsite internships' },
-    { value: 'Hybrid', label: 'Hybrid internships' },
-];
 
 const taxonomy = [
     {
@@ -102,21 +90,6 @@ const requirementBlocks = [
     },
 ];
 
-function getUniqueOptions(jobs: InternshipJob[], field: 'country' | 'location' | 'sport_list') {
-    return Array.from(
-        new Set(
-            jobs
-                .map((job) => job[field])
-                .filter((value): value is string => Boolean(value?.trim()))
-        )
-    ).sort((a, b) => a.localeCompare(b));
-}
-
-function getLocationOptions(jobs: InternshipJob[]) {
-    return Array.from(new Set([...getUniqueOptions(jobs, 'country'), ...getUniqueOptions(jobs, 'location')]))
-        .sort((a, b) => a.localeCompare(b));
-}
-
 function getRoleFamily(job: InternshipJob) {
     const text = `${job.title ?? ''} ${job.job_area ?? ''}`.toLowerCase();
 
@@ -154,29 +127,7 @@ function getAnalyticsNote(job: InternshipJob) {
 }
 
 export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChecked }: Props) {
-    const [selectedLocation, setSelectedLocation] = useState('');
-    const [selectedWorkType, setSelectedWorkType] = useState('');
-    const [selectedSport, setSelectedSport] = useState('');
-
-    const locationOptions = useMemo(() => getLocationOptions(initialJobs), [initialJobs]);
-    const sportOptions = useMemo(() => {
-        const currentSports = getUniqueOptions(initialJobs, 'sport_list');
-        return Array.from(new Set([...currentSports, ...defaultSports])).sort((a, b) => a.localeCompare(b));
-    }, [initialJobs]);
-
-    const filteredJobs = useMemo(() => {
-        return initialJobs.filter((job) => {
-            const locationText = `${job.country ?? ''} ${job.location ?? ''}`.toLowerCase();
-            const workText = `${job.remote_string ?? ''}`.toLowerCase();
-            const sportText = `${job.sport_list ?? ''}`.toLowerCase();
-
-            const matchesLocation = !selectedLocation || locationText.includes(selectedLocation.toLowerCase());
-            const matchesWorkType = !selectedWorkType || workText.includes(selectedWorkType.toLowerCase());
-            const matchesSport = !selectedSport || sportText.includes(selectedSport.toLowerCase());
-
-            return matchesLocation && matchesWorkType && matchesSport;
-        });
-    }, [initialJobs, selectedLocation, selectedWorkType, selectedSport]);
+    const latestJobs = initialJobs.slice(0, 10);
 
     return (
         <Container maxW="7xl" py={{ base: 8, md: 12 }}>
@@ -208,11 +159,11 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                             >
                                 <Box>
                                     <Heading as="h2" size="lg" color="white">
-                                        Current Sports Analytics Internships
+                                        Latest Sports Analytics Internships
                                     </Heading>
                                     <Text color="gray.400" mt={2}>
-                                        Newest openings, remote internships, paid internships, sports and league tags, and location
-                                        filters are refreshed from SportsJobs data. Last checked: {lastChecked}.
+                                        These are the last 10 internships from SportsJobs data, including remote, onsite,
+                                        hybrid, paid, and unpaid roles when those details are available. Last checked: {lastChecked}.
                                     </Text>
                                 </Box>
                                 <Button
@@ -226,76 +177,14 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                 </Button>
                             </Flex>
 
-                            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} mb={6}>
-                                <FormControl>
-                                    <FormLabel color="gray.300" fontSize="sm">
-                                        Location
-                                    </FormLabel>
-                                    <Select
-                                        value={selectedLocation}
-                                        onChange={(event) => setSelectedLocation(event.target.value)}
-                                        bg="gray.800"
-                                        borderColor="gray.600"
-                                        icon={<FaFilter />}
-                                    >
-                                        <option value="" style={{ backgroundColor: 'black' }}>All USA locations</option>
-                                        {locationOptions.map((location) => (
-                                            <option key={location} value={location} style={{ backgroundColor: 'black' }}>
-                                                {location}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-
-                                <FormControl>
-                                    <FormLabel color="gray.300" fontSize="sm">
-                                        Work type
-                                    </FormLabel>
-                                    <Select
-                                        value={selectedWorkType}
-                                        onChange={(event) => setSelectedWorkType(event.target.value)}
-                                        bg="gray.800"
-                                        borderColor="gray.600"
-                                        icon={<FaFilter />}
-                                    >
-                                        <option value="" style={{ backgroundColor: 'black' }}>Remote, onsite, or hybrid</option>
-                                        {workTypes.map((workType) => (
-                                            <option key={workType.value} value={workType.value} style={{ backgroundColor: 'black' }}>
-                                                {workType.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-
-                                <FormControl>
-                                    <FormLabel color="gray.300" fontSize="sm">
-                                        Sport or league
-                                    </FormLabel>
-                                    <Select
-                                        value={selectedSport}
-                                        onChange={(event) => setSelectedSport(event.target.value)}
-                                        bg="gray.800"
-                                        borderColor="gray.600"
-                                        icon={<FaFilter />}
-                                    >
-                                        <option value="" style={{ backgroundColor: 'black' }}>All sports and leagues</option>
-                                        {sportOptions.map((sport) => (
-                                            <option key={sport} value={sport} style={{ backgroundColor: 'black' }}>
-                                                {sport}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </SimpleGrid>
-
                             <VStack spacing={4} align="stretch">
-                                {filteredJobs.length === 0 ? (
+                                {latestJobs.length === 0 ? (
                                     <Alert status="info" bg="gray.800" color="gray.100" borderRadius="md">
                                         <AlertIcon />
-                                        No matching internships are visible right now. Clear filters or create an alert for the next posting.
+                                        No internships are visible right now. Check back soon for newly added roles.
                                     </Alert>
                                 ) : (
-                                    filteredJobs.slice(0, 12).map((job) => (
+                                    latestJobs.map((job) => (
                                         <LinkBox
                                             as={Card}
                                             key={job.id}
@@ -357,24 +246,13 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                             p={5}
                         >
                             <Heading as="h2" size="md" color="white" mb={3}>
-                                Get New Sports Analytics Internships First
+                                Sports Analytics Career Updates
                             </Heading>
                             <Text color="gray.300" fontSize="sm" mb={4}>
-                                Create email alerts for internship, remote, onsite, hybrid, NBA, NFL, MLB, MLS, NCAA,
-                                business analytics, player performance, marketing, and social media searches.
+                                Get the free weekly newsletter with sports analytics jobs, internships, resources,
+                                and practical career notes.
                             </Text>
                             <NewsletterSignupForm />
-                            <Button
-                                as={NextLink}
-                                href="/signup"
-                                colorScheme="teal"
-                                variant="solid"
-                                leftIcon={<FaBell />}
-                                w="full"
-                                mt={2}
-                            >
-                                Save filters
-                            </Button>
                         </Box>
                     </Flex>
                 </Box>
@@ -511,7 +389,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                     textAlign="center"
                 >
                     <Heading as="h2" size="lg" color="white" mb={3}>
-                        Get New Sports Analytics Internships First
+                        Start Your Sports Analytics Internship Search
                     </Heading>
                     <Text color="gray.300" maxW="3xl" mx="auto" mb={5}>
                         SportsJobs keeps the search narrow so students and recent graduates can spend less time sorting

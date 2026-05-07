@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sports Analytics Internships in the USA',
     description:
-      'Curated sports analytics internships with filters for location, work type, sport, role type, and job alerts.',
+      'Curated sports analytics internships with the latest student roles from teams, leagues, and sports organizations.',
     url: 'https://www.sportsjobs.online/sports-analytics-internships',
     siteName: 'SportsJobs Online',
     type: 'website',
@@ -41,12 +41,12 @@ export const metadata: Metadata = {
 
 export default async function SportsAnalyticsInternshipsPage() {
   const usaInternships = await fetchJobsServer(
-    80,
+    10,
     JSON.stringify({ seniority: 'Internship', country: 'united states' })
   );
   const jobs = usaInternships.length
     ? usaInternships
-    : await fetchJobsServer(80, JSON.stringify({ seniority: 'Internship' }));
+    : await fetchJobsServer(10, JSON.stringify({ seniority: 'Internship' }));
   const lastChecked = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: 'numeric',

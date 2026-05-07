@@ -36,7 +36,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Search-Intent Landing Pages
 
 - `/sports-analytics-internships` uses page-level metadata, FAQ structured data, and canonical URL `https://www.sportsjobs.online/sports-analytics-internships`.
-- The page should keep a live or curated openings section before editorial guidance so it matches job-board search intent.
+- The page should keep the latest 10 live or curated openings before editorial guidance so it matches job-board search intent.
 
 ## Practical Rule
 
