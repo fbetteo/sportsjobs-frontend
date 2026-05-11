@@ -78,6 +78,7 @@ const Footer = () => {
                 <Box p={5} borderWidth="1px" borderRadius="lg" width="100%" textAlign="left">
                     <Text fontWeight="bold" fontSize="lg" mb={3}>Resources</Text>
                     <VStack align="start" spacing={2} color="gray.300">
+                        <Link href="/sports-analytics-internships">Sports Analytics Internships</Link>
                         <Link href="/resources">Job Seeker Resources</Link>
                         <Link href="/blog">Career Blog</Link>
                     </VStack>

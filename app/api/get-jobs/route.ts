@@ -148,6 +148,8 @@ export async function GET(req: NextRequest) {
         country: record.country,
         seniority: record.seniority,
         remote: record.remote,
+        sport_list: record.sport_list,
+        job_area: record.job_area,
         logo_permanent_url: record.logo_permanent_url,
         remote_string: record.remote_office,
         days_ago_text: getDaysAgoText(record.creation_date),
