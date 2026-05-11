@@ -10,6 +10,11 @@ const searches = [
         description: 'Browse the latest student and early-career internship roles in sports analytics.',
     },
     {
+        title: 'Sports Analytics Salaries',
+        href: '/sports-analytics-salaries',
+        description: 'Compare salary ranges by role, experience, location, industry, and skills.',
+    },
+    {
         title: 'Sports Industry Companies',
         href: '/company-jobs',
         description: 'Explore organizations hiring across analytics, data, engineering, and sports business.',
@@ -36,7 +41,7 @@ export default function PopularSearches() {
                     </Link>
                 </Flex>
 
-                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
                     {searches.map((search) => (
                         <Box
                             key={search.href}
