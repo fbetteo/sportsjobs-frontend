@@ -13,6 +13,7 @@ import UserFormPopup from "./AlertsPopupForm";
 import PostJobLink from './PostJobLink';
 import JobListFeatured from './JobListFeatured';
 import FeaturedCompanies from './FeaturedCompanies';
+import PopularSearches from './PopularSearches';
 import MixedPricingCard from './MixedPriceCard';
 import JourneyLink from './JourneyLink';
 import FeedbackButton from './FeedbackButton';
@@ -382,6 +383,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                             <PostJobLink />
                         </Box>
                         <FeaturedCompanies />
+                        <PopularSearches />
                         <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
                         <Box
                             ref={pricingSectionRef}

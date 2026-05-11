@@ -37,6 +37,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 
 - `/sports-analytics-internships` uses page-level metadata, FAQ structured data, and canonical URL `https://www.sportsjobs.online/sports-analytics-internships`.
 - The page should keep the latest 10 live or curated openings before editorial guidance so it matches job-board search intent.
+- Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule
 
