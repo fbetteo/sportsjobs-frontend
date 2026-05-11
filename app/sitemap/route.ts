@@ -51,7 +51,7 @@ export async function GET() {
   }
 
   // Define static pages
-  const staticPages = ['', '/signup', '/blog', '/company-jobs', '/sports-analytics-internships'].map((route) => `${baseUrl}${route}`);
+  const staticPages = ['', '/signup', '/blog', '/company-jobs', '/sports-analytics-internships', '/sports-analytics-salaries'].map((route) => `${baseUrl}${route}`);
   const jobUrls = recentJobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
   const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);
   const companyUrls = companies.map((company: any) => 

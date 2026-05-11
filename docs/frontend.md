@@ -40,7 +40,8 @@ Use this guide for pages/components and UX changes.
 
 - `/sports-analytics-internships` targets the sports analytics internships query with the latest 10 server-rendered internship listings.
 - Keep this page focused on analytics-relevant student roles and preserve the live openings module, role taxonomy, requirements, FAQ, and newsletter CTA.
-- Link search-intent pages from stable navigation surfaces. The internships page is linked from the footer and the homepage `PopularSearches` module.
+- `/sports-analytics-salaries` targets the sports analytics salaries query with benchmark ranges, role/experience tables, location and employer-type comparisons, methodology, and FAQ.
+- Link search-intent pages from stable navigation surfaces. The internships and salaries pages are linked from the footer and the homepage `PopularSearches` module.
 
 ## Testimonials UX (Current)
 
