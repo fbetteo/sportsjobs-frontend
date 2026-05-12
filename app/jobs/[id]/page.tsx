@@ -9,7 +9,7 @@ import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Alert, AlertIco
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { redirect, notFound } from 'next/navigation';
+import { permanentRedirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
 import { default as dynamicImport } from 'next/dynamic';
 import MixedPricingCard from '@/components/MixedPriceCard';
@@ -45,6 +45,7 @@ interface Job {
     country: string;
     country_code: string;
     job_area: string;
+    slug?: string;
 }
 
 const industryJobTypeMapping: { [key: string]: string } = {
@@ -123,6 +124,10 @@ async function JobDetails({ params }: { params: { id: string } }) {
         notFound();
     }
     const { job, expired } = jobResult;
+
+    if (job.slug && params.id !== job.slug) {
+        permanentRedirect(`/jobs/${job.slug}`);
+    }
 
     // Add salary parsing helper
     const extractSalaryValue = (salaryString: string): number | null => {

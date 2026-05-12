@@ -15,6 +15,7 @@ Minimize payload size and origin calls first; optimize interaction patterns seco
 - Set cache headers in API routes (`Cache-Control` and related CDN headers when needed).
 - Use longer edge cache windows for low-volatility data (for example dropdowns or featured lists).
 - Use shorter windows for highly dynamic endpoints.
+- Cache detail lookup misses briefly so repeated crawls of removed or invalid job URLs do not repeatedly hit origin.
 
 ## Auth and Request Stability
 

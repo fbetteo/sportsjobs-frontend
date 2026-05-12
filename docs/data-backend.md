@@ -51,3 +51,5 @@
 - Jobs endpoints support structured filters (country, seniority, industry, sport, etc.).
 - Detail lookup may accept numeric IDs or slugs; current route logic decides filter type.
 - Keep slug-first URL behavior when available.
+- Detail lookups return the backend numeric `job_id` as `job.id` and include `job.slug` when available. Pages should redirect numeric legacy URLs to `/jobs/{slug}` for the canonical public URL.
+- Missing detail records should return `404` from `app/api/get-job-details`, not `500`.

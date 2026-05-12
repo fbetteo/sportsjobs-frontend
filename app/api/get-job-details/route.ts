@@ -15,16 +15,27 @@ function getDaysAgoText(creationDate: string): string {
   return `Posted ${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
 }
 
+function applyJobDetailsCacheHeaders(response: NextResponse, cacheControl: string) {
+  response.headers.set('Cache-Control', cacheControl);
+  response.headers.set('CDN-Cache-Control', cacheControl);
+  response.headers.set('Vercel-CDN-Cache-Control', cacheControl);
+  return response;
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const job_id_param = searchParams.get('id') ?? '';
+  const job_id_param = searchParams.get('id')?.trim() ?? '';
+
+  if (!job_id_param) {
+    return NextResponse.json({ error: "Job id is required" }, { status: 400 });
+  }
 
   // Determine if it's a numeric ID or a slug
   const isNumeric = /^\d+$/.test(job_id_param);
 
-  const filters = isNumeric 
-  ? { job_id: job_id_param } 
-  : { slug: job_id_param };
+  const filters = isNumeric
+    ? { job_id: job_id_param }
+    : { slug: job_id_param };
 
   const requestBody = {
     limit: 1,
@@ -33,7 +44,8 @@ export async function GET(req: NextRequest) {
     sort_direction: "desc"
   };
 
-  try {    // Fetch from Hetzner server
+  try {
+    // Fetch from Hetzner server
     const fetchResponse = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/jobs`, {
       method: 'POST',
       headers: {
@@ -41,13 +53,15 @@ export async function GET(req: NextRequest) {
         'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`,
       },
       body: JSON.stringify(requestBody),
-    });    if (!fetchResponse.ok) {
+    });
+
+    if (!fetchResponse.ok) {
       throw new Error(`HTTP error! status: ${fetchResponse.status}`);
     }
     
     const data = await fetchResponse.json();
-    if (!data) {
-      throw new Error('No data received from server');
+    if (!Array.isArray(data)) {
+      throw new Error('Invalid data received from server');
     }
 
     // Ensure record has required properties
@@ -57,14 +71,15 @@ export async function GET(req: NextRequest) {
 
     const record = data[0];
 
-      // Security check: If job has a slug but user accessed via numeric ID, redirect or reject
-    if (isNumeric && record.slug && record.slug.trim() !== '') {
-      // Option 1: Redirect to the slug URL
-      // return NextResponse.redirect(`/jobs/${record.slug}`);
-      
-      // Option 2: Return 404 to hide existence of the job via numeric ID
-      return NextResponse.json({ error: "Job not found" }, { status: 404 });
-    }    const job = {
+    if (!record) {
+      const notFoundResponse = NextResponse.json({ error: "Job not found" }, { status: 404 });
+      return applyJobDetailsCacheHeaders(
+        notFoundResponse,
+        'public, s-maxage=3600, max-age=300, stale-while-revalidate=86400'
+      );
+    }
+
+    const job = {
       id: record.job_id,
       title: record.name,
       company: record.company,
@@ -86,14 +101,14 @@ export async function GET(req: NextRequest) {
       job_area: record.job_area,
       apply_url: record.url,
       slug: record.slug,
-  };    const apiResponse = NextResponse.json({ job });
+    };
+
+    const apiResponse = NextResponse.json({ job });
     
-    // Set cache control headers
-    apiResponse.headers.set('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
-    apiResponse.headers.set('CDN-Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
-    apiResponse.headers.set('Vercel-CDN-Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=2592000');
-    
-    return apiResponse;
+    return applyJobDetailsCacheHeaders(
+      apiResponse,
+      'public, s-maxage=86400, stale-while-revalidate=2592000'
+    );
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }

@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     const { job, expired } = jobResult;
     if (job) {
       // If the job exists, redirect to preserve backlinks (301 passes ~99% link equity)
-      return NextResponse.redirect(`https://www.sportsjobs.online/jobs/${job.id}`, 301);
+      return NextResponse.redirect(`https://www.sportsjobs.online/jobs/${job.slug || job.id}`, 301);
     } else {
       // Job doesn't exist - return 410 to optimize crawl budget
       return new Response('This job posting has been permanently removed.', {
