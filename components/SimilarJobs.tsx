@@ -89,7 +89,7 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
             {!loading && similarJobs.length > 0 && (
                 <VStack spacing={4} align="stretch">
                     {similarJobs.map((job: SimilarJob) => (
-                        <Link key={job.id} href={`/jobs/${job.id}`} passHref>
+                        <Link key={job.id} href={`/jobs/${job.id}`} passHref prefetch={false}>
                             <ChakraLink _hover={{ textDecoration: 'none' }}>
                                 <Box
                                     p={4}

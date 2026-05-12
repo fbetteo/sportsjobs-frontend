@@ -108,7 +108,7 @@ export function JobCard({
                         <Text fontSize="lg" color="gray.400" fontWeight="semibold">
                             {company}
                         </Text>
-                        <LinkOverlay href={`/jobs/${id}`} as={Link}>
+                        <LinkOverlay href={`/jobs/${id}`} as={Link} prefetch={false}>
                             <Heading
                                 fontSize="2xl"
                                 color={isFeatured ? "white" : "white"}
