@@ -209,7 +209,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                                         <Text color="gray.400" fontWeight="semibold">
                                                             {job.company ?? 'Sports organization'}
                                                         </Text>
-                                                        <LinkOverlay as={NextLink} href={`/jobs/${job.id}`}>
+                                                        <LinkOverlay as={NextLink} href={`/jobs/${job.id}`} prefetch={false}>
                                                             <Heading as="h3" size="md" color="white" mt={1}>
                                                                 {job.title ?? 'Sports analytics internship'}
                                                             </Heading>

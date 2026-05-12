@@ -33,6 +33,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Backend access: route external/backend calls through `app/api/*`.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.
+- High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
 
 ## Source Priority
 

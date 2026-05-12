@@ -16,6 +16,7 @@ Minimize payload size and origin calls first; optimize interaction patterns seco
 - Use longer edge cache windows for low-volatility data (for example dropdowns or featured lists).
 - Use shorter windows for highly dynamic endpoints.
 - Cache detail lookup misses briefly so repeated crawls of removed or invalid job URLs do not repeatedly hit origin.
+- Disable automatic Next.js prefetch for high-cardinality job detail links (`/jobs/[id]`). Job cards can render many unique URLs per page, and prefetching them can create unused ISR reads, edge requests, and detail API calls.
 
 ## Auth and Request Stability
 
