@@ -7,6 +7,8 @@
 3. API routes call backend services (mainly Python jobs API).
 4. API routes transform, trim, and cache responses.
 
+Server-rendered pages may call server-only backend helpers directly when doing so avoids self-fetching the public site API. For job detail pages, `lib/jobDetailsBackend.ts` is the shared source used by both `app/jobs/[id]` and `app/api/get-job-details`.
+
 ## Backend Source (Jobs)
 
 - Primary jobs data source is a Python API hosted outside this repo.
@@ -43,6 +45,7 @@
 ## Route and Fetch Conventions
 
 - Keep external/backend calls inside Next API routes under `app/api/*`.
+- Exception: server-only helpers may call the backend directly for server-rendered pages to avoid routing through the public Vercel API endpoint.
 - Use `fetch` for HTTP calls.
 - Preserve graceful fallback behavior (empty arrays/null + error logging where useful).
 

@@ -34,6 +34,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
+- Server-rendered job detail pages should use the shared server-only backend helper, not self-fetch the public `/api/get-job-details` route.
 
 ## Source Priority
 

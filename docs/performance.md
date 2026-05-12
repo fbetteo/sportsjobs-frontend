@@ -17,6 +17,7 @@ Minimize payload size and origin calls first; optimize interaction patterns seco
 - Use shorter windows for highly dynamic endpoints.
 - Cache detail lookup misses briefly so repeated crawls of removed or invalid job URLs do not repeatedly hit origin.
 - Disable automatic Next.js prefetch for high-cardinality job detail links (`/jobs/[id]`). Job cards can render many unique URLs per page, and prefetching them can create unused ISR reads, edge requests, and detail API calls.
+- Avoid server-to-public-site self-fetches for hot paths. Job detail pages should use the shared server-only backend helper instead of calling `/api/get-job-details` through the deployed domain.
 
 ## Auth and Request Stability
 
