@@ -80,6 +80,7 @@ const Footer = () => {
                     <VStack align="start" spacing={2} color="gray.300">
                         <Link href="/sports-analytics-internships">Sports Analytics Internships</Link>
                         <Link href="/sports-analytics-salaries">Sports Analytics Salaries</Link>
+                        <Link href="/teamwork-online-sports-analytics-jobs">TeamWork Online Alternative</Link>
                         <Link href="/resources">Job Seeker Resources</Link>
                         <Link href="/blog">Career Blog</Link>
                     </VStack>
