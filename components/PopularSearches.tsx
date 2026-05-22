@@ -19,6 +19,11 @@ const searches = [
         href: '/company-jobs',
         description: 'Explore organizations hiring across analytics, data, engineering, and sports business.',
     },
+    {
+        title: 'TeamWork Online Alternative',
+        href: '/teamwork-online-sports-analytics-jobs',
+        description: 'See whether TeamWork Online or a more analytics-focused board is the better fit.',
+    },
 ];
 
 export default function PopularSearches() {
@@ -41,7 +46,7 @@ export default function PopularSearches() {
                     </Link>
                 </Flex>
 
-                <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
                     {searches.map((search) => (
                         <Box
                             key={search.href}

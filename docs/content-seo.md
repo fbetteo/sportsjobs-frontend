@@ -17,7 +17,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - Blog listing and detail pages
 - Resources pages
 - Company and job detail pages
-- Search-intent landing pages, currently including `/sports-analytics-internships` and `/sports-analytics-salaries`
+- Search-intent landing pages, currently including `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`
 
 ## Conventions
 
@@ -39,6 +39,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - The page should keep the latest 10 live or curated openings before editorial guidance so it matches job-board search intent.
 - `/sports-analytics-salaries` uses page-level metadata, Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/sports-analytics-salaries`.
 - Salary pages should include a methodology/source section because compensation claims need higher trust than generic editorial content.
+- `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent around TeamWork Online and should keep a balanced explainer, a direct comparison block, FAQ structured data, and a live analytics-jobs module tied to SportsJobs inventory.
 - Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule
