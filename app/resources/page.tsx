@@ -64,6 +64,8 @@ const ResourceCard = ({
         }
     };
 
+    const isExternalUrl = /^https?:\/\//.test(url);
+
     return (
         <Card
             bg={isFeatured ? "purple.900" : "gray.800"}
@@ -160,10 +162,10 @@ const ResourceCard = ({
                     <Button
                         as={Link}
                         href={url}
-                        isExternal
+                        isExternal={isExternalUrl}
                         size="sm"
                         colorScheme="purple"
-                        rightIcon={<FaExternalLinkAlt />}
+                        rightIcon={isExternalUrl ? <FaExternalLinkAlt /> : undefined}
                         _hover={{ textDecoration: 'none' }}
                     >
                         Access Resource
@@ -390,6 +392,13 @@ Through the Lens of Sports"
                         />
                     </Grid> */}
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+                        <ResourceCard
+                            title="Sports Data Scientist Interview Questions"
+                            description="Practice common data science interview questions for sports analytics, betting, media, teams, leagues, and sports technology roles. Includes what interviewers are testing and sample answer directions."
+                            url="/resources/interview-questions/data-scientist"
+                            type="guide"
+                            isAuthenticated={isAuthenticated}
+                        />
                         <ResourceCard
                             title="Samford University - Careers & Education in Sports Analytics "
                             description="To prepare individuals for a career in one of these exciting fields, Samford's Center for Sports Analytics partners with Brock School of Business to offer rigorous sports analytics curricula for mathematically gifted and highly motived candidates paired with a real-world analytics internship in the sports industry."

@@ -43,6 +43,7 @@ Use this guide for pages/components and UX changes.
 - `/sports-analytics-salaries` targets the sports analytics salaries query with benchmark ranges, role/experience tables, location and employer-type comparisons, methodology, and FAQ.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent and should preserve the balanced TeamWork Online explainer, strengths/weaknesses sections, comparison table, inventory snapshot, FAQ, and newsletter CTA.
 - Link search-intent pages from stable navigation surfaces. The internships and salaries pages are linked from the footer and the homepage `PopularSearches` module.
+- `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, teal/purple accents, concise prep cards, and expandable question sections.
 
 ## Testimonials UX (Current)
 
