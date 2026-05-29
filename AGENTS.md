@@ -35,6 +35,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Favor small, explicit changes over broad refactors.
 - Search-intent landing pages currently include `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`.
 - Public interview-prep resources currently include `/resources/interview-questions/data-scientist`.
+- Homepage/global title metadata should stay query-first with `SportsJobs Online` at the end.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
 - Server-rendered job detail pages should use the shared server-only backend helper, not self-fetch the public `/api/get-job-details` route.
 

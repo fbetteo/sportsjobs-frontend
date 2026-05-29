@@ -22,6 +22,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Conventions
 
 - Keep metadata aligned with page intent and search intent.
+- Keep homepage/global title metadata query-first, with the brand at the end.
 - Keep canonical URL/domain usage consistent (`https://www.sportsjobs.online`).
 - Escape unsafe XML characters when generating sitemap payloads.
 - Keep robots and sitemap cache headers explicit and conservative.
