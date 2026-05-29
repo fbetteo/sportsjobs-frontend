@@ -24,6 +24,13 @@ Use this guide for pages/components and UX changes.
 - Use memoization only when it solves a measured/render issue.
 - Preserve useful comments that explain non-obvious logic.
 
+## Subscription Cancellation UX
+
+- `components/ConfirmCancelModal.tsx` collects optional cancellation feedback before calling the existing cancellation API.
+- Keep cancellation feedback optional and never block cancellation because the reason field is empty.
+- Use a loading state on the final cancellation button and disable duplicate submits while the request is running.
+- Cancellation copy should explain that Stripe cancellation is scheduled while app access is removed by the current account-blocking flow.
+
 ## Data Fetching in Frontend Code
 
 - Prefer calling local Next.js API routes from `lib/*` helpers.
