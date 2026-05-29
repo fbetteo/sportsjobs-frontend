@@ -3,14 +3,15 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Box, Button, Heading, VStack, useToast, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import ConfirmCancelModal from '../../components/ConfirmCancelModal';
+import { useEffect, useState } from 'react';
+import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
 
 const SettingsPage = () => {
     const { user, error, isLoading } = useUser();
     const router = useRouter();
     const toast = useToast(); // Chakra toast hook for notifications
     const { isOpen, onOpen, onClose } = useDisclosure(); // Chakra hook for modal control
+    const [isCanceling, setIsCanceling] = useState(false);
 
     useEffect(() => {
         if (!isLoading && !user) {
@@ -22,23 +23,33 @@ const SettingsPage = () => {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>{error.message}</div>;
 
-    const handleCancelSubscription = async () => {
+    const handleCancelSubscription = async (payload: CancellationFeedbackPayload) => {
+        if (isCanceling) return;
+
         try {
+            setIsCanceling(true);
             const response = await fetch('/api/cancel-subscription', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: user?.email }),
+                body: JSON.stringify({
+                    email: user?.email,
+                    cancellationFeedback: payload.cancellationFeedback,
+                    cancellationComment: payload.cancellationComment,
+                }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to cancel subscription');
+                const data = await response.json().catch(() => null);
+                throw new Error(data?.error || 'Failed to cancel subscription');
             }
 
+            onClose();
+
             toast({
-                title: 'Subscription Canceled',
-                description: 'Your subscription has been canceled successfully.',
+                title: 'Subscription canceled',
+                description: 'Your subscription cancellation has been scheduled successfully.',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -57,6 +68,8 @@ const SettingsPage = () => {
                 duration: 3000,
                 isClosable: true,
             });
+        } finally {
+            setIsCanceling(false);
         }
     };
 
@@ -88,6 +101,7 @@ const SettingsPage = () => {
                 isOpen={isOpen}
                 onClose={onClose}
                 onConfirm={handleCancelSubscription}
+                isSubmitting={isCanceling}
             />
         </Box>
     );
