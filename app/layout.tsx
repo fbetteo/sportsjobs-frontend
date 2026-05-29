@@ -9,11 +9,11 @@ import FeedbackButton from '@/components/FeedbackButton'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Sportsjobs Online | Find Your Dream Job in Sports Analytics and Betting',
+  title: 'Sports Data & Analytics Jobs | SportsJobs Online',
   description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
   keywords: 'sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers',
   openGraph: {
-    siteName: 'Sportsjobs Online',
+    siteName: 'SportsJobs Online',
     title: 'Sports analytics and data science jobs | Software sports jobs',
     description: 'Find the best sports analytics and data science jobs in sports and betting. Get hired in sports analytics, data science, software development, and more.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: 'https://www.sportsjobs.online/opengraph-img.png',
         width: 1200,
         height: 630,
-        alt: 'Sportsjobs Online - Find Your Dream Job in Sports Analytics',
+        alt: 'SportsJobs Online - Find Your Dream Job in Sports Analytics',
       }]
   },
   twitter: {

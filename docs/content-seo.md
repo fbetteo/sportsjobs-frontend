@@ -22,6 +22,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Conventions
 
 - Keep metadata aligned with page intent and search intent.
+- Keep homepage/global title metadata query-first, with the brand at the end.
 - Keep canonical URL/domain usage consistent (`https://www.sportsjobs.online`).
 - Escape unsafe XML characters when generating sitemap payloads.
 - Keep robots and sitemap cache headers explicit and conservative.
@@ -40,6 +41,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - `/sports-analytics-salaries` uses page-level metadata, Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/sports-analytics-salaries`.
 - Salary pages should include a methodology/source section because compensation claims need higher trust than generic editorial content.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent around TeamWork Online and should keep a balanced explainer, a direct comparison block, FAQ structured data, and a live analytics-jobs module tied to SportsJobs inventory.
+- `/resources/interview-questions/data-scientist` targets sports data scientist interview-prep intent with Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/resources/interview-questions/data-scientist`.
 - Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule

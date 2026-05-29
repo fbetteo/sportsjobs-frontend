@@ -59,6 +59,7 @@ export async function GET() {
     '/sports-analytics-internships',
     '/sports-analytics-salaries',
     '/teamwork-online-sports-analytics-jobs',
+    '/resources/interview-questions/data-scientist',
   ].map((route) => `${baseUrl}${route}`);
   const jobUrls = recentJobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
   const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);
