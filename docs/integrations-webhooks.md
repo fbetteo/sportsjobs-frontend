@@ -18,7 +18,15 @@ Use this guide when touching third-party integrations, webhook handlers, or exte
 - Validate provider signatures before processing payloads.
 - Handle only expected event types and return safe success responses for ignored events.
 - Keep webhook handlers idempotent and defensive against malformed metadata.
+- Return a non-2xx response when paid-job publishing fails so Stripe can retry transient failures.
 - Log operational errors, but avoid leaking secrets in logs.
+
+## Paid Job Posting
+
+- Store full recruiter-submitted job data in the Python backend through `POST /pending_job_postings` before creating Stripe Checkout.
+- Stripe metadata should contain only `pendingJobId` and a job-posting marker.
+- Publish paid jobs idempotently through backend `POST /pending_job_postings/{id}/publish` after `checkout.session.completed`.
+- Legacy Checkout Sessions with serialized `jobData` metadata remain supported during the transition.
 
 ## Route Ownership
 

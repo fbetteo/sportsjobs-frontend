@@ -14,6 +14,7 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 - Primary jobs data source is a Python API hosted outside this repo.
 - Typical endpoint pattern: POST to `http://$HETZNER_POSTGRES_HOST:8000/jobs`.
 - Backend calls require bearer auth header using `HEADER_AUTHORIZATION`.
+- Paid recruiter submissions are stored as pending backend drafts through `POST /pending_job_postings` and published after Stripe payment through `POST /pending_job_postings/{id}/publish`.
 
 ## Testimonials Integration
 
