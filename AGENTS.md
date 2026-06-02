@@ -38,6 +38,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Homepage/global title metadata should stay query-first with `SportsJobs Online` at the end.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
 - Server-rendered job detail pages should use the shared server-only backend helper, not self-fetch the public `/api/get-job-details` route.
+- Paid job submissions should store the full draft in the backend before Stripe Checkout and pass only `pendingJobId` through Stripe metadata.
 
 ## Source Priority
 

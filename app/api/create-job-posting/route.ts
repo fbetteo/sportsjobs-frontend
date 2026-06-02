@@ -4,6 +4,8 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
+const DEFAULT_LOGO_URL = 'https://cdn.sportsjobs.online/blogposts/images/sportsjobs_logo.png';
+
 // Get base URL from environment or construct from request
 const getBaseUrl = (req: NextRequest) => {
     return process.env.NEXT_PUBLIC_BASE_URL || 
@@ -38,25 +40,50 @@ export async function POST(req: NextRequest) {
         let totalAmount = 50; // Base price: $50
         if (jobData.companyLogo) totalAmount += 49; // Updated logo price
 
-        // Clean job data before sending to Stripe
-        const cleanJobData = {
+        // Store the full job payload in the backend. Stripe metadata values are
+        // limited to 500 characters, so Checkout only receives the draft ID.
+        const pendingJobData = {
             company: jobData.company,
             name: jobData.name,
             description: jobData.description,
             location: jobData.location,
             salary: jobData.salary,
             remote_office: jobData.remote_office,
-            applicationUrl: jobData.applicationUrl,
+            url: jobData.applicationUrl,
             country: jobData.country,
             skills: jobData.skills,
-            logoUrl,
-            timestamp: new Date().toISOString()
+            seniority: jobData.seniority,
+            language: ['English'],
+            sport_list: null,
+            industry: null,
+            hours: 'Full Time',
+            featured: '0 - top',
+            logo_permanent_url: logoUrl || DEFAULT_LOGO_URL,
+            creation_date: new Date().toISOString()
         };
+
+        const pendingJobResponse = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/pending_job_postings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.HEADER_AUTHORIZATION}`
+            },
+            body: JSON.stringify(pendingJobData)
+        });
+
+        if (!pendingJobResponse.ok) {
+            throw new Error(`Pending job creation failed: ${await pendingJobResponse.text()}`);
+        }
+
+        const { pending_job_id: pendingJobId } = await pendingJobResponse.json();
+        if (!pendingJobId || typeof pendingJobId !== 'string') {
+            throw new Error('Pending job creation failed: invalid response');
+        }
 
         console.log('Creating Stripe session with data:', {
             amount: totalAmount,
             description: `Job listing for ${jobData.name} at ${jobData.company}`,
-            metadata: cleanJobData
+            pendingJobId
         });
 
         // Create Stripe session
@@ -79,7 +106,8 @@ export async function POST(req: NextRequest) {
             success_url: `${baseUrl}/post-job/success?session_id={CHECKOUT_SESSION_ID}&value=${totalAmount}`,
             cancel_url: `${baseUrl}/post-job?canceled=true`,
             metadata: {
-                jobData: JSON.stringify(cleanJobData)
+                jobPosting: 'true',
+                pendingJobId
             }
         });
 

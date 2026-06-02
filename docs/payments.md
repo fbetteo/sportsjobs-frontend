@@ -13,6 +13,14 @@
 4. User is redirected to Stripe checkout URL.
 5. Success/cancel URLs return user to signup flow routes.
 
+## Paid Job Posting Flow
+
+1. `app/api/create-job-posting/route.ts` uploads an optional logo and stores the full job payload through backend `POST /pending_job_postings`.
+2. Stripe Checkout metadata receives only the short `pendingJobId` and a job-posting marker. Do not store descriptions or serialized job payloads in Stripe metadata.
+3. `app/api/job-webhook/route.ts` handles `checkout.session.completed` and calls backend `POST /pending_job_postings/{id}/publish`.
+4. The backend publishes each pending job idempotently, so Stripe webhook retries do not create duplicate public jobs.
+5. The webhook temporarily supports legacy Checkout Sessions carrying the old serialized `jobData` metadata key.
+
 ## Cancellation Feedback
 
 - Subscription cancellation is handled by `app/api/cancel-subscription/route.ts`.
