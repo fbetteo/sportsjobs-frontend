@@ -88,6 +88,22 @@ const ResourcesButton = memo(() => (
 
 ResourcesButton.displayName = 'ResourcesButton';
 
+const DashboardButton = memo(() => (
+  <Link href="/dashboard" passHref>
+    <Button
+      colorScheme="purple"
+      bg="purple.600"
+      mr={5}
+      size="md"
+      _hover={{ bg: 'purple.500' }}
+    >
+      Dashboard
+    </Button>
+  </Link>
+));
+
+DashboardButton.displayName = 'DashboardButton';
+
 // Memoized Advertise Button
 const AdvertiseButton = memo(() => (
   <Link href="/advertise" passHref>
@@ -140,11 +156,15 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
+              <DashboardButton />
               <Menu>
                 <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                   <Avatar size="sm" src={user.picture ?? ""} />
                 </MenuButton>
                 <MenuList>
+                  <MenuItem color="black">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </MenuItem>
                   <MenuItem color="black">
                     <Link href="/settings">Settings</Link>
                   </MenuItem>
@@ -172,12 +192,12 @@ const Header = () => {
               </Link>
               <Button
                 colorScheme="purple"
-                bg="purple.500"
-                _hover={{ bg: 'purple.400' }}
+                bg="purple.600"
+                _hover={{ bg: 'purple.500' }}
                 size="md"
                 onClick={() => router.push('/signup')}
               >
-                Get Access
+                Sign up
               </Button>
             </>
           )}
@@ -233,6 +253,11 @@ const Header = () => {
 
                 {user ? (
                   <>
+                    <Link href="/dashboard" onClick={onClose}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                        Dashboard
+                      </Button>
+                    </Link>
                     <Link href="/settings" onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
                         Settings
@@ -257,13 +282,13 @@ const Header = () => {
                       variant="outline"
                       color="white"
                       borderColor="purple.500"
-                      _hover={{ bg: "purple.600" }}
+                      _hover={{ bg: "purple.700" }}
                       onClick={() => {
                         router.push('/signup');
                         onClose();
                       }}
                     >
-                      SignUp
+                      Sign up
                     </Button>
                   </>
                 )}

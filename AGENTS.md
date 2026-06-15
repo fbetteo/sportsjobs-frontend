@@ -10,6 +10,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Frontend implementation rules: `docs/frontend.md`
 - Authentication and user identity: `docs/auth.md`
 - Data flow and backend integration: `docs/data-backend.md`
+- 2026 user/dashboard backend requirements: `docs/backend-refactor-2026.md`
 - Payments and subscriptions: `docs/payments.md`
 - Analytics and attribution: `docs/analytics.md`
 - Performance and caching rules: `docs/performance.md`
@@ -31,6 +32,12 @@ Use this file as a map. Read only the sections relevant to your task.
 - Stack: Next.js 14 App Router + Chakra UI + TypeScript.
 - API calls: use `fetch` for new work (do not introduce axios in app code).
 - Backend access: route external/backend calls through `app/api/*`.
+- Signup is currently a pre-account onboarding funnel stored in browser `localStorage` and synced through `app/api/signup-funnel`; do not reconnect direct Auth0 account creation until backend `/users/ensure` is stable.
+- Signup/onboarding UI uses shared purple accent constants from `lib/uiTokens.ts`; avoid visible `free` wording in signup CTAs.
+- Signup funnel screens should stay focused and vertical: no global chrome, question options as lists, persistent country skip action, progress only through country, and insight screens as concise icon bullets.
+- Role/job-type onboarding is paused; keep role fields in payloads as empty/default values for backend compatibility.
+- Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.
+- User profile and onboarding access goes through `app/api/me`, keyed by Auth0 `sub`.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.
 - Search-intent landing pages currently include `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`.

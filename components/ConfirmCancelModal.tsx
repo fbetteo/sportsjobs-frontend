@@ -85,7 +85,7 @@ const ConfirmCancelModal = ({ isOpen, onClose, onConfirm, isSubmitting = false }
                 <ModalBody>
                     <Stack spacing={5}>
                         <Text>
-                            Your Stripe subscription will be scheduled to end, and access to member-only jobs will be removed after cancellation.
+                            Your Stripe subscription will be scheduled to end. Your free account will stay active, and premium access will be updated from your subscription status.
                         </Text>
 
                         <FormControl>

@@ -1,5 +1,11 @@
 import fetch from 'node-fetch';
 
+interface Auth0CreatedUser {
+  user_id: string;
+  email?: string;
+  name?: string;
+}
+
 export async function getAuth0AccessToken() {
   console.log("getaccessCall")
   const response = await fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
@@ -24,7 +30,7 @@ export async function getAuth0AccessToken() {
   return data.access_token;
 }
 
-export async function createAuth0User(email: string, password: string, accessToken: string) {
+export async function createAuth0User(email: string, password: string, accessToken: string, name?: string): Promise<Auth0CreatedUser> {
   const response = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users`, {
     method: 'POST',
     headers: {
@@ -34,7 +40,8 @@ export async function createAuth0User(email: string, password: string, accessTok
     body: JSON.stringify({
       connection: 'Username-Password-Authentication',
       email,
-      password
+      password,
+      name
     })
   });
 
@@ -43,7 +50,7 @@ export async function createAuth0User(email: string, password: string, accessTok
     throw new Error(errorData.message || 'Error creating user');
   }
 
-  const data = await response.json();
+  const data = await response.json() as Auth0CreatedUser;
   return data;
 }
 

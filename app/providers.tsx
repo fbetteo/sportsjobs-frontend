@@ -39,6 +39,9 @@ function SuspendedPostHogPageView() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const isFocusedSignupFlow = pathname?.startsWith('/signup');
+
     useEffect(() => {
         try {
             // Log to verify env variables
@@ -62,5 +65,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    return (<PostHogProvider client={posthog}> <ChakraProvider theme={theme}><UserProvider><Header />{children} <Footer /> <NewsletterSignupPopup /></UserProvider></ChakraProvider ></PostHogProvider>);
+    return (
+        <PostHogProvider client={posthog}>
+            <ChakraProvider theme={theme}>
+                <UserProvider>
+                    {!isFocusedSignupFlow && <Header />}
+                    {children}
+                    {!isFocusedSignupFlow && <Footer />}
+                    {!isFocusedSignupFlow && <NewsletterSignupPopup />}
+                </UserProvider>
+            </ChakraProvider>
+        </PostHogProvider>
+    );
 }

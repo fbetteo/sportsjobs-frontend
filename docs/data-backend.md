@@ -9,6 +9,15 @@
 
 Server-rendered pages may call server-only backend helpers directly when doing so avoids self-fetching the public site API. For job detail pages, `lib/jobDetailsBackend.ts` is the shared source used by both `app/jobs/[id]` and `app/api/get-job-details`.
 
+## User Profile and Onboarding
+
+- `app/api/me` is the frontend boundary for current-user profile data.
+- `POST /api/me` ensures the Auth0 user exists in the backend and returns the profile.
+- `GET /api/me` fetches the backend profile for the current Auth0 `sub`.
+- `PATCH /api/me` persists onboarding answers through backend `/users/me/onboarding`.
+- Required backend routes and database fields are documented in `docs/backend-refactor-2026.md`.
+- If the backend profile routes are not available yet, `/api/me` can return a free-user fallback for dashboard rendering, but onboarding persistence requires the backend.
+
 ## Backend Source (Jobs)
 
 - Primary jobs data source is a Python API hosted outside this repo.
