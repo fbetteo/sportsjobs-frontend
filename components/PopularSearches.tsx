@@ -2,6 +2,12 @@
 
 import { Box, Flex, Grid, Heading, Link, Text, VStack } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import {
+    BRAND_PRIMARY,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_SECONDARY_SURFACE,
+    BRAND_SECONDARY_SURFACE_HOVER,
+} from '@/lib/uiTokens';
 
 const searches = [
     {
@@ -38,9 +44,9 @@ export default function PopularSearches() {
                         as={NextLink}
                         href="/resources"
                         fontSize="sm"
-                        color="blue.400"
+                        color={BRAND_PRIMARY_LIGHT}
                         textDecoration="underline"
-                        _hover={{ color: 'blue.300' }}
+                        _hover={{ color: BRAND_PRIMARY }}
                     >
                         Career resources
                     </Link>
@@ -53,14 +59,14 @@ export default function PopularSearches() {
                             as={NextLink}
                             href={search.href}
                             p={6}
-                            bg="gray.700"
+                            bg={BRAND_SECONDARY_SURFACE}
                             borderRadius="lg"
                             borderWidth="1px"
                             borderColor="gray.600"
                             transition="all 0.2s"
                             _hover={{
-                                bg: 'gray.600',
-                                borderColor: 'purple.400',
+                                bg: BRAND_SECONDARY_SURFACE_HOVER,
+                                borderColor: BRAND_PRIMARY,
                                 transform: 'translateY(-2px)',
                                 textDecoration: 'none',
                             }}

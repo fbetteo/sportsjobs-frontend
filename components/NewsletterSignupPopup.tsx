@@ -4,6 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Text, Flex, Icon } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0/client'; //
 import { FaStar } from 'react-icons/fa';
+import {
+    BRAND_PRIMARY,
+    BRAND_PRIMARY_COLOR_SCHEME,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_PRIMARY_SURFACE,
+} from '@/lib/uiTokens';
 
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
@@ -109,17 +115,17 @@ const SignupPopup = () => {
     return (
         <Modal isOpen={isOpen} onClose={handleClose} size='xl'>
             <ModalOverlay />
-            <ModalContent bg='purple.700'>
+            <ModalContent bg={BRAND_PRIMARY_SURFACE}>
                 <ModalHeader>Get Free Weekly Job Alerts and Industry News!🚀</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody >
                     <Flex alignItems="center" mb={4}>
                         {/* Star Icons */}
-                        <Icon as={FaStar} color="yellow.400" mr={1} />
-                        <Icon as={FaStar} color="yellow.400" mr={1} />
-                        <Icon as={FaStar} color="yellow.400" mr={1} />
-                        <Icon as={FaStar} color="yellow.400" mr={1} />
-                        <Icon as={FaStar} color="yellow.400" />
+                        <Icon as={FaStar} color={BRAND_PRIMARY_LIGHT} mr={1} />
+                        <Icon as={FaStar} color={BRAND_PRIMARY_LIGHT} mr={1} />
+                        <Icon as={FaStar} color={BRAND_PRIMARY_LIGHT} mr={1} />
+                        <Icon as={FaStar} color={BRAND_PRIMARY_LIGHT} mr={1} />
+                        <Icon as={FaStar} color={BRAND_PRIMARY_LIGHT} />
                         <Box ml={2} fontSize="sm" color="gray.200">
                             Trusted by 1000+ professionals
                         </Box>
@@ -147,15 +153,13 @@ const SignupPopup = () => {
                                 width='auto'
                             />
                         </FormControl>
-                        <Button mt={4} bg="#D4A017" color="black"
-                            _hover={{ bg: '#B8860B' }}
-                            _active={{ bg: '#A67C00' }} type="submit">
+                        <Button mt={4} colorScheme={BRAND_PRIMARY_COLOR_SCHEME} bg={BRAND_PRIMARY} type="submit">
                             Join Now
                         </Button>
                     </Box>
                 </ModalBody>
                 <ModalFooter>
-                    <Button variant="ghost" onClick={handleClose} colorScheme='black'>Close</Button>
+                    <Button variant="ghost" onClick={handleClose} color="white">Close</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

@@ -19,6 +19,14 @@ import {
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaArrowLeft, FaFutbol, FaDollarSign, FaGift, FaCode, FaDatabase } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import {
+    BRAND_PRIMARY_COLOR_SCHEME,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_PRIMARY_SURFACE,
+    BRAND_SECONDARY_COLOR_SCHEME,
+    BRAND_SECONDARY_LIGHT,
+    BRAND_SECONDARY_SURFACE,
+} from '@/lib/uiTokens';
 
 const DataSourceCard = ({
     title,
@@ -52,10 +60,10 @@ const DataSourceCard = ({
 
     const getTypeColor = () => {
         switch (type) {
-            case 'API': return 'blue';
-            case 'Dataset': return 'green';
-            case 'Scraping': return 'orange';
-            case 'Database': return 'purple';
+            case 'API': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Dataset': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Scraping': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Database': return BRAND_SECONDARY_COLOR_SCHEME;
         }
     };
 
@@ -69,22 +77,22 @@ const DataSourceCard = ({
 
     const getPricingColor = () => {
         switch (pricing) {
-            case 'Free': return 'green';
-            case 'Freemium': return 'orange';
-            case 'Paid': return 'red';
+            case 'Free': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Freemium': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Paid': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     const getDifficultyColor = () => {
         switch (difficulty) {
-            case 'Beginner': return 'green';
-            case 'Intermediate': return 'orange';
-            case 'Advanced': return 'red';
+            case 'Beginner': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Intermediate': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Advanced': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     return (
-        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: 'teal.400' }}>
+        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: BRAND_SECONDARY_LIGHT }}>
             <CardBody>
                 <VStack align="start" spacing={4}>
                     <VStack align="start" spacing={2} w="full">
@@ -133,7 +141,7 @@ const DataSourceCard = ({
                         href={url}
                         isExternal
                         size="sm"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         rightIcon={<FaExternalLinkAlt />}
                         _hover={{ textDecoration: 'none' }}
                         w="full"
@@ -160,14 +168,16 @@ export default function SoccerDataSourcesPage() {
                         href="/resources/data-sources"
                         leftIcon={<FaArrowLeft />}
                         variant="ghost"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         mb={4}
                         _hover={{ textDecoration: 'none' }}
                     >
                         Back to Data Sources
                     </Button>
                     <HStack spacing={3} mb={4}>
-                        <FaFutbol color="#2DD4BF" size="32px" />
+                        <Box color={BRAND_SECONDARY_LIGHT}>
+                            <FaFutbol size="32px" />
+                        </Box>
                         <Heading size="2xl" color="white">
                             Soccer Data Sources
                         </Heading>
@@ -183,9 +193,9 @@ export default function SoccerDataSourcesPage() {
 
                 {/* Alert for Authentication */}
                 {/* {!isAuthenticated && (
-                    <Alert status="info" bg="blue.900" borderColor="blue.600" borderWidth="1px">
-                        <AlertIcon color="blue.300" />
-                        <Text color="blue.100">
+                    <Alert status="info" bg={BRAND_SECONDARY_SURFACE} borderColor={BRAND_SECONDARY_LIGHT} borderWidth="1px">
+                        <AlertIcon color={BRAND_SECONDARY_LIGHT} />
+                        <Text color="gray.300">
                             🔐 Some premium soccer data sources and API access guides are available exclusively to SportsJobs members.
                             Sign up to unlock additional resources!
                         </Text>
@@ -260,36 +270,36 @@ export default function SoccerDataSourcesPage() {
                 <Box w="full">
                     <Heading size="lg" mb={6} color="white">🏆 League Coverage</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
-                        <Box bg="blue.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="blue.600">
-                            <Heading size="md" mb={3} color="blue.100">European Leagues</Heading>
+                        <Box bg={BRAND_SECONDARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">European Leagues</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="blue.200" fontSize="sm">• Premier League (England)</Text>
-                                <Text color="blue.200" fontSize="sm">• La Liga (Spain)</Text>
-                                <Text color="blue.200" fontSize="sm">• Serie A (Italy)</Text>
-                                <Text color="blue.200" fontSize="sm">• Bundesliga (Germany)</Text>
-                                <Text color="blue.200" fontSize="sm">• Ligue 1 (France)</Text>
+                                <Text color="gray.300" fontSize="sm">• Premier League (England)</Text>
+                                <Text color="gray.300" fontSize="sm">• La Liga (Spain)</Text>
+                                <Text color="gray.300" fontSize="sm">• Serie A (Italy)</Text>
+                                <Text color="gray.300" fontSize="sm">• Bundesliga (Germany)</Text>
+                                <Text color="gray.300" fontSize="sm">• Ligue 1 (France)</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="green.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="green.600">
-                            <Heading size="md" mb={3} color="green.100">International</Heading>
+                        <Box bg={BRAND_PRIMARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_PRIMARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">International</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="green.200" fontSize="sm">• FIFA World Cup</Text>
-                                <Text color="green.200" fontSize="sm">• UEFA European Championship</Text>
-                                <Text color="green.200" fontSize="sm">• Copa América</Text>
-                                <Text color="green.200" fontSize="sm">• Champions League</Text>
-                                <Text color="green.200" fontSize="sm">• Europa League</Text>
+                                <Text color="gray.300" fontSize="sm">• FIFA World Cup</Text>
+                                <Text color="gray.300" fontSize="sm">• UEFA European Championship</Text>
+                                <Text color="gray.300" fontSize="sm">• Copa América</Text>
+                                <Text color="gray.300" fontSize="sm">• Champions League</Text>
+                                <Text color="gray.300" fontSize="sm">• Europa League</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="purple.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="purple.600">
-                            <Heading size="md" mb={3} color="purple.100">Other Regions</Heading>
+                        <Box bg={BRAND_SECONDARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">Other Regions</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="purple.200" fontSize="sm">• MLS (United States)</Text>
-                                <Text color="purple.200" fontSize="sm">• Brazilian Série A</Text>
-                                <Text color="purple.200" fontSize="sm">• J1 League (Japan)</Text>
-                                <Text color="purple.200" fontSize="sm">• A-League (Australia)</Text>
-                                <Text color="purple.200" fontSize="sm">• Liga MX (Mexico)</Text>
+                                <Text color="gray.300" fontSize="sm">• MLS (United States)</Text>
+                                <Text color="gray.300" fontSize="sm">• Brazilian Série A</Text>
+                                <Text color="gray.300" fontSize="sm">• J1 League (Japan)</Text>
+                                <Text color="gray.300" fontSize="sm">• A-League (Australia)</Text>
+                                <Text color="gray.300" fontSize="sm">• Liga MX (Mexico)</Text>
                             </VStack>
                         </Box>
                     </Grid>
@@ -299,12 +309,12 @@ export default function SoccerDataSourcesPage() {
                 {/* {!isAuthenticated && (
                     <Box
                         w="full"
-                        bg="purple.900"
+                        bg={BRAND_PRIMARY_SURFACE}
                         p={6}
                         borderRadius="lg"
                         textAlign="center"
                         borderWidth="1px"
-                        borderColor="purple.600"
+                        borderColor={BRAND_PRIMARY_LIGHT}
                     >
                         <Heading size="lg" mb={3} color="white">
                             ⚽ Get More Soccer Data Resources

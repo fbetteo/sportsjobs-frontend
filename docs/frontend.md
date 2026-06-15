@@ -41,6 +41,7 @@ Use this guide for pages/components and UX changes.
 - The pricing screen should feel like a focused conversion flow with before/after comparison, a limited-time 25% promo code, selected-plan checkout, testimonials, small FAQ, repeated CTA, and clear checkout actions.
 - Promo messaging should not claim Stripe has auto-applied a discount unless `app/api/create-subscription` is also updated to pass a Stripe coupon/promotion code ID.
 - Signup/onboarding accents should use the shared primary accent token constants in `lib/uiTokens.ts`; avoid reintroducing one-off accent colors.
+- Featured cards should use the primary accent treatment; regular cards, footer panels, company cards, and common dark panels should use secondary accent surfaces. Freshness/date tags and primary conversion/status accents should use the primary accent treatment. Prefer `lib/uiTokens.ts` constants over direct color names or hex values in components.
 - Avoid visible `free` language in signup/onboarding CTAs or labels.
 - Do not call backend `/users/ensure` from the funnel steps; account creation should be reconnected in a later backend-safe pass.
 - Authenticated users should land on `/dashboard` after signup/login.

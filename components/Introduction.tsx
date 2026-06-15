@@ -3,6 +3,7 @@
 import React from 'react';
 import { Box, Heading, Text, VStack, HStack, Flex, Icon, Divider } from '@chakra-ui/react';
 import { FaBriefcase, FaBolt, FaCheckCircle } from 'react-icons/fa';
+import { BRAND_FOREGROUND } from '../lib/uiTokens';
 
 interface IntroductionProps {
     totalJobs?: number;
@@ -25,7 +26,7 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs, newJobsToday }) 
             </Heading>
 
             {/* Subheadline with value prop */}
-            <Text fontSize={{ base: "lg", md: "xl" }} textAlign="center" color="gray.300" maxW="600px">
+            <Text fontSize={{ base: "lg", md: "xl" }} textAlign="center" color={BRAND_FOREGROUND} maxW="600px">
                 The #1 job board for sports data, analytics & tech roles.
                 <Text as="span" color="white" fontWeight="semibold"> Stop searching. Start applying.</Text>
             </Text>

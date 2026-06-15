@@ -13,6 +13,8 @@ import { permanentRedirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
 import { default as dynamicImport } from 'next/dynamic';
 import MixedPricingCard from '@/components/MixedPriceCard';
+import { BRAND_SECONDARY_LIGHT, BRAND_SECONDARY, BRAND_PRIMARY, BRAND_FOREGROUND } from '@/lib/uiTokens';
+import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
 
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
@@ -233,9 +235,9 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             {job.company}
                         </Heading>
                         <HStack spacing={4} mb={4} justify="center">
-                            <Badge colorScheme="teal" border="1px" borderColor="gray.200" px={4} py={2}>{job.hours}</Badge>
-                            <Badge colorScheme="orange" border="1px" borderColor="gray.200" px={4} py={2}>{job.remote_string}</Badge>
-                            <Badge colorScheme="orange" border="1px" borderColor="gray.200" px={4} py={2}>{job.seniority}</Badge>
+                            <Badge border="1px" color={BRAND_FOREGROUND} borderColor="gray.200" px={4} py={2} backgroundColor={BRAND_SECONDARY} >{job.hours} </Badge>
+                            <Badge backgroundColor={BRAND_SECONDARY} border="1px" color={BRAND_FOREGROUND} borderColor="gray.200" px={4} py={2}>{job.remote_string}</Badge>
+                            <Badge backgroundColor={BRAND_SECONDARY} border="1px" color={BRAND_FOREGROUND} borderColor="gray.200" px={4} py={2}>{job.seniority}</Badge>
                         </HStack>
                         <Flex wrap="wrap" justify="flex-start" align="center" mb={4}>
                             {/* Apply button only if not expired */}
@@ -257,16 +259,16 @@ async function JobDetails({ params }: { params: { id: string } }) {
                         </Flex>
                         <Flex>
                             <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" ml={4}>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
+                                <Badge backgroundColor={BRAND_SECONDARY} color={BRAND_FOREGROUND} border="1px" borderColor="gray.200" px={4} py={2} m={1}>
                                     <Text><strong>{job.location}</strong></Text>
                                 </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
+                                <Badge backgroundColor={BRAND_SECONDARY} color={BRAND_FOREGROUND} border="1px" borderColor="gray.200" px={4} py={2} m={1}>
                                     <Text><strong>Salary:</strong> {job.salary}</Text>
                                 </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
+                                <Badge backgroundColor={BRAND_SECONDARY} color={BRAND_FOREGROUND} border="1px" borderColor="gray.200" px={4} py={2} m={1}>
                                     <Text><strong>{mappedIndustryJobType}</strong></Text>
                                 </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
+                                <Badge backgroundColor={BRAND_SECONDARY} color={BRAND_FOREGROUND} border="1px" borderColor="gray.200" px={4} py={2} m={1}>
                                     <Text><strong>{job.job_area}</strong></Text>
                                 </Badge>
                             </Box>
@@ -348,7 +350,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                         borderRadius="xl"
                     />
                 }>
-                    <SenjaWallOfLove />
+                    <TestimonialsWallFromDB />
                 </Suspense>
             </main>
             {/* JobPosting schema only if not expired */}

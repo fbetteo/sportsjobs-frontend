@@ -19,6 +19,14 @@ import {
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaArrowLeft, FaBasketballBall, FaDollarSign, FaGift, FaCode, FaDatabase } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import {
+    BRAND_PRIMARY_COLOR_SCHEME,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_PRIMARY_SURFACE,
+    BRAND_SECONDARY_COLOR_SCHEME,
+    BRAND_SECONDARY_LIGHT,
+    BRAND_SECONDARY_SURFACE,
+} from '@/lib/uiTokens';
 
 const DataSourceCard = ({
     title,
@@ -52,10 +60,10 @@ const DataSourceCard = ({
 
     const getTypeColor = () => {
         switch (type) {
-            case 'API': return 'blue';
-            case 'Dataset': return 'green';
-            case 'Scraping': return 'orange';
-            case 'Database': return 'purple';
+            case 'API': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Dataset': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Scraping': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Database': return BRAND_SECONDARY_COLOR_SCHEME;
         }
     };
 
@@ -69,22 +77,22 @@ const DataSourceCard = ({
 
     const getPricingColor = () => {
         switch (pricing) {
-            case 'Free': return 'green';
-            case 'Freemium': return 'orange';
-            case 'Paid': return 'red';
+            case 'Free': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Freemium': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Paid': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     const getDifficultyColor = () => {
         switch (difficulty) {
-            case 'Beginner': return 'green';
-            case 'Intermediate': return 'orange';
-            case 'Advanced': return 'red';
+            case 'Beginner': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Intermediate': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Advanced': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     return (
-        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: 'teal.400' }}>
+        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: BRAND_SECONDARY_LIGHT }}>
             <CardBody>
                 <VStack align="start" spacing={4}>
                     <VStack align="start" spacing={2} w="full">
@@ -133,7 +141,7 @@ const DataSourceCard = ({
                         href={url}
                         isExternal
                         size="sm"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         rightIcon={<FaExternalLinkAlt />}
                         _hover={{ textDecoration: 'none' }}
                         w="full"
@@ -160,14 +168,16 @@ export default function BasketballDataSourcesPage() {
                         href="/resources/data-sources"
                         leftIcon={<FaArrowLeft />}
                         variant="ghost"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         mb={4}
                         _hover={{ textDecoration: 'none' }}
                     >
                         Back to Data Sources
                     </Button>
                     <HStack spacing={3} mb={4}>
-                        <FaBasketballBall color="#2DD4BF" size="32px" />
+                        <Box color={BRAND_SECONDARY_LIGHT}>
+                            <FaBasketballBall size="32px" />
+                        </Box>
                         <Heading size="2xl" color="white">
                             Basketball Data Sources
                         </Heading>
@@ -183,9 +193,9 @@ export default function BasketballDataSourcesPage() {
 
                 {/* Alert for Authentication */}
                 {/* {!isAuthenticated && (
-                    <Alert status="info" bg="blue.900" borderColor="blue.600" borderWidth="1px">
-                        <AlertIcon color="blue.300" />
-                        <Text color="blue.100">
+                    <Alert status="info" bg={BRAND_SECONDARY_SURFACE} borderColor={BRAND_SECONDARY_LIGHT} borderWidth="1px">
+                        <AlertIcon color={BRAND_SECONDARY_LIGHT} />
+                        <Text color="gray.300">
                             🔐 Some premium basketball data sources and API access guides are available exclusively to SportsJobs members.
                             Sign up to unlock additional resources!
                         </Text>
@@ -260,33 +270,33 @@ export default function BasketballDataSourcesPage() {
                 <Box w="full">
                     <Heading size="lg" mb={6} color="white">🏀 Basketball Data Categories</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
-                        <Box bg="orange.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="orange.600">
-                            <Heading size="md" mb={3} color="orange.100">Player Analytics</Heading>
+                        <Box bg={BRAND_PRIMARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_PRIMARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">Player Analytics</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="orange.200" fontSize="sm">• Traditional statistics</Text>
-                                <Text color="orange.200" fontSize="sm">• Advanced metrics (PER, BPM)</Text>
-                                <Text color="orange.200" fontSize="sm">• Shot chart data</Text>
-                                <Text color="orange.200" fontSize="sm">• Hustle statistics</Text>
+                                <Text color="gray.300" fontSize="sm">• Traditional statistics</Text>
+                                <Text color="gray.300" fontSize="sm">• Advanced metrics (PER, BPM)</Text>
+                                <Text color="gray.300" fontSize="sm">• Shot chart data</Text>
+                                <Text color="gray.300" fontSize="sm">• Hustle statistics</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="red.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="red.600">
-                            <Heading size="md" mb={3} color="red.100">Team Performance</Heading>
+                        <Box bg={BRAND_SECONDARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">Team Performance</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="red.200" fontSize="sm">• Team efficiency ratings</Text>
-                                <Text color="red.200" fontSize="sm">• Offensive and defensive stats</Text>
-                                <Text color="red.200" fontSize="sm">• Pace and possession data</Text>
-                                <Text color="red.200" fontSize="sm">• Clutch performance metrics</Text>
+                                <Text color="gray.300" fontSize="sm">• Team efficiency ratings</Text>
+                                <Text color="gray.300" fontSize="sm">• Offensive and defensive stats</Text>
+                                <Text color="gray.300" fontSize="sm">• Pace and possession data</Text>
+                                <Text color="gray.300" fontSize="sm">• Clutch performance metrics</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="blue.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="blue.600">
-                            <Heading size="md" mb={3} color="blue.100">Game Data</Heading>
+                        <Box bg={BRAND_PRIMARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_PRIMARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">Game Data</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="blue.200" fontSize="sm">• Play-by-play data</Text>
-                                <Text color="blue.200" fontSize="sm">• Live scores and updates</Text>
-                                <Text color="blue.200" fontSize="sm">• Historical game logs</Text>
-                                <Text color="blue.200" fontSize="sm">• Referee and venue info</Text>
+                                <Text color="gray.300" fontSize="sm">• Play-by-play data</Text>
+                                <Text color="gray.300" fontSize="sm">• Live scores and updates</Text>
+                                <Text color="gray.300" fontSize="sm">• Historical game logs</Text>
+                                <Text color="gray.300" fontSize="sm">• Referee and venue info</Text>
                             </VStack>
                         </Box>
                     </Grid>
@@ -296,12 +306,12 @@ export default function BasketballDataSourcesPage() {
                 {/* {!isAuthenticated && (
                     <Box
                         w="full"
-                        bg="purple.900"
+                        bg={BRAND_PRIMARY_SURFACE}
                         p={6}
                         borderRadius="lg"
                         textAlign="center"
                         borderWidth="1px"
-                        borderColor="purple.600"
+                        borderColor={BRAND_PRIMARY_LIGHT}
                     >
                         <Heading size="lg" mb={3} color="white">
                             🏀 Get More Basketball Data Resources

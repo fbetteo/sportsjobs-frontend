@@ -34,6 +34,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Backend access: route external/backend calls through `app/api/*`.
 - Signup is currently a pre-account onboarding funnel stored in browser `localStorage` and synced through `app/api/signup-funnel`; do not reconnect direct Auth0 account creation until backend `/users/ensure` is stable.
 - Signup/onboarding UI uses shared primary accent constants from `lib/uiTokens.ts`; avoid visible `free` wording in signup CTAs.
+- Brand surfaces, featured treatments, and resource/status tags should use the primary/secondary constants from `lib/uiTokens.ts` instead of hard-coded color schemes or hex values. Featured cards use primary surfaces; regular cards and common dark panels use secondary surfaces.
 - Signup funnel screens should stay focused and vertical: no global chrome, question options as lists, persistent country skip action, progress only through country, and insight screens as concise icon bullets.
 - Role/job-type onboarding is paused; keep role fields in payloads as empty/default values for backend compatibility.
 - Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.
