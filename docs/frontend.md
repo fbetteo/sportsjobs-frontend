@@ -40,14 +40,14 @@ Use this guide for pages/components and UX changes.
 - The paid-product explanation screen should stay simple: value bullets, no coupon messaging, and the `That's fair` acknowledgement CTA.
 - The pricing screen should feel like a focused conversion flow with before/after comparison, a limited-time 25% promo code, selected-plan checkout, testimonials, small FAQ, repeated CTA, and clear checkout actions.
 - Promo messaging should not claim Stripe has auto-applied a discount unless `app/api/create-subscription` is also updated to pass a Stripe coupon/promotion code ID.
-- Signup/onboarding accents should use the shared purple token constants in `lib/uiTokens.ts`; avoid reintroducing the pale green/teal treatment.
+- Signup/onboarding accents should use the shared primary accent token constants in `lib/uiTokens.ts`; avoid reintroducing one-off accent colors.
 - Avoid visible `free` language in signup/onboarding CTAs or labels.
 - Do not call backend `/users/ensure` from the funnel steps; account creation should be reconnected in a later backend-safe pass.
 - Authenticated users should land on `/dashboard` after signup/login.
 - Dashboard feature surfaces should work for free users and expose premium upgrade CTAs without blocking basic account access.
 - Onboarding questions live in `components/OnboardingModal.tsx` and should save through `/api/me`; do not store onboarding answers only in local state/local storage.
 - Onboarding fixed-choice answers should use stable option IDs in the payload, not display labels.
-- Keep new dashboard UI token-based and avoid hard-coding a future brand palette so the planned logo/color refresh can happen mostly in theme/component styling.
+- Keep new dashboard UI token-based and avoid hard-coding brand colors so palette refreshes can happen mostly in theme/component styling.
 
 ## Subscription Cancellation UX
 
