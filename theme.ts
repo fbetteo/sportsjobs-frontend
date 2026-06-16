@@ -57,12 +57,16 @@ const theme = extendTheme({
     brandPrimary: createBrandScale(BRAND_PRIMARY),
     brandSecondary: createBrandScale(BRAND_SECONDARY),
   },
+  fonts: {
+    heading: 'var(--font-heading), sans-serif',
+    body: 'var(--font-body), sans-serif',
+  },
   styles: {
     global: {
       body: {
         bg: 'brandBg.500',
         color: 'brandFg.500',
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'var(--font-body), sans-serif',
       },
     },
   },

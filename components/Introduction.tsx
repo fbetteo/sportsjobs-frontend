@@ -102,7 +102,6 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
                 <VStack spacing={2}>
                     <Heading
                         as="h2"
-                        className={sugoPro.className}
                         fontSize={{ base: '28px', md: '42px' }}
                         fontWeight="normal"
                         lineHeight="1"
@@ -112,7 +111,7 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
                         The #1 job board for sports data, analytics & tech roles
                     </Heading>
                     <Text
-                        className={sugoPro.className}
+                        fontFamily="heading"
                         color={BRAND_PRIMARY}
                         fontSize={{ base: '30px', md: '44px' }}
                         lineHeight="1"
@@ -131,20 +130,19 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
                 >
                     <HStack spacing={3}>
                         <Icon as={FaBriefcase} boxSize={{ base: 8, md: 12 }} color={BRAND_SECONDARY} />
-                        <Text className={sugoPro.className} fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
+                        <Text fontFamily="heading" fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
                             +{totalJobs || 3000} jobs
                         </Text>
                     </HStack>
                     <HStack spacing={3}>
                         <Icon as={FaSyncAlt} boxSize={{ base: 8, md: 12 }} color={BRAND_SECONDARY} />
-                        <Text className={sugoPro.className} fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
+                        <Text fontFamily="heading" fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
                             Updated daily
                         </Text>
                     </HStack>
                 </Flex>
 
                 <Text
-                    className={studioGrotesk.className}
                     fontSize={{ base: '18px', md: '22px' }}
                     lineHeight="1.35"
                     maxW="900px"
@@ -154,7 +152,7 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
 
                 <VStack spacing={3} w="100%">
                     <Text
-                        className={sugoPro.className}
+                        fontFamily="heading"
                         fontSize={{ base: '22px', md: '29px' }}
                         lineHeight="1.1"
                         textTransform="uppercase"

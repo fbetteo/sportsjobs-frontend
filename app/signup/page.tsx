@@ -479,7 +479,7 @@ export default function SignupPage() {
       <VStack spacing={6} align="stretch">
         <HStack justify="center">
           <Image
-            src="/sportsjobs_logo_color_rectangular_202606.png"
+            src="/sportsjobs_logo_white_rectangular_202606.png"
             alt="SportsJobs Online"
             h="60px"
             w='120px'

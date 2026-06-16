@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from 'next/font/google';
+import { Bebas_Neue, Montserrat } from 'next/font/google';
 import "./globals.css";
 import { Providers } from './providers';
 import Script from "next/script";
 import PromotekitScript from '@/components/PromotekitScript'
 import FeedbackButton from '@/components/FeedbackButton'
 
-import React, { ReactNode } from 'react';
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: '400',
+  variable: '--font-heading',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Sports Data & Analytics Jobs | SportsJobs Online',
@@ -72,7 +82,7 @@ export default function RootLayout({
         <PromotekitScript />
         {/* <link rel="canonical" href="https://www.sportsjobs.online" /> */}
       </head>
-      <body className={inter.className}>
+      <body className={`${montserrat.variable} ${bebasNeue.variable}`}>
         <Providers>{children}</Providers>
         <FeedbackButton
           position="fixed"

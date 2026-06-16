@@ -156,6 +156,7 @@ const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps
                             h="100%"
                             minW={isHero ? { base: '118px', md: '130px' } : undefined}
                             fontWeight="bold"
+                            fontFamily={isHero ? 'heading' : undefined}
                             textTransform={isHero ? 'uppercase' : undefined}
                         >
                             Join
