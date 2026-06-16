@@ -38,6 +38,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Signup funnel screens should stay focused and vertical: no global chrome, question options as lists, persistent country skip action, progress only through country, and insight screens as concise icon bullets.
 - Role/job-type onboarding is paused; keep role fields in payloads as empty/default values for backend compatibility.
 - Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.
+- Homepage testimonials currently use the shorter DB-backed paged wall; keep the older masonry wall component available for easy rollback.
 - User profile and onboarding access goes through `app/api/me`, keyed by Auth0 `sub`.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.

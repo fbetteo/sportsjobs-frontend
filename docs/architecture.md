@@ -27,7 +27,7 @@ Sportsjobs frontend is a Next.js 14 job board focused on sports analytics, data 
 
 - Public submit page: `app/testimonial/page.tsx` (client page, query-param prefill via `useSearchParams` inside a `Suspense` boundary)
 - API proxy: `app/api/testimonials/route.ts` (`GET` and `POST` proxy to backend `/testimonials`)
-- Homepage wall: `components/TestimonialsWallFromDB.tsx` (DB-backed masonry wall; Senja wall still exists as comparison)
+- Homepage wall: `components/TestimonialsPagedWallFromDB.tsx` (DB-backed paged wall with three larger cards per view; `TestimonialsWallFromDB.tsx` remains available as the older masonry layout)
 - Signup marquee: `components/TestimonialsMarqueeFromDB.tsx` (DB-backed two-row scrolling marquee)
 
 ## Integration Style

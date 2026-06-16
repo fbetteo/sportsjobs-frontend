@@ -85,5 +85,6 @@ Use this guide for pages/components and UX changes.
 - Email prefill is supported through `?email=` query params.
 - Any component using `useSearchParams` in app pages must be rendered behind a `Suspense` boundary (current implementation does this in testimonial page).
 - DB-driven testimonial displays:
+	- `components/TestimonialsPagedWallFromDB.tsx` for the shorter homepage layout with three larger cards per page and arrow pagination.
 	- `components/TestimonialsWallFromDB.tsx` for wall layout.
 	- `components/TestimonialsMarqueeFromDB.tsx` for marquee layout (used on signup page).

@@ -118,7 +118,7 @@ const MixedPricingCard = () => {
             </Box> */}
 
             {/* Social Proof */}
-            <Box
+            {/* <Box
                 p={6}
                 bg={BRAND_SECONDARY_SURFACE}
                 borderRadius="xl"
@@ -130,7 +130,7 @@ const MixedPricingCard = () => {
                 <Text fontSize="xl" color="white" fontWeight="bold">
                     🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
                 </Text>
-            </Box>
+            </Box> */}
 
             {/* Price increase banner */}
             {/* <Box

@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Box, Button, Center, Flex, HStack, VStack } from '@chakra-ui/react';
-import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE } from '@/lib/uiTokens';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
 import { parse } from 'date-fns';
 import dynamic from 'next/dynamic';
 import { fetchJobs } from '../lib/fetchJobs';
@@ -39,13 +39,27 @@ const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
     ssr: false
 });
 
+const TESTIMONIALS_VARIANT: 'paged' | 'wall' = 'paged';
+
+const TestimonialsPagedWallFromDB = dynamic(() => import('./TestimonialsPagedWallFromDB'), {
+    loading: () => (
+        <Box
+            minH={{ base: "320px", md: "380px" }}
+            width="100%"
+            bg={BRAND_SECONDARY_SURFACE}
+            borderRadius="md"
+        />
+    ),
+    ssr: false
+});
+
 const TestimonialsWallFromDB = dynamic(() => import('./TestimonialsWallFromDB'), {
     loading: () => (
         <Box
             minH={{ base: "320px", md: "380px" }}
             width="100%"
-            bg="gray.800"
-            borderRadius="xl"
+            bg={BRAND_SECONDARY_SURFACE}
+            borderRadius="md"
         />
     ),
     ssr: false
@@ -386,6 +400,33 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                         <FeaturedCompanies />
                         <PopularSearches />
                         <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
+                        {/* <Suspense fallback={
+                            <Box
+                                minH={{ base: "1000px", md: "800px" }}
+                                width="100%"
+                                bg="gray.800"
+                                borderRadius="xl"
+                            />
+                        }>
+                            <SenjaWallOfLove />
+                        </Suspense> */}
+                        <Box mt={{ base: 25, md: 50 }} mb={{ base: 6, md: 10 }}>
+                            <Suspense fallback={
+                                <Box
+                                    minH={{ base: "320px", md: "380px" }}
+                                    width="100%"
+                                    bg={BRAND_SECONDARY_SURFACE}
+                                    borderRadius="md"
+                                />
+                            }>
+                                {TESTIMONIALS_VARIANT === 'paged' ? (
+                                    <TestimonialsPagedWallFromDB />
+                                ) : (
+                                    <TestimonialsWallFromDB />
+                                )}
+                            </Suspense>
+                        </Box>
+
                         <Box
                             ref={pricingSectionRef}
                             width="100%"
@@ -402,27 +443,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 <MixedPricingCard />
                             </Suspense>
                         </Box>
-                        {/* <Suspense fallback={
-                            <Box
-                                minH={{ base: "1000px", md: "800px" }}
-                                width="100%"
-                                bg="gray.800"
-                                borderRadius="xl"
-                            />
-                        }>
-                            <SenjaWallOfLove />
-                        </Suspense> */}
 
-                        <Suspense fallback={
-                            <Box
-                                minH={{ base: "320px", md: "380px" }}
-                                width="100%"
-                                bg="gray.800"
-                                borderRadius="xl"
-                            />
-                        }>
-                            <TestimonialsWallFromDB />
-                        </Suspense>
 
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
