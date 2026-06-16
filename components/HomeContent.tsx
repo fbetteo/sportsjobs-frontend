@@ -2,7 +2,8 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Box, Button, Center, Flex, HStack, VStack } from '@chakra-ui/react';
-import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_SURFACE, BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
 import { parse } from 'date-fns';
 import dynamic from 'next/dynamic';
 import { fetchJobs } from '../lib/fetchJobs';
@@ -358,7 +359,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 🚀 Get Full Access {totalJobCount > 0 ? `to ${totalJobCount}+ Jobs` : ''}
                             </Button>
                         )}
-                        <Button
+                        {/* <Button
                             onClick={handleOpenForm}
                             variant="outline"
                             colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
@@ -369,7 +370,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                             _hover={{ bg: BRAND_PRIMARY_SURFACE }}
                         >
                             🔔 Free Job Alerts
-                        </Button>
+                        </Button> */}
                         {/* <Button
                             as="a"
                             href="https://applyall.com/?ref=sportsjobs"
@@ -400,6 +401,9 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                         <FeaturedCompanies />
                         <PopularSearches />
                         <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
+                        <Flex justify="center" mb={4}>
+                            <ChevronDownIcon w={50} h={50} color={BRAND_PRIMARY_LIGHT} />
+                        </Flex>
                         {/* <Suspense fallback={
                             <Box
                                 minH={{ base: "1000px", md: "800px" }}

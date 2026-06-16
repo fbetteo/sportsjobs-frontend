@@ -498,7 +498,7 @@ export default function SignupPage() {
             <VStack align="stretch" spacing={6}>
               <Box>
                 <Heading size="xl" mb={3}>What sports are you interested in?</Heading>
-                <Text color="gray.300">Pick as many as you want. We will use this to shape the rest of your setup.</Text>
+                <Text color="gray.300">Pick as many as you want. We will use this to shape the rest of your setup. You can always change these later.</Text>
               </Box>
               <VStack align="stretch" spacing={3}>
                 {sportsOptions.map((sport) => (
@@ -519,7 +519,7 @@ export default function SignupPage() {
 
           {step === 1 && (
             <InsightStep
-              eyebrow="Why this helps"
+              eyebrow="How we help you"
               title={`Sports analytics roles are scattered across LinkedIn, Teamwork Online, teams, leagues, other boards`}
               body="SportsJobs pulls niche roles into one place so you are not checking club sites, league boards and generic job boards one by one."
               points={['Role titles vary wildly by organization', 'Many relevant jobs never say sports analytics directly', 'Saved filters can make the search repeatable']}
@@ -541,7 +541,7 @@ export default function SignupPage() {
 
           {step === 3 && (
             <InsightStep
-              eyebrow="Search reality"
+              eyebrow=""
               title="The longer the search runs, the more organization matters"
               body="A good system should help you find fresh roles quickly, avoid duplicate checking, and remember what kind of opportunities are actually worth your time."
               points={['Freshness matters because sports roles close quickly', 'Tracking saves energy during long searches', 'Better matching beats more tabs']}
@@ -793,7 +793,7 @@ export default function SignupPage() {
                 <TestimonialsMarqueeFromDB />
               </Box>
 
-              <SignupFaq />
+              {/* <SignupFaq /> */}
 
               <VStack align="center" spacing={4} bg="gray.800" borderWidth="1px" borderColor="gray.700" borderRadius="md" p={{ base: 5, md: 8 }}>
                 <Heading size="xl" textAlign="center">The right sports role is easier to find with a sharper board</Heading>

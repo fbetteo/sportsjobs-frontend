@@ -68,6 +68,18 @@ const theme = extendTheme({
         color: 'brandFg.500',
         fontFamily: 'var(--font-body), sans-serif',
       },
+      'h1, h2, h3, h4, h5, h6, .chakra-heading': {
+        fontFamily: 'var(--font-heading), sans-serif',
+        letterSpacing: '0',
+      },
+    },
+  },
+  components: {
+    Heading: {
+      baseStyle: {
+        fontFamily: 'heading',
+        letterSpacing: '0',
+      },
     },
   },
 });

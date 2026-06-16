@@ -43,9 +43,9 @@ const MixedPricingCard = () => {
 
     return (
         <Box p={6} maxW="container.xl" mx="auto" width="100%">
-            <Flex justify="center" mb={4}>
+            {/* <Flex justify="center" mb={4}>
                 <ChevronDownIcon w={80} h={80} color={BRAND_PRIMARY_LIGHT} />
-            </Flex>
+            </Flex> */}
             <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" textAlign="center" mb={4} color="white">
                 Hundreds of jobs are waiting for you!
             </Text>

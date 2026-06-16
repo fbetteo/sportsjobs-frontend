@@ -77,7 +77,7 @@ const FAQ = () => {
                     <AccordionItem key={index}>
                         <h2>
                             <AccordionButton justifyContent="space-between">
-                                <Box flex="1" textAlign="left" fontSize="xl" fontWeight="bold" maxW="3xl" width="100%">
+                                <Box flex="1" textAlign="left" fontSize="xl" fontWeight="regular" maxW="3xl" width="100%">
                                     {faq.question}
                                 </Box>
                                 <AccordionIcon textAlign="right" />
