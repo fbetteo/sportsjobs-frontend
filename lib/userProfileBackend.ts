@@ -73,3 +73,51 @@ export async function ensureBackendUserProfile(user: AuthIdentity) {
     body: JSON.stringify(normalizeAuthIdentity(user)),
   });
 }
+
+export async function claimBackendPaidSignupUser({
+  sub,
+  email,
+  name,
+  sessionId,
+  signupFunnelId,
+  checkoutEmail,
+  checkoutName,
+  stripeCustomerId,
+  stripeSubscriptionId,
+}: {
+  sub: string;
+  email: string;
+  name: string;
+  sessionId: string;
+  signupFunnelId?: string;
+  checkoutEmail?: string;
+  checkoutName?: string;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+}) {
+  return fetchBackendUserProfile('/users/signup_funnel/claim', {
+    method: 'POST',
+    body: JSON.stringify({
+      auth0Sub: sub,
+      auth0_sub: sub,
+      email,
+      name,
+      finalEmail: email,
+      final_email: email,
+      finalName: name,
+      final_name: name,
+      checkoutEmail: checkoutEmail || '',
+      checkout_email: checkoutEmail || '',
+      checkoutName: checkoutName || '',
+      checkout_name: checkoutName || '',
+      sessionId,
+      session_id: sessionId,
+      signupFunnelId: signupFunnelId || '',
+      signup_funnel_id: signupFunnelId || '',
+      stripeCustomerId: stripeCustomerId || '',
+      stripe_customer_id: stripeCustomerId || '',
+      stripeSubscriptionId: stripeSubscriptionId || '',
+      stripe_subscription_id: stripeSubscriptionId || '',
+    }),
+  });
+}

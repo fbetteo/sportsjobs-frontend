@@ -14,7 +14,7 @@ const getBaseUrl = (req: NextRequest) => {
 
 export async function POST(req: NextRequest) {
     try {
-        const { priceId, referral, planName, priceValue } = await req.json();
+        const { priceId, referral, planName, priceValue, signupFunnelId, contactName, contactEmail } = await req.json();
         const sessionUser = (await getSession())?.user;
 
         if (!priceId) {
@@ -26,12 +26,20 @@ export async function POST(req: NextRequest) {
 
         const baseUrl = getBaseUrl(req);
         const isAuthenticatedUpgrade = !!sessionUser?.sub;
+        const normalizedSignupFunnelId = typeof signupFunnelId === 'string' ? signupFunnelId.trim() : '';
+        const normalizedContactName = typeof contactName === 'string' ? contactName.trim() : '';
+        const normalizedContactEmail = typeof contactEmail === 'string' ? contactEmail.trim().toLowerCase() : '';
+        const checkoutEmail = typeof sessionUser?.email === 'string' ? sessionUser.email : normalizedContactEmail;
+        const checkoutName = typeof sessionUser?.name === 'string' ? sessionUser.name : normalizedContactName;
 
         let successUrl = isAuthenticatedUpgrade
             ? '/dashboard?upgrade=success&session_id={CHECKOUT_SESSION_ID}'
             : '/signup/success?session_id={CHECKOUT_SESSION_ID}';
         if (planName) successUrl += `&plan=${encodeURIComponent(planName)}`;
         if (priceValue) successUrl += `&value=${encodeURIComponent(priceValue.toString())}`;
+        if (!isAuthenticatedUpgrade && normalizedSignupFunnelId) {
+            successUrl += `&signup_funnel_id=${encodeURIComponent(normalizedSignupFunnelId)}`;
+        }
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -44,13 +52,16 @@ export async function POST(req: NextRequest) {
             billing_address_collection: 'required',
             success_url: new URL(successUrl, baseUrl).toString(),
             cancel_url: new URL(isAuthenticatedUpgrade ? '/dashboard?upgrade=canceled' : '/signup?canceled=true', baseUrl).toString(),
-            customer_email: typeof sessionUser?.email === 'string' ? sessionUser.email : undefined,
+            customer_email: checkoutEmail || undefined,
             client_reference_id: typeof sessionUser?.sub === 'string' ? sessionUser.sub : undefined,
             metadata: {
                 priceId,
                 planName: planName || '',
                 auth0_sub: typeof sessionUser?.sub === 'string' ? sessionUser.sub : '',
-                email: typeof sessionUser?.email === 'string' ? sessionUser.email : '',
+                email: checkoutEmail || '',
+                name: checkoutName || '',
+                signup_funnel_id: normalizedSignupFunnelId,
+                source: isAuthenticatedUpgrade ? 'dashboard-upgrade' : 'signup-funnel',
                 promotekit_referral: referral || ''
             }
         });

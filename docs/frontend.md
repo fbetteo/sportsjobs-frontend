@@ -36,7 +36,7 @@ Use this guide for pages/components and UX changes.
 - Funnel insight steps should use concise icon bullet rows instead of small explanatory cards.
 - The country step should keep `Skip for now` visible as a secondary action and use the ordered country selector with United States and United Kingdom first.
 - The signup progress bar should show only through the country step; job preview, contact capture, paid-product explanation, and pricing screens do not show the bar.
-- Role/job-type onboarding is paused for now. Keep role fields as empty/default values in payloads for backend compatibility.
+- Role/job-type onboarding is paused for now. Send `roleInterests: []` and `roleUnsure: true` in onboarding payloads for backend compatibility.
 - The paid-product explanation screen should stay simple: value bullets, no coupon messaging, and the `That's fair` acknowledgement CTA.
 - The pricing screen should feel like a focused conversion flow with before/after comparison, a limited-time 25% promo code, selected-plan checkout, testimonials, small FAQ, repeated CTA, and clear checkout actions.
 - Promo messaging should not claim Stripe has auto-applied a discount unless `app/api/create-subscription` is also updated to pass a Stripe coupon/promotion code ID.

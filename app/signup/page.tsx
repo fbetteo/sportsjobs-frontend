@@ -122,6 +122,14 @@ type Contact = {
   email: string;
 };
 
+type StoredFunnelState = {
+  signupFunnelId?: string;
+  signup_funnel_id?: string;
+  answers?: Partial<Answers>;
+  contact?: Contact;
+  paidProductAcknowledgedAt?: string;
+};
+
 type JobPreview = {
   id: string;
   title: string;
@@ -140,7 +148,7 @@ const defaultAnswers: Answers = {
   hardestPart: '',
   country: '',
   roleInterests: [],
-  roleUnsure: false,
+  roleUnsure: true,
 };
 
 const totalSteps = 10;
@@ -187,12 +195,21 @@ function selectedLabels(options: Array<{ value: string; label: string }>, select
   return options.filter((option) => selected.includes(option.value)).map((option) => option.label);
 }
 
-function saveFunnelState(answers: Answers, contact?: Contact, paidProductAcknowledgedAt?: string) {
+function createSignupFunnelId() {
+  if (typeof window !== 'undefined' && window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  return `sf_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 12)}`;
+}
+
+function saveFunnelState(signupFunnelId: string, answers: Answers, contact?: Contact, paidProductAcknowledgedAt?: string) {
   if (typeof window === 'undefined') return;
 
   window.localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
+      signupFunnelId,
       answers,
       contact,
       paidProductAcknowledgedAt,
@@ -241,6 +258,7 @@ export default function SignupPage() {
   const [selectedPlanName, setSelectedPlanName] = useState('Yearly');
   const [offerSecondsLeft, setOfferSecondsLeft] = useState(9 * 60 + 25);
   const [hasLoadedFunnel, setHasLoadedFunnel] = useState(false);
+  const [signupFunnelId, setSignupFunnelId] = useState('');
 
   const selectedSports = useMemo(
     () => selectedLabels(sportsOptions, answers.sportsInterests),
@@ -251,9 +269,12 @@ export default function SignupPage() {
     if (typeof window === 'undefined') return;
 
     const stored = window.localStorage.getItem(STORAGE_KEY);
+    let nextSignupFunnelId = createSignupFunnelId();
+
     if (stored) {
       try {
-        const parsed = JSON.parse(stored);
+        const parsed = JSON.parse(stored) as StoredFunnelState;
+        nextSignupFunnelId = parsed.signupFunnelId || parsed.signup_funnel_id || nextSignupFunnelId;
         if (parsed.answers) setAnswers({ ...defaultAnswers, ...parsed.answers });
         if (parsed.contact) setContact(parsed.contact);
         if (parsed.paidProductAcknowledgedAt) setPaidProductAcknowledgedAt(parsed.paidProductAcknowledgedAt);
@@ -262,6 +283,7 @@ export default function SignupPage() {
       }
     }
 
+    setSignupFunnelId(nextSignupFunnelId);
     setStep(getStepFromUrl());
 
     const handlePopState = () => {
@@ -277,9 +299,9 @@ export default function SignupPage() {
   }, []);
 
   useEffect(() => {
-    if (!hasLoadedFunnel) return;
-    saveFunnelState(answers, contact.email ? contact : undefined, paidProductAcknowledgedAt || undefined);
-  }, [answers, contact, hasLoadedFunnel, paidProductAcknowledgedAt]);
+    if (!hasLoadedFunnel || !signupFunnelId) return;
+    saveFunnelState(signupFunnelId, answers, contact.email ? contact : undefined, paidProductAcknowledgedAt || undefined);
+  }, [answers, contact, hasLoadedFunnel, paidProductAcknowledgedAt, signupFunnelId]);
 
   useEffect(() => {
     if (step < 8) return;
@@ -340,10 +362,19 @@ export default function SignupPage() {
 
       return {
         ...current,
-        roleUnsure: field === 'roleInterests' && nextValues.length > 0 ? false : current.roleUnsure,
+        roleUnsure: true,
         [field]: nextValues,
       };
     });
+  };
+
+  const requireSignupFunnelId = () => {
+    if (signupFunnelId) return signupFunnelId;
+
+    const nextSignupFunnelId = createSignupFunnelId();
+    setSignupFunnelId(nextSignupFunnelId);
+    saveFunnelState(nextSignupFunnelId, answers, contact.email ? contact : undefined, paidProductAcknowledgedAt || undefined);
+    return nextSignupFunnelId;
   };
 
   const continueFromContact = async () => {
@@ -362,12 +393,14 @@ export default function SignupPage() {
 
     try {
       setIsSyncingContact(true);
-      saveFunnelState(answers, contact, paidProductAcknowledgedAt || undefined);
+      const currentSignupFunnelId = requireSignupFunnelId();
+      saveFunnelState(currentSignupFunnelId, answers, contact, paidProductAcknowledgedAt || undefined);
 
       const response = await fetch('/api/signup-funnel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          signupFunnelId: currentSignupFunnelId,
           ...contact,
           onboarding: answers,
         }),
@@ -394,15 +427,16 @@ export default function SignupPage() {
 
   const handlePaidProductAcknowledgement = async () => {
     const acknowledgedAt = new Date().toISOString();
+    const currentSignupFunnelId = requireSignupFunnelId();
     setPaidProductAcknowledgedAt(acknowledgedAt);
-    saveFunnelState(answers, contact, acknowledgedAt);
+    saveFunnelState(currentSignupFunnelId, answers, contact, acknowledgedAt);
 
     try {
       setIsAcknowledging(true);
       const response = await fetch('/api/signup-funnel', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: contact.email }),
+        body: JSON.stringify({ email: contact.email, signupFunnelId: currentSignupFunnelId }),
       });
       const data = await response.json().catch(() => null);
 
@@ -438,6 +472,7 @@ export default function SignupPage() {
 
     try {
       setCheckoutPlan(plan.name);
+      const currentSignupFunnelId = requireSignupFunnelId();
       const response = await fetch('/api/create-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -445,6 +480,9 @@ export default function SignupPage() {
           priceId: plan.priceId,
           planName: plan.name,
           priceValue: plan.priceValue,
+          signupFunnelId: currentSignupFunnelId,
+          contactName: contact.name,
+          contactEmail: contact.email,
         }),
       });
       const data = await response.json();

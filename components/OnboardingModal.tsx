@@ -93,7 +93,7 @@ const defaultAnswers: OnboardingAnswers = {
   hardestPart: '',
   country: '',
   roleInterests: [],
-  roleUnsure: false,
+  roleUnsure: true,
 };
 
 interface OnboardingModalProps {
@@ -143,7 +143,11 @@ export default function OnboardingModal({ isOpen, onComplete, onSkip }: Onboardi
 
     try {
       setIsSubmitting(true);
-      await onComplete(answers);
+      await onComplete({
+        ...answers,
+        roleInterests: [],
+        roleUnsure: true,
+      });
       toast({
         title: 'Profile saved',
         description: 'Your dashboard is ready.',

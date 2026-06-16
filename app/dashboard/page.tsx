@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     Badge,
     Box,
@@ -79,6 +79,7 @@ export default function DashboardPage() {
   const [isProfileLoading, setIsProfileLoading] = useState(true);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
+  const didSyncCheckoutRef = useRef(false);
 
   const isPremium = useMemo(() => hasPremiumAccess(profile), [profile]);
 
@@ -127,6 +128,58 @@ export default function DashboardPage() {
       isMounted = false;
     };
   }, [toast, user]);
+
+  useEffect(() => {
+    if (!user || didSyncCheckoutRef.current) return;
+
+    const currentSearchParams = new URLSearchParams(window.location.search);
+    const upgradeStatus = currentSearchParams.get('upgrade');
+    const sessionId = currentSearchParams.get('session_id');
+    if (upgradeStatus !== 'success' || !sessionId) return;
+
+    didSyncCheckoutRef.current = true;
+
+    const syncUpgrade = async () => {
+      try {
+        const syncResponse = await fetch('/api/checkout-session-sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
+        const syncData = await syncResponse.json().catch(() => null);
+
+        if (!syncResponse.ok) {
+          throw new Error(syncData?.error || 'Could not verify checkout.');
+        }
+
+        const profileResponse = await fetch('/api/me', { method: 'POST' });
+        const profileData = await profileResponse.json().catch(() => null);
+
+        if (profileResponse.ok && profileData) {
+          setProfile(profileData);
+        }
+
+        toast({
+          title: 'Checkout verified',
+          description: 'Your account access has been refreshed.',
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+        router.replace('/dashboard');
+      } catch (upgradeError) {
+        toast({
+          title: 'Checkout verification pending',
+          description: upgradeError instanceof Error ? upgradeError.message : 'Please refresh or contact support if access does not update.',
+          status: 'warning',
+          duration: 6000,
+          isClosable: true,
+        });
+      }
+    };
+
+    syncUpgrade();
+  }, [router, toast, user]);
 
   const handleOnboardingComplete = async (answers: OnboardingAnswers) => {
     const response = await fetch('/api/me', {

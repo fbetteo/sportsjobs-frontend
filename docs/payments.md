@@ -12,8 +12,10 @@
 2. Server creates Stripe Checkout Session.
 3. Mode is selected by plan type (one-time vs subscription).
 4. Authenticated upgrade sessions include Auth0 `sub`, email, plan name, and price ID in Stripe metadata.
-5. User is redirected to Stripe checkout URL.
-6. Authenticated success/cancel URLs return to `/dashboard`; legacy unauthenticated checkout still returns to signup success/cancel routes.
+5. Pre-auth signup sessions include `signup_funnel_id`, name, email, source, plan name, and price ID in Stripe metadata.
+6. User is redirected to Stripe checkout URL.
+7. Signup success redirects show the account creation form immediately; `/api/auth/signup` verifies the Stripe session server-side before creating/linking Auth0.
+8. Authenticated success/cancel URLs return to `/dashboard`; legacy unauthenticated checkout still returns to signup success/cancel routes.
 
 ## Paid Job Posting Flow
 
@@ -38,8 +40,10 @@
 ## Entitlement Sync
 
 - Stripe webhooks should be the source of truth for paid access.
+- Browser success redirects are not treated as DB authority. `/api/auth/signup` must verify the Stripe session server-side before linking the paid signup row.
 - Backend user records should store `stripe_customer_id`, `stripe_subscription_id`, `plan`, and `subscription_status`.
-- Match webhook updates by Auth0 `sub` metadata first, then Stripe customer ID, then email only as a fallback.
+- Pre-auth signup linking should use `signup_funnel_id` and Stripe IDs before email; email is only a legacy fallback.
+- Match webhook updates by Auth0 `sub` metadata first, then signup funnel ID/Stripe customer ID, then email only as a fallback.
 - See `docs/backend-refactor-2026.md` for the backend contract.
 
 ## Related Areas

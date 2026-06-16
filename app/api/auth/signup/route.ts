@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuth0AccessToken, createAuth0User } from '../../../utils/auth0';
 import Stripe from 'stripe';
 import { validatePasswordStrength } from '../../../../lib/validatePasswordStrength';
-import { ensureBackendUserProfile } from '../../../../lib/userProfileBackend';
+import { claimBackendPaidSignupUser, ensureBackendUserProfile } from '../../../../lib/userProfileBackend';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2024-06-20',
     typescript: true,
@@ -10,10 +10,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: NextRequest) {
     try {
-        const { email, password, name, sessionId } = await req.json();
+        const { email, password, name, sessionId, signupFunnelId } = await req.json();
 
         const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
         const normalizedName = typeof name === 'string' ? name.trim() : '';
+        const normalizedSessionId = typeof sessionId === 'string' ? sessionId.trim() : '';
+        const normalizedSignupFunnelId = typeof signupFunnelId === 'string' ? signupFunnelId.trim() : '';
+        let checkoutEmail = '';
+        let checkoutName = '';
+        let stripeCustomerId = '';
+        let stripeSubscriptionId = '';
 
         if (!normalizedEmail || !normalizedName || !password) {
             return NextResponse.json(
@@ -31,11 +37,38 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        if (sessionId) {
+        if (normalizedSessionId) {
             // Legacy paid-first signup flow.
-            const session = await stripe.checkout.sessions.retrieve(sessionId);
+            const session = await stripe.checkout.sessions.retrieve(normalizedSessionId);
             if (!session) {
                 return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
+            }
+
+            if (session.status !== 'complete' || session.payment_status !== 'paid') {
+                return NextResponse.json({ error: 'Checkout has not been paid' }, { status: 400 });
+            }
+
+            const sessionSignupFunnelId = session.metadata?.signup_funnel_id || '';
+            checkoutEmail = (
+                session.metadata?.email ||
+                session.customer_details?.email ||
+                session.customer_email ||
+                ''
+            ).trim().toLowerCase();
+            checkoutName = (
+                session.metadata?.name ||
+                session.customer_details?.name ||
+                ''
+            ).trim();
+            stripeCustomerId = typeof session.customer === 'string' ? session.customer : session.customer?.id || '';
+            stripeSubscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id || '';
+
+            if (
+                normalizedSignupFunnelId &&
+                sessionSignupFunnelId &&
+                normalizedSignupFunnelId !== sessionSignupFunnelId
+            ) {
+                return NextResponse.json({ error: 'Signup session does not match checkout session' }, { status: 400 });
             }
         }
 
@@ -44,11 +77,28 @@ export async function POST(req: NextRequest) {
         const auth0User = await createAuth0User(normalizedEmail, password, accessToken, normalizedName);
 
         try {
-            await ensureBackendUserProfile({
-                sub: auth0User.user_id,
-                email: normalizedEmail,
-                name: normalizedName,
-            });
+            if (normalizedSessionId) {
+                const claimedProfile = await claimBackendPaidSignupUser({
+                    sub: auth0User.user_id,
+                    email: normalizedEmail,
+                    name: normalizedName,
+                    sessionId: normalizedSessionId,
+                    signupFunnelId: normalizedSignupFunnelId,
+                    checkoutEmail,
+                    checkoutName,
+                    stripeCustomerId,
+                    stripeSubscriptionId,
+                });
+                if (!claimedProfile) {
+                    throw new Error('Paid signup backend is not configured');
+                }
+            } else {
+                await ensureBackendUserProfile({
+                    sub: auth0User.user_id,
+                    email: normalizedEmail,
+                    name: normalizedName,
+                });
+            }
         } catch (backendError) {
             console.error('Failed to ensure backend user during signup:', backendError);
             return NextResponse.json({

@@ -23,8 +23,8 @@ function normalizeOnboardingAnswers(value: unknown): OnboardingAnswers {
     jobSearchDuration: typeof input.jobSearchDuration === 'string' ? input.jobSearchDuration.trim() : '',
     hardestPart: typeof input.hardestPart === 'string' ? input.hardestPart.trim() : '',
     country: typeof input.country === 'string' ? input.country.trim() : '',
-    roleInterests: normalizeStringArray(input.roleInterests),
-    roleUnsure: input.roleUnsure === true,
+    roleInterests: [],
+    roleUnsure: true,
   };
 }
 
@@ -86,8 +86,7 @@ export async function PATCH(req: NextRequest) {
   if (
     onboarding.sportsInterests.length === 0 ||
     !onboarding.jobSearchDuration ||
-    !onboarding.hardestPart ||
-    (!onboarding.roleUnsure && onboarding.roleInterests.length === 0)
+    !onboarding.hardestPart
   ) {
     return NextResponse.json({ error: 'Please complete all onboarding questions' }, { status: 400 });
   }

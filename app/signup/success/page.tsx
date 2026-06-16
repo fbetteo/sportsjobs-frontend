@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FormEvent, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import {
     Button,
     Container,
@@ -17,9 +17,33 @@ import {
 } from '@chakra-ui/react';
 import { useSearchParams } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import Script from 'next/script';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { validatePasswordStrength } from '../../../lib/validatePasswordStrength';
+import { SIGNUP_ACCENT_COLOR_SCHEME } from '@/lib/uiTokens';
+
+const STORAGE_KEY = 'sportsjobs_signup_funnel';
+
+type StoredFunnelState = {
+    signupFunnelId?: string;
+    signup_funnel_id?: string;
+    contact?: {
+        name?: string;
+        email?: string;
+    };
+};
+
+function readStoredFunnelState(): StoredFunnelState {
+    if (typeof window === 'undefined') return {};
+
+    try {
+        const stored = window.localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : {};
+    } catch (error) {
+        console.error('Failed to read signup funnel state:', error);
+        return {};
+    }
+}
+
 const SuccessPageContent = () => {
     const searchParams = useSearchParams();
     const toast = useToast();
@@ -28,8 +52,10 @@ const SuccessPageContent = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '', name: '' });
     const [passwordError, setPasswordError] = useState('');
+    const [signupFunnelId, setSignupFunnelId] = useState('');
 
-    const sessionId = searchParams?.get('session_id');
+    const sessionId = searchParams?.get('session_id') || '';
+    const urlSignupFunnelId = searchParams?.get('signup_funnel_id') || '';
     const planName = searchParams?.get('plan') || 'Subscription';
     const rawValue = searchParams?.get('value');
     const value = rawValue ? parseFloat(rawValue) : 0;
@@ -41,8 +67,16 @@ const SuccessPageContent = () => {
     }, [user]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.gtag) {
-            // Track Google Ads conversion
+        const storedState = readStoredFunnelState();
+        const currentSignupFunnelId = urlSignupFunnelId || storedState.signupFunnelId || storedState.signup_funnel_id || '';
+        setSignupFunnelId(currentSignupFunnelId);
+        setFormData((current) => ({
+            ...current,
+            name: storedState.contact?.name || current.name,
+            email: storedState.contact?.email || current.email,
+        }));
+
+        if (typeof window !== 'undefined' && window.gtag && sessionId) {
             window.gtag('event', 'conversion', {
                 'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
                 'value': value,
@@ -50,14 +84,13 @@ const SuccessPageContent = () => {
                 'transaction_id': sessionId
             });
 
-            // Standard GA4 Purchase Event (Monetization dashboards)
             window.gtag('event', 'purchase', {
                 transaction_id: sessionId,
                 value: value,
                 currency: 'USD',
                 items: [
                     {
-                        item_id: planName.toLowerCase().replace(/\\s+/g, '_'),
+                        item_id: planName.toLowerCase().replace(/\s+/g, '_'),
                         item_name: planName,
                         price: value,
                         quantity: 1
@@ -65,13 +98,12 @@ const SuccessPageContent = () => {
                 ]
             });
         }
-    }, [sessionId, planName, value]);
+    }, [planName, sessionId, urlSignupFunnelId, value]);
 
     const handlePasswordSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsProcessing(true);
 
-        // Validate password strength first
         const passwordValidation = validatePasswordStrength(formData.password);
         if (passwordValidation) {
             setPasswordError(passwordValidation);
@@ -83,7 +115,7 @@ const SuccessPageContent = () => {
             const response = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData, sessionId }),
+                body: JSON.stringify({ ...formData, sessionId, signupFunnelId }),
             });
 
             const data = await response.json();
@@ -112,8 +144,8 @@ const SuccessPageContent = () => {
     return (
         <Container maxW="container.sm" py={10}>
             <VStack spacing={6}>
-                <Heading>Payment Successful!</Heading>
-                <Text>Create your account to access the platform</Text>
+                <Heading>Payment successful</Heading>
+                <Text>Create your account to access the platform. You can fix your name or email before creating the account.</Text>
 
                 <form onSubmit={handlePasswordSignup} style={{ width: '100%' }}>
                     <VStack spacing={4}>
@@ -140,7 +172,7 @@ const SuccessPageContent = () => {
                                     value={formData.password}
                                     onChange={e => {
                                         setFormData({ ...formData, password: e.target.value });
-                                        setPasswordError('');  // Clear error on change
+                                        setPasswordError('');
                                     }}
                                 />
                                 <InputRightElement>
@@ -158,7 +190,7 @@ const SuccessPageContent = () => {
                                 </Text>
                             )}
                         </FormControl>
-                        <Button type="submit" colorScheme="blue" width="full" isLoading={isProcessing}>
+                        <Button type="submit" colorScheme={SIGNUP_ACCENT_COLOR_SCHEME} width="full" isLoading={isProcessing}>
                             Create Account
                         </Button>
                     </VStack>
