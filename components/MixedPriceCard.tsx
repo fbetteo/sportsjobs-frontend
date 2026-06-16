@@ -100,7 +100,7 @@ const MixedPricingCard = () => {
             </Box>
 
             {/* Key Benefits */}
-            <Box mb={8}>
+            {/* <Box mb={8}>
                 <List spacing={4} mb={8}>
                     <ListItem display="flex" alignItems="center">
                         <ListIcon as={FaCheckCircle} color={BRAND_PRIMARY_LIGHT} fontSize="xl" />
@@ -115,7 +115,7 @@ const MixedPricingCard = () => {
                         </Text>
                     </ListItem>
                 </List>
-            </Box>
+            </Box> */}
 
             {/* Social Proof */}
             <Box
