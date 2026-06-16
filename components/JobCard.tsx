@@ -1,8 +1,31 @@
-import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Badge, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import Link from 'next/link';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 // import { encodeJobId } from '@/utils/jobIdEncoder';
-
+import {
+    Badge,
+    Box,
+    Divider,
+    Flex,
+    Heading,
+    HStack,
+    Image,
+    LinkBox,
+    LinkOverlay,
+    Tag,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import {
+    BRAND_PRIMARY,
+    BRAND_PRIMARY_COLOR_SCHEME,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_PRIMARY_SURFACE,
+    BRAND_PRIMARY_SURFACE_HOVER,
+    BRAND_SECONDARY,
+    BRAND_SECONDARY_LIGHT,
+    BRAND_SECONDARY_SURFACE,
+    BRAND_SECONDARY_SURFACE_HOVER
+} from '@/lib/uiTokens';
 interface JobCardProps {
     id: string;
     title: string;
@@ -55,18 +78,18 @@ export function JobCard({
                 borderRadius="lg"
                 width="100%"
                 margin="auto"
-                bg={isFeatured ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" : "gray.800"}
+                bg={isFeatured ? BRAND_PRIMARY_SURFACE : BRAND_SECONDARY_SURFACE}
                 color="white"
                 border={isFeatured ? "2px solid" : "1px solid"}
-                borderColor={isFeatured ? "purple.400" : "gray.600"}
+                borderColor={isFeatured ? BRAND_PRIMARY_LIGHT : BRAND_SECONDARY_LIGHT}
                 position="relative"
                 overflow="hidden"
                 transition="all 0.2s"
                 cursor="pointer"
                 _hover={{
-                    bg: isFeatured ? "linear-gradient(135deg, #764ba2 0%, #667eea 100%)" : "gray.700",
+                    bg: isFeatured ? BRAND_PRIMARY_SURFACE_HOVER : BRAND_SECONDARY_SURFACE_HOVER,
                     shadow: "lg",
-                    borderColor: isFeatured ? "purple.300" : "purple.500",
+                    borderColor: isFeatured ? BRAND_PRIMARY : BRAND_SECONDARY,
                 }}
             >
                 {isFeatured && (
@@ -74,7 +97,7 @@ export function JobCard({
                         position="absolute"
                         top={2}
                         left={2}
-                        bg="purple.500"
+                        bg={BRAND_PRIMARY}
                         color="white"
                         fontSize="sm"
                         px={3}
@@ -101,17 +124,17 @@ export function JobCard({
                         alignSelf={{ base: "center", md: "flex-start" }}
                         borderRadius="full"
                         border={isFeatured ? "2px solid" : "none"}
-                        borderColor={isFeatured ? "purple.400" : "transparent"}
+                        borderColor={isFeatured ? BRAND_PRIMARY_LIGHT : "transparent"}
                         bg="white"
                     />
                     <Box flex="1">
-                        <Text fontSize="lg" color="gray.400" fontWeight="semibold">
+                        <Text fontSize="lg" color={BRAND_PRIMARY_LIGHT} fontWeight="semibold">
                             {company}
                         </Text>
                         <LinkOverlay href={`/jobs/${id}`} as={Link} prefetch={false}>
                             <Heading
                                 fontSize="2xl"
-                                color={isFeatured ? "white" : "white"}
+                                color="white"
                                 fontWeight="bold"
                                 lineHeight="shorter"
                                 mb={2}
@@ -121,7 +144,7 @@ export function JobCard({
                         </LinkOverlay>
                     </Box>
                 </Flex>
-                <Divider mb={4} />
+                <Divider mb={4} borderColor={isFeatured ? BRAND_PRIMARY_LIGHT : BRAND_SECONDARY_LIGHT} opacity={0.45} />
                 <Flex
                     direction={{ base: "column", md: "row" }}
                     justifyContent="space-between"
@@ -135,24 +158,24 @@ export function JobCard({
                         alignItems="flex-start" // Add this line to ensure alignment
                     >
                         <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                            <Text fontWeight="bold" color="gray.400" width="100px">Location</Text>
+                            <Text fontWeight="bold" color={BRAND_PRIMARY_LIGHT} width="100px">Location</Text>
                             <Text color="white">{location}</Text>
                         </VStack>
                         <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                            <Text fontWeight="bold" color="gray.400" width="100px">Remote</Text>
+                            <Text fontWeight="bold" color={BRAND_PRIMARY_LIGHT} width="100px">Remote</Text>
                             <Text color="white">{remote_string}</Text>
                         </VStack>
                         <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                            <Text fontWeight="bold" color="gray.400" width="100px">Salary</Text>
+                            <Text fontWeight="bold" color={BRAND_PRIMARY_LIGHT} width="100px">Salary</Text>
                             <Text color="white">{salary || "-"}</Text>
                         </VStack>
                         <VStack align="start" spacing={1} width={{ base: "100%", md: "auto" }}>
-                            <Text fontWeight="bold" color="gray.400" width="100px">Seniority</Text>
+                            <Text fontWeight="bold" color={BRAND_PRIMARY_LIGHT} width="100px">Seniority</Text>
                             <Text color="white">{seniority}</Text>
                         </VStack>
                     </HStack>
                     <Tag
-                        colorScheme={days_ago_text === "Posted Today" ? "green" : "purple"}
+                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                         size="lg"
                         mt={{ base: 4, md: 0 }}
                         alignSelf={{ base: "center", md: "flex-end" }}

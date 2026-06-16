@@ -1,5 +1,4 @@
-import { Text, Link } from "@chakra-ui/react";
-
+import { Link, Text } from '@chakra-ui/react';
 export default function JourneyLink() {
     return (
         <Text mt={2} fontSize="sm" textAlign="center">

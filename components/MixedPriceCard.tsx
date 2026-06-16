@@ -1,14 +1,33 @@
 // components/PricingCard.tsx
 'use client';
 
-import { Box, Flex, Text, Button, Stack, Icon, List, ListItem, ListIcon } from '@chakra-ui/react';
-import { FaBasketballBall, FaCalendarDay, FaFilter, FaBell, FaCheckCircle } from 'react-icons/fa';
+
+import {
+    Box,
+    Button,
+    Flex,
+    Icon,
+    List,
+    ListIcon,
+    ListItem,
+    Stack,
+    Text
+} from '@chakra-ui/react';
+import { FaBasketballBall, FaBell, FaCalendarDay, FaCheckCircle, FaFilter } from 'react-icons/fa';
+import {
+    BRAND_PRIMARY,
+    BRAND_PRIMARY_COLOR_SCHEME,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_PRIMARY_SURFACE,
+    BRAND_SECONDARY,
+    BRAND_SECONDARY_LIGHT,
+    BRAND_SECONDARY_SURFACE,
+    BRAND_SECONDARY_SURFACE_HOVER
+} from '@/lib/uiTokens';
+import { useRouter } from 'next/navigation';
 import { pricingPlans } from '../pricingPlans';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
-
 const MixedPricingCard = () => {
     const router = useRouter();
     const { user } = useUser();
@@ -24,9 +43,9 @@ const MixedPricingCard = () => {
 
     return (
         <Box p={6} maxW="container.xl" mx="auto" width="100%">
-            <Flex justify="center" mb={4}>
-                <ChevronDownIcon w={80} h={80} color="purple.400" />
-            </Flex>
+            {/* <Flex justify="center" mb={4}>
+                <ChevronDownIcon w={80} h={80} color={BRAND_PRIMARY_LIGHT} />
+            </Flex> */}
             <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" textAlign="center" mb={4} color="white">
                 Hundreds of jobs are waiting for you!
             </Text>
@@ -37,11 +56,11 @@ const MixedPricingCard = () => {
             {/* Features Grid */}
             <Box
                 mb={12}
-                bg="gray.800"
+                bg={BRAND_SECONDARY_SURFACE}
                 borderRadius="2xl"
                 p={8}
                 borderWidth="1px"
-                borderColor="gray.700"
+                borderColor={BRAND_SECONDARY_SURFACE_HOVER}
             >
                 <Flex
                     direction={{ base: "column", md: "row" }}
@@ -50,28 +69,28 @@ const MixedPricingCard = () => {
                     gap={8}
                 >
                     <Stack spacing={3} align="center" flex="1">
-                        <Icon as={FaBasketballBall} w={12} h={12} color="purple.400" />
+                        <Icon as={FaBasketballBall} w={12} h={12} color={BRAND_PRIMARY_LIGHT} />
                         <Text fontWeight="bold" fontSize="lg" color="white">Sports Analytics</Text>
                         <Text textAlign="center" color="gray.300" fontSize="sm">
                             We scan all major sports and leagues
                         </Text>
                     </Stack>
                     <Stack spacing={3} align="center" flex="1">
-                        <Icon as={FaCalendarDay} w={12} h={12} color="purple.400" />
+                        <Icon as={FaCalendarDay} w={12} h={12} color={BRAND_PRIMARY_LIGHT} />
                         <Text fontWeight="bold" fontSize="lg" color="white">Updated Daily</Text>
                         <Text textAlign="center" color="gray.300" fontSize="sm">
                             New jobs are added every day as companies post them
                         </Text>
                     </Stack>
                     <Stack spacing={3} align="center" flex="1">
-                        <Icon as={FaFilter} w={12} h={12} color="purple.400" />
+                        <Icon as={FaFilter} w={12} h={12} color={BRAND_PRIMARY_LIGHT} />
                         <Text fontWeight="bold" fontSize="lg" color="white">Refined Search</Text>
                         <Text textAlign="center" color="gray.300" fontSize="sm">
                             Use filters like skill, location, etc to narrow results
                         </Text>
                     </Stack>
                     <Stack spacing={3} align="center" flex="1">
-                        <Icon as={FaBell} w={12} h={12} color="purple.400" />
+                        <Icon as={FaBell} w={12} h={12} color={BRAND_PRIMARY_LIGHT} />
                         <Text fontWeight="bold" fontSize="lg" color="white">Alerts</Text>
                         <Text textAlign="center" color="gray.300" fontSize="sm">
                             You can get daily alerts in your email for a specific search
@@ -81,37 +100,37 @@ const MixedPricingCard = () => {
             </Box>
 
             {/* Key Benefits */}
-            <Box mb={8}>
+            {/* <Box mb={8}>
                 <List spacing={4} mb={8}>
                     <ListItem display="flex" alignItems="center">
-                        <ListIcon as={FaCheckCircle} color="green.400" fontSize="xl" />
+                        <ListIcon as={FaCheckCircle} color={BRAND_PRIMARY_LIGHT} fontSize="xl" />
                         <Text color="gray.200" fontSize="lg">
                             Access to job postings from top teams and companies
                         </Text>
                     </ListItem>
                     <ListItem display="flex" alignItems="center">
-                        <ListIcon as={FaCheckCircle} color="green.400" fontSize="xl" />
+                        <ListIcon as={FaCheckCircle} color={BRAND_PRIMARY_LIGHT} fontSize="xl" />
                         <Text color="gray.200" fontSize="lg">
                             Daily updates and notifications based on your preferences
                         </Text>
                     </ListItem>
                 </List>
-            </Box>
+            </Box> */}
 
             {/* Social Proof */}
-            <Box
+            {/* <Box
                 p={6}
-                bg="gradient(to-r, green.700, green.600)"
+                bg={BRAND_SECONDARY_SURFACE}
                 borderRadius="xl"
                 textAlign="center"
                 mb={12}
                 borderWidth="1px"
-                borderColor="green.500"
+                borderColor={BRAND_SECONDARY}
             >
                 <Text fontSize="xl" color="white" fontWeight="bold">
                     🎯 Over 90% of customers chose to renew their subscriptions after the initial sign-up
                 </Text>
-            </Box>
+            </Box> */}
 
             {/* Price increase banner */}
             {/* <Box
@@ -162,7 +181,7 @@ const MixedPricingCard = () => {
                         borderRadius="xl"
                         textAlign="center"
                         boxShadow="xl"
-                        bg={plan.planName === "Yearly" ? "purple.700" : "gray.700"}
+                        bg={plan.planName === "Yearly" ? BRAND_PRIMARY_SURFACE : BRAND_SECONDARY_SURFACE}
                         transition="all 0.3s"
                         position="relative"
                         display="flex"
@@ -170,9 +189,9 @@ const MixedPricingCard = () => {
                         _hover={{
                             transform: "translateY(-4px)",
                             boxShadow: "2xl",
-                            borderColor: "purple.400"
+                            borderColor: BRAND_PRIMARY_LIGHT
                         }}
-                        borderColor={plan.planName === "Yearly" ? "purple.400" : "gray.600"}
+                        borderColor={plan.planName === "Yearly" ? BRAND_PRIMARY_LIGHT : BRAND_SECONDARY_SURFACE_HOVER}
                     >
                         {plan.planName === "Yearly" && (
                             <Text
@@ -180,8 +199,8 @@ const MixedPricingCard = () => {
                                 top="-12px"
                                 left="50%"
                                 transform="translateX(-50%)"
-                                bg="yellow.400"
-                                color="gray.800"
+                                bg={BRAND_SECONDARY}
+                                color="white"
                                 px={6}
                                 py={2}
                                 borderRadius="full"
@@ -198,7 +217,7 @@ const MixedPricingCard = () => {
                             <Text fontSize="2xl" fontWeight="bold" mb={3} color="white">
                                 {plan.planName}
                             </Text>
-                            <Text fontSize="3xl" fontWeight="bold" mb={2} color="purple.300">
+                            <Text fontSize="3xl" fontWeight="bold" mb={2} color={BRAND_PRIMARY_LIGHT}>
                                 {plan.price}
                             </Text>
                             <Text fontSize="md" color="gray.300" minH="20px">
@@ -226,9 +245,9 @@ const MixedPricingCard = () => {
 
                         {/* Button Section */}
                         <Button
-                            colorScheme="purple"
-                            bg={plan.planName === "Yearly" ? "yellow.400" : "purple.500"}
-                            color={plan.planName === "Yearly" ? "gray.800" : "white"}
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+                            bg={plan.planName === "Yearly" ? BRAND_SECONDARY : BRAND_PRIMARY}
+                            color="white"
                             size="lg"
                             w="full"
                             py={6}
@@ -237,7 +256,7 @@ const MixedPricingCard = () => {
                             onClick={() => handleSelectPlan(plan.airtablePlanName)}
                             _hover={{
                                 transform: "scale(1.02)",
-                                bg: plan.planName === "Yearly" ? "yellow.300" : "purple.400"
+                                bg: plan.planName === "Yearly" ? BRAND_SECONDARY_LIGHT : BRAND_PRIMARY_LIGHT
                             }}
                             transition="all 0.2s"
                             boxShadow="lg"

@@ -1,6 +1,19 @@
 'use client';
-import { Box, Flex, Grid, Heading, Text, Link, Image, VStack, HStack } from '@chakra-ui/react';
+
+import {
+    Box,
+    Flex,
+    Grid,
+    Heading,
+    Image,
+    Link,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import { BRAND_PRIMARY, BRAND_PRIMARY_LIGHT, BRAND_SECONDARY_SURFACE, BRAND_SECONDARY_SURFACE_HOVER } from '@/lib/uiTokens';
+import { redirect } from 'next/navigation';
 import NextLink from 'next/link';
+
 
 interface FeaturedCompany {
     id: string;
@@ -77,9 +90,9 @@ const FeaturedCompanies = () => {
                         as={NextLink}
                         href="/advertise"
                         fontSize="sm"
-                        color="blue.400"
+                        color={BRAND_PRIMARY_LIGHT}
                         textDecoration="underline"
-                        _hover={{ color: "blue.300" }}
+                        _hover={{ color: BRAND_PRIMARY }}
                     >
                         Your brand here?
                     </Link>
@@ -104,13 +117,13 @@ const FeaturedCompanies = () => {
                             {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
                             onClick={() => trackCompanyClick(company.name, company.slug, index, isExternal)}
                             p={6}
-                            bg="gray.700"
+                            bg={BRAND_SECONDARY_SURFACE}
                             borderRadius="xl"
                             textAlign="center"
                             transition="all 0.3s"
                             cursor="pointer"
                             _hover={{
-                                bg: "gray.600",
+                                bg: BRAND_SECONDARY_SURFACE_HOVER,
                                 transform: "translateY(-2px)",
                                 boxShadow: "lg"
                             }}
@@ -133,7 +146,7 @@ const FeaturedCompanies = () => {
                                 <Box
                                     w={12}
                                     h={12}
-                                    bg="purple.500"
+                                    bg={BRAND_PRIMARY}
                                     borderRadius="lg"
                                     display="flex"
                                     alignItems="center"
@@ -160,23 +173,13 @@ const FeaturedCompanies = () => {
                                 {company.tagline && (
                                     <Text
                                         fontSize="sm"
-                                        color="gray.300"
+                                        color="white"
                                         textAlign="center"
                                         lineHeight="short"
                                     >
                                         {company.tagline}
                                     </Text>
                                 )}
-                                {/* 
-                                {company.job_count && company.job_count > 0 && (
-                                    <Text
-                                        fontSize="xs"
-                                        color="purple.300"
-                                        fontWeight="medium"
-                                    >
-                                        {company.job_count} open positions
-                                    </Text>
-                                )} */}
                             </VStack>
                         </Box>
                     )

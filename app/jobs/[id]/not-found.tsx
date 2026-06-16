@@ -1,5 +1,5 @@
-import { Box, Heading, Text, Button, VStack } from '@chakra-ui/react';
-
+import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
+import { BRAND_PRIMARY_COLOR_SCHEME } from '@/lib/uiTokens';
 export default function NotFound() {
     return (
         <Box p={5} color="white" bg="black" minHeight="100vh" textAlign="center">
@@ -16,7 +16,7 @@ export default function NotFound() {
                 <Button
                     as="a"
                     href="/"
-                    colorScheme="purple"
+                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                     size="lg"
                 >
                     Browse Latest Jobs

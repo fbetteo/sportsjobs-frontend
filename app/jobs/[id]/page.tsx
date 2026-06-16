@@ -1,19 +1,33 @@
-// app/jobs/[id]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 2592000; // 60 days (2 months)
-
-import { fetchJobDetails } from '../../../lib/fetchJobDetails';
-import { marked } from 'marked';
-import { addMonths, format } from 'date-fns';
-import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Alert, AlertIcon } from '@chakra-ui/react';
-import styles from '../../../markdown.module.css';
-import { Metadata } from 'next';
-import { Suspense } from 'react';
-import { permanentRedirect, notFound } from 'next/navigation';
 import SimilarJobs from '@/components/SimilarJobs';
 import { default as dynamicImport } from 'next/dynamic';
 import MixedPricingCard from '@/components/MixedPriceCard';
 
+import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
+
+// app/jobs/[id]/page.tsx
+export const dynamic = 'force-static';
+export const revalidate = 2592000; // 60 days (2 months)
+
+import styles from '../../../markdown.module.css';
+import { Metadata } from 'next';
+import { marked } from 'marked';
+import { Suspense } from 'react';
+import {
+    Alert,
+    Box,
+    Button,
+    Flex,
+    Grid,
+    Heading,
+    HStack,
+    Image,
+    Text
+} from '@chakra-ui/react';
+import { FaCheckCircle } from 'react-icons/fa';
+import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY } from '@/lib/uiTokens';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { addMonths, format } from 'date-fns';
+import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
         <Box
@@ -210,75 +224,124 @@ async function JobDetails({ params }: { params: { id: string } }) {
     }
 
     const jobPostingSchema = JSON.stringify(schemaData);
+    const jobFacts = [
+        job.hours,
+        job.remote_string,
+        job.seniority,
+        job.location,
+        job.salary ? `Salary: ${job.salary}` : undefined,
+        mappedIndustryJobType,
+        job.job_area,
+    ].filter(Boolean);
 
     return (
         <>
             <main>
-                <Box p={5} color="white" bg="black" minHeight="100vh">
-                    <Flex direction="column" align="center" justify="center" textAlign="center">
-                        <Image
-                            src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
-                            alt={`Logo of ${job.company}`}
-                            width="100px"
-                            height="100px"
-                            boxSize="100px"
-                            objectFit="contain"
-                            mb={4}
-                            fallback={<Box width="100px" height="100px" bg="gray.200" />}
-                        />
-                        <Heading as="h1" size="lg" mb={2}>
-                            {job.title}
-                        </Heading>
-                        <Heading as="h2" size="lg" mb={2}>
-                            {job.company}
-                        </Heading>
-                        <HStack spacing={4} mb={4} justify="center">
-                            <Badge colorScheme="teal" border="1px" borderColor="gray.200" px={4} py={2}>{job.hours}</Badge>
-                            <Badge colorScheme="orange" border="1px" borderColor="gray.200" px={4} py={2}>{job.remote_string}</Badge>
-                            <Badge colorScheme="orange" border="1px" borderColor="gray.200" px={4} py={2}>{job.seniority}</Badge>
-                        </HStack>
-                        <Flex wrap="wrap" justify="flex-start" align="center" mb={4}>
-                            {/* Apply button only if not expired */}
-                            {!expired && (
-                                <Button
-                                    as="a"
-                                    href={job.apply_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    colorScheme="purple"
-                                    size="lg"
-                                    px={4}
-                                    py={2}
-                                    m={1}
+                <Box color={BRAND_FOREGROUND} bg={BRAND_BACKGROUND} minHeight="100vh">
+                    <Flex direction="column" align="center" textAlign="center">
+                        <Box as="header" w="100%">
+                            <Flex
+                                direction="column"
+                                align="center"
+                                px={{ base: 5, md: 8 }}
+                                pt={{ base: 8, md: 10 }}
+                                pb={{ base: 6, md: 7 }}
+                            >
+                                <Image
+                                    src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                                    alt={`Logo of ${job.company}`}
+                                    boxSize={{ base: "72px", md: "88px" }}
+                                    objectFit="contain"
+                                    mb={4}
+                                    fallback={<Box width="88px" height="88px" bg="gray.200" />}
+                                />
+                                <Heading
+                                    as="h1"
+                                    fontSize={{ base: "34px", md: "44px" }}
+                                    lineHeight="1"
+                                    textTransform="uppercase"
+                                    color={BRAND_FOREGROUND}
                                 >
-                                    Apply Now
-                                </Button>
-                            )}
-                        </Flex>
-                        <Flex>
-                            <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" ml={4}>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
-                                    <Text><strong>{job.location}</strong></Text>
-                                </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
-                                    <Text><strong>Salary:</strong> {job.salary}</Text>
-                                </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
-                                    <Text><strong>{mappedIndustryJobType}</strong></Text>
-                                </Badge>
-                                <Badge border="1px" borderColor="gray.200" px={4} py={2} m={1}>
-                                    <Text><strong>{job.job_area}</strong></Text>
-                                </Badge>
-                            </Box>
-                        </Flex>
+                                    {job.title}
+                                </Heading>
+                                <Text
+                                    fontSize={{ base: "22px", md: "30px" }}
+                                    mt={2}
+                                    color={BRAND_FOREGROUND}
+                                >
+                                    {job.company}
+                                </Text>
+                            </Flex>
+
+                            <Flex
+                                bg={BRAND_SECONDARY}
+                                color={BRAND_FOREGROUND}
+                                w="100%"
+                                px={{ base: 5, md: 12 }}
+                                py={{ base: 5, md: 5 }}
+                                align="center"
+                                justify="space-between"
+                                gap={{ base: 6, md: 8 }}
+                                direction={{ base: "column", md: "row" }}
+                            >
+                                <Grid
+                                    flex="1"
+                                    w="100%"
+                                    maxW={{ base: "100%", md: "640px" }}
+                                    gap={{ base: 3, md: 4 }}
+                                    templateColumns={{ base: "1fr", sm: "repeat(2, minmax(0, 1fr))" }}
+                                    alignItems="center"
+                                    justifyItems="center"
+                                    mx="auto"
+                                >
+                                    {jobFacts.map((fact) => (
+                                        <HStack key={fact} spacing={3} align="center" justify="left" w="100%">
+                                            <Box color={BRAND_PRIMARY} fontSize={{ base: "20px", md: "24px" }} flexShrink={0}>
+                                                <FaCheckCircle />
+                                            </Box>
+                                            <Text
+                                                textAlign="center"
+                                                fontSize={{ base: "18px", md: "22px" }}
+                                                lineHeight="1.1"
+                                                textTransform="uppercase"
+                                            >
+                                                {fact}
+                                            </Text>
+                                        </HStack>
+                                    ))}
+                                </Grid>
+
+                                {!expired && (
+                                    <Button
+                                        as="a"
+                                        href={job.apply_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+                                        bg={BRAND_PRIMARY}
+                                        color={BRAND_FOREGROUND}
+                                        size="lg"
+                                        px={{ base: 10, md: 14 }}
+                                        py={{ base: 6, md: 7 }}
+                                        borderRadius="full"
+                                        fontSize={{ base: "24px", md: "30px" }}
+                                        textTransform="uppercase"
+                                        flexShrink={0}
+                                        _hover={{ bg: BRAND_PRIMARY }}
+                                    >
+                                        Apply Now
+                                    </Button>
+                                )}
+                            </Flex>
+                        </Box>
 
                         {/* Smaller message above the description */}
                         {expired && (
-                            <Text fontSize="l" color="gray.200" mb={4} textAlign="center">
+                            <Text fontSize="l" color="gray.200" mt={8} mb={4} textAlign="center">
                                 Note: This job has expired and is no longer accepting applications.
                             </Text>
                         )}
-                        <Box mt={4} textAlign="left" width="80%">
+                        <Box mt={{ base: 12, md: 16 }} textAlign="left" width={{ base: "100%", md: "88%" }} maxW="1100px" px={{ base: 4, md: 0 }}>
                             <div className={styles.markdown} dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         </Box>
                         {/* Apply button only if not expired */}
@@ -288,7 +351,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 href={job.apply_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                colorScheme="purple"
+                                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                 size="lg"
                                 px={4}
                                 py={2}
@@ -348,7 +411,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                         borderRadius="xl"
                     />
                 }>
-                    <SenjaWallOfLove />
+                    <TestimonialsWallFromDB />
                 </Suspense>
             </main>
             {/* JobPosting schema only if not expired */}

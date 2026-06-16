@@ -1,6 +1,5 @@
 // app/api/get-companies/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-
 export async function GET(req: NextRequest) {
   try {
     const response = await fetch(`http://${process.env.HETZNER_POSTGRES_HOST}:8000/companies`, {

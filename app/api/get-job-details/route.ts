@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchJobDetailsFromBackend } from '@/lib/jobDetailsBackend';
-
 function applyJobDetailsCacheHeaders(response: NextResponse, cacheControl: string) {
   response.headers.set('Cache-Control', cacheControl);
   response.headers.set('CDN-Cache-Control', cacheControl);

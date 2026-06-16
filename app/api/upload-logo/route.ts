@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-
 const S3 = new S3Client({
     region: 'auto',
     endpoint: process.env.CLOUDFLARE_R2_ENDPOINT_URL, // Remove https:// prefix

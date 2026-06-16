@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { salaryFaqItems } from '@/lib/sportsAnalyticsSalariesContent';
 import {
     Badge,
     Box,
@@ -6,7 +7,6 @@ import {
     Card,
     CardBody,
     Container,
-    Divider,
     Grid,
     Heading,
     HStack,
@@ -26,11 +26,10 @@ import {
     Th,
     Thead,
     Tr,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { salaryFaqItems } from '@/lib/sportsAnalyticsSalariesContent';
-
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
 const experienceRows = [
     ['Intern / apprentice', '$15-$30/hour', '$31K-$62K annualized', 'Student roles, part-time internships, seasonal analyst support'],
     ['Entry-level', '$50K-$75K', '$24-$36/hour', 'Junior sports analyst, sports data analyst, BI analyst, research assistant'],
@@ -117,7 +116,7 @@ export default function SportsAnalyticsSalariesContent() {
         <Container maxW="7xl" py={{ base: 8, md: 12 }}>
             <VStack spacing={{ base: 10, md: 14 }} align="stretch">
                 <Box textAlign="center" maxW="4xl" mx="auto">
-                    <Badge colorScheme="teal" mb={4} px={3} py={1} borderRadius="md">
+                    <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} mb={4} px={3} py={1} borderRadius="md">
                         Salary guide
                     </Badge>
                     <Heading as="h1" size={{ base: 'xl', md: '2xl' }} color="white" mb={4}>
@@ -171,7 +170,7 @@ export default function SportsAnalyticsSalariesContent() {
                     </Card>
                 </SimpleGrid>
 
-                <Box as="section" bg="gray.800" borderWidth="1px" borderColor="teal.500" borderRadius="md" p={{ base: 5, md: 7 }}>
+                <Box as="section" bg="gray.800" borderWidth="1px" borderColor={BRAND_SECONDARY} borderRadius="md" p={{ base: 5, md: 7 }}>
                     <Heading as="h2" size="lg" color="white" mb={3}>
                         Methodology and Salary Sources
                     </Heading>
@@ -189,13 +188,13 @@ export default function SportsAnalyticsSalariesContent() {
                             competition, employer budget, location, and technical depth.
                         </Text>
                         <HStack spacing={3} flexWrap="wrap">
-                            <Link href="https://www.bls.gov/ooh/math/data-scientists.htm" isExternal color="teal.300">
+                            <Link href="https://www.bls.gov/ooh/math/data-scientists.htm" isExternal color={BRAND_SECONDARY_LIGHT}>
                                 BLS Data Scientists
                             </Link>
-                            <Link href="https://www.bls.gov/ooh/math/operations-research-analysts.htm" isExternal color="teal.300">
+                            <Link href="https://www.bls.gov/ooh/math/operations-research-analysts.htm" isExternal color={BRAND_SECONDARY_LIGHT}>
                                 BLS Operations Research Analysts
                             </Link>
-                            <Link href="https://www.bls.gov/ooh/business-and-financial/market-research-analysts.htm" isExternal color="teal.300">
+                            <Link href="https://www.bls.gov/ooh/business-and-financial/market-research-analysts.htm" isExternal color={BRAND_SECONDARY_LIGHT}>
                                 BLS Market Research Analysts
                             </Link>
                         </HStack>
@@ -263,7 +262,7 @@ export default function SportsAnalyticsSalariesContent() {
                                         <Heading as="h3" size="sm" color="white">
                                             {title}
                                         </Heading>
-                                        <Tag colorScheme="purple" flexShrink={0}>{range}</Tag>
+                                        <Tag colorScheme={BRAND_PRIMARY_COLOR_SCHEME} flexShrink={0}>{range}</Tag>
                                     </HStack>
                                     <Text color="gray.300" fontSize="sm" mt={3}>
                                         {text}
@@ -282,7 +281,7 @@ export default function SportsAnalyticsSalariesContent() {
                         {industryCards.map((item) => (
                             <Card key={item.title} bg="gray.800" borderColor="gray.600" borderWidth="1px" borderRadius="md">
                                 <CardBody>
-                                    <Tag colorScheme="teal" mb={3}>{item.range}</Tag>
+                                    <Tag colorScheme={BRAND_SECONDARY_COLOR_SCHEME} mb={3}>{item.range}</Tag>
                                     <Heading as="h3" size="md" color="white" mb={2}>
                                         {item.title}
                                     </Heading>
@@ -376,7 +375,7 @@ export default function SportsAnalyticsSalariesContent() {
                     </VStack>
                 </Box>
 
-                <Box as="section" bg="gray.800" borderWidth="1px" borderColor="teal.500" borderRadius="md" p={{ base: 6, md: 8 }} textAlign="center">
+                <Box as="section" bg="gray.800" borderWidth="1px" borderColor={BRAND_SECONDARY} borderRadius="md" p={{ base: 6, md: 8 }} textAlign="center">
                     <Heading as="h2" size="lg" color="white" mb={3}>
                         Compare Salaries Against Real Sports Analytics Jobs
                     </Heading>
@@ -385,10 +384,10 @@ export default function SportsAnalyticsSalariesContent() {
                         and the exact skills requested in the posting.
                     </Text>
                     <HStack justify="center" spacing={4} flexWrap="wrap">
-                        <Button as={NextLink} href="/" colorScheme="purple" rightIcon={<FaExternalLinkAlt />}>
+                        <Button as={NextLink} href="/" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} rightIcon={<FaExternalLinkAlt />}>
                             Browse sports analytics jobs
                         </Button>
-                        <Button as={NextLink} href="/sports-analytics-internships" variant="outline" colorScheme="teal">
+                        <Button as={NextLink} href="/sports-analytics-internships" variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             See internships
                         </Button>
                     </HStack>

@@ -1,9 +1,10 @@
 'use client';
 
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { Box, Button, Heading, VStack, useToast, useDisclosure } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react';
+import { Box, Button, Heading, useDisclosure, useToast, VStack } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
 
 const SettingsPage = () => {

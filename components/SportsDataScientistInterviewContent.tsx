@@ -1,6 +1,6 @@
 'use client';
 
-import NextLink from 'next/link';
+
 import {
     Accordion,
     AccordionButton,
@@ -20,14 +20,12 @@ import {
     SimpleGrid,
     Stack,
     Text,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
 import { FaArrowLeft, FaExternalLinkAlt } from 'react-icons/fa';
-import {
-    dataScientistInterviewQuestions,
-    interviewPrepCards,
-} from '@/lib/sportsDataScientistInterviewContent';
-
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
+import NextLink from 'next/link';
+import { dataScientistInterviewQuestions, interviewPrepCards } from '@/lib/sportsDataScientistInterviewContent';
 export default function SportsDataScientistInterviewContent() {
     return (
         <Container maxW="7xl" py={{ base: 8, md: 12 }}>
@@ -38,13 +36,13 @@ export default function SportsDataScientistInterviewContent() {
                         href="/resources"
                         leftIcon={<FaArrowLeft />}
                         variant="ghost"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         mb={5}
                     >
                         Back to Resources
                     </Button>
                     <Box textAlign="center" maxW="4xl" mx="auto">
-                        <Badge colorScheme="teal" mb={4} px={3} py={1} borderRadius="md">
+                        <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} mb={4} px={3} py={1} borderRadius="md">
                             Interview prep
                         </Badge>
                         <Heading as="h1" size={{ base: 'xl', md: '2xl' }} color="white" mb={4}>
@@ -102,26 +100,26 @@ export default function SportsDataScientistInterviewContent() {
                                             _expanded={{ bg: 'gray.700' }}
                                         >
                                             <HStack flex="1" spacing={4} textAlign="left" align="start">
-                                                <Badge colorScheme="purple" flexShrink={0}>
+                                                <Badge colorScheme={BRAND_PRIMARY_COLOR_SCHEME} flexShrink={0}>
                                                     {index + 1}
                                                 </Badge>
                                                 <Heading as="span" size="sm" color="white" lineHeight="1.4">
                                                     {item.question}
                                                 </Heading>
                                             </HStack>
-                                            <AccordionIcon color="teal.300" />
+                                            <AccordionIcon color={BRAND_SECONDARY_LIGHT} />
                                         </AccordionButton>
                                     </h3>
                                     <AccordionPanel px={{ base: 4, md: 5 }} pb={5}>
                                         <Stack spacing={4}>
                                             <Box>
-                                                <Text color="teal.300" fontWeight="semibold" mb={2}>
+                                                <Text color={BRAND_SECONDARY_LIGHT} fontWeight="semibold" mb={2}>
                                                     What they are testing
                                                 </Text>
                                                 <Text color="gray.300">{item.testing}</Text>
                                             </Box>
                                             <Box>
-                                                <Text color="teal.300" fontWeight="semibold" mb={2}>
+                                                <Text color={BRAND_SECONDARY_LIGHT} fontWeight="semibold" mb={2}>
                                                     Sample answer direction
                                                 </Text>
                                                 <Text color="gray.300">{item.answer}</Text>
@@ -140,7 +138,7 @@ export default function SportsDataScientistInterviewContent() {
                     as="section"
                     bg="gray.800"
                     borderWidth="1px"
-                    borderColor="teal.500"
+                    borderColor={BRAND_SECONDARY}
                     borderRadius="md"
                     p={{ base: 6, md: 8 }}
                     textAlign="center"
@@ -153,16 +151,16 @@ export default function SportsDataScientistInterviewContent() {
                         scientist, analyst, betting, business intelligence, and sports technology jobs.
                     </Text>
                     <HStack justify="center" spacing={4} flexWrap="wrap">
-                        <Button as={NextLink} href="/" colorScheme="purple" rightIcon={<FaExternalLinkAlt />}>
+                        <Button as={NextLink} href="/" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} rightIcon={<FaExternalLinkAlt />}>
                             Browse sports data science jobs
                         </Button>
-                        <Button as={NextLink} href="/sports-analytics-internships" variant="outline" colorScheme="teal">
+                        <Button as={NextLink} href="/sports-analytics-internships" variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             See sports analytics internships
                         </Button>
                     </HStack>
                     <Text color="gray.400" fontSize="sm" mt={5}>
                         Also useful with our{' '}
-                        <Link as={NextLink} href="/sports-analytics-salaries" color="teal.300">
+                        <Link as={NextLink} href="/sports-analytics-salaries" color={BRAND_SECONDARY_LIGHT}>
                             sports analytics salary guide
                         </Link>
                         .

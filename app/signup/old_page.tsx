@@ -2,36 +2,20 @@
 
 // 'use client';
 
-// import { Suspense, useState, useEffect } from 'react';
-// import { useToast } from '@chakra-ui/react';
-// import { loadStripe } from '@stripe/stripe-js';
+// // // import { loadStripe } from '@stripe/stripe-js';
 // import {
-//     Elements,
-//     CardElement,
-//     useStripe,
-//     useElements
+    //     Elements,
+    //     CardElement,
+    //     useStripe,
+    //     useElements
+//
 // } from '@stripe/react-stripe-js';
-// import {
-//     Box,
-//     Button,
-//     FormControl,
-//     FormLabel,
-//     Input,
-//     Select,
-//     VStack,
-//     Heading,
-//     Text,
-//     Container,
-//     Spinner
-// } from '@chakra-ui/react';
-// import { Providers } from '../providers';
-// import { useSearchParams } from 'next/navigation';
-// import SenjaWallOfLove from '@/components/WallOfLove';
+// // import { Providers } from '../providers';
+// // import SenjaWallOfLove from '@/components/WallOfLove';
 // import MixedPricingCard from '@/components/MixedPriceCard';
 // import { validatePasswordStrength } from '../../lib/validatePasswordStrength';
-// import { useRouter } from 'next/navigation';
-
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+import React, { FormEvent, Suspense, useEffect, useState } from 'react';
+// // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 // const CardInput = () => (
 //     <Box
@@ -221,7 +205,7 @@
 //                 </FormControl>
 //                 <Button
 //                     mt={4}
-//                     colorScheme="teal"
+//                     colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
 //                     type="submit"
 //                     isLoading={isLoading}
 //                     disabled={!stripe || !elements}

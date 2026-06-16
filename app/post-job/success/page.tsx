@@ -1,20 +1,20 @@
 'use client';
 
 import React, { Suspense, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import {
     Box,
+    Button,
     Container,
     Heading,
-    Text,
-    VStack,
-    Button,
     Icon,
     Link as ChakraLink,
+    Text,
+    VStack
 } from '@chakra-ui/react';
+import { BRAND_PRIMARY_LIGHT, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiCheckCircle, FiMail } from 'react-icons/fi';
-
 const SuccessPageContent = () => {
     const searchParams = useSearchParams();
     const sessionId = searchParams?.get('session_id') || '';
@@ -53,7 +53,7 @@ const SuccessPageContent = () => {
             <VStack spacing={8} textAlign="center">
                 <Icon as={FiCheckCircle} w={20} h={20} color="green.400" />
 
-                <Heading size="2xl" bgGradient="linear(to-r, teal.400, green.400)"
+                <Heading size="2xl" bgGradient={`linear(to-r, ${BRAND_SECONDARY}, ${BRAND_PRIMARY_LIGHT})`}
                     backgroundClip="text">
                     Job Posted Successfully!
                 </Heading>
@@ -70,7 +70,7 @@ const SuccessPageContent = () => {
                         </Text>
                         <ChakraLink
                             href="mailto:franco@sportsjobs.online"
-                            color="teal.300"
+                            color={BRAND_SECONDARY_LIGHT}
                             fontSize="lg"
                             display="flex"
                             alignItems="center"
@@ -83,12 +83,12 @@ const SuccessPageContent = () => {
 
                 <VStack spacing={4} pt={6}>
                     <Link href="/" passHref>
-                        <Button colorScheme="teal" size="lg">
+                        <Button colorScheme={BRAND_SECONDARY_COLOR_SCHEME} size="lg">
                             Browse More Jobs
                         </Button>
                     </Link>
                     <Link href="/post-job" passHref>
-                        <Button variant="outline" colorScheme="teal">
+                        <Button variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             Post Another Job
                         </Button>
                     </Link>

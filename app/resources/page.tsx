@@ -1,23 +1,24 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
-    Image
+    Container,
+    Grid,
+    HStack,
+    Heading,
+    Image,
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaYoutube, FaBook, FaTools, FaBriefcase, FaLock } from 'react-icons/fa';
+import { FaBook, FaBriefcase, FaExternalLinkAlt, FaLock, FaTools, FaYoutube } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
 // Toggle this to enable/disable the exclusive discount paywall in ResourceCard
 const SHOW_RESOURCE_PAYWALL = false; // set to false to turn off paywall site-wide
 
@@ -57,10 +58,10 @@ const ResourceCard = ({
 
     const getTypeColor = () => {
         switch (type) {
-            case 'tutorial': return 'blue';
-            case 'video': return 'red';
-            case 'tool': return 'green';
-            case 'guide': return 'purple';
+            case 'tutorial': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'video': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'tool': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'guide': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
@@ -68,10 +69,10 @@ const ResourceCard = ({
 
     return (
         <Card
-            bg={isFeatured ? "purple.900" : "gray.800"}
-            borderColor={isFeatured ? "purple.400" : "gray.600"}
+            bg={isFeatured ? BRAND_SECONDARY_SURFACE : "gray.800"}
+            borderColor={isFeatured ? BRAND_SECONDARY_LIGHT : "gray.600"}
             borderWidth={isFeatured ? "2px" : "1px"}
-            _hover={{ borderColor: isFeatured ? 'purple.300' : 'purple.400' }}
+            _hover={{ borderColor: isFeatured ? BRAND_SECONDARY_LIGHT : BRAND_PRIMARY_LIGHT }}
             position="relative"
         >
             {isFeatured && (
@@ -79,7 +80,7 @@ const ResourceCard = ({
                     position="absolute"
                     top={2}
                     right={2}
-                    colorScheme="yellow"
+                    colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                     variant="solid"
                     fontSize="xs"
                     zIndex={1}
@@ -100,16 +101,15 @@ const ResourceCard = ({
                                 </Badge>
                             </>
                         )}
-                        {isPremium && <Badge colorScheme="purple">PREMIUM</Badge>}
-                        {isPremium && <Badge colorScheme="purple">PREMIUM</Badge>}
+                        {isPremium && <Badge colorScheme={BRAND_PRIMARY_COLOR_SCHEME}>PREMIUM</Badge>}
                         {promoCode && SHOW_RESOURCE_PAYWALL && isAuthenticated && (
-                            <Badge colorScheme="green" variant="solid">
+                            <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} variant="solid">
                                 💰 {promoCode} ({discount})
                             </Badge>
                         )}
                         {promoCode && SHOW_RESOURCE_PAYWALL && !isAuthenticated && (
                             <Badge
-                                colorScheme="orange"
+                                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                 variant="solid"
                                 px={3}
                                 py={1}
@@ -123,7 +123,7 @@ const ResourceCard = ({
                             </Badge>
                         )}
                         {promoCode && !SHOW_RESOURCE_PAYWALL && (
-                            <Badge colorScheme="green" variant="subtle">
+                            <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} variant="subtle">
                                 Use our code!
                             </Badge>
                         )}
@@ -148,13 +148,13 @@ const ResourceCard = ({
                     <Text color="gray.300" fontSize="sm">{description}</Text>
 
                     {promoCode && (!SHOW_RESOURCE_PAYWALL || isAuthenticated) && (
-                        <Text fontSize="xs" color="green.300" fontWeight="semibold">
+                        <Text fontSize="xs" color={BRAND_SECONDARY_LIGHT} fontWeight="semibold">
                             🎯 Use code &quot;{promoCode}&quot; for {discount} off - Exclusive for SportsJobs users!
                         </Text>
                     )}
 
                     {promoCode && SHOW_RESOURCE_PAYWALL && !isAuthenticated && (
-                        <Text fontSize="xs" color="orange.300" fontWeight="semibold">
+                        <Text fontSize="xs" color={BRAND_PRIMARY_LIGHT} fontWeight="semibold">
                             🔒 Sign up as a premium user to unlock exclusive discount codes and save on courses!
                         </Text>
                     )}
@@ -164,7 +164,7 @@ const ResourceCard = ({
                         href={url}
                         isExternal={isExternalUrl}
                         size="sm"
-                        colorScheme="purple"
+                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                         rightIcon={isExternalUrl ? <FaExternalLinkAlt /> : undefined}
                         _hover={{ textDecoration: 'none' }}
                     >
@@ -192,7 +192,7 @@ export default function ResourcesPage() {
                         data science, and the sports betting industry.
                     </Text>
                     {!isAuthenticated && (
-                        <Text fontSize="md" color="orange.300" mt={4} fontWeight="semibold">
+                        <Text fontSize="md" color={BRAND_PRIMARY_LIGHT} mt={4} fontWeight="semibold">
                             🔐 Sign up to unlock all the jobs and exclusive discount codes that save you more than your subscription costs!
                         </Text>
                     )}
@@ -517,12 +517,12 @@ Through the Lens of Sports"
                 {!isAuthenticated && (
                     <Box
                         w="full"
-                        bg="purple.900"
+                        bg={BRAND_PRIMARY_SURFACE}
                         p={8}
                         borderRadius="lg"
                         textAlign="center"
                         borderWidth="1px"
-                        borderColor="purple.600"
+                        borderColor={BRAND_PRIMARY_LIGHT}
                     >
                         <Heading size="lg" mb={4} color="white">
                             � Unlock Exclusive Promo Codes
@@ -532,23 +532,23 @@ Through the Lens of Sports"
 
                         </Text>
                         <VStack spacing={2} mb={6}>
-                            <Text color="orange.300" fontSize="md" fontWeight="semibold">
+                            <Text color={BRAND_PRIMARY_LIGHT} fontSize="md" fontWeight="semibold">
                                 � Hidden discount codes on premium courses and tools
                             </Text>
-                            <Text color="orange.300" fontSize="md" fontWeight="semibold">
+                            <Text color={BRAND_PRIMARY_LIGHT} fontSize="md" fontWeight="semibold">
                                 💰 Save 10-30% on the resources you see above
                             </Text>
-                            <Text color="orange.300" fontSize="md" fontWeight="semibold">
+                            <Text color={BRAND_PRIMARY_LIGHT} fontSize="md" fontWeight="semibold">
                                 🎯 The discounts pay for your entire subscription
                             </Text>
-                            <Text color="orange.300" fontSize="md" fontWeight="semibold">
+                            <Text color={BRAND_PRIMARY_LIGHT} fontSize="md" fontWeight="semibold">
                                 📈 Every additional purchase = pure savings
                             </Text>
                         </VStack>
                         <Button
                             as={Link}
                             href="/signup"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             size="lg"
                             _hover={{ textDecoration: 'none' }}
                         >
@@ -560,20 +560,20 @@ Through the Lens of Sports"
                 {isAuthenticated && (
                     <Box
                         w="full"
-                        bg="green.900"
+                        bg={BRAND_SECONDARY_SURFACE}
                         p={8}
                         borderRadius="lg"
                         textAlign="center"
                         borderWidth="1px"
-                        borderColor="green.600"
+                        borderColor={BRAND_SECONDARY_LIGHT}
                     >
                         <Heading size="lg" mb={4} color="white">
                             🎉 You Have Access to Exclusive Discounts!
                         </Heading>
                         <Text color="gray.300" mb={4} fontSize="lg">
-                            Look for the green 💰 badges above to find your exclusive promo codes!
+                            Look for the accent 💰 badges above to find your exclusive promo codes!
                         </Text>
-                        <Text color="green.300" fontSize="md" fontWeight="semibold">
+                        <Text color={BRAND_SECONDARY_LIGHT} fontSize="md" fontWeight="semibold">
                             Copy the codes and use them when purchasing courses and tools to save money.
                         </Text>
                     </Box>

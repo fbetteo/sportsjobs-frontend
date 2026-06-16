@@ -1,37 +1,41 @@
 'use client';
 
+
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {
     Box,
     Button,
+    Checkbox,
     Container,
+    Divider,
     FormControl,
     FormLabel,
-    Input,
-    Textarea,
-    Select,
-    VStack,
     Heading,
-    useToast,
-    Checkbox,
-    Text,
-    Divider,
-    Wrap,
-    WrapItem,
-    Tag,
-    TagLabel,
-    TagCloseButton,
-    Image,
     Icon,
+    Image,
+    Input,
+    Select,
     SimpleGrid,
-    HStack,
+    Tag,
+    TagCloseButton,
+    TagLabel,
+    Text,
+    Textarea,
+    useToast,
+    VStack,
+    Wrap,
+    WrapItem
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
 import { useRouter } from 'next/navigation';
+import { format } from 'date-fns';
 import { countries } from '@/utils/countries';
-import { skillsList } from '@/utils/skills';  // Add this import
+import { skillsList } from '@/utils/skills';
+// Add this import
 import { FiUpload } from 'react-icons/fi';
 import { ImQuotesLeft } from 'react-icons/im';
 import SenjaRecruiterWidget from '@/components/SenjaRecruiterWidget';
+
 
 interface FormData {
     company: string;
@@ -256,7 +260,7 @@ const PostJobPage = () => {
                 borderColor="gray.700"
             >
                 <VStack spacing={8} as="form" onSubmit={handleSubmit}>
-                    <Heading size="lg" color="teal.300">Post Your Job</Heading>
+                    <Heading size="lg" color={BRAND_SECONDARY_LIGHT}>Post Your Job</Heading>
 
                     <FormControl isRequired>
                         <FormLabel>Company Name</FormLabel>
@@ -436,7 +440,7 @@ const PostJobPage = () => {
                                             size="lg"
                                             borderRadius="full"
                                             variant="solid"
-                                            colorScheme="teal"
+                                            colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                                         >
                                             <TagLabel>{skill}</TagLabel>
                                             <TagCloseButton
@@ -529,15 +533,15 @@ const PostJobPage = () => {
 
                             <Divider my={2} />
 
-                            <Text color="teal.300" fontWeight="bold">
+                            <Text color={BRAND_SECONDARY_LIGHT} fontWeight="bold">
                                 Included Benefits:
                             </Text>
 
                             <Checkbox
                                 isChecked={true}
                                 isReadOnly
-                                colorScheme="teal"
-                                iconColor="teal.300"
+                                colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
+                                iconColor={BRAND_SECONDARY_LIGHT}
                             >
                                 Pinned job post - Featured at the top of the job list
                             </Checkbox>
@@ -545,8 +549,8 @@ const PostJobPage = () => {
                             <Checkbox
                                 isChecked={true}
                                 isReadOnly
-                                colorScheme="teal"
-                                iconColor="teal.300"
+                                colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
+                                iconColor={BRAND_SECONDARY_LIGHT}
                             >
                                 Highlighted post - Stand out with special formatting
                             </Checkbox>
@@ -554,8 +558,8 @@ const PostJobPage = () => {
                             <Checkbox
                                 isChecked={true}
                                 isReadOnly
-                                colorScheme="teal"
-                                iconColor="teal.300"
+                                colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
+                                iconColor={BRAND_SECONDARY_LIGHT}
                             >
                                 Social Media Promotion - Shared on our Newsletter and LinkedIn networks
                             </Checkbox>
@@ -575,7 +579,7 @@ const PostJobPage = () => {
                                 bg="gray.700"
                                 borderRadius="lg"
                             >
-                                <Text fontSize="2xl" fontWeight="bold" color="teal.300">
+                                <Text fontSize="2xl" fontWeight="bold" color={BRAND_SECONDARY_LIGHT}>
                                     {stat.number}
                                 </Text>
                                 <Text color="gray.300">{stat.label}</Text>
@@ -585,7 +589,7 @@ const PostJobPage = () => {
 
                     <Button
                         type="submit"
-                        colorScheme="purple"
+                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                         size="lg"
                         width="full"
                         isLoading={isLoading}

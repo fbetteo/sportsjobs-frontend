@@ -1,5 +1,7 @@
 "use client";
 
+
+import React, { ChangeEvent, FormEvent, Suspense, useEffect, useMemo, useState } from 'react';
 import {
     Box,
     Button,
@@ -7,18 +9,17 @@ import {
     FormControl,
     FormLabel,
     Heading,
+    HStack,
+    Icon,
     Input,
     Text,
     Textarea,
-    VStack,
     useToast,
-    HStack,
-    Icon,
+    VStack
 } from '@chakra-ui/react';
-import { useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useState, useEffect } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-
+import { BRAND_SECONDARY_COLOR_SCHEME } from '@/lib/uiTokens';
+import { useSearchParams } from 'next/navigation';
 const TestimonialPageContent = () => {
     const searchParams = useSearchParams();
     const toast = useToast();
@@ -210,7 +211,7 @@ const TestimonialPageContent = () => {
 
                         <Button
                             type="submit"
-                            colorScheme="teal"
+                            colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                             isLoading={isSubmitting}
                             loadingText="Submitting"
                         >

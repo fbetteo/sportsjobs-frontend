@@ -1,38 +1,41 @@
 'use client';
 
+
+import { memo } from 'react';
 import {
-  Box,
-  Flex,
-  Button,
-  Image,
   Avatar,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
+  Box,
+  Button,
   Drawer,
   DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
+  Flex,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   useDisclosure,
   VStack
 } from '@chakra-ui/react';
+import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE_HOVER, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME } from '@/lib/uiTokens';
+import { useRouter } from 'next/navigation';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/navigation';
-import { memo } from 'react';
-
 // Memoized Logo Component
 const Logo = memo(() => (
   <Link href="/">
     <Image
-      src="https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=73ad289af04d9404eaff59edab90872229e4a75a"
+      src="/sportsjobs_logo_color_rectangular_202606.png"
       alt="Sportsjobs Online Logo"
-      boxSize="60px"
+      h="60px"
+      w="120px"
+      objectFit="contain"
       mr={{ base: 2, md: 5 }}
     />
   </Link>
@@ -44,10 +47,12 @@ Logo.displayName = 'Logo';
 const BrowseJobsButton = memo(() => (
   <Link href="/" passHref>
     <Button
-      colorScheme="purple"
-      bg="black"
+      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+      bg={BRAND_FOREGROUND}
+      color={BRAND_BACKGROUND}
       mr={5}
       size="md"
+      _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
     >
       Browse Jobs
     </Button>
@@ -60,10 +65,12 @@ BrowseJobsButton.displayName = 'BrowseJobsButton';
 const BlogButton = memo(() => (
   <Link href="/blog" passHref>
     <Button
-      colorScheme="purple"
-      bg="black"
+      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+      bg={BRAND_FOREGROUND}
+      color={BRAND_BACKGROUND}
       mr={5}
       size="md"
+      _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
     >
       Blog
     </Button>
@@ -76,10 +83,11 @@ BlogButton.displayName = 'BlogButton';
 const ResourcesButton = memo(() => (
   <Link href="/resources" passHref>
     <Button
-      colorScheme="purple"
-      bg="black"
+      bg={BRAND_FOREGROUND}
+      color={BRAND_BACKGROUND}
       mr={5}
       size="md"
+      _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
     >
       Resources
     </Button>
@@ -88,14 +96,33 @@ const ResourcesButton = memo(() => (
 
 ResourcesButton.displayName = 'ResourcesButton';
 
+const DashboardButton = memo(() => (
+  <Link href="/dashboard" passHref>
+    <Button
+      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+      bg={BRAND_PRIMARY}
+      color={BRAND_BACKGROUND}
+      mr={5}
+      size="md"
+      _hover={{ bg: BRAND_PRIMARY }}
+    >
+      Dashboard
+    </Button>
+  </Link>
+));
+
+DashboardButton.displayName = 'DashboardButton';
+
 // Memoized Advertise Button
 const AdvertiseButton = memo(() => (
   <Link href="/advertise" passHref>
     <Button
-      colorScheme="purple"
-      bg="black"
+      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+      bg={BRAND_FOREGROUND}
+      color={BRAND_BACKGROUND}
       mr={5}
       size="md"
+      _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
     >
       Advertise
     </Button>
@@ -108,10 +135,12 @@ AdvertiseButton.displayName = 'AdvertiseButton';
 const AffiliatesButton = memo(() => (
   <Link href="/affiliates" passHref>
     <Button
-      colorScheme="purple"
-      bg="black"
+      colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
+      bg={BRAND_FOREGROUND}
+      color={BRAND_BACKGROUND}
       mr={5}
       size="md"
+      _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
     >
       Earn $
     </Button>
@@ -129,7 +158,7 @@ const Header = () => {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <Box bg="black" color="white" px={4} py={2}>
+    <Box bg={BRAND_FOREGROUND} color="white" px={4} py={2}>
       <Flex justify="space-between" align="center">
         <Logo />
 
@@ -140,11 +169,15 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
+              <DashboardButton />
               <Menu>
                 <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                   <Avatar size="sm" src={user.picture ?? ""} />
                 </MenuButton>
                 <MenuList>
+                  <MenuItem color="black">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </MenuItem>
                   <MenuItem color="black">
                     <Link href="/settings">Settings</Link>
                   </MenuItem>
@@ -162,8 +195,8 @@ const Header = () => {
               <Link href="/api/auth/login" passHref>
                 <Button
                   variant="ghost"
-                  color="white"
-                  _hover={{ bg: 'gray.800' }}
+                  color={BRAND_BACKGROUND}
+                  _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
                   mr={{ base: 2, md: 3 }}
                   size="md"
                 >
@@ -171,13 +204,13 @@ const Header = () => {
                 </Button>
               </Link>
               <Button
-                colorScheme="purple"
-                bg="purple.500"
-                _hover={{ bg: 'purple.400' }}
+                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+                bg={BRAND_PRIMARY}
+                _hover={{ bg: BRAND_PRIMARY }}
                 size="md"
                 onClick={() => router.push('/signup')}
               >
-                Get Access
+                Sign up
               </Button>
             </>
           )}
@@ -190,7 +223,7 @@ const Header = () => {
           icon={<HamburgerIcon />}
           variant="outline"
           aria-label="Open Menu"
-          colorScheme="purple"
+          colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
         />
 
         {/* Mobile Drawer */}
@@ -202,17 +235,17 @@ const Header = () => {
             <DrawerBody>
               <VStack spacing={4} align="stretch">
                 <Link href="/" onClick={onClose}>
-                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Browse Jobs
                   </Button>
                 </Link>
                 <Link href="/blog" onClick={onClose}>
-                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Blog
                   </Button>
                 </Link>
                 <Link href="/resources" onClick={onClose}>
-                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                  <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Resources
                   </Button>
                 </Link>
@@ -222,7 +255,7 @@ const Header = () => {
                   variant="ghost"
                   justifyContent="flex-start"
                   color="white"
-                  _hover={{ bg: "gray.700" }}
+                  _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}
                   onClick={() => {
                     window.open('https://sportsjobsonline.featurebase.app/', '_blank', 'noopener,noreferrer');
                     onClose();
@@ -233,13 +266,18 @@ const Header = () => {
 
                 {user ? (
                   <>
+                    <Link href="/dashboard" onClick={onClose}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
+                        Dashboard
+                      </Button>
+                    </Link>
                     <Link href="/settings" onClick={onClose}>
-                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Settings
                       </Button>
                     </Link>
                     <Link href="/api/auth/logout" onClick={onClose}>
-                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: "gray.700" }}>
+                      <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Logout
                       </Button>
                     </Link>
@@ -247,23 +285,23 @@ const Header = () => {
                 ) : (
                   <>
                     <Link href="/api/auth/login" onClick={onClose}>
-                      <Button w="full" colorScheme="purple" variant="solid">
+                      <Button w="full" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="solid">
                         Login
                       </Button>
                     </Link>
                     <Button
                       w="full"
-                      colorScheme="purple"
+                      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                       variant="outline"
                       color="white"
-                      borderColor="purple.500"
-                      _hover={{ bg: "purple.600" }}
+                      borderColor={BRAND_PRIMARY}
+                      _hover={{ bg: BRAND_PRIMARY_SURFACE_HOVER }}
                       onClick={() => {
                         router.push('/signup');
                         onClose();
                       }}
                     >
-                      SignUp
+                      Sign up
                     </Button>
                   </>
                 )}

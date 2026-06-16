@@ -1,6 +1,6 @@
 'use client';
 
-import NextLink from 'next/link';
+
 import {
     Alert,
     AlertIcon,
@@ -21,12 +21,13 @@ import {
     Stack,
     Tag,
     Text,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaLock } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
+import NextLink from 'next/link';
 import NewsletterSignupForm from './NewsletterSignupForm';
 import { internshipFaqItems } from '@/lib/sportsAnalyticsInternshipsContent';
-
 export interface InternshipJob {
     id: string;
     title?: string;
@@ -133,7 +134,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
         <Container maxW="7xl" py={{ base: 8, md: 12 }}>
             <VStack spacing={{ base: 10, md: 14 }} align="stretch">
                 <Box textAlign="center" maxW="4xl" mx="auto">
-                    <Badge colorScheme="teal" mb={4} px={3} py={1} borderRadius="md">
+                    <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} mb={4} px={3} py={1} borderRadius="md">
                         Updated internship search
                     </Badge>
                     <Heading as="h1" size={{ base: 'xl', md: '2xl' }} color="white" mb={4}>
@@ -169,7 +170,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                 <Button
                                     as={NextLink}
                                     href="/signup"
-                                    colorScheme="purple"
+                                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                     leftIcon={<FaLock />}
                                     flexShrink={0}
                                 >
@@ -192,7 +193,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                             borderWidth="1px"
                                             borderColor="gray.600"
                                             borderRadius="md"
-                                            _hover={{ borderColor: 'teal.300', bg: 'gray.700' }}
+                                            _hover={{ borderColor: BRAND_SECONDARY_LIGHT, bg: 'gray.700' }}
                                         >
                                             <CardBody>
                                                 <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
@@ -215,10 +216,10 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                                             </Heading>
                                                         </LinkOverlay>
                                                         <HStack spacing={2} wrap="wrap" mt={3}>
-                                                            <Tag colorScheme="teal">{getRoleFamily(job)}</Tag>
+                                                            <Tag colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>{getRoleFamily(job)}</Tag>
                                                             <Tag colorScheme="blue">{job.remote_string || 'Work type not listed'}</Tag>
                                                             <Tag colorScheme="green">{job.sport_list || 'Sports'}</Tag>
-                                                            <Tag colorScheme={job.salary ? 'purple' : 'gray'}>
+                                                            <Tag colorScheme={job.salary ? BRAND_PRIMARY_COLOR_SCHEME : 'gray'}>
                                                                 {job.salary || 'Pay not listed'}
                                                             </Tag>
                                                             <Tag colorScheme={job.days_ago_text === 'Posted Today' ? 'green' : 'gray'}>
@@ -281,7 +282,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                     </Text>
                                     <HStack wrap="wrap">
                                         {item.tags.map((tag) => (
-                                            <Tag key={tag} colorScheme="teal" variant="subtle">
+                                            <Tag key={tag} colorScheme={BRAND_SECONDARY_COLOR_SCHEME} variant="subtle">
                                                 {tag}
                                             </Tag>
                                         ))}
@@ -383,7 +384,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                     as="section"
                     bg="gray.800"
                     borderWidth="1px"
-                    borderColor="teal.500"
+                    borderColor={BRAND_SECONDARY}
                     borderRadius="md"
                     p={{ base: 6, md: 8 }}
                     textAlign="center"
@@ -396,10 +397,10 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                         through generic sports internships and more time applying to analytics-relevant roles.
                     </Text>
                     <HStack justify="center" spacing={4} flexWrap="wrap">
-                        <Button as={NextLink} href="/signup" colorScheme="purple" rightIcon={<FaExternalLinkAlt />}>
+                        <Button as={NextLink} href="/signup" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} rightIcon={<FaExternalLinkAlt />}>
                             Start internship search
                         </Button>
-                        <Button as={NextLink} href="/#current-openings" variant="outline" colorScheme="teal">
+                        <Button as={NextLink} href="/#current-openings" variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             Browse all sports jobs
                         </Button>
                     </HStack>

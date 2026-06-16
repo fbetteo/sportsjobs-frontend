@@ -1,6 +1,6 @@
-import { fetchJobDetails } from '@/lib/fetchJobDetails';
 import { NextResponse } from 'next/server';
-
+import { redirect } from 'next/navigation';
+import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 // This is to redirect old dynamic jobposts to new ones or home page
 
 export async function GET(request: Request) {

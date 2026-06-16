@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { getAuth0AccessToken, disableAuth0User } from '../../utils/auth0';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     
@@ -74,12 +73,7 @@ export async function POST(req: NextRequest) {
 
         await stripe.subscriptions.update(subscription.id, updateParams);
 
-        // Disable the user in Auth0
-        const accessToken = await getAuth0AccessToken();
-        await disableAuth0User(email, accessToken);
-
-
-        return NextResponse.json({ status: 'canceled' });
+        return NextResponse.json({ status: 'scheduled_for_cancellation' });
     } catch (error) {
         return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }

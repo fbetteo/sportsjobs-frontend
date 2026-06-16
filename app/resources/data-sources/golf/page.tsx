@@ -1,25 +1,33 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
+    Container,
     Divider,
-    Alert,
-    AlertIcon
+    Grid,
+    HStack,
+    Heading,
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaArrowLeft, FaGolfBall, FaDollarSign, FaGift, FaCode, FaDatabase } from 'react-icons/fa';
+import {
+    FaArrowLeft,
+    FaCode,
+    FaDatabase,
+    FaDollarSign,
+    FaExternalLinkAlt,
+    FaGift,
+    FaGolfBall
+} from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
+import { format } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
 const DataSourceCard = ({
     title,
     description,
@@ -52,10 +60,10 @@ const DataSourceCard = ({
 
     const getTypeColor = () => {
         switch (type) {
-            case 'API': return 'blue';
-            case 'Dataset': return 'green';
-            case 'Scraping': return 'orange';
-            case 'Database': return 'purple';
+            case 'API': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Dataset': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Scraping': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Database': return BRAND_SECONDARY_COLOR_SCHEME;
         }
     };
 
@@ -69,22 +77,22 @@ const DataSourceCard = ({
 
     const getPricingColor = () => {
         switch (pricing) {
-            case 'Free': return 'green';
-            case 'Freemium': return 'orange';
-            case 'Paid': return 'red';
+            case 'Free': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Freemium': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Paid': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     const getDifficultyColor = () => {
         switch (difficulty) {
-            case 'Beginner': return 'green';
-            case 'Intermediate': return 'orange';
-            case 'Advanced': return 'red';
+            case 'Beginner': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Intermediate': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Advanced': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     return (
-        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: 'teal.400' }}>
+        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: BRAND_SECONDARY_LIGHT }}>
             <CardBody>
                 <VStack align="start" spacing={4}>
                     <VStack align="start" spacing={2} w="full">
@@ -97,7 +105,7 @@ const DataSourceCard = ({
                         <Text fontSize="xs" color="gray.400" fontWeight="semibold">Data Types:</Text>
                         <HStack wrap="wrap">
                             {/* {dataTypes.map((dataType, index) => (
-                                <Badge key={index} colorScheme="purple" variant="outline" fontSize="xs">
+                                <Badge key={index} colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="outline" fontSize="xs">
                                     {dataType}
                                 </Badge>
                             ))} */}
@@ -120,7 +128,7 @@ const DataSourceCard = ({
                         href={url}
                         isExternal
                         size="sm"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         rightIcon={<FaExternalLinkAlt />}
                         _hover={{ textDecoration: 'none' }}
                         w="full"
@@ -147,14 +155,16 @@ export default function GolfDataSourcesPage() {
                         href="/resources/data-sources"
                         leftIcon={<FaArrowLeft />}
                         variant="ghost"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         mb={4}
                         _hover={{ textDecoration: 'none' }}
                     >
                         Back to Data Sources
                     </Button>
                     <HStack spacing={3} mb={4}>
-                        <FaGolfBall color="#2DD4BF" size="32px" />
+                        <Box color={BRAND_SECONDARY_LIGHT}>
+                            <FaGolfBall size="32px" />
+                        </Box>
                         <Heading size="2xl" color="white">
                             Golf Data Sources
                         </Heading>
@@ -220,36 +230,36 @@ export default function GolfDataSourcesPage() {
                 <Box w="full">
                     <Heading size="lg" mb={6} color="white">🏌️ Tour Coverage</Heading>
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
-                        <Box bg="green.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="green.600">
-                            <Heading size="md" mb={3} color="green.100">PGA Tour</Heading>
+                        <Box bg={BRAND_SECONDARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">PGA Tour</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="green.200" fontSize="sm">• Regular Season Events</Text>
-                                <Text color="green.200" fontSize="sm">• FedEx Cup Playoffs</Text>
-                                <Text color="green.200" fontSize="sm">• The Players Championship</Text>
-                                <Text color="green.200" fontSize="sm">• WGC Events</Text>
-                                <Text color="green.200" fontSize="sm">• Tour Championships</Text>
+                                <Text color="gray.300" fontSize="sm">• Regular Season Events</Text>
+                                <Text color="gray.300" fontSize="sm">• FedEx Cup Playoffs</Text>
+                                <Text color="gray.300" fontSize="sm">• The Players Championship</Text>
+                                <Text color="gray.300" fontSize="sm">• WGC Events</Text>
+                                <Text color="gray.300" fontSize="sm">• Tour Championships</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="blue.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="blue.600">
-                            <Heading size="md" mb={3} color="blue.100">Major Championships</Heading>
+                        <Box bg={BRAND_PRIMARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_PRIMARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">Major Championships</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="blue.200" fontSize="sm">• The Masters Tournament</Text>
-                                <Text color="blue.200" fontSize="sm">• PGA Championship</Text>
-                                <Text color="blue.200" fontSize="sm">• U.S. Open</Text>
-                                <Text color="blue.200" fontSize="sm">• The Open Championship</Text>
-                                <Text color="blue.200" fontSize="sm">• Women&apos;s Majors</Text>
+                                <Text color="gray.300" fontSize="sm">• The Masters Tournament</Text>
+                                <Text color="gray.300" fontSize="sm">• PGA Championship</Text>
+                                <Text color="gray.300" fontSize="sm">• U.S. Open</Text>
+                                <Text color="gray.300" fontSize="sm">• The Open Championship</Text>
+                                <Text color="gray.300" fontSize="sm">• Women&apos;s Majors</Text>
                             </VStack>
                         </Box>
 
-                        <Box bg="purple.900" p={4} borderRadius="lg" borderWidth="1px" borderColor="purple.600">
-                            <Heading size="md" mb={3} color="purple.100">International Tours</Heading>
+                        <Box bg={BRAND_SECONDARY_SURFACE} p={4} borderRadius="lg" borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT}>
+                            <Heading size="md" mb={3} color="white">International Tours</Heading>
                             <VStack align="start" spacing={1}>
-                                <Text color="purple.200" fontSize="sm">• European Tour (DP World Tour)</Text>
-                                <Text color="purple.200" fontSize="sm">• LPGA Tour</Text>
-                                <Text color="purple.200" fontSize="sm">• Asian Tour</Text>
-                                <Text color="purple.200" fontSize="sm">• Korn Ferry Tour</Text>
-                                <Text color="purple.200" fontSize="sm">• LIV Golf</Text>
+                                <Text color="gray.300" fontSize="sm">• European Tour (DP World Tour)</Text>
+                                <Text color="gray.300" fontSize="sm">• LPGA Tour</Text>
+                                <Text color="gray.300" fontSize="sm">• Asian Tour</Text>
+                                <Text color="gray.300" fontSize="sm">• Korn Ferry Tour</Text>
+                                <Text color="gray.300" fontSize="sm">• LIV Golf</Text>
                             </VStack>
                         </Box>
                     </Grid>

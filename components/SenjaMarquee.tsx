@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 
+import { useEffect } from 'react';
 const SenjaMarquee = () => {
     useEffect(() => {
         // Add the Senja widget script

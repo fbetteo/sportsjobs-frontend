@@ -1,14 +1,17 @@
 'use client';
-import { useState, useEffect, useRef, Suspense } from "react";
+
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { Box, Button, Center, Flex, HStack, VStack } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_SURFACE, BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
+import { parse } from 'date-fns';
 import dynamic from 'next/dynamic';
-import { fetchJobs } from "../lib/fetchJobs";
-import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
-import { Box, Button, Center, Flex, HStack, VStack } from "@chakra-ui/react";
+import { fetchJobs } from '../lib/fetchJobs';
+import { fetchJobsFeatured } from '@/lib/fetchJobsFeatured';
 import JobList from "./JobList";
 import JobFilter from './JobFilter';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Introduction from './Introduction';
-import NewsletterSignupForm from "./NewsletterSignupForm";
 import UserFormPopup from "./AlertsPopupForm";
 import PostJobLink from './PostJobLink';
 import JobListFeatured from './JobListFeatured';
@@ -17,6 +20,7 @@ import PopularSearches from './PopularSearches';
 import MixedPricingCard from './MixedPriceCard';
 import JourneyLink from './JourneyLink';
 import FeedbackButton from './FeedbackButton';
+
 
 // Lazy load non-critical components
 const FAQ = dynamic(() => import('./FAQ'), {
@@ -36,13 +40,27 @@ const SenjaWallOfLove = dynamic(() => import('./WallOfLove'), {
     ssr: false
 });
 
+const TESTIMONIALS_VARIANT: 'paged' | 'wall' = 'paged';
+
+const TestimonialsPagedWallFromDB = dynamic(() => import('./TestimonialsPagedWallFromDB'), {
+    loading: () => (
+        <Box
+            minH={{ base: "320px", md: "380px" }}
+            width="100%"
+            bg={BRAND_SECONDARY_SURFACE}
+            borderRadius="md"
+        />
+    ),
+    ssr: false
+});
+
 const TestimonialsWallFromDB = dynamic(() => import('./TestimonialsWallFromDB'), {
     loading: () => (
         <Box
             minH={{ base: "320px", md: "380px" }}
             width="100%"
-            bg="gray.800"
-            borderRadius="xl"
+            bg={BRAND_SECONDARY_SURFACE}
+            borderRadius="md"
         />
     ),
     ssr: false
@@ -317,9 +335,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
         <VStack spacing={10} align="stretch" minHeight="100vh">
             <Flex direction="column" width="100%" mb={-15}>
                 <Introduction totalJobs={totalJobCount} newJobsToday={newJobsToday} />
-                <Center minHeight="150px"> {/* Reserve space for NewsletterSignupForm */}
-                    <NewsletterSignupForm />
-                </Center>                <Center minHeight="80px"> {/* Reserve space for buttons */}
+                <Center minHeight="80px"> {/* Reserve space for buttons */}
                     <HStack
                         mb={10}
                         spacing={4}
@@ -330,7 +346,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                             <Button
                                 as="a"
                                 href="/signup"
-                                colorScheme="purple"
+                                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                 size="lg"
                                 w={{ base: "90%", md: "auto" }}
                                 px={8}
@@ -343,23 +359,23 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 🚀 Get Full Access {totalJobCount > 0 ? `to ${totalJobCount}+ Jobs` : ''}
                             </Button>
                         )}
-                        <Button
+                        {/* <Button
                             onClick={handleOpenForm}
                             variant="outline"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             w={{ base: "90%", md: "auto" }}
                             px={6}
                             py={6}
                             fontSize={{ base: "sm", md: "md" }}
-                            _hover={{ bg: 'purple.900' }}
+                            _hover={{ bg: BRAND_PRIMARY_SURFACE }}
                         >
                             🔔 Free Job Alerts
-                        </Button>
+                        </Button> */}
                         {/* <Button
                             as="a"
                             href="https://applyall.com/?ref=sportsjobs"
                             target="_blank"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
                         >
                             <Box display={{ base: 'none', md: 'block' }}>
@@ -385,6 +401,36 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                         <FeaturedCompanies />
                         <PopularSearches />
                         <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
+                        <Flex justify="center" mb={4}>
+                            <ChevronDownIcon w={50} h={50} color={BRAND_PRIMARY_LIGHT} />
+                        </Flex>
+                        {/* <Suspense fallback={
+                            <Box
+                                minH={{ base: "1000px", md: "800px" }}
+                                width="100%"
+                                bg="gray.800"
+                                borderRadius="xl"
+                            />
+                        }>
+                            <SenjaWallOfLove />
+                        </Suspense> */}
+                        <Box mt={{ base: 25, md: 50 }} mb={{ base: 6, md: 10 }}>
+                            <Suspense fallback={
+                                <Box
+                                    minH={{ base: "320px", md: "380px" }}
+                                    width="100%"
+                                    bg={BRAND_SECONDARY_SURFACE}
+                                    borderRadius="md"
+                                />
+                            }>
+                                {TESTIMONIALS_VARIANT === 'paged' ? (
+                                    <TestimonialsPagedWallFromDB />
+                                ) : (
+                                    <TestimonialsWallFromDB />
+                                )}
+                            </Suspense>
+                        </Box>
+
                         <Box
                             ref={pricingSectionRef}
                             width="100%"
@@ -401,27 +447,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 <MixedPricingCard />
                             </Suspense>
                         </Box>
-                        {/* <Suspense fallback={
-                            <Box
-                                minH={{ base: "1000px", md: "800px" }}
-                                width="100%"
-                                bg="gray.800"
-                                borderRadius="xl"
-                            />
-                        }>
-                            <SenjaWallOfLove />
-                        </Suspense> */}
 
-                        <Suspense fallback={
-                            <Box
-                                minH={{ base: "320px", md: "380px" }}
-                                width="100%"
-                                bg="gray.800"
-                                borderRadius="xl"
-                            />
-                        }>
-                            <TestimonialsWallFromDB />
-                        </Suspense>
 
                         <Suspense fallback={<Box minH="200px" />}>
                             <FAQ />
@@ -433,7 +459,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                                 <FeedbackButton
                                     size="lg"
                                     variant="solid"
-                                    colorScheme="purple"
+                                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                 />
                             </VStack>
                         </Center>

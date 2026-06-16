@@ -1,8 +1,11 @@
 'use client';
 
-import { Button, Flex, Text, Icon } from '@chakra-ui/react';
-import { FaHome, FaBriefcase } from 'react-icons/fa';
+
+import { Button, Flex, Icon, Text } from '@chakra-ui/react';
+import { FaBriefcase, FaHome } from 'react-icons/fa';
+import { BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
 import Link from 'next/link';
+
 
 interface BackToMainButtonProps {
     variant?: 'compact' | 'full';
@@ -13,13 +16,13 @@ const BackToMainButton = ({ variant = 'full' }: BackToMainButtonProps) => {
         return (
             <Link href="/" passHref>
                 <Button
-                    colorScheme="purple"
+                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                     bg="black"
                     border="1px solid"
-                    borderColor="purple.400"
+                    borderColor={BRAND_PRIMARY_LIGHT}
                     _hover={{
-                        bg: "purple.600",
-                        borderColor: "purple.300",
+                        bg: BRAND_PRIMARY,
+                        borderColor: BRAND_PRIMARY_LIGHT,
                         transform: "translateY(-2px)",
                     }}
                     size="md"
@@ -39,13 +42,13 @@ const BackToMainButton = ({ variant = 'full' }: BackToMainButtonProps) => {
             </Text>
             <Link href="/" passHref>
                 <Button
-                    colorScheme="purple"
+                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                     bg="black"
                     border="2px solid"
-                    borderColor="purple.400"
+                    borderColor={BRAND_PRIMARY_LIGHT}
                     _hover={{
-                        bg: "purple.600",
-                        borderColor: "purple.300",
+                        bg: BRAND_PRIMARY,
+                        borderColor: BRAND_PRIMARY_LIGHT,
                         transform: "translateY(-2px)",
                         boxShadow: "0 8px 25px rgba(128, 90, 213, 0.3)",
                     }}

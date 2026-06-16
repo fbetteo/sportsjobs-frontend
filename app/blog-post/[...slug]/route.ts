@@ -1,6 +1,6 @@
 import { fetchBlogPostDetails } from '@/lib/fetchBlogPostDetails';
 import { NextResponse } from 'next/server';
-
+import { redirect } from 'next/navigation';
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);

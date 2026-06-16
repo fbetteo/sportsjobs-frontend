@@ -1,22 +1,19 @@
-// app/blog/page.tsx
-
 import { fetchBlogPosts } from '../../lib/fetchBlogPosts';
+import Link from 'next/link';
+import { Metadata } from 'next';
 import {
     Box,
     Container,
-    Heading,
-    Text,
-    Link as ChakraLink,
-    Flex,
-    VStack,
-    useColorModeValue,
     Grid,
     GridItem,
-    Image, // Add the import statement for the 'Image' component
+    Heading,
+    Image,
+    Link as ChakraLink,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import { parse, format } from 'date-fns';
-import { Metadata } from 'next';
+import { format, parse } from 'date-fns';
+// app/blog/page.tsx
 
 export async function generateMetadata(): Promise<Metadata> {
 

@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 export async function GET() {
   // Define the content of the robots.txt file
   const robotsTxt = `

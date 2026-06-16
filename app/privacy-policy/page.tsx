@@ -1,5 +1,4 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-
 export async function generateMetadata() {
     return {
         title: 'Privacy Policy - SportsJobs Online',

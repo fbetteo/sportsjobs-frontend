@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 export async function GET() {
   const llmsTxt = `
 # SportsJobs Online - Find Sports Analytics Jobs, Data Science Jobs in Sports & Betting

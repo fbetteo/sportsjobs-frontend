@@ -1,8 +1,20 @@
 'use client';
-import { useState, useEffect, useRef } from "react";
-import { fetchJobs } from "../../../lib/fetchJobs";
-import { fetchJobsFeatured } from "@/lib/fetchJobsFeatured";
-import { Box, Button, Center, Flex, Heading, HStack, VStack, Text } from "@chakra-ui/react";
+
+import { useEffect, useRef, useState } from 'react';
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Heading,
+    HStack,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import { BRAND_PRIMARY_COLOR_SCHEME } from '@/lib/uiTokens';
+import { parse } from 'date-fns';
+import { fetchJobs } from '../../../lib/fetchJobs';
+import { fetchJobsFeatured } from '@/lib/fetchJobsFeatured';
 import JobList from "../../../components/JobList";
 import JobFilter from '../../../components/JobFilter';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -14,6 +26,7 @@ import SenjaWallOfLove from "../../../components/WallOfLove";
 import JobListFeatured from "../../../components/JobListFeatured";
 import FAQ from "../../../components/FAQ";
 import PostJobLink from "../../../components/PostJobLink";
+
 
 type Props = {
     params: { slug: string }
@@ -213,7 +226,7 @@ export default function CompanyContent({ params }: Props) {
                     >
                         <Button
                             onClick={handleOpenForm}
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
                         >
                             🔔 Receive Emails For New Jobs
@@ -222,7 +235,7 @@ export default function CompanyContent({ params }: Props) {
                             as="a"
                             href="https://applyall.com/?ref=sportsjobs"
                             target="_blank"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
                         >
                             <Box display={{ base: 'none', md: 'block' }}>

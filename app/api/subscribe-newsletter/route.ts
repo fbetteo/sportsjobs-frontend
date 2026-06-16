@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
 export async function POST(req: NextRequest) {

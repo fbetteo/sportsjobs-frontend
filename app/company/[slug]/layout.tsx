@@ -1,5 +1,5 @@
 import { generateMetadata } from './metadata';
-
+import React, { ReactNode } from 'react';
 export { generateMetadata };
 
 export default function LocationLayout({

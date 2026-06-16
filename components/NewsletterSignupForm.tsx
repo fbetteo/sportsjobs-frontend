@@ -1,20 +1,37 @@
-// components/SignupForm.tsx
-
 import React, { useState } from 'react';
-import { Box, Button, Input, FormControl, FormLabel, useToast, Flex, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Text,
+    useToast
+} from '@chakra-ui/react';
+import {
+    BRAND_FOREGROUND,
+    BRAND_PRIMARY,
+    BRAND_PRIMARY_LIGHT,
+    BRAND_SECONDARY
+} from '@/lib/uiTokens';
 
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
-const NewsletterSignupForm = () => {
+interface NewsletterSignupFormProps {
+    variant?: 'default' | 'hero';
+}
+
+const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps) => {
     const [email, setEmail] = useState('');
     const [showUpscribe, setShowUpscribe] = useState(false);
     const toast = useToast();
+    const isHero = variant === 'hero';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            // Record signup in database
             try {
                 await fetch('/api/add-newsletter-signup', {
                     method: 'POST',
@@ -28,16 +45,13 @@ const NewsletterSignupForm = () => {
                 });
             } catch (dbError) {
                 console.error('Database recording error:', dbError);
-                // Don't show this error to user since newsletter subscription was successful
             }
 
-            // Track Google Ads newsletter conversion
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {
-                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq' // Replace with your newsletter conversion label
+                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq'
                 });
 
-                // Also track as standard Google Analytics lead event
                 window.gtag('event', 'generate_lead', {
                     'event_category': 'engagement',
                     'event_label': 'newsletter_form',
@@ -72,7 +86,6 @@ const NewsletterSignupForm = () => {
             });
             setEmail('');
             setShowUpscribe(true);
-
         } catch (error) {
             toast({
                 title: 'Error',
@@ -85,16 +98,34 @@ const NewsletterSignupForm = () => {
     };
 
     return (
-        <Box p={4} boxShadow="md" borderRadius="md" mb={4}>
+        <Box
+            p={isHero ? 0 : 4}
+            boxShadow={isHero ? 'none' : 'md'}
+            borderRadius={isHero ? 'full' : 'md'}
+            mb={isHero ? 0 : 4}
+            w={isHero ? { base: '100%', md: '520px' } : 'auto'}
+            maxW="100%"
+        >
             {!showUpscribe ? (
                 <Box as="form" onSubmit={handleSubmit}>
-                    <Text mb={2} fontSize="sm" color="gray.300">
-                        Get the free weekly newsletter with jobs and sports analytics news.  💡
-                    </Text>
-                    <Text mb={2} fontSize="xs" color="gray.400">
-                        Substack may show optional support, but you can skip it and subscribe for free.
-                    </Text>
-                    <Flex alignItems="center">
+                    {!isHero && (
+                        <>
+                            <Text mb={2} fontSize="sm" color="gray.300">
+                                Get the free weekly newsletter with jobs and sports analytics news.
+                            </Text>
+                            <Text mb={2} fontSize="xs" color="gray.400">
+                                Substack may show optional support, but you can skip it and subscribe for free.
+                            </Text>
+                        </>
+                    )}
+                    <Flex
+                        alignItems="center"
+                        border={isHero ? '2px solid' : undefined}
+                        borderColor={isHero ? BRAND_SECONDARY : undefined}
+                        borderRadius={isHero ? 'full' : undefined}
+                        overflow={isHero ? 'hidden' : undefined}
+                        h={isHero ? { base: '46px', md: '50px' } : 'auto'}
+                    >
                         <FormControl>
                             <FormLabel htmlFor="email" srOnly>Email</FormLabel>
                             <Input
@@ -105,17 +136,28 @@ const NewsletterSignupForm = () => {
                                 placeholder="Enter your email"
                                 required
                                 mr={0}
+                                border={isHero ? '0' : undefined}
                                 borderRightRadius="0"
+                                borderLeftRadius={isHero ? 'full' : undefined}
+                                bg={isHero ? 'transparent' : undefined}
+                                color={isHero ? BRAND_FOREGROUND : undefined}
+                                _placeholder={isHero ? { color: 'whiteAlpha.600' } : undefined}
+                                _focusVisible={isHero ? { boxShadow: 'none' } : undefined}
                             />
                         </FormControl>
                         <Button
-                            bg="purple.500"
-                            color="white"
-                            _hover={{ bg: 'purple.400' }}
-                            _active={{ bg: 'purple.600' }}
+                            bg={isHero ? BRAND_SECONDARY : BRAND_PRIMARY}
+                            color={BRAND_FOREGROUND}
+                            _hover={{ bg: isHero ? BRAND_PRIMARY : BRAND_PRIMARY_LIGHT }}
+                            _active={{ bg: BRAND_PRIMARY }}
                             type="submit"
                             borderLeftRadius="0"
-                            borderRightRadius="md"
+                            borderRightRadius={isHero ? 'full' : 'md'}
+                            h="100%"
+                            minW={isHero ? { base: '118px', md: '130px' } : undefined}
+                            fontWeight="bold"
+                            fontFamily={isHero ? 'heading' : undefined}
+                            textTransform={isHero ? 'uppercase' : undefined}
                         >
                             Join
                         </Button>
@@ -131,4 +173,5 @@ const NewsletterSignupForm = () => {
         </Box>
     );
 };
+
 export default NewsletterSignupForm;

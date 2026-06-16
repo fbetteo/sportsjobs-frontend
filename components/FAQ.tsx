@@ -1,7 +1,15 @@
 // Import necessary components from Chakra UI
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Heading } from '@chakra-ui/react';
 import Script from 'next/script';
 
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Heading
+} from '@chakra-ui/react';
 // Define FAQ data once - single source of truth
 const faqData = [
     {
@@ -69,7 +77,7 @@ const FAQ = () => {
                     <AccordionItem key={index}>
                         <h2>
                             <AccordionButton justifyContent="space-between">
-                                <Box flex="1" textAlign="left" fontSize="xl" fontWeight="bold" maxW="3xl" width="100%">
+                                <Box flex="1" textAlign="left" fontSize="xl" fontWeight="regular" maxW="3xl" width="100%">
                                     {faq.question}
                                 </Box>
                                 <AccordionIcon textAlign="right" />

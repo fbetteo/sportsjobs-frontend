@@ -1,5 +1,7 @@
 'use client';
 
+
+import { useEffect, useMemo, useState } from 'react';
 import {
     Avatar,
     Box,
@@ -7,11 +9,9 @@ import {
     Icon,
     Skeleton,
     Text,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-
 type DbTestimonial = {
     id?: string | number;
     name?: string;

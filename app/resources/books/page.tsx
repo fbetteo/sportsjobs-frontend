@@ -1,24 +1,25 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
+    Container,
+    Divider,
+    Grid,
+    HStack,
+    Heading,
     Image,
-    Divider
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaBook, FaArrowLeft, FaStar } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaExternalLinkAlt, FaStar } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
 const BookCard = ({
     title,
     author,
@@ -42,14 +43,14 @@ const BookCard = ({
 }) => {
     const getDifficultyColor = () => {
         switch (difficulty) {
-            case 'Beginner': return 'green';
-            case 'Intermediate': return 'orange';
-            case 'Advanced': return 'red';
+            case 'Beginner': return BRAND_SECONDARY_COLOR_SCHEME;
+            case 'Intermediate': return BRAND_PRIMARY_COLOR_SCHEME;
+            case 'Advanced': return BRAND_PRIMARY_COLOR_SCHEME;
         }
     };
 
     return (
-        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: 'teal.400' }}>
+        <Card bg="gray.800" borderColor="gray.600" _hover={{ borderColor: BRAND_SECONDARY_LIGHT }}>
             <CardBody>
                 <HStack align="start" spacing={4}>
                     {imageUrl && (
@@ -74,8 +75,8 @@ const BookCard = ({
                                 {/* <Badge colorScheme={getDifficultyColor()} variant="solid">
                                     {difficulty}
                                 </Badge> */}
-                                <HStack spacing={1}>
-                                    <FaStar color="gold" size="12px" />
+                                <HStack spacing={1} color={BRAND_PRIMARY_LIGHT}>
+                                    <FaStar color="currentColor" size="12px" />
                                     <Text fontSize="xs" color="gray.300">{rating}/5</Text>
                                 </HStack>
                             </HStack>
@@ -89,7 +90,7 @@ const BookCard = ({
                             <Text fontSize="xs" color="gray.400" fontWeight="semibold">Focus Areas:</Text>
                             <HStack wrap="wrap">
                                 {focus.map((area, index) => (
-                                    <Badge key={index} colorScheme="purple" variant="outline" fontSize="xs">
+                                    <Badge key={index} colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="outline" fontSize="xs">
                                         {area}
                                     </Badge>
                                 ))}
@@ -101,7 +102,7 @@ const BookCard = ({
                             href={amazonUrl}
                             isExternal
                             size="sm"
-                            colorScheme="teal"
+                            colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                             rightIcon={<FaExternalLinkAlt />}
                             _hover={{ textDecoration: 'none' }}
                         >
@@ -128,7 +129,7 @@ export default function BooksPage() {
                         href="/resources"
                         leftIcon={<FaArrowLeft />}
                         variant="ghost"
-                        colorScheme="teal"
+                        colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                         mb={4}
                         _hover={{ textDecoration: 'none' }}
                     >
@@ -231,7 +232,7 @@ export default function BooksPage() {
                             <Text color="gray.400" fontSize="sm">• Industry Career Guides</Text>
                         </VStack>
                     </Grid>
-                    <Text color="teal.300" fontSize="sm" mt={4} fontStyle="italic">
+                    <Text color={BRAND_SECONDARY_LIGHT} fontSize="sm" mt={4} fontStyle="italic">
                         💡 Have a book recommendation? Contact us and we&apos;ll add it to our collection!
                     </Text>
                 </Box>
@@ -240,12 +241,12 @@ export default function BooksPage() {
                 {!isAuthenticated && (
                     <Box
                         w="full"
-                        bg="purple.900"
+                        bg={BRAND_PRIMARY_SURFACE}
                         p={6}
                         borderRadius="lg"
                         textAlign="center"
                         borderWidth="1px"
-                        borderColor="purple.600"
+                        borderColor={BRAND_PRIMARY_LIGHT}
                     >
                         <Heading size="lg" mb={3} color="white">
                             📚 Get More Learning Resources
@@ -256,7 +257,7 @@ export default function BooksPage() {
                         <Button
                             as={Link}
                             href="/signup"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             size="lg"
                             _hover={{ textDecoration: 'none' }}
                         >

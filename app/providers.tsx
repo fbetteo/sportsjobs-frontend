@@ -1,10 +1,11 @@
 // app/providers.tsx
 "use client";
 
-import { ChakraProvider } from "@chakra-ui/react";
+
+import React, { ReactNode, Suspense, useEffect } from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
 import posthog from 'posthog-js';
 import { PostHogProvider, usePostHog } from 'posthog-js/react';
 import Header from '../components/Header';
@@ -39,6 +40,9 @@ function SuspendedPostHogPageView() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const isFocusedSignupFlow = pathname?.startsWith('/signup');
+
     useEffect(() => {
         try {
             // Log to verify env variables
@@ -62,5 +66,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    return (<PostHogProvider client={posthog}> <ChakraProvider theme={theme}><UserProvider><Header />{children} <Footer /> <NewsletterSignupPopup /></UserProvider></ChakraProvider ></PostHogProvider>);
+    return (
+        <PostHogProvider client={posthog}>
+            <ChakraProvider theme={theme}>
+                <UserProvider>
+                    {!isFocusedSignupFlow && <Header />}
+                    {children}
+                    {!isFocusedSignupFlow && <Footer />}
+                    {!isFocusedSignupFlow && <NewsletterSignupPopup />}
+                </UserProvider>
+            </ChakraProvider>
+        </PostHogProvider>
+    );
 }

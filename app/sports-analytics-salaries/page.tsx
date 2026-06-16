@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import SportsAnalyticsSalariesContent from '@/components/SportsAnalyticsSalariesContent';
 import { salaryFaqItems } from '@/lib/sportsAnalyticsSalariesContent';
-
 export const metadata: Metadata = {
   title: 'Sports Analytics Salaries in the United States | SportsJobs Online',
   description:
