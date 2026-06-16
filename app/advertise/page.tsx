@@ -1,17 +1,18 @@
 'use client';
+
 import {
     Box,
-    Container,
-    Heading,
-    Text,
-    VStack,
-    HStack,
-    Grid,
     Button,
-    Image,
-    Flex
+    Container,
+    Grid,
+    Heading,
+    HStack,
+    Text,
+    VStack
 } from '@chakra-ui/react';
+import { BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME } from '@/lib/uiTokens';
 import Link from 'next/link';
+
 
 const AdvertisePage = () => {
     const advertisingOptions = [
@@ -28,7 +29,7 @@ const AdvertisePage = () => {
             price: "$250 per month",
             description: "* Unlimited job posts.\n* Highlight your company in the homepage.\n* Feature your jobs posts in the website and newsletter.\n* Get promoted in LinkedIn.\n* Reach thousands of professionals in the sports industry.",
             buttonText: "Email us to get all the details",
-            buttonColor: "teal",
+            buttonColor: BRAND_SECONDARY_COLOR_SCHEME,
             buttonLink: "mailto:franco@sportsjobs.online?subject=Company Highlighting Inquiry"
         },
         {
@@ -76,7 +77,7 @@ const AdvertisePage = () => {
                                 <Box
                                     w={12}
                                     h={12}
-                                    bg="purple.600"
+                                    bg={BRAND_PRIMARY}
                                     borderRadius="lg"
                                     display="flex"
                                     alignItems="center"
@@ -180,7 +181,7 @@ const AdvertisePage = () => {
                         w="full"
                         py={10}
                         px={6}
-                        bg="purple.900"
+                        bg={BRAND_PRIMARY_SURFACE}
                         borderRadius="xl"
                         maxW="6xl"
                     >
@@ -199,7 +200,7 @@ const AdvertisePage = () => {
                             textAlign="center"
                         >
                             <VStack>
-                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                <Text fontSize="4xl" fontWeight="bold" color={BRAND_PRIMARY_LIGHT}>
                                     2,000+
                                 </Text>
                                 <Text fontSize="md">
@@ -207,7 +208,7 @@ const AdvertisePage = () => {
                                 </Text>
                             </VStack>
                             <VStack>
-                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                <Text fontSize="4xl" fontWeight="bold" color={BRAND_PRIMARY_LIGHT}>
                                     5,000+
                                 </Text>
                                 <Text fontSize="md">
@@ -215,7 +216,7 @@ const AdvertisePage = () => {
                                 </Text>
                             </VStack>
                             <VStack>
-                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                <Text fontSize="4xl" fontWeight="bold" color={BRAND_PRIMARY_LIGHT}>
                                     1,000+
                                 </Text>
                                 <Text fontSize="md">
@@ -223,7 +224,7 @@ const AdvertisePage = () => {
                                 </Text>
                             </VStack>
                             <VStack>
-                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                <Text fontSize="4xl" fontWeight="bold" color={BRAND_PRIMARY_LIGHT}>
                                     63%
                                 </Text>
                                 <Text fontSize="md">
@@ -231,7 +232,7 @@ const AdvertisePage = () => {
                                 </Text>
                             </VStack>
                             <VStack>
-                                <Text fontSize="4xl" fontWeight="bold" color="purple.300">
+                                <Text fontSize="4xl" fontWeight="bold" color={BRAND_PRIMARY_LIGHT}>
                                     12%
                                 </Text>
                                 <Text fontSize="md">
@@ -250,7 +251,7 @@ const AdvertisePage = () => {
                             as="a"
                             href="mailto:franco@sportsjobs.online?subject=Advertising Inquiry"
                             variant="outline"
-                            colorScheme="purple"
+                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                             size="lg"
                         >
                             Contact us directly

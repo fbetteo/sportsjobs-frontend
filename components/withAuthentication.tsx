@@ -1,8 +1,7 @@
 // import { useUser } from '@auth0/nextjs-auth0';
-// import { useRouter } from 'next/navigation';
-// import { ReactNode, useEffect } from 'react';
-
-// interface WithAuthenticationProps {
+import { ReactNode, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+// // // interface WithAuthenticationProps {
 //     children: ReactNode;
 // }
 

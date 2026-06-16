@@ -1,19 +1,31 @@
-import { Box, Heading, Text, Flex, Tag, Image, VStack, HStack, Divider, Badge, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import Link from 'next/link';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
+// import { encodeJobId } from '@/utils/jobIdEncoder';
 import {
-    BRAND_PRIMARY_COLOR_SCHEME,
+    Badge,
+    Box,
+    Divider,
+    Flex,
+    Heading,
+    HStack,
+    Image,
+    LinkBox,
+    LinkOverlay,
+    Tag,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import {
     BRAND_PRIMARY,
+    BRAND_PRIMARY_COLOR_SCHEME,
     BRAND_PRIMARY_LIGHT,
     BRAND_PRIMARY_SURFACE,
     BRAND_PRIMARY_SURFACE_HOVER,
     BRAND_SECONDARY,
     BRAND_SECONDARY_LIGHT,
     BRAND_SECONDARY_SURFACE,
-    BRAND_SECONDARY_SURFACE_HOVER,
+    BRAND_SECONDARY_SURFACE_HOVER
 } from '@/lib/uiTokens';
-// import { encodeJobId } from '@/utils/jobIdEncoder';
-
 interface JobCardProps {
     id: string;
     title: string;

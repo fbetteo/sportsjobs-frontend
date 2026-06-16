@@ -2,7 +2,6 @@ import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
 import type { Session } from '@auth0/nextjs-auth0';
 import type { NextRequest } from 'next/server';
 import { AuthIdentity, ensureBackendUserProfile } from '../../../../lib/userProfileBackend';
-
 export const GET = handleAuth({
   callback: handleCallback({
     afterCallback: async (_req: NextRequest, session: Session) => {

@@ -1,9 +1,10 @@
 // components/PricingCard.tsx
 'use client';
+
 import React from 'react';
 import { Box, Button, Text, VStack } from '@chakra-ui/react';
+import { BRAND_SECONDARY_COLOR_SCHEME } from '@/lib/uiTokens';
 import { useRouter } from 'next/navigation';
-
 interface PricingCardProps {
     planName: string;
     price: string;
@@ -27,7 +28,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ planName, price, features }) 
                         <Text key={index}>{feature}</Text>
                     ))}
                 </VStack>
-                <Button colorScheme="teal" onClick={handleSelectPlan}>Select Plan</Button>
+                <Button colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={handleSelectPlan}>Select Plan</Button>
             </VStack>
         </Box>
     );

@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     const company = params.slug.replace(/-/g, ' ').split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))

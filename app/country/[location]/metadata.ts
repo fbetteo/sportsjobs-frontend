@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-
 export async function generateMetadata({ params }: { params: { location: string } }): Promise<Metadata> {
     const location = params.location.replace(/-/g, ' ');
 

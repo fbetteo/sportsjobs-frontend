@@ -1,7 +1,6 @@
 import HomeContent from '../components/HomeContent';
 import type { Metadata } from 'next';
 import { fetchJobsServer, fetchJobsFeaturedServer } from '../lib/fetchJobsServer';
-
 export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.sportsjobs.online',

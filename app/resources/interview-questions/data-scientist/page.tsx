@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import SportsDataScientistInterviewContent from '@/components/SportsDataScientistInterviewContent';
 import { dataScientistInterviewQuestions } from '@/lib/sportsDataScientistInterviewContent';
-
 const pageUrl = 'https://www.sportsjobs.online/resources/interview-questions/data-scientist';
 const pageTitle = 'Sports Data Scientist Interview Questions | SportsJobs Online';
 const pageDescription =

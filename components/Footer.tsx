@@ -1,15 +1,18 @@
 // components/Footer.tsx
-import { Box, Text, Link, HStack, IconButton, Grid, VStack } from '@chakra-ui/react';
-import { FaTwitter, FaLinkedin } from 'react-icons/fa';
+import JobsByLocation from './JobsByLocation'; import {
+    Box,
+    Grid,
+    HStack,
+    IconButton,
+    Image,
+    Link,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import { FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { BRAND_PRIMARY, BRAND_PRIMARY_LIGHT, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE, BRAND_SECONDARY_SURFACE_HOVER } from '@/lib/uiTokens';
+// Import the new component
 
-import JobsByLocation from './JobsByLocation'; // Import the new component
-import {
-    BRAND_PRIMARY,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_SECONDARY_LIGHT,
-    BRAND_SECONDARY_SURFACE,
-    BRAND_SECONDARY_SURFACE_HOVER,
-} from '@/lib/uiTokens';
 
 const Footer = () => {
     return (

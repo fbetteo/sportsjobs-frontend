@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import SportsAnalyticsInternshipsContent from '@/components/SportsAnalyticsInternshipsContent';
 import { fetchJobsServer } from '@/lib/fetchJobsServer';
 import { internshipFaqItems } from '@/lib/sportsAnalyticsInternshipsContent';
-
+import { format } from 'date-fns';
 export const revalidate = 300;
 
 export const metadata: Metadata = {

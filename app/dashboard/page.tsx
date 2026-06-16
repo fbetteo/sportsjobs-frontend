@@ -1,27 +1,27 @@
 'use client';
 
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  SimpleGrid,
-  Spinner,
-  Text,
-  VStack,
-  useToast,
-} from '@chakra-ui/react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import {
+    Badge,
+    Box,
+    Button,
+    Container,
+    Flex,
+    Heading,
+    HStack,
+    Icon,
+    SimpleGrid,
+    Spinner,
+    Text,
+    useToast,
+    VStack
+} from '@chakra-ui/react';
 import { FaArrowRight, FaBell, FaBookmark, FaCreditCard, FaFileAlt, FaSearch } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import OnboardingModal from '../../components/OnboardingModal';
 import { OnboardingAnswers, UserProfile, hasPremiumAccess } from '../../lib/userProfile';
-
 const upgradePlans = [
   {
     name: 'Monthly',
@@ -195,7 +195,7 @@ export default function DashboardPage() {
   if (isUserLoading || isProfileLoading) {
     return (
       <Flex minH="60vh" align="center" justify="center">
-        <Spinner color="teal.300" size="xl" />
+        <Spinner color={BRAND_SECONDARY_LIGHT} size="xl" />
       </Flex>
     );
   }
@@ -216,7 +216,7 @@ export default function DashboardPage() {
         <Flex justify="space-between" align={{ base: 'start', md: 'center' }} gap={4} direction={{ base: 'column', md: 'row' }}>
           <Box>
             <HStack spacing={3} mb={3}>
-              <Badge colorScheme={isPremium ? 'green' : 'teal'}>{isPremium ? 'Premium' : 'Free'}</Badge>
+              <Badge colorScheme={isPremium ? 'green' : BRAND_SECONDARY_COLOR_SCHEME}>{isPremium ? 'Premium' : 'Free'}</Badge>
               {profile.backendStatus === 'pending_backend' && (
                 <Badge colorScheme="yellow">Profile sync pending</Badge>
               )}
@@ -228,7 +228,7 @@ export default function DashboardPage() {
           </Box>
           <Button
             leftIcon={<FaCreditCard />}
-            colorScheme="teal"
+            colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
             variant={isPremium ? 'outline' : 'solid'}
             onClick={() => document.getElementById('upgrade-plans')?.scrollIntoView({ behavior: 'smooth' })}
           >
@@ -247,10 +247,10 @@ export default function DashboardPage() {
               p={5}
               minH="190px"
             >
-              <Icon as={feature.icon} color="teal.300" boxSize={5} mb={4} />
+              <Icon as={feature.icon} color={BRAND_SECONDARY_LIGHT} boxSize={5} mb={4} />
               <Heading size="sm" mb={2}>{feature.title}</Heading>
               <Text color="gray.300" fontSize="sm" minH="60px">{feature.description}</Text>
-              <Badge mt={4} colorScheme={feature.status.includes('Premium') ? 'purple' : 'gray'}>
+              <Badge mt={4} colorScheme={feature.status.includes('Premium') ? BRAND_PRIMARY_COLOR_SCHEME : 'gray'}>
                 {feature.status}
               </Badge>
             </Box>
@@ -263,7 +263,7 @@ export default function DashboardPage() {
             <Text color="gray.300" mb={5}>
               Onboarding answers will power saved searches, job alerts, and CV review context.
             </Text>
-            <Button variant="outline" colorScheme="teal" onClick={() => setIsOnboardingOpen(true)}>
+            <Button variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={() => setIsOnboardingOpen(true)}>
               Edit onboarding
             </Button>
           </Box>
@@ -273,7 +273,7 @@ export default function DashboardPage() {
             <Text color="gray.300" mb={5}>
               Start from the live job board while personalized matching is connected.
             </Text>
-            <Button rightIcon={<FaArrowRight />} colorScheme="teal" variant="outline" onClick={() => router.push('/')}>
+            <Button rightIcon={<FaArrowRight />} colorScheme={BRAND_SECONDARY_COLOR_SCHEME} variant="outline" onClick={() => router.push('/')}>
               Browse jobs
             </Button>
           </Box>
@@ -286,20 +286,20 @@ export default function DashboardPage() {
               <Box
                 key={plan.name}
                 borderWidth="1px"
-                borderColor={plan.highlighted ? 'teal.300' : 'gray.700'}
-                bg={plan.highlighted ? 'teal.900' : 'gray.900'}
+                borderColor={plan.highlighted ? BRAND_SECONDARY_LIGHT : 'gray.700'}
+                bg={plan.highlighted ? BRAND_SECONDARY_SURFACE : 'gray.900'}
                 borderRadius="md"
                 p={6}
               >
                 <Flex justify="space-between" align="center" mb={4}>
                   <Heading size="md">{plan.name}</Heading>
-                  {plan.highlighted && <Badge colorScheme="teal">Best value</Badge>}
+                  {plan.highlighted && <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>Best value</Badge>}
                 </Flex>
                 <Text fontSize="3xl" fontWeight="bold">{plan.price}</Text>
                 <Text color="gray.300" mb={6}>{plan.period}</Text>
                 <Button
                   w="full"
-                  colorScheme="teal"
+                  colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
                   rightIcon={<FaArrowRight />}
                   onClick={() => handleUpgrade(plan.name, plan.priceId)}
                   isLoading={checkoutPlan === plan.name}

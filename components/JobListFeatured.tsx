@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Box, List, ListItem, Spinner } from '@chakra-ui/react';
 import { fetchJobs } from '../lib/fetchJobs';
 import { JobCard } from './JobCard';

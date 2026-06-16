@@ -1,31 +1,25 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
+    Container,
+    Divider,
+    Grid,
+    HStack,
+    Heading,
     Image,
-    Divider
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaBook, FaArrowLeft, FaStar } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaExternalLinkAlt, FaStar } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import {
-    BRAND_PRIMARY_COLOR_SCHEME,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_PRIMARY_SURFACE,
-    BRAND_SECONDARY_COLOR_SCHEME,
-    BRAND_SECONDARY_LIGHT,
-} from '@/lib/uiTokens';
-
 const BookCard = ({
     title,
     author,
@@ -96,7 +90,7 @@ const BookCard = ({
                             <Text fontSize="xs" color="gray.400" fontWeight="semibold">Focus Areas:</Text>
                             <HStack wrap="wrap">
                                 {focus.map((area, index) => (
-                                    <Badge key={index} colorScheme="purple" variant="outline" fontSize="xs">
+                                    <Badge key={index} colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="outline" fontSize="xs">
                                         {area}
                                     </Badge>
                                 ))}

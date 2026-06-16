@@ -1,27 +1,35 @@
 'use client';
 
+
 import {
     Box,
     Button,
     Container,
     Heading,
-    Text,
-    VStack,
-    SimpleGrid,
     Icon,
     List,
-    ListItem,
     ListIcon,
+    ListItem,
+    SimpleGrid,
+    Text,
     useColorModeValue,
-    Link,
+    VStack
 } from '@chakra-ui/react';
-import { FaMoneyBillWave, FaHandshake, FaLink, FaChartLine, FaShareAlt, FaUserCheck, FaMoneyCheckAlt } from 'react-icons/fa';
+import {
+    FaChartLine,
+    FaHandshake,
+    FaLink,
+    FaMoneyBillWave,
+    FaMoneyCheckAlt,
+    FaShareAlt,
+    FaUserCheck
+} from 'react-icons/fa';
+import { BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_SECONDARY } from '@/lib/uiTokens';
 import { MdCheckCircle } from 'react-icons/md';
-
 const AffiliatePage = () => {
     const AFFILIATE_URL = "https://sportsjobs.promotekit.com"; // Replace with your actual URL
 
-    const bgGradient = "linear(to-r, purple.600, teal.600)";
+    const bgGradient = `linear(to-r, ${BRAND_PRIMARY}, ${BRAND_SECONDARY})`;
     const cardBg = useColorModeValue('gray.800', 'gray.700');
 
     return (
@@ -44,7 +52,7 @@ const AffiliatePage = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     size="lg"
-                    colorScheme="purple"
+                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                     leftIcon={<FaMoneyBillWave />}
                     px={8}
                     py={6}
@@ -70,7 +78,7 @@ const AffiliatePage = () => {
                         spacing={4}
                         align="center"
                     >
-                        <Icon as={FaShareAlt} w={10} h={10} color="purple.400" />
+                        <Icon as={FaShareAlt} w={10} h={10} color={BRAND_PRIMARY_LIGHT} />
                         <Heading size="md" textAlign="center">Share your link</Heading>
                         <Text textAlign="center">
                             Become an affiliate and share your personalized link.
@@ -85,7 +93,7 @@ const AffiliatePage = () => {
                         spacing={4}
                         align="center"
                     >
-                        <Icon as={FaUserCheck} w={10} h={10} color="purple.400" />
+                        <Icon as={FaUserCheck} w={10} h={10} color={BRAND_PRIMARY_LIGHT} />
                         <Heading size="md" textAlign="center">Somebody signs up</Heading>
                         <Text textAlign="center">
                             Someone clicks your link and buys a subscription. They&apos;re tracked to you, and you get 30% for life.
@@ -100,7 +108,7 @@ const AffiliatePage = () => {
                         spacing={4}
                         align="center"
                     >
-                        <Icon as={FaMoneyCheckAlt} w={10} h={10} color="purple.400" />
+                        <Icon as={FaMoneyCheckAlt} w={10} h={10} color={BRAND_PRIMARY_LIGHT} />
                         <Heading size="md" textAlign="center">Earn $$$</Heading>
                         <Text textAlign="center">
                             Check in any time to see how many customers you&apos;ve referred, and redeem your payments with one click.
@@ -115,7 +123,7 @@ const AffiliatePage = () => {
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
                     <Box p={6} bg={cardBg} borderRadius="lg" boxShadow="xl">
                         <VStack align="start" spacing={4}>
-                            <Icon as={FaHandshake} w={10} h={10} color="purple.400" />
+                            <Icon as={FaHandshake} w={10} h={10} color={BRAND_PRIMARY_LIGHT} />
                             <Heading size="md">Easy to Join</Heading>
                             <List spacing={3}>
                                 <ListItem>
@@ -135,7 +143,7 @@ const AffiliatePage = () => {
                     </Box>
                     <Box p={6} bg={cardBg} borderRadius="lg" boxShadow="xl">
                         <VStack align="start" spacing={4}>
-                            <Icon as={FaChartLine} w={10} h={10} color="teal.400" />
+                            <Icon as={FaChartLine} w={10} h={10} color={BRAND_SECONDARY} />
                             <Heading size="md">High Earning Potential</Heading>
                             <List spacing={3}>
                                 <ListItem>
@@ -169,7 +177,7 @@ const AffiliatePage = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         size="lg"
-                        colorScheme="purple"
+                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                         leftIcon={<FaLink />}
                         _hover={{
                             transform: 'translateY(-2px)',

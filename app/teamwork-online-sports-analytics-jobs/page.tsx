@@ -1,13 +1,10 @@
 import type { Metadata } from 'next';
 import TeamworkOnlineAlternativeContent from '@/components/TeamworkOnlineAlternativeContent';
 import { fetchJobsServer } from '@/lib/fetchJobsServer';
-import {
-  buildAnalyticsInventory,
-  filterAnalyticsJobs,
-  teamworkOnlineFaqItems,
-} from '@/lib/teamworkOnlineAlternativeContent';
+import { buildAnalyticsInventory, filterAnalyticsJobs, teamworkOnlineFaqItems } from '@/lib/teamworkOnlineAlternativeContent';
 import type { AnalyticsSearchJob } from '@/lib/teamworkOnlineAlternativeContent';
 
+import { format } from 'date-fns';
 export const revalidate = 300;
 
 export const metadata: Metadata = {

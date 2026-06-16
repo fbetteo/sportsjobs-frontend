@@ -1,80 +1,170 @@
 // components/Introduction.tsx
 'use client';
+
 import React from 'react';
-import { Box, Heading, Text, VStack, HStack, Flex, Icon, Divider } from '@chakra-ui/react';
-import { FaBriefcase, FaBolt, FaCheckCircle } from 'react-icons/fa';
-import { BRAND_FOREGROUND } from '../lib/uiTokens';
+import localFont from 'next/font/local';
+import { Box, Flex, Heading, HStack, Icon, Text, VStack } from '@chakra-ui/react';
+import { FaBriefcase, FaSyncAlt } from 'react-icons/fa';
+import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_SECONDARY } from '@/lib/uiTokens';
+import NewsletterSignupForm from './NewsletterSignupForm';
 
 interface IntroductionProps {
     totalJobs?: number;
     newJobsToday?: number;
 }
 
-const Introduction: React.FC<IntroductionProps> = ({ totalJobs, newJobsToday }) => {
+const sugoPro = localFont({
+    src: '../app/fonts/Sugo-Pro-Display-Bold-trial.ttf',
+    display: 'swap',
+});
+
+const studioGrotesk = localFont({
+    src: '../app/fonts/StudioGrotesk-Regular.ttf',
+    display: 'swap',
+});
+
+const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
     return (
-        <VStack spacing={6} align="center" p={4} mb={1}>
-            {/* Main Headline */}
-            <Heading
-                as="h1"
-                size="2xl"
-                textAlign="center"
-                bgGradient="linear(to-r, white, purple.200)"
-                bgClip="text"
-                fontWeight="extrabold"
+        <Box as="section" bg={BRAND_BACKGROUND}>
+            <Box
+                bg={BRAND_BACKGROUND}
+                backgroundImage="url('/hero-sportsjobs-basketball-bg.png')"
+                backgroundRepeat="no-repeat"
+                backgroundSize="cover"
+                backgroundPosition={{ base: '65% center', md: 'center center' }}
+                minH={{ base: '500px', md: '640px', lg: '720px' }}
+                w="100%"
+                display="flex"
+                alignItems="center"
+                px={{ base: 6, md: 12, lg: 20 }}
+                py={{ base: 10, md: 16 }}
+                overflow="hidden"
             >
-                Find Your Dream Job in Sports Analytics
-            </Heading>
+                <Heading
+                    as="h1"
+                    color={BRAND_FOREGROUND}
+                    fontWeight="normal"
+                    lineHeight="0.98"
+                    letterSpacing="0"
+                    textTransform="uppercase"
+                    maxW={{ base: '330px', md: '620px', lg: '720px' }}
+                >
+                    <Box
+                        as="span"
+                        display="block"
+                        className={sugoPro.className}
+                        fontSize={{ base: '52px', md: '84px', lg: '104px' }}
+                    >
+                        Find your
+                    </Box>
+                    <Box
+                        as="span"
+                        display="block"
+                        className={sugoPro.className}
+                        color={BRAND_PRIMARY}
+                        fontSize={{ base: '52px', md: '84px', lg: '104px' }}
+                        mt={{ base: 1, md: 3 }}
+                    >
+                        Dream job
+                    </Box>
+                    <Box
+                        as="span"
+                        display="block"
+                        className={studioGrotesk.className}
+                        fontSize={{ base: '46px', md: '76px', lg: '94px' }}
+                        fontWeight="300"
+                        mt={{ base: 3, md: 5 }}
+                    >
+                        In sports
+                    </Box>
+                    <Box
+                        as="span"
+                        display="block"
+                        className={studioGrotesk.className}
+                        fontSize={{ base: '46px', md: '76px', lg: '94px' }}
+                        fontWeight="300"
+                        mt={{ base: 2, md: 4 }}
+                    >
+                        Analytics
+                    </Box>
+                </Heading>
+            </Box>
 
-            {/* Subheadline with value prop */}
-            <Text fontSize={{ base: "lg", md: "xl" }} textAlign="center" color={BRAND_FOREGROUND} maxW="600px">
-                The #1 job board for sports data, analytics & tech roles.
-                <Text as="span" color="white" fontWeight="semibold"> Stop searching. Start applying.</Text>
-            </Text>
-
-            {/* Clean Stats Row - Minimal Design */}
-            <HStack
-                spacing={{ base: 4, md: 8 }}
-                justify="center"
+            <VStack
+                spacing={{ base: 5, md: 6 }}
                 align="center"
-                py={3}
-                flexWrap="wrap"
+                textAlign="center"
+                px={{ base: 5, md: 8 }}
+                pt={{ base: 7, md: 9 }}
+                pb={{ base: 8, md: 10 }}
+                color={BRAND_FOREGROUND}
             >
-                <HStack spacing={2}>
-                    <Icon as={FaBriefcase} color="purple.400" boxSize={5} />
-                    <Text color="white" fontWeight="bold" fontSize="lg">
-                        {totalJobs ? `${totalJobs}+` : '300+'}
-                        <Text as="span" color="gray.400" fontWeight="normal" ml={1}>jobs</Text>
+                <VStack spacing={2}>
+                    <Heading
+                        as="h2"
+                        className={sugoPro.className}
+                        fontSize={{ base: '28px', md: '42px' }}
+                        fontWeight="normal"
+                        lineHeight="1"
+                        letterSpacing="0"
+                        textTransform="uppercase"
+                    >
+                        The #1 job board for sports data, analytics & tech roles
+                    </Heading>
+                    <Text
+                        className={sugoPro.className}
+                        color={BRAND_PRIMARY}
+                        fontSize={{ base: '30px', md: '44px' }}
+                        lineHeight="1"
+                        textTransform="uppercase"
+                    >
+                        Stop searching, start applying!
                     </Text>
-                </HStack>
+                </VStack>
 
-                <Divider orientation="vertical" h="20px" borderColor="gray.600" display={{ base: 'none', md: 'block' }} />
+                <Flex
+                    gap={{ base: 5, md: 16 }}
+                    align="center"
+                    justify="center"
+                    direction={{ base: 'column', sm: 'row' }}
+                    flexWrap="wrap"
+                >
+                    <HStack spacing={3}>
+                        <Icon as={FaBriefcase} boxSize={{ base: 8, md: 12 }} color={BRAND_SECONDARY} />
+                        <Text className={sugoPro.className} fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
+                            +{totalJobs || 3000} jobs
+                        </Text>
+                    </HStack>
+                    <HStack spacing={3}>
+                        <Icon as={FaSyncAlt} boxSize={{ base: 8, md: 12 }} color={BRAND_SECONDARY} />
+                        <Text className={sugoPro.className} fontSize={{ base: '26px', md: '34px' }} textTransform="uppercase">
+                            Updated daily
+                        </Text>
+                    </HStack>
+                </Flex>
 
-                {newJobsToday !== undefined && newJobsToday > 0 && (
-                    <>
-                        <HStack spacing={2}>
-                            <Icon as={FaBolt} color="green.400" boxSize={5} />
-                            <Text color="white" fontWeight="bold" fontSize="lg">
-                                {newJobsToday}
-                                <Text as="span" color="gray.400" fontWeight="normal" ml={1}>new today</Text>
-                            </Text>
-                        </HStack>
-                        <Divider orientation="vertical" h="20px" borderColor="gray.600" display={{ base: 'none', md: 'block' }} />
-                    </>
-                )}
+                <Text
+                    className={studioGrotesk.className}
+                    fontSize={{ base: '18px', md: '22px' }}
+                    lineHeight="1.35"
+                    maxW="900px"
+                >
+                    Sports analytics, engineering, data science, betting & marketing roles from top teams and companies worldwide.
+                </Text>
 
-                <HStack spacing={2}>
-                    <Icon as={FaCheckCircle} color="purple.400" boxSize={5} />
-                    <Text color="gray.400" fontSize="md">
-                        Updated daily
+                <VStack spacing={3} w="100%">
+                    <Text
+                        className={sugoPro.className}
+                        fontSize={{ base: '22px', md: '29px' }}
+                        lineHeight="1.1"
+                        textTransform="uppercase"
+                    >
+                        Get the <Box as="span" color={BRAND_PRIMARY}>free weekly newsletter</Box> with jobs and sports analytics news
                     </Text>
-                </HStack>
-            </HStack>
-
-            {/* Brief description */}
-            <Text fontSize="sm" textAlign="center" color="gray.500" maxW="500px">
-                Sports analytics, engineering, data science, betting & marketing roles from top teams and companies worldwide.
-            </Text>
-        </VStack>
+                    <NewsletterSignupForm variant="hero" />
+                </VStack>
+            </VStack>
+        </Box>
     );
 };
 

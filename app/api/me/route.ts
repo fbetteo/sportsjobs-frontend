@@ -2,15 +2,14 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { NextRequest, NextResponse } from 'next/server';
 import { OnboardingAnswers } from '../../../lib/userProfile';
 import {
-  AuthIdentity,
-  backendJsonHeaders,
-  ensureBackendUserProfile,
-  fallbackUserProfile,
-  fetchBackendUserProfile,
-  getBackendBaseUrl,
-  normalizeAuthIdentity,
+    AuthIdentity,
+    backendJsonHeaders,
+    ensureBackendUserProfile,
+    fallbackUserProfile,
+    fetchBackendUserProfile,
+    getBackendBaseUrl,
+    normalizeAuthIdentity
 } from '../../../lib/userProfileBackend';
-
 function normalizeStringArray(value: unknown) {
   if (!Array.isArray(value)) return [];
   return value.filter((item): item is string => typeof item === 'string').map((item) => item.trim()).filter(Boolean);

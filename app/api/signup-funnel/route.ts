@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 const backendBaseUrl = () => {
   const host = process.env.HETZNER_POSTGRES_HOST;
   return host ? `http://${host}:8000` : null;

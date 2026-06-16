@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { fetchJobs } from '../../lib/fetchJobs';
 import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
 import { fetchCompanies } from '@/lib/fetchCompanies';
-
 // Add this helper function at the top of the file, after the imports
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {

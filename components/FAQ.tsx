@@ -1,7 +1,15 @@
 // Import necessary components from Chakra UI
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Heading } from '@chakra-ui/react';
 import Script from 'next/script';
 
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Heading
+} from '@chakra-ui/react';
 // Define FAQ data once - single source of truth
 const faqData = [
     {

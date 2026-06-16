@@ -1,19 +1,18 @@
 export const BRAND_BACKGROUND = '#311814';
 export const BRAND_FOREGROUND = '#f4f1ea';
-export const BRAND_PRIMARY_ACCENT = '#d7442b';
-// export const BRAND_SECONDARY_ACCENT = '#336468';
-export const BRAND_SECONDARY_ACCENT = '#8191b9';
+export const BRAND_PRIMARY = '#d7442b';
+export const BRAND_SECONDARY = '#8191b9';
 
-export const BRAND_PRIMARY_COLOR_SCHEME = 'purple';
-export const BRAND_SECONDARY_COLOR_SCHEME = 'teal';
-export const BRAND_PRIMARY = 'purple.500';
-export const BRAND_PRIMARY_LIGHT = 'purple.300';
-export const BRAND_PRIMARY_SURFACE = 'purple.900';
-export const BRAND_PRIMARY_SURFACE_HOVER = 'purple.800';
-export const BRAND_SECONDARY = 'teal.500';
-export const BRAND_SECONDARY_LIGHT = 'teal.300';
-export const BRAND_SECONDARY_SURFACE = 'teal.900';
-export const BRAND_SECONDARY_SURFACE_HOVER = 'teal.800';
+export const BRAND_BACKGROUND_TOKEN = 'brandBg.500';
+export const BRAND_FOREGROUND_TOKEN = 'brandFg.500';
+export const BRAND_PRIMARY_COLOR_SCHEME = 'brandPrimary';
+export const BRAND_SECONDARY_COLOR_SCHEME = 'brandSecondary';
+export const BRAND_PRIMARY_LIGHT = 'brandPrimary.300';
+export const BRAND_PRIMARY_SURFACE = 'brandPrimary.900';
+export const BRAND_PRIMARY_SURFACE_HOVER = 'brandPrimary.800';
+export const BRAND_SECONDARY_LIGHT = 'brandSecondary.300';
+export const BRAND_SECONDARY_SURFACE = 'brandSecondary.900';
+export const BRAND_SECONDARY_SURFACE_HOVER = 'brandSecondary.800';
 
 export const SIGNUP_ACCENT_COLOR_SCHEME = BRAND_PRIMARY_COLOR_SCHEME;
 export const SIGNUP_ACCENT_PROGRESS = BRAND_PRIMARY_LIGHT;

@@ -1,21 +1,21 @@
+import { useEffect, useState } from 'react';
 import {
     Button,
     FormControl,
     FormHelperText,
     FormLabel,
     Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
     ModalBody,
+    ModalContent,
     ModalFooter,
+    ModalHeader,
+    ModalOverlay,
     Select,
     Stack,
     Text,
-    Textarea,
+    Textarea
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-
+import { BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE } from '@/lib/uiTokens';
 export type CancellationFeedback =
     | 'too_expensive'
     | 'unused'
@@ -80,7 +80,7 @@ const ConfirmCancelModal = ({ isOpen, onClose, onConfirm, isSubmitting = false }
             closeOnOverlayClick={!isSubmitting}
         >
             <ModalOverlay />
-            <ModalContent bg="purple.900" color="white" borderColor="whiteAlpha.200" borderWidth="1px">
+            <ModalContent bg={BRAND_PRIMARY_SURFACE} color="white" borderColor="whiteAlpha.200" borderWidth="1px">
                 <ModalHeader>Cancel subscription</ModalHeader>
                 <ModalBody>
                     <Stack spacing={5}>
@@ -96,7 +96,7 @@ const ConfirmCancelModal = ({ isOpen, onClose, onConfirm, isSubmitting = false }
                                 onChange={(event) => setSelectedFeedbackId(event.target.value)}
                                 bg="whiteAlpha.100"
                                 borderColor="whiteAlpha.300"
-                                _hover={{ borderColor: 'purple.200' }}
+                                _hover={{ borderColor: BRAND_PRIMARY_LIGHT }}
                             >
                                 {feedbackOptions.map((option) => (
                                     <option key={option.id} value={option.id} style={{ color: 'black' }}>
@@ -117,7 +117,7 @@ const ConfirmCancelModal = ({ isOpen, onClose, onConfirm, isSubmitting = false }
                                 placeholder="Optional note"
                                 bg="whiteAlpha.100"
                                 borderColor="whiteAlpha.300"
-                                _hover={{ borderColor: 'purple.200' }}
+                                _hover={{ borderColor: BRAND_PRIMARY_LIGHT }}
                                 resize="vertical"
                                 rows={4}
                             />

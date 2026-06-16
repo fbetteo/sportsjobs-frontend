@@ -1,10 +1,11 @@
 // app/providers.tsx
 "use client";
 
-import { ChakraProvider } from "@chakra-ui/react";
+
+import React, { ReactNode, Suspense, useEffect } from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
 import posthog from 'posthog-js';
 import { PostHogProvider, usePostHog } from 'posthog-js/react';
 import Header from '../components/Header';

@@ -1,8 +1,8 @@
-// components/JobFilter.tsx
-
-import React, { useState, useEffect } from 'react';
-import { Select, VStack, Box, Button, HStack, Flex } from '@chakra-ui/react';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
+import React, { useEffect, useState } from 'react';
+import { Flex, Select } from '@chakra-ui/react';
+import { parse } from 'date-fns';
+// components/JobFilter.tsx
 
 interface JobFilterProps {
     onFilterChange: (filters: { country?: string; seniority?: string; remote?: string; industry: string; sport: string; job_area: string }) => void;

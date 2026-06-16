@@ -1,9 +1,20 @@
 'use client';
 
-import { Box, Heading, VStack, Text, Image, Link as ChakraLink, Badge, Flex, Spinner } from '@chakra-ui/react';
-import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
 
+import { useEffect, useRef, useState } from 'react';
+import {
+    Badge,
+    Box,
+    Flex,
+    Heading,
+    Image,
+    Link as ChakraLink,
+    Spinner,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
+import Link from 'next/link';
 interface SimilarJob {
     id: string;
     title: string;
@@ -82,7 +93,7 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
             </Heading>
             {loading && (
                 <Flex justify="center" align="center" minH="150px">
-                    <Spinner size="lg" color="purple.400" />
+                    <Spinner size="lg" color={BRAND_PRIMARY_LIGHT} />
                 </Flex>
             )}
             {!loading && similarJobs.length === 0 && hasLoaded && null}
@@ -112,7 +123,7 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
                                             <Text color="white" fontWeight="bold">{job.title}</Text>
                                             <Text color="gray.300" fontSize="sm">{job.company}</Text>
                                             <Flex mt={2} gap={2}>
-                                                <Badge colorScheme="purple">{job.location}</Badge>
+                                                <Badge colorScheme={BRAND_PRIMARY_COLOR_SCHEME}>{job.location}</Badge>
                                                 {job.salary && <Badge colorScheme="green">{job.salary}</Badge>}
                                             </Flex>
                                         </Box>

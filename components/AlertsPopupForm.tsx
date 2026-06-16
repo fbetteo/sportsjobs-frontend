@@ -1,23 +1,35 @@
 // components/UserFormPopup.tsx
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {
-    Box, Button, Input, FormControl, FormLabel, useToast,
-    Modal, ModalOverlay, ModalContent, ModalHeader,
-    ModalFooter, ModalBody, ModalCloseButton, Select, Text,
-    Wrap,
-    WrapItem,
-    TagLabel,
+    Box,
+    Button,
+    Checkbox,
+    FormControl,
+    FormLabel,
+    Input,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
     Tag,
     TagCloseButton,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Checkbox,
-    Menu
+    TagLabel,
+    Text,
+    useToast,
+    Wrap,
+    WrapItem
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-
+import { BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME } from '@/lib/uiTokens';
 type UserFormPopupProps = {
     isOpen: boolean;
     onClose: () => void;
@@ -101,7 +113,7 @@ const UserFormPopup = ({ isOpen, onClose, options }: UserFormPopupProps) => {
         <Wrap mt={2}>
             {selectedOptions.map(option => (
                 <WrapItem key={option}>
-                    <Tag size="sm" borderRadius="full" variant="solid" colorScheme="teal">
+                    <Tag size="sm" borderRadius="full" variant="solid" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                         <TagLabel>{option}</TagLabel>
                         <TagCloseButton onClick={() => handleRemoveOption(option, selectedOptions, setState)} />
                     </Tag>
@@ -114,7 +126,7 @@ const UserFormPopup = ({ isOpen, onClose, options }: UserFormPopupProps) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent bg='purple.900'>
+            <ModalContent bg={BRAND_PRIMARY_SURFACE}>
                 <ModalHeader>Submit Your Information</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
@@ -230,7 +242,7 @@ const UserFormPopup = ({ isOpen, onClose, options }: UserFormPopupProps) => {
                             </Menu>
                             {renderSelectedOptions(sport_list, setSportList)}
                         </FormControl>
-                        <Button mt={4} colorScheme="teal" type="submit">
+                        <Button mt={4} colorScheme={BRAND_SECONDARY_COLOR_SCHEME} type="submit">
                             Submit
                         </Button>
                     </Box>

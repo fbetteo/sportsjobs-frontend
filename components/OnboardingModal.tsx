@@ -1,26 +1,25 @@
 'use client';
 
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-  SimpleGrid,
-  Text,
-  VStack,
-  useToast,
-} from '@chakra-ui/react';
 import { useState } from 'react';
+import {
+    Button,
+    Checkbox,
+    FormControl,
+    FormLabel,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    SimpleGrid,
+    Text,
+    useToast,
+    VStack
+} from '@chakra-ui/react';
+import { SIGNUP_ACCENT_COLOR_SCHEME } from '@/lib/uiTokens';
 import { OnboardingAnswers } from '../lib/userProfile';
-import { SIGNUP_ACCENT_COLOR_SCHEME } from '../lib/uiTokens';
-
 const sportsOptions = [
   { value: 'football', label: 'Football' },
   { value: 'soccer', label: 'Soccer' },

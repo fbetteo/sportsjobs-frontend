@@ -1,8 +1,17 @@
 'use client';
-import { useState, useEffect, useRef } from "react";
-import { Box, Container, Heading, SimpleGrid, LinkBox, LinkOverlay, Text, Alert, AlertIcon } from '@chakra-ui/react';
-import { fetchCompanies } from '@/lib/fetchCompanies';
 
+import { useEffect, useState } from 'react';
+import {
+    Alert,
+    AlertIcon,
+    Container,
+    Heading,
+    LinkBox,
+    LinkOverlay,
+    SimpleGrid,
+    Text
+} from '@chakra-ui/react';
+import { fetchCompanies } from '@/lib/fetchCompanies';
 // export async function generateMetadata() {
 //     return {
 //         title: 'Sports Industry Companies - SportsJobs Online',

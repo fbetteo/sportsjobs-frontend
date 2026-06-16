@@ -1,21 +1,32 @@
+import SimilarJobs from '@/components/SimilarJobs';
+import { default as dynamicImport } from 'next/dynamic';
+import MixedPricingCard from '@/components/MixedPriceCard';
+
+import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
+
 // app/jobs/[id]/page.tsx
 export const dynamic = 'force-static';
 export const revalidate = 2592000; // 60 days (2 months)
 
-import { fetchJobDetails } from '../../../lib/fetchJobDetails';
-import { marked } from 'marked';
-import { addMonths, format } from 'date-fns';
-import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Alert, AlertIcon } from '@chakra-ui/react';
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';
+import { marked } from 'marked';
 import { Suspense } from 'react';
-import { permanentRedirect, notFound } from 'next/navigation';
-import SimilarJobs from '@/components/SimilarJobs';
-import { default as dynamicImport } from 'next/dynamic';
-import MixedPricingCard from '@/components/MixedPriceCard';
-import { BRAND_SECONDARY_LIGHT, BRAND_SECONDARY, BRAND_PRIMARY, BRAND_FOREGROUND } from '@/lib/uiTokens';
-import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
-
+import {
+    Alert,
+    Badge,
+    Box,
+    Button,
+    Flex,
+    Heading,
+    HStack,
+    Image,
+    Text
+} from '@chakra-ui/react';
+import { BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY } from '@/lib/uiTokens';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { addMonths, format } from 'date-fns';
+import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
         <Box
@@ -247,7 +258,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                     href={job.apply_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    colorScheme="purple"
+                                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                     size="lg"
                                     px={4}
                                     py={2}
@@ -290,7 +301,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 href={job.apply_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                colorScheme="purple"
+                                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                 size="lg"
                                 px={4}
                                 py={2}

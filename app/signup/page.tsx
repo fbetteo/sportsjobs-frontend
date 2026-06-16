@@ -1,5 +1,6 @@
 'use client';
 
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import {
   Badge,
   Box,
@@ -18,10 +19,7 @@ import {
   Spinner,
   Text,
   VStack,
-  useToast,
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
-import type { ElementType, ReactNode } from 'react';
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -34,10 +32,12 @@ import {
   FaMapMarkerAlt,
   FaSearch,
   FaShieldAlt,
-  FaTimes,
+  FaTimes
 } from 'react-icons/fa';
+import { BRAND_PRIMARY, SIGNUP_ACCENT_COLOR_SCHEME, SIGNUP_ACCENT_PROGRESS, SIGNUP_ACCENT_SURFACE } from '@/lib/uiTokens';
+import type { ElementType } from 'react';
+import { useToast } from '@chakra-ui/react';
 import TestimonialsMarqueeFromDB from '../../components/TestimonialsMarqueeFromDB';
-import { SIGNUP_ACCENT_COLOR_SCHEME, SIGNUP_ACCENT_PROGRESS, SIGNUP_ACCENT_SURFACE } from '../../lib/uiTokens';
 
 const STORAGE_KEY = 'sportsjobs_signup_funnel';
 const PROMO_CODE = 'SPORTS25';
@@ -479,9 +479,10 @@ export default function SignupPage() {
       <VStack spacing={6} align="stretch">
         <HStack justify="center">
           <Image
-            src="https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=73ad289af04d9404eaff59edab90872229e4a75a"
+            src="/sportsjobs_logo_color_rectangular_202606.png"
             alt="SportsJobs Online"
-            boxSize="58px"
+            h="60px"
+            w='120px'
             borderRadius="full"
           />
         </HStack>
@@ -519,8 +520,8 @@ export default function SignupPage() {
           {step === 1 && (
             <InsightStep
               eyebrow="Why this helps"
-              title={`${selectedSports[0] || 'Sports'} roles are scattered across teams, leagues, betting, media, and tech`}
-              body="SportsJobs pulls niche roles into one place so you are not checking club sites, league boards, betting companies, and generic job boards one by one."
+              title={`Sports analytics roles are scattered across LinkedIn, Teamwork Online, teams, leagues, other boards`}
+              body="SportsJobs pulls niche roles into one place so you are not checking club sites, league boards and generic job boards one by one."
               points={['Role titles vary wildly by organization', 'Many relevant jobs never say sports analytics directly', 'Saved filters can make the search repeatable']}
               onNext={goNext}
               onBack={goBack}
@@ -668,8 +669,9 @@ export default function SignupPage() {
           {step === 7 && (
             <VStack align="stretch" spacing={6}>
               <Box>
-                <Heading size="xl" mb={3}>Where should we save this?</Heading>
-              <Text color="gray.300">We will save your setup in this browser and sync it to your SportsJobs profile.</Text>
+                <Heading size="xl" mb={3}>Who should we build this job feed for?
+                </Heading>
+                <Text color="gray.300">We&apos;ll use this to save your results and address your job alerts.</Text>
               </Box>
               <VStack align="stretch" spacing={4}>
                 <FormControl isRequired>
@@ -942,7 +944,7 @@ function PromoTicket({ secondsLeft }: { secondsLeft: number }) {
       <Box borderTopWidth="2px" borderTopStyle="dashed" borderTopColor="gray.900" p={5}>
         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3}>
           <HStack bg="white" color="gray.900" borderRadius="md" p={4} spacing={3}>
-            <Icon as={FaCheckCircle} color="purple.600" />
+            <Icon as={FaCheckCircle} color={BRAND_PRIMARY} />
             <Text fontWeight="bold">{PROMO_CODE}</Text>
           </HStack>
           <Box bg="white" color="gray.900" borderRadius="md" p={4} textAlign="center">

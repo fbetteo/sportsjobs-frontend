@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Button, VStack } from '@chakra-ui/react';
 import { Metadata } from 'next';
-
+import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
+import { BRAND_PRIMARY_COLOR_SCHEME } from '@/lib/uiTokens';
 // Add metadata for SEO purposes
 export const metadata: Metadata = {
     title: 'Job Not Found | SportsJobs',
@@ -29,7 +29,7 @@ export default function NotFound() {
                 <Button
                     as="a"
                     href="/"
-                    colorScheme="purple"
+                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                     size="lg"
                 >
                     Browse Latest Jobs

@@ -40,8 +40,8 @@ Use this guide for pages/components and UX changes.
 - The paid-product explanation screen should stay simple: value bullets, no coupon messaging, and the `That's fair` acknowledgement CTA.
 - The pricing screen should feel like a focused conversion flow with before/after comparison, a limited-time 25% promo code, selected-plan checkout, testimonials, small FAQ, repeated CTA, and clear checkout actions.
 - Promo messaging should not claim Stripe has auto-applied a discount unless `app/api/create-subscription` is also updated to pass a Stripe coupon/promotion code ID.
-- Signup/onboarding accents should use the shared primary accent token constants in `lib/uiTokens.ts`; avoid reintroducing one-off accent colors.
-- Featured cards should use the primary accent treatment; regular cards, footer panels, company cards, and common dark panels should use secondary accent surfaces. Freshness/date tags and primary conversion/status accents should use the primary accent treatment. Prefer `lib/uiTokens.ts` constants over direct color names or hex values in components.
+- Signup/onboarding accents should use the shared semantic brand token constants in `lib/uiTokens.ts`; avoid reintroducing one-off accent colors.
+- Brand UI must use `lib/uiTokens.ts` constants and semantic Chakra palettes (`brandBg`, `brandFg`, `brandPrimary`, `brandSecondary`), not built-in Chakra color names as brand concepts or raw brand hexes in components. Featured cards should use the primary accent treatment; regular cards, footer panels, company cards, and common dark panels should use secondary accent surfaces. Freshness/date tags and primary conversion/status accents should use the primary accent treatment.
 - Avoid visible `free` language in signup/onboarding CTAs or labels.
 - Do not call backend `/users/ensure` from the funnel steps; account creation should be reconnected in a later backend-safe pass.
 - Authenticated users should land on `/dashboard` after signup/login.
@@ -76,7 +76,7 @@ Use this guide for pages/components and UX changes.
 - `/sports-analytics-salaries` targets the sports analytics salaries query with benchmark ranges, role/experience tables, location and employer-type comparisons, methodology, and FAQ.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent and should preserve the balanced TeamWork Online explainer, strengths/weaknesses sections, comparison table, inventory snapshot, FAQ, and newsletter CTA.
 - Link search-intent pages from stable navigation surfaces. The internships and salaries pages are linked from the footer and the homepage `PopularSearches` module.
-- `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, teal/purple accents, concise prep cards, and expandable question sections.
+- `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, brand primary/secondary accents, concise prep cards, and expandable question sections.
 
 ## Testimonials UX (Current)
 

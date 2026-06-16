@@ -1,33 +1,33 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
+    Container,
     Divider,
-    Alert,
-    AlertIcon
+    Grid,
+    HStack,
+    Heading,
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaArrowLeft, FaGolfBall, FaDollarSign, FaGift, FaCode, FaDatabase } from 'react-icons/fa';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import {
-    BRAND_PRIMARY_COLOR_SCHEME,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_PRIMARY_SURFACE,
-    BRAND_SECONDARY_COLOR_SCHEME,
-    BRAND_SECONDARY_LIGHT,
-    BRAND_SECONDARY_SURFACE,
-} from '@/lib/uiTokens';
-
+    FaArrowLeft,
+    FaCode,
+    FaDatabase,
+    FaDollarSign,
+    FaExternalLinkAlt,
+    FaGift,
+    FaGolfBall
+} from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
+import { format } from 'date-fns';
+import { useUser } from '@auth0/nextjs-auth0/client';
 const DataSourceCard = ({
     title,
     description,
@@ -105,7 +105,7 @@ const DataSourceCard = ({
                         <Text fontSize="xs" color="gray.400" fontWeight="semibold">Data Types:</Text>
                         <HStack wrap="wrap">
                             {/* {dataTypes.map((dataType, index) => (
-                                <Badge key={index} colorScheme="purple" variant="outline" fontSize="xs">
+                                <Badge key={index} colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="outline" fontSize="xs">
                                     {dataType}
                                 </Badge>
                             ))} */}

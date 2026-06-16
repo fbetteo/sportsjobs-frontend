@@ -1,27 +1,25 @@
 'use client';
 
-import React, { Suspense } from 'react';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import Script from 'next/script';
+import React, { FormEvent, Suspense, useEffect, useState } from 'react';
 import {
-    Container,
-    VStack,
-    Heading,
-    Text,
     Button,
-    useToast,
+    Container,
     FormControl,
     FormLabel,
+    Heading,
+    IconButton,
     Input,
     InputGroup,
     InputRightElement,
-    IconButton,
+    Text,
+    useToast,
+    VStack
 } from '@chakra-ui/react';
+import { useSearchParams } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import Script from 'next/script';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { validatePasswordStrength } from '../../../lib/validatePasswordStrength';
-
 const SuccessPageContent = () => {
     const searchParams = useSearchParams();
     const toast = useToast();

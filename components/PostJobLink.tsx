@@ -1,8 +1,9 @@
+import Link from 'next/link';
+
+
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import Link from 'next/link';
 import { BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
-
 const PostJobLink: React.FC = () => {
     return (
         <Box mt={4} mb={8} textAlign="center">

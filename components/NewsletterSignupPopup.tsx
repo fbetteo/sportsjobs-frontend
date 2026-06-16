@@ -1,16 +1,28 @@
 // components/SignupPopup.tsx (updated)
 
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Input, FormControl, FormLabel, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Text, Flex, Icon } from '@chakra-ui/react';
-import { useUser } from '@auth0/nextjs-auth0/client'; //
-import { FaStar } from 'react-icons/fa';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import React, { FormEvent, useEffect, useState } from 'react';
 import {
-    BRAND_PRIMARY,
-    BRAND_PRIMARY_COLOR_SCHEME,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_PRIMARY_SURFACE,
-} from '@/lib/uiTokens';
-
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Icon,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text,
+    useToast
+} from '@chakra-ui/react';
+import { FaStar } from 'react-icons/fa';
+import { BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE } from '@/lib/uiTokens';
+//
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
 const SignupPopup = () => {

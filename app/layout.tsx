@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter } from 'next/font/google';
 import "./globals.css";
-import { Providers } from "./providers";
+import { Providers } from './providers';
 import Script from "next/script";
 import PromotekitScript from '@/components/PromotekitScript'
 import FeedbackButton from '@/components/FeedbackButton'
 
+import React, { ReactNode } from 'react';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

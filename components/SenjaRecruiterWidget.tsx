@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 
+import { useEffect } from 'react';
 const SenjaRecruiterWidget = () => {
     useEffect(() => {
         const script = document.createElement('script');

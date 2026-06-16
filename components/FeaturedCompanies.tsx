@@ -1,12 +1,19 @@
 'use client';
-import { Box, Flex, Grid, Heading, Text, Link, Image, VStack, HStack } from '@chakra-ui/react';
-import NextLink from 'next/link';
+
 import {
-    BRAND_PRIMARY,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_SECONDARY_SURFACE,
-    BRAND_SECONDARY_SURFACE_HOVER,
-} from '@/lib/uiTokens';
+    Box,
+    Flex,
+    Grid,
+    Heading,
+    Image,
+    Link,
+    Text,
+    VStack
+} from '@chakra-ui/react';
+import { BRAND_PRIMARY, BRAND_PRIMARY_LIGHT, BRAND_SECONDARY_SURFACE, BRAND_SECONDARY_SURFACE_HOVER } from '@/lib/uiTokens';
+import { redirect } from 'next/navigation';
+import NextLink from 'next/link';
+
 
 interface FeaturedCompany {
     id: string;

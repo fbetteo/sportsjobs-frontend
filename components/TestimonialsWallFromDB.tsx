@@ -1,20 +1,19 @@
 'use client';
 
+
+import { useEffect, useMemo, useState } from 'react';
 import {
     Avatar,
-    Badge,
     Box,
-    HStack,
     Heading,
+    HStack,
     Icon,
     SimpleGrid,
     Skeleton,
     Text,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-
 let testimonialsCache: DbTestimonial[] | null = null;
 let testimonialsRequest: Promise<DbTestimonial[]> | null = null;
 

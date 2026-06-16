@@ -33,8 +33,8 @@ Use this file as a map. Read only the sections relevant to your task.
 - API calls: use `fetch` for new work (do not introduce axios in app code).
 - Backend access: route external/backend calls through `app/api/*`.
 - Signup is currently a pre-account onboarding funnel stored in browser `localStorage` and synced through `app/api/signup-funnel`; do not reconnect direct Auth0 account creation until backend `/users/ensure` is stable.
-- Signup/onboarding UI uses shared primary accent constants from `lib/uiTokens.ts`; avoid visible `free` wording in signup CTAs.
-- Brand surfaces, featured treatments, and resource/status tags should use the primary/secondary constants from `lib/uiTokens.ts` instead of hard-coded color schemes or hex values. Featured cards use primary surfaces; regular cards and common dark panels use secondary surfaces.
+- Signup/onboarding UI uses shared semantic brand constants from `lib/uiTokens.ts`; avoid visible `free` wording in signup CTAs.
+- Brand UI must go through `lib/uiTokens.ts` and the semantic Chakra palettes (`brandBg`, `brandFg`, `brandPrimary`, `brandSecondary`). Do not use Chakra built-in color names as brand concepts or hard-code brand hex values in components. Featured cards use primary surfaces; regular cards and common dark panels use secondary surfaces.
 - Signup funnel screens should stay focused and vertical: no global chrome, question options as lists, persistent country skip action, progress only through country, and insight screens as concise icon bullets.
 - Role/job-type onboarding is paused; keep role fields in payloads as empty/default values for backend compatibility.
 - Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.

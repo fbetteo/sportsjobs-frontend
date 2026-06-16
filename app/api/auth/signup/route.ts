@@ -3,7 +3,6 @@ import { getAuth0AccessToken, createAuth0User } from '../../../utils/auth0';
 import Stripe from 'stripe';
 import { validatePasswordStrength } from '../../../../lib/validatePasswordStrength';
 import { ensureBackendUserProfile } from '../../../../lib/userProfileBackend';
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2024-06-20',
     typescript: true,

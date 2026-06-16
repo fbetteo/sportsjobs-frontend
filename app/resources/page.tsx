@@ -1,31 +1,24 @@
 'use client';
 
+
 import {
-    Box,
-    Container,
-    Heading,
-    Text,
-    Grid,
-    VStack,
-    HStack,
     Badge,
-    Link,
+    Box,
+    Button,
     Card,
     CardBody,
-    Button,
-    Image
+    Container,
+    Grid,
+    HStack,
+    Heading,
+    Image,
+    Link,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FaExternalLinkAlt, FaYoutube, FaBook, FaTools, FaBriefcase, FaLock } from 'react-icons/fa';
+import { FaBook, FaBriefcase, FaExternalLinkAlt, FaLock, FaTools, FaYoutube } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE } from '@/lib/uiTokens';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import {
-    BRAND_PRIMARY_COLOR_SCHEME,
-    BRAND_PRIMARY_LIGHT,
-    BRAND_PRIMARY_SURFACE,
-    BRAND_SECONDARY_COLOR_SCHEME,
-    BRAND_SECONDARY_LIGHT,
-    BRAND_SECONDARY_SURFACE,
-} from '@/lib/uiTokens';
-
 // Toggle this to enable/disable the exclusive discount paywall in ResourceCard
 const SHOW_RESOURCE_PAYWALL = false; // set to false to turn off paywall site-wide
 

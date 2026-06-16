@@ -1,6 +1,6 @@
 'use client';
 
-import NextLink from 'next/link';
+
 import {
     Alert,
     AlertIcon,
@@ -28,13 +28,14 @@ import {
     Th,
     Thead,
     Tr,
-    VStack,
+    VStack
 } from '@chakra-ui/react';
 import { FaExternalLinkAlt, FaLock } from 'react-icons/fa';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDARY_LIGHT } from '@/lib/uiTokens';
+import NextLink from 'next/link';
 import NewsletterSignupForm from './NewsletterSignupForm';
 import type { AnalyticsSearchJob, InventorySummary } from '@/lib/teamworkOnlineAlternativeContent';
 import { getAnalyticsFocus, teamworkOnlineFaqItems } from '@/lib/teamworkOnlineAlternativeContent';
-
 interface Props {
     initialJobs: AnalyticsSearchJob[];
     inventory: InventorySummary;
@@ -132,7 +133,7 @@ function renderCountTags(entries: Array<[string, number]>, emptyLabel: string) {
     return (
         <HStack spacing={2} flexWrap="wrap">
             {entries.slice(0, 4).map(([label, count]) => (
-                <Tag key={label} colorScheme="teal" variant="subtle">
+                <Tag key={label} colorScheme={BRAND_SECONDARY_COLOR_SCHEME} variant="subtle">
                     {label}: {count}
                 </Tag>
             ))}
@@ -150,7 +151,7 @@ export default function TeamworkOnlineAlternativeContent({
         <Container maxW="7xl" py={{ base: 8, md: 12 }}>
             <VStack spacing={{ base: 10, md: 14 }} align="stretch">
                 <Box textAlign="center" maxW="4xl" mx="auto">
-                    <Badge colorScheme="teal" mb={4} px={3} py={1} borderRadius="md">
+                    <Badge colorScheme={BRAND_SECONDARY_COLOR_SCHEME} mb={4} px={3} py={1} borderRadius="md">
                         Brand comparison guide
                     </Badge>
                     <Heading as="h1" size={{ base: 'xl', md: '2xl' }} color="white" mb={4}>
@@ -164,10 +165,10 @@ export default function TeamworkOnlineAlternativeContent({
                         the better fit.
                     </Text>
                     <HStack justify="center" spacing={4} mt={6} flexWrap="wrap">
-                        <Button as={NextLink} href="#analytics-openings" colorScheme="purple" rightIcon={<FaExternalLinkAlt />}>
+                        <Button as={NextLink} href="#analytics-openings" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} rightIcon={<FaExternalLinkAlt />}>
                             See live analytics jobs
                         </Button>
-                        <Button as={NextLink} href="/company-jobs" variant="outline" colorScheme="teal">
+                        <Button as={NextLink} href="/company-jobs" variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             Browse hiring companies
                         </Button>
                     </HStack>
@@ -197,7 +198,7 @@ export default function TeamworkOnlineAlternativeContent({
                                         The inventory snapshot below is based on the most recent {sampleSize} jobs checked on {lastChecked}.
                                     </Text>
                                 </Box>
-                                <Button as={NextLink} href="/signup" colorScheme="purple" leftIcon={<FaLock />} flexShrink={0}>
+                                <Button as={NextLink} href="/signup" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} leftIcon={<FaLock />} flexShrink={0}>
                                     Unlock full access
                                 </Button>
                             </Flex>
@@ -217,7 +218,7 @@ export default function TeamworkOnlineAlternativeContent({
                                             borderWidth="1px"
                                             borderColor="gray.600"
                                             borderRadius="md"
-                                            _hover={{ borderColor: 'teal.300', bg: 'gray.700' }}
+                                            _hover={{ borderColor: BRAND_SECONDARY_LIGHT, bg: 'gray.700' }}
                                         >
                                             <CardBody>
                                                 <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
@@ -240,10 +241,10 @@ export default function TeamworkOnlineAlternativeContent({
                                                             </Heading>
                                                         </LinkOverlay>
                                                         <HStack spacing={2} wrap="wrap" mt={3}>
-                                                            <Tag colorScheme="teal">{getAnalyticsFocus(job)}</Tag>
+                                                            <Tag colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>{getAnalyticsFocus(job)}</Tag>
                                                             <Tag colorScheme="blue">{job.remote_string || 'Work type not listed'}</Tag>
                                                             <Tag colorScheme="green">{job.sport_list || 'Sports'}</Tag>
-                                                            <Tag colorScheme={job.salary ? 'purple' : 'gray'}>
+                                                            <Tag colorScheme={job.salary ? BRAND_PRIMARY_COLOR_SCHEME : 'gray'}>
                                                                 {job.salary || 'Pay not listed'}
                                                             </Tag>
                                                             <Tag colorScheme={job.days_ago_text === 'Posted Today' ? 'green' : 'gray'}>
@@ -276,7 +277,7 @@ export default function TeamworkOnlineAlternativeContent({
                                         <Text color="gray.400" fontSize="sm" mb={2}>
                                             Analytics-relevant jobs in sample
                                         </Text>
-                                        <Tag colorScheme="purple" size="lg">
+                                        <Tag colorScheme={BRAND_PRIMARY_COLOR_SCHEME} size="lg">
                                             {inventory.total}
                                         </Tag>
                                     </Box>
@@ -468,7 +469,7 @@ export default function TeamworkOnlineAlternativeContent({
                     as="section"
                     bg="gray.800"
                     borderWidth="1px"
-                    borderColor="teal.500"
+                    borderColor={BRAND_SECONDARY}
                     borderRadius="md"
                     p={{ base: 6, md: 8 }}
                     textAlign="center"
@@ -480,10 +481,10 @@ export default function TeamworkOnlineAlternativeContent({
                         TeamWork Online is worth knowing if you want broad sports careers. If you want a faster route to sports analytics, remote jobs, internships, business intelligence, performance analyst, or data scientist openings, a more focused search will usually save time.
                     </Text>
                     <HStack justify="center" spacing={4} flexWrap="wrap">
-                        <Button as={NextLink} href="/signup" colorScheme="purple" rightIcon={<FaExternalLinkAlt />}>
+                        <Button as={NextLink} href="/signup" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} rightIcon={<FaExternalLinkAlt />}>
                             Start analytics job search
                         </Button>
-                        <Button as={NextLink} href="/" variant="outline" colorScheme="teal">
+                        <Button as={NextLink} href="/" variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME}>
                             Browse all sports jobs
                         </Button>
                     </HStack>

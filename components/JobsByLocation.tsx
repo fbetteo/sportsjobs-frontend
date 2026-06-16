@@ -1,6 +1,5 @@
-import { Box, Text, Link, VStack } from '@chakra-ui/react';
+import { Box, Link, Text, VStack } from '@chakra-ui/react';
 import { BRAND_SECONDARY_LIGHT, BRAND_SECONDARY_SURFACE_HOVER } from '@/lib/uiTokens';
-
 export default function JobsByLocation() {
     return (
         <Box p={5} borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT} bg={BRAND_SECONDARY_SURFACE_HOVER} borderRadius="lg" width="100%" textAlign="left">

@@ -1,9 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
-import { Box, List, ListItem, Spinner, Text, VStack, Icon, Flex } from '@chakra-ui/react';
+
+import React, { useEffect, useState } from 'react';
+import {
+    Box,
+    Icon,
+    List,
+    ListItem,
+    Spinner,
+    Text,
+    VStack
+} from '@chakra-ui/react';
 import { FaLock } from 'react-icons/fa';
+import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
 // import { fetchJobs } from '../lib/fetchJobs';
 import { JobCard } from './JobCard';
 interface JobListProps {

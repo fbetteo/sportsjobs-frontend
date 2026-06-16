@@ -1,7 +1,4 @@
-// app/jobs/[id]/page.tsx
-
 import { marked } from 'marked';
-import { Box, Heading, Text, Image, Badge, HStack, Flex, Button, Divider } from '@chakra-ui/react';
 import MixedPricingCard from '@/components/MixedPriceCard';
 import BackToMainButton from '@/components/BackToMainButton';
 import styles from '../../../markdown.module.css';
@@ -10,6 +7,9 @@ import { fetchBlogPostDetails } from '@/lib/fetchBlogPostDetails';
 import SenjaWallOfLove from '@/components/WallOfLove';
 
 
+
+import { Box, Divider, Flex, Heading, Image } from '@chakra-ui/react';
+// app/jobs/[id]/page.tsx
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     const blog_details = await fetchBlogPostDetails(params.id);

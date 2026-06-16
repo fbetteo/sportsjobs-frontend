@@ -1,12 +1,19 @@
 // components/PricingCard.tsx
 'use client';
 
-import { Box, Flex, Text, Button, Stack, Icon, List, ListItem, ListIcon } from '@chakra-ui/react';
-import { FaBasketballBall, FaCalendarDay, FaFilter, FaBell, FaCheckCircle } from 'react-icons/fa';
-import { pricingPlans } from '../pricingPlans';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@auth0/nextjs-auth0/client';
+
+import {
+    Box,
+    Button,
+    Flex,
+    Icon,
+    List,
+    ListIcon,
+    ListItem,
+    Stack,
+    Text
+} from '@chakra-ui/react';
+import { FaBasketballBall, FaBell, FaCalendarDay, FaCheckCircle, FaFilter } from 'react-icons/fa';
 import {
     BRAND_PRIMARY,
     BRAND_PRIMARY_COLOR_SCHEME,
@@ -15,10 +22,12 @@ import {
     BRAND_SECONDARY,
     BRAND_SECONDARY_LIGHT,
     BRAND_SECONDARY_SURFACE,
-    BRAND_SECONDARY_SURFACE_HOVER,
+    BRAND_SECONDARY_SURFACE_HOVER
 } from '@/lib/uiTokens';
-
-
+import { useRouter } from 'next/navigation';
+import { pricingPlans } from '../pricingPlans';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useUser } from '@auth0/nextjs-auth0/client';
 const MixedPricingCard = () => {
     const router = useRouter();
     const { user } = useUser();
