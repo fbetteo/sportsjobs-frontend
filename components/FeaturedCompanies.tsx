@@ -35,7 +35,7 @@ const FeaturedCompanies = () => {
             tagline: 'Master Data Science Through the Lens of Sports',
             logo_url: '/athlyticz.png',
             job_count: 0,
-            external_url: 'https://athlyticz.com/affiliate-courses?am_id=sportsjobs'
+            external_url: 'https://athlyticz.com/membership?am_id=franco2804'
         },
         {
             id: '2',
