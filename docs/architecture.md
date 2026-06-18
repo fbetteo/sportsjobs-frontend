@@ -35,7 +35,7 @@ Sportsjobs frontend is a Next.js 14 job board focused on sports analytics, data 
 - Job and listing data comes from a Python backend (Hetzner-hosted API).
 - Next.js API routes shape and cache data for client/SSR consumption.
 - Auth and payments stay in Next.js API routes integrated with Auth0 and Stripe.
-- Free signup now leads to an authenticated `/dashboard` surface. Dashboard profile and onboarding calls go through `app/api/me` before reaching the backend.
+- The authenticated `/dashboard` surface exists but is temporarily hidden from global navigation and completion redirects. Dashboard profile and onboarding calls go through `app/api/me` before reaching the backend.
 
 ## Design Direction (Current)
 
@@ -49,7 +49,7 @@ Sportsjobs frontend is a Next.js 14 job board focused on sports analytics, data 
 - After contact capture, `/signup` explains that SportsJobs is a paid product, records `paid_product_acknowledged_at`, and then shows Stripe checkout plan cards.
 - The signup funnel hides the global app chrome through `app/providers.tsx`, shows only the logo, and syncs the active step to URL query slugs for browser Back/Forward behavior.
 - Auth0 account creation is intentionally not triggered from the `/signup` funnel while backend `/users/ensure` stability is being revisited.
-- `/dashboard` is the first logged-in product surface for free and premium users.
+- `/dashboard` is available for direct testing, but public links and completion redirects should stay hidden until the dashboard flow is ready.
 - `components/OnboardingModal.tsx` collects sports interests, job-search duration, hardest search problem, optional country, and target role interests.
 - `POST /api/auth/signup`, the Auth0 callback, and `app/api/me` all ensure the Auth0 user exists in the backend, then `app/api/me` fetches profile state and persists onboarding answers.
 - Premium upsell cards live inside the dashboard so future logo/color changes can be handled through Chakra/theme tokens instead of route logic changes.

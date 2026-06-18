@@ -96,22 +96,23 @@ const ResourcesButton = memo(() => (
 
 ResourcesButton.displayName = 'ResourcesButton';
 
-const DashboardButton = memo(() => (
-  <Link href="/dashboard" passHref>
-    <Button
-      colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
-      bg={BRAND_PRIMARY}
-      color={BRAND_BACKGROUND}
-      mr={5}
-      size="md"
-      _hover={{ bg: BRAND_PRIMARY }}
-    >
-      Dashboard
-    </Button>
-  </Link>
-));
-
-DashboardButton.displayName = 'DashboardButton';
+// Dashboard links are temporarily hidden until the dashboard flow is ready.
+// const DashboardButton = memo(() => (
+//   <Link href="/dashboard" passHref>
+//     <Button
+//       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+//       bg={BRAND_PRIMARY}
+//       color={BRAND_BACKGROUND}
+//       mr={5}
+//       size="md"
+//       _hover={{ bg: BRAND_PRIMARY }}
+//     >
+//       Dashboard
+//     </Button>
+//   </Link>
+// ));
+//
+// DashboardButton.displayName = 'DashboardButton';
 
 // Memoized Advertise Button
 const AdvertiseButton = memo(() => (
@@ -169,15 +170,15 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
-              <DashboardButton />
+              {/* <DashboardButton /> */}
               <Menu>
                 <MenuButton as={Button} rounded="full" variant="link" cursor="pointer" minW={0}>
                   <Avatar size="sm" src={user.picture ?? ""} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem color="black">
+                  {/* <MenuItem color="black">
                     <Link href="/dashboard">Dashboard</Link>
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem color="black">
                     <Link href="/settings">Settings</Link>
                   </MenuItem>
@@ -266,11 +267,11 @@ const Header = () => {
 
                 {user ? (
                   <>
-                    <Link href="/dashboard" onClick={onClose}>
+                    {/* <Link href="/dashboard" onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Dashboard
                       </Button>
-                    </Link>
+                    </Link> */}
                     <Link href="/settings" onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Settings

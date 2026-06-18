@@ -189,6 +189,31 @@ Frontend response shape expected by `app/api/me`:
 
 Return `404` if the user does not exist.
 
+### `GET /users/billing?auth0_sub=...`
+
+Returns billing identifiers for authenticated server-side subscription operations.
+
+Frontend response shape expected by `app/api/cancel-subscription`:
+
+```json
+{
+  "auth0_sub": "auth0|abc",
+  "email": "person@example.com",
+  "stripe_customer_id": "cus_...",
+  "stripe_subscription_id": "sub_...",
+  "plan": "monthly_subscription",
+  "subscription_status": "active"
+}
+```
+
+Behavior:
+
+- Match by `auth0_sub` only.
+- Return nullable or empty Stripe IDs for legacy users when unavailable.
+- Return email as a legacy Stripe lookup fallback; email must not be treated as the primary billing identifier.
+- Require the existing backend bearer auth header.
+- Return `404` if the user does not exist.
+
 ### `POST /users/ensure`
 
 Creates or updates the user from Auth0 session identity and returns the same profile shape.

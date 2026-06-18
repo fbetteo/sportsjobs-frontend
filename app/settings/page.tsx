@@ -35,7 +35,6 @@ const SettingsPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: user?.email,
                     cancellationFeedback: payload.cancellationFeedback,
                     cancellationComment: payload.cancellationComment,
                 }),
@@ -66,7 +65,7 @@ const SettingsPage = () => {
                 title: 'Error',
                 description: message,
                 status: 'error',
-                duration: 3000,
+                duration: 15000,
                 isClosable: true,
             });
         } finally {

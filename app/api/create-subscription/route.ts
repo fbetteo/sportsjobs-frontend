@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         const checkoutName = typeof sessionUser?.name === 'string' ? sessionUser.name : normalizedContactName;
 
         let successUrl = isAuthenticatedUpgrade
-            ? '/dashboard?upgrade=success&session_id={CHECKOUT_SESSION_ID}'
+            ? '/?upgrade=success&session_id={CHECKOUT_SESSION_ID}'
             : '/signup/success?session_id={CHECKOUT_SESSION_ID}';
         if (planName) successUrl += `&plan=${encodeURIComponent(planName)}`;
         if (priceValue) successUrl += `&value=${encodeURIComponent(priceValue.toString())}`;
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
             allow_promotion_codes: true,
             billing_address_collection: 'required',
             success_url: new URL(successUrl, baseUrl).toString(),
-            cancel_url: new URL(isAuthenticatedUpgrade ? '/dashboard?upgrade=canceled' : '/signup?canceled=true', baseUrl).toString(),
+            cancel_url: new URL(isAuthenticatedUpgrade ? '/?upgrade=canceled' : '/signup?canceled=true', baseUrl).toString(),
             customer_email: checkoutEmail || undefined,
             client_reference_id: typeof sessionUser?.sub === 'string' ? sessionUser.sub : undefined,
             metadata: {

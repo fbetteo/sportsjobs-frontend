@@ -41,6 +41,8 @@ Use this file as a map. Read only the sections relevant to your task.
 - Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.
 - Homepage testimonials currently use the shorter DB-backed paged wall; keep the older masonry wall component available for easy rollback.
 - User profile and onboarding access goes through `app/api/me`, keyed by Auth0 `sub`.
+- Dashboard links are temporarily hidden from global navigation and completion redirects while the dashboard flow is unfinished; keep the route available for direct testing.
+- Subscription cancellation must be authenticated, keyed by Auth0 `sub`, and resolved through backend billing IDs before using email as a legacy fallback.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.
 - Search-intent landing pages currently include `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`.
