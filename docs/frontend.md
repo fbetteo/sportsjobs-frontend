@@ -44,7 +44,8 @@ Use this guide for pages/components and UX changes.
 - Brand UI must use `lib/uiTokens.ts` constants and semantic Chakra palettes (`brandBg`, `brandFg`, `brandPrimary`, `brandSecondary`), not built-in Chakra color names as brand concepts or raw brand hexes in components. Featured cards should use the primary accent treatment; regular cards, footer panels, company cards, and common dark panels should use secondary accent surfaces. Freshness/date tags and primary conversion/status accents should use the primary accent treatment.
 - Avoid visible `free` language in signup/onboarding CTAs or labels.
 - Do not call backend `/users/ensure` from the funnel steps; account creation should be reconnected in a later backend-safe pass.
-- Authenticated users should land on `/dashboard` after signup/login.
+- Dashboard links are temporarily hidden from global navigation while the dashboard flow is unfinished.
+- Authenticated signup/login completion should send users back to `/` until the dashboard is ready to re-enable.
 - Dashboard feature surfaces should work for free users and expose premium upgrade CTAs without blocking basic account access.
 - Onboarding questions live in `components/OnboardingModal.tsx` and should save through `/api/me`; do not store onboarding answers only in local state/local storage.
 - Onboarding fixed-choice answers should use stable option IDs in the payload, not display labels.
@@ -55,6 +56,7 @@ Use this guide for pages/components and UX changes.
 - `components/ConfirmCancelModal.tsx` collects optional cancellation feedback before calling the existing cancellation API.
 - Keep cancellation feedback optional and never block cancellation because the reason field is empty.
 - Use a loading state on the final cancellation button and disable duplicate submits while the request is running.
+- Keep cancellation error toasts visible long enough for users to read support instructions.
 - Cancellation copy should explain that Stripe cancellation is scheduled while the free account remains active; premium access is controlled by subscription entitlement state.
 
 ## Data Fetching in Frontend Code

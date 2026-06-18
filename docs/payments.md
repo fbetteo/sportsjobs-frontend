@@ -4,7 +4,7 @@
 
 - Stripe is used for checkout and subscription flows.
 - Main route for checkout session creation: `app/api/create-subscription/route.ts`.
-- Free signup does not require Stripe. Stripe checkout is now primarily an authenticated upgrade action from `/dashboard`.
+- Free signup does not require Stripe. Authenticated dashboard upgrade entry points are temporarily hidden while the dashboard flow is unfinished.
 
 ## Current Flow (High Level)
 
@@ -15,7 +15,7 @@
 5. Pre-auth signup sessions include `signup_funnel_id`, name, email, source, plan name, and price ID in Stripe metadata.
 6. User is redirected to Stripe checkout URL.
 7. Signup success redirects show the account creation form immediately; `/api/auth/signup` verifies the Stripe session server-side before creating/linking Auth0.
-8. Authenticated success/cancel URLs return to `/dashboard`; legacy unauthenticated checkout still returns to signup success/cancel routes.
+8. Authenticated success/cancel URLs temporarily return to `/`; legacy unauthenticated checkout still returns to signup success/cancel routes.
 
 ## Paid Job Posting Flow
 
@@ -28,13 +28,15 @@
 ## Cancellation Feedback
 
 - Subscription cancellation is handled by `app/api/cancel-subscription/route.ts`.
+- The route requires an Auth0 session and uses the session `sub` to fetch billing identity from backend `GET /users/billing`.
 - The settings cancellation modal may send optional feedback in the request body:
-  - `email`
   - `cancellationFeedback`
   - `cancellationComment`
+- The browser must not send email, Stripe customer IDs, or subscription IDs for cancellation lookup.
 - `cancellationFeedback` must match Stripe's supported cancellation feedback enum values.
 - `cancellationComment` is trimmed and capped at 500 characters.
 - Feedback is stored on the Stripe subscription via `cancellation_details.feedback` and `cancellation_details.comment`; v1 does not send email notifications or create a separate database record.
+- Cancellation lookup uses backend `stripe_subscription_id` first, then backend `stripe_customer_id`, then backend email as a legacy fallback. Ambiguous Stripe matches return a support error instead of guessing.
 - Cancellation schedules the Stripe subscription to end and does not disable the Auth0 account. Premium access should be downgraded through backend entitlement sync/webhooks.
 
 ## Entitlement Sync

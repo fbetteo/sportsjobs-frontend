@@ -62,7 +62,7 @@ const SuccessPageContent = () => {
 
     useEffect(() => {
         if (user) {
-            window.location.href = '/dashboard';
+            window.location.href = '/';
         }
     }, [user]);
 
