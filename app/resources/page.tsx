@@ -206,7 +206,7 @@ export default function ResourcesPage() {
                             title="AthlyticZ - Master Data Science
 Through the Lens of Sports"
                             description="Advance your career in Data Science with project-based training in Machine Learning using Python, R Programming, Shiny Application Development, Bayesian Modeling using Stan, and more. Get lifetime access to asynchronous courses taught by industry experts."
-                            url="https://athlyticz.com/affiliate-courses?am_id=sportsjobs"
+                            url="https://athlyticz.com/affiliate-courses?am_id=franco2804"
                             type="tutorial"
                             isFeatured={true}
                             promoCode="SPORTSJOBS"
