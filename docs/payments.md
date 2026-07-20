@@ -8,7 +8,7 @@
 
 ## Current Flow (High Level)
 
-1. Client requests a checkout session with `priceId` (and optional referral).
+1. Client requests a checkout session with a canonical `planId` (`monthly_subscription`, `yearly_subscription`, or `lifetime`), the matching public `priceId`, and optional referral.
 2. Server creates Stripe Checkout Session.
 3. Mode is selected by plan type (one-time vs subscription).
 4. Authenticated upgrade sessions include Auth0 `sub`, email, plan name, and price ID in Stripe metadata.
@@ -16,6 +16,8 @@
 6. User is redirected to Stripe checkout URL.
 7. Signup success redirects show the account creation form immediately; `/api/auth/signup` verifies the Stripe session server-side before creating/linking Auth0.
 8. Authenticated success/cancel URLs temporarily return to `/`; legacy unauthenticated checkout still returns to signup success/cancel routes.
+
+Pre-auth signup Checkout Sessions automatically apply `SPORTS25`. `app/api/create-subscription` uses `STRIPE_SIGNUP_PROMOTION_CODE_ID` when configured, otherwise it resolves the active code through Stripe. Checkout creation validates the selected plan against the configured price IDs and returns Stripe's discounted total for `begin_checkout` analytics. Signup cancellation returns to the plans step with the selected plan preserved.
 
 ## Paid Job Posting Flow
 
@@ -56,5 +58,6 @@
 ## Guardrails
 
 - Validate required request fields (`priceId`, etc.) before provider calls.
+- Resolve checkout plan names, values, and modes from the server-side allowlist; do not trust client-provided price values or plan labels.
 - Keep payment logic server-side in API routes.
 - Keep plan IDs and secret keys in environment variables.

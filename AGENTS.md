@@ -38,7 +38,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Brand UI must go through `lib/uiTokens.ts` and the semantic Chakra palettes (`brandBg`, `brandFg`, `brandPrimary`, `brandSecondary`). Do not use Chakra built-in color names as brand concepts or hard-code brand hex values in components. Featured cards use primary surfaces; regular cards and common dark panels use secondary surfaces.
 - Signup funnel screens should stay focused and vertical: no global chrome, question options as lists, persistent country skip action, progress only through country, and insight screens as concise icon bullets.
 - Role/job-type onboarding is paused; keep role fields as `roleInterests: []` and `roleUnsure: true` for backend compatibility.
-- Signup pricing should use the focused conversion flow: 25% promo code messaging, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA.
+- Signup pricing should use the focused conversion flow: an automatically applied 25% `SPORTS25` Stripe promotion, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA. Do not use a locally resetting urgency timer.
 - Homepage testimonials currently use the shorter DB-backed paged wall; keep the older masonry wall component available for easy rollback.
 - User profile and onboarding access goes through `app/api/me`, keyed by Auth0 `sub`.
 - Dashboard links are temporarily hidden from global navigation and completion redirects while the dashboard flow is unfinished; keep the route available for direct testing.
@@ -50,6 +50,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Homepage/global title metadata should stay query-first with `SportsJobs Online` at the end.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
 - Server-rendered job detail pages should use the shared server-only backend helper, not self-fetch the public `/api/get-job-details` route.
+- Job postings use a two-calendar-month `validThrough`; expired archive URLs remain indexable and must be excluded from the job sitemap.
 - Paid job submissions should store the full draft in the backend before Stripe Checkout and pass only `pendingJobId` through Stripe metadata.
 
 ## Source Priority

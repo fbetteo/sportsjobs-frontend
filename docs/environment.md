@@ -34,6 +34,7 @@ Notes:
 ### Stripe
 
 - `STRIPE_SECRET_KEY`
+- `STRIPE_SIGNUP_PROMOTION_CODE_ID` (optional; Stripe promotion-code ID for `SPORTS25`; the checkout route looks up the active code when omitted)
 - public/plan price IDs (for example lifetime/yearly/monthly IDs)
 
 ## Operational Notes

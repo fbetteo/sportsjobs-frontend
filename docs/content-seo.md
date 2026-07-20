@@ -30,6 +30,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Indexing Strategy
 
 - Include high-value static pages plus dynamic job/company/blog URLs in sitemap.
+- Include job URLs in the sitemap only during their two-calendar-month `JobPosting` lifetime; expired archive pages remain indexable but leave the job sitemap and are submitted to the Indexing API as `URL_UPDATED`.
 - Include index-worthy search-intent landing pages in the static sitemap list.
 - Exclude/internal-limit crawl for non-indexable API surfaces.
 - Use robots directives intentionally for known aggressive crawlers.

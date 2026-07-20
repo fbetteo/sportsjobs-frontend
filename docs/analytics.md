@@ -63,6 +63,20 @@ It also documents what can be answered today, what is missing, and what should b
   - Before Stripe redirect:
     - Fires standard GA4 E-commerce event: `begin_checkout` with `value`, `currency`, and `items` array
 
+Signup sends `begin_checkout` through the shared analytics client after Stripe successfully creates the discounted Checkout Session, so GA4 and PostHog receive the Stripe-returned total. Signup also forwards the Promotekit referral into Checkout metadata.
+
+### Signup funnel events
+
+- `signup_started`: emitted when a funnel visit initializes
+- `signup_step_viewed`: emitted for every reached step with its slug and one-based position
+- `email_captured`: emitted after valid contact capture, without name or email properties
+- `pricing_viewed`: emitted when the plans step is reached
+- `plan_selected`: emitted when a visitor changes the selected plan
+- `checkout_failed`: emitted when Checkout Session creation fails
+- `purchase`: emitted to GA4 and PostHog only after `/api/checkout-session` verifies the Stripe Session is complete and paid
+
+All signup events include `signup_funnel_id` where available. Do not send contact PII to GA4 or PostHog.
+
 ### 4) Engagement events
 
 - `components/FeaturedCompanies.tsx`
@@ -95,7 +109,7 @@ It also documents what can be answered today, what is missing, and what should b
 ### Affiliate referral
 
 1. Promotekit script loads and exposes `window.promotekit_referral`.
-2. Checkout client sends this to backend session creation.
+2. Signup and authenticated upgrade checkout clients send this to server-side session creation.
 3. It's stored in Stripe metadata (`promotekit_referral`).
 
 ### GA4 Native Attribution
@@ -112,7 +126,7 @@ It also documents what can be answered today, what is missing, and what should b
 
 ## Known Limitations
 
-1. Because conversions rely on client-side tracking (firing events on the `/success` page), ad-blockers can cause a slight discrepancy/drop-off compared to raw Stripe revenue.
+1. Because conversions rely on client-side dispatch from the `/success` page, ad-blockers can cause a discrepancy compared to raw Stripe revenue. The page verifies payment and amount with Stripe before dispatching `purchase`.
 2. Job funnel instrumentation exists, but event governance (naming ownership, required properties, QA checklist) is still pending.
 4. PostHog now receives custom events via shared tracking utility, but dashboarding and event governance are still pending.
 5. Substack flow includes `email` in query parameters (privacy and URL logging concern).
