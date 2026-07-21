@@ -39,7 +39,7 @@ Use this guide for pages/components and UX changes.
 - Role/job-type onboarding is paused for now. Send `roleInterests: []` and `roleUnsure: true` in onboarding payloads for backend compatibility.
 - The paid-product explanation screen should stay simple: value bullets, no coupon messaging, and the `That's fair` acknowledgement CTA.
 - The pricing screen should feel like a focused conversion flow with before/after comparison, a limited-time 25% promo code, selected-plan checkout, testimonials, small FAQ, repeated CTA, and clear checkout actions.
-- Promo messaging should not claim Stripe has auto-applied a discount unless `app/api/create-subscription` is also updated to pass a Stripe coupon/promotion code ID.
+- Signup checkout automatically applies the active Stripe promotion code `SPORTS25`. Pricing surfaces may create truthful urgency by calling it the current offer and noting that it is available while the promotion remains active; do not invent an end date or show a locally resetting timer.
 - Signup/onboarding accents should use the shared semantic brand token constants in `lib/uiTokens.ts`; avoid reintroducing one-off accent colors.
 - Brand UI must use `lib/uiTokens.ts` constants and semantic Chakra palettes (`brandBg`, `brandFg`, `brandPrimary`, `brandSecondary`), not built-in Chakra color names as brand concepts or raw brand hexes in components. Featured cards should use the primary accent treatment; regular cards, footer panels, company cards, and common dark panels should use secondary accent surfaces. Freshness/date tags and primary conversion/status accents should use the primary accent treatment.
 - Avoid visible `free` language in signup/onboarding CTAs or labels.

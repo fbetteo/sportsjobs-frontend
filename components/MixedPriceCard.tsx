@@ -53,6 +53,30 @@ const MixedPricingCard = () => {
                 Subscribe to membership and unlock all jobs
             </Text>
 
+            <Box
+                maxW="720px"
+                mx="auto"
+                mb={10}
+                px={{ base: 5, md: 7 }}
+                py={5}
+                textAlign="center"
+                bg={BRAND_PRIMARY_SURFACE}
+                borderWidth="1px"
+                borderColor={BRAND_PRIMARY_LIGHT}
+                borderRadius="xl"
+                boxShadow="lg"
+            >
+                <Text color={BRAND_PRIMARY_LIGHT} fontSize="sm" fontWeight="bold" textTransform="uppercase" letterSpacing="wide">
+                    Current member offer
+                </Text>
+                <Text color="white" fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" mt={1}>
+                    Get 25% off any plan
+                </Text>
+                <Text color="gray.200" mt={2}>
+                    SPORTS25 is applied automatically at checkout while the promotion is available.
+                </Text>
+            </Box>
+
             {/* Features Grid */}
             <Box
                 mb={12}
@@ -261,7 +285,7 @@ const MixedPricingCard = () => {
                             transition="all 0.2s"
                             boxShadow="lg"
                         >
-                            {plan.ctaText || 'Get Started Now'}
+                            Claim the current 25% off
                         </Button>
                     </Box>
                 ))}

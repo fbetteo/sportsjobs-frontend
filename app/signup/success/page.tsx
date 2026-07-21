@@ -20,6 +20,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { validatePasswordStrength } from '../../../lib/validatePasswordStrength';
 import { SIGNUP_ACCENT_COLOR_SCHEME } from '@/lib/uiTokens';
+import { trackAnalyticsEvent } from '@/lib/analyticsClient';
 
 const STORAGE_KEY = 'sportsjobs_signup_funnel';
 
@@ -56,9 +57,6 @@ const SuccessPageContent = () => {
 
     const sessionId = searchParams?.get('session_id') || '';
     const urlSignupFunnelId = searchParams?.get('signup_funnel_id') || '';
-    const planName = searchParams?.get('plan') || 'Subscription';
-    const rawValue = searchParams?.get('value');
-    const value = rawValue ? parseFloat(rawValue) : 0;
 
     useEffect(() => {
         if (user) {
@@ -76,29 +74,53 @@ const SuccessPageContent = () => {
             email: storedState.contact?.email || current.email,
         }));
 
-        if (typeof window !== 'undefined' && window.gtag && sessionId) {
-            window.gtag('event', 'conversion', {
-                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
-                'value': value,
-                'currency': 'USD',
-                'transaction_id': sessionId
-            });
+        if (!sessionId) return;
 
-            window.gtag('event', 'purchase', {
-                transaction_id: sessionId,
-                value: value,
-                currency: 'USD',
-                items: [
-                    {
-                        item_id: planName.toLowerCase().replace(/\s+/g, '_'),
-                        item_name: planName,
-                        price: value,
-                        quantity: 1
-                    }
-                ]
-            });
-        }
-    }, [planName, sessionId, urlSignupFunnelId, value]);
+        const trackVerifiedPurchase = async () => {
+            const trackingKey = `sportsjobs_purchase_tracked_${sessionId}`;
+            if (window.localStorage.getItem(trackingKey)) return;
+
+            try {
+                const response = await fetch(`/api/checkout-session?session_id=${encodeURIComponent(sessionId)}`, {
+                    cache: 'no-store',
+                });
+                const checkout = await response.json().catch(() => null);
+
+                if (!response.ok) {
+                    throw new Error(checkout?.error || 'Could not verify checkout');
+                }
+
+                if (window.gtag) {
+                    window.gtag('event', 'conversion', {
+                        send_to: 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
+                        value: checkout.value,
+                        currency: checkout.currency,
+                        transaction_id: checkout.sessionId,
+                    });
+                }
+
+                trackAnalyticsEvent('purchase', {
+                    transaction_id: checkout.sessionId,
+                    signup_funnel_id: checkout.signupFunnelId,
+                    value: checkout.value,
+                    currency: checkout.currency,
+                    coupon: 'SPORTS25',
+                    items: [{
+                        item_id: checkout.planId,
+                        item_name: checkout.planName,
+                        price: checkout.value,
+                        quantity: 1,
+                        coupon: 'SPORTS25',
+                    }],
+                });
+                window.localStorage.setItem(trackingKey, new Date().toISOString());
+            } catch (error) {
+                console.error('Failed to track verified signup purchase:', error);
+            }
+        };
+
+        void trackVerifiedPurchase();
+    }, [sessionId, urlSignupFunnelId]);
 
     const handlePasswordSignup = async (e: React.FormEvent) => {
         e.preventDefault();

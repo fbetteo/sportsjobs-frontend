@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Badge,
   Box,
@@ -38,6 +38,7 @@ import { BRAND_PRIMARY, SIGNUP_ACCENT_COLOR_SCHEME, SIGNUP_ACCENT_PROGRESS, SIGN
 import type { ElementType } from 'react';
 import { useToast } from '@chakra-ui/react';
 import TestimonialsMarqueeFromDB from '../../components/TestimonialsMarqueeFromDB';
+import { trackAnalyticsEvent } from '@/lib/analyticsClient';
 
 const STORAGE_KEY = 'sportsjobs_signup_funnel';
 const PROMO_CODE = 'SPORTS25';
@@ -77,8 +78,23 @@ const countryOptions = [
   'united arab emirates', 'vietnam',
 ];
 
-const planOptions = [
+type PlanId = 'monthly_subscription' | 'yearly_subscription' | 'lifetime';
+
+type PlanOption = {
+  id: PlanId;
+  name: string;
+  price: string;
+  period: string;
+  priceId?: string;
+  priceValue: number;
+  highlighted?: boolean;
+  summary: string;
+  features: string[];
+};
+
+const planOptions: PlanOption[] = [
   {
+    id: 'monthly_subscription',
     name: 'Monthly',
     price: '$6.99',
     period: 'per month',
@@ -88,6 +104,7 @@ const planOptions = [
     features: ['Fresh jobs every week', 'Cleaner niche sports board', 'Cancel anytime'],
   },
   {
+    id: 'yearly_subscription',
     name: 'Yearly',
     price: '$39',
     period: 'per year',
@@ -98,6 +115,7 @@ const planOptions = [
     features: ['Best value', 'Always-on job discovery', 'Future saved-search upgrades'],
   },
   {
+    id: 'lifetime',
     name: 'Lifetime',
     price: '$59',
     period: 'one time',
@@ -107,6 +125,15 @@ const planOptions = [
     features: ['One payment', 'Long-term sports career access', 'Future feature access'],
   },
 ];
+
+function normalizePlanId(value: string | null): PlanId | null {
+  const normalizedValue = value?.trim().toLowerCase();
+
+  if (normalizedValue === 'monthly' || normalizedValue === 'monthly_subscription') return 'monthly_subscription';
+  if (normalizedValue === 'yearly' || normalizedValue === 'yearly_subscription') return 'yearly_subscription';
+  if (normalizedValue === 'lifetime') return 'lifetime';
+  return null;
+}
 
 type Answers = {
   sportsInterests: string[];
@@ -187,6 +214,14 @@ function writeStepToUrl(step: number, mode: 'push' | 'replace' = 'push') {
   window.history.pushState({ step }, '', url);
 }
 
+function writePlanToUrl(planId: PlanId) {
+  if (typeof window === 'undefined') return;
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('plan', planId);
+  window.history.replaceState({ ...window.history.state, plan: planId }, '', url);
+}
+
 function formatCountry(country: string) {
   return country.replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -255,10 +290,13 @@ export default function SignupPage() {
   const [isSyncingContact, setIsSyncingContact] = useState(false);
   const [isAcknowledging, setIsAcknowledging] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState('');
-  const [selectedPlanName, setSelectedPlanName] = useState('Yearly');
-  const [offerSecondsLeft, setOfferSecondsLeft] = useState(9 * 60 + 25);
+  const [selectedPlanId, setSelectedPlanId] = useState<PlanId>('yearly_subscription');
   const [hasLoadedFunnel, setHasLoadedFunnel] = useState(false);
   const [signupFunnelId, setSignupFunnelId] = useState('');
+  const [wasFunnelRestored, setWasFunnelRestored] = useState(false);
+  const hasTrackedSignupStart = useRef(false);
+  const lastTrackedStep = useRef('');
+  const hasTrackedEmailCapture = useRef(false);
 
   const selectedSports = useMemo(
     () => selectedLabels(sportsOptions, answers.sportsInterests),
@@ -274,6 +312,7 @@ export default function SignupPage() {
     if (stored) {
       try {
         const parsed = JSON.parse(stored) as StoredFunnelState;
+        setWasFunnelRestored(true);
         nextSignupFunnelId = parsed.signupFunnelId || parsed.signup_funnel_id || nextSignupFunnelId;
         if (parsed.answers) setAnswers({ ...defaultAnswers, ...parsed.answers });
         if (parsed.contact) setContact(parsed.contact);
@@ -285,6 +324,8 @@ export default function SignupPage() {
 
     setSignupFunnelId(nextSignupFunnelId);
     setStep(getStepFromUrl());
+    const routedPlanId = normalizePlanId(new URLSearchParams(window.location.search).get('plan'));
+    if (routedPlanId) setSelectedPlanId(routedPlanId);
 
     const handlePopState = () => {
       setStep(getStepFromUrl());
@@ -304,14 +345,45 @@ export default function SignupPage() {
   }, [answers, contact, hasLoadedFunnel, paidProductAcknowledgedAt, signupFunnelId]);
 
   useEffect(() => {
-    if (step < 8) return;
+    if (!hasLoadedFunnel || !signupFunnelId || hasTrackedSignupStart.current) return;
 
-    const intervalId = window.setInterval(() => {
-      setOfferSecondsLeft((current) => (current > 0 ? current - 1 : 0));
-    }, 1000);
+    const timeoutId = window.setTimeout(() => {
+      trackAnalyticsEvent('signup_started', {
+        signup_funnel_id: signupFunnelId,
+        entry_plan: selectedPlanId,
+        starting_step: stepSlugs[step],
+        is_resumed: wasFunnelRestored,
+      });
+      hasTrackedSignupStart.current = true;
+    }, 0);
 
-    return () => window.clearInterval(intervalId);
-  }, [step]);
+    return () => window.clearTimeout(timeoutId);
+  }, [hasLoadedFunnel, selectedPlanId, signupFunnelId, step, wasFunnelRestored]);
+
+  useEffect(() => {
+    if (!hasLoadedFunnel || !signupFunnelId) return;
+
+    const stepSlug = stepSlugs[step];
+    const trackingKey = `${step}`;
+    if (lastTrackedStep.current === trackingKey) return;
+
+    const timeoutId = window.setTimeout(() => {
+      const properties = {
+        signup_funnel_id: signupFunnelId,
+        step_key: stepSlug,
+        step_number: step + 1,
+        total_steps: totalSteps,
+        selected_plan: selectedPlanId,
+      };
+      trackAnalyticsEvent('signup_step_viewed', properties);
+      if (stepSlug === 'plans') {
+        trackAnalyticsEvent('pricing_viewed', properties);
+      }
+      lastTrackedStep.current = trackingKey;
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [hasLoadedFunnel, selectedPlanId, signupFunnelId, step]);
 
   useEffect(() => {
     if (step !== 6) return;
@@ -391,6 +463,8 @@ export default function SignupPage() {
       return;
     }
 
+    let syncStatus = 'server';
+
     try {
       setIsSyncingContact(true);
       const currentSignupFunnelId = requireSignupFunnelId();
@@ -411,6 +485,7 @@ export default function SignupPage() {
         throw new Error(data?.error || 'Could not save your setup');
       }
     } catch (error) {
+      syncStatus = 'local_only';
       toast({
         title: 'Saved in this browser',
         description: error instanceof Error ? error.message : 'We could not sync with the server yet.',
@@ -420,6 +495,15 @@ export default function SignupPage() {
       });
     } finally {
       setIsSyncingContact(false);
+    }
+
+    if (!hasTrackedEmailCapture.current) {
+      trackAnalyticsEvent('email_captured', {
+        signup_funnel_id: requireSignupFunnelId(),
+        step_key: 'contact',
+        sync_status: syncStatus,
+      });
+      hasTrackedEmailCapture.current = true;
     }
 
     goNext();
@@ -478,11 +562,12 @@ export default function SignupPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           priceId: plan.priceId,
+          planId: plan.id,
           planName: plan.name,
-          priceValue: plan.priceValue,
           signupFunnelId: currentSignupFunnelId,
           contactName: contact.name,
           contactEmail: contact.email,
+          referral: typeof window !== 'undefined' ? (window as any).promotekit_referral || null : null,
         }),
       });
       const data = await response.json();
@@ -492,9 +577,30 @@ export default function SignupPage() {
       }
 
       if (data.url) {
+        const checkoutValue = typeof data.checkout?.value === 'number'
+          ? data.checkout.value
+          : getDiscountedPriceValue(plan.priceValue);
+        trackAnalyticsEvent('begin_checkout', {
+          signup_funnel_id: currentSignupFunnelId,
+          currency: data.checkout?.currency || 'USD',
+          value: checkoutValue,
+          coupon: PROMO_CODE,
+          items: [{
+            item_id: plan.id,
+            item_name: plan.name,
+            price: checkoutValue,
+            quantity: 1,
+            coupon: PROMO_CODE,
+          }],
+        });
         window.location.href = data.url;
       }
     } catch (error) {
+      trackAnalyticsEvent('checkout_failed', {
+        signup_funnel_id: signupFunnelId,
+        selected_plan: plan.id,
+        error_message: error instanceof Error ? error.message : 'Unknown checkout error',
+      });
       toast({
         title: 'Checkout unavailable',
         description: error instanceof Error ? error.message : 'Please try again.',
@@ -510,7 +616,19 @@ export default function SignupPage() {
   const questionProgressSteps = 6;
   const showProgress = step < questionProgressSteps;
   const progress = Math.round(((Math.min(step, questionProgressSteps - 1) + 1) / questionProgressSteps) * 100);
-  const selectedPlan = planOptions.find((plan) => plan.name === selectedPlanName) || planOptions[1];
+  const selectedPlan = planOptions.find((plan) => plan.id === selectedPlanId) || planOptions[1];
+
+  const handlePlanSelect = (plan: PlanOption) => {
+    setSelectedPlanId(plan.id);
+    writePlanToUrl(plan.id);
+    trackAnalyticsEvent('plan_selected', {
+      signup_funnel_id: signupFunnelId,
+      selected_plan: plan.id,
+      value: getDiscountedPriceValue(plan.priceValue),
+      currency: 'USD',
+      coupon: PROMO_CODE,
+    });
+  };
 
   return (
     <Container maxW={step >= 8 ? 'container.lg' : 'container.md'} py={{ base: 6, md: 10 }}>
@@ -789,11 +907,11 @@ export default function SignupPage() {
                     ]}
                   />
                 </VStack>
-                <PromoTicket secondsLeft={offerSecondsLeft} />
+                <PromoTicket />
                 <Box textAlign="center">
                   <Heading size="2xl" mb={4}>Choose your plan</Heading>
                   <Text color="gray.300" fontSize="lg" maxW="620px" mx="auto">
-                    Your profile is ready. Pick the access that fits your search and use {PROMO_CODE} at checkout for {PROMO_DISCOUNT} off.
+                    Your profile is ready. Pick the access that fits your search and claim the current {PROMO_DISCOUNT} offer while it is available. {PROMO_CODE} is applied automatically.
                   </Text>
                 </Box>
                 <VStack align="stretch" spacing={4} w="full" maxW="640px">
@@ -802,7 +920,7 @@ export default function SignupPage() {
                       key={plan.name}
                       plan={plan}
                       isSelected={selectedPlan.name === plan.name}
-                      onSelect={() => setSelectedPlanName(plan.name)}
+                      onSelect={() => handlePlanSelect(plan)}
                     />
                   ))}
                 </VStack>
@@ -816,7 +934,7 @@ export default function SignupPage() {
                   onClick={() => handleCheckout(selectedPlan)}
                   isLoading={checkoutPlan === selectedPlan.name}
                 >
-                  Access all jobs
+                  Claim {PROMO_DISCOUNT} off & access all jobs
                 </Button>
                 <Badge bg="gray.800" color="white" px={4} py={2} borderRadius="full">
                   <Icon as={FaCheckCircle} mr={2} />
@@ -836,7 +954,7 @@ export default function SignupPage() {
               <VStack align="center" spacing={4} bg="gray.800" borderWidth="1px" borderColor="gray.700" borderRadius="md" p={{ base: 5, md: 8 }}>
                 <Heading size="xl" textAlign="center">The right sports role is easier to find with a sharper board</Heading>
                 <Text color="gray.300" textAlign="center" maxW="640px">
-                  Keep your setup, unlock the curated board, and use {PROMO_CODE} before the timer runs out.
+                  Fresh roles can close quickly. Unlock the curated board while the current {PROMO_DISCOUNT} offer is available.
                 </Text>
                 <Button
                   size="lg"
@@ -845,7 +963,7 @@ export default function SignupPage() {
                   onClick={() => handleCheckout(selectedPlan)}
                   isLoading={checkoutPlan === selectedPlan.name}
                 >
-                  Unlock SportsJobs
+                  Get the current {PROMO_DISCOUNT} offer
                 </Button>
               </VStack>
 
@@ -963,21 +1081,19 @@ function StepActions({
   );
 }
 
-function formatCountdown(totalSeconds: number) {
-  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
-  return `${minutes}:${seconds}`;
+function getDiscountedPriceValue(priceValue: number) {
+  return Math.round(priceValue * 0.75 * 100) / 100;
 }
 
 function formatDiscountedPrice(priceValue: number) {
-  return `$${(priceValue * 0.75).toFixed(2).replace(/\.00$/, '')}`;
+  return `$${getDiscountedPriceValue(priceValue).toFixed(2).replace(/\.00$/, '')}`;
 }
 
-function PromoTicket({ secondsLeft }: { secondsLeft: number }) {
+function PromoTicket() {
   return (
     <Box w="full" maxW="640px" borderRadius="md" overflow="hidden" bg={SIGNUP_ACCENT_SURFACE} borderWidth="1px" borderColor={SIGNUP_ACCENT_PROGRESS}>
       <Box bg={SIGNUP_ACCENT_PROGRESS} color="gray.950" textAlign="center" py={4} fontWeight="bold">
-        Your {PROMO_DISCOUNT} promo code is unlocked
+        Current offer: {PROMO_DISCOUNT} off
       </Box>
       <Box borderTopWidth="2px" borderTopStyle="dashed" borderTopColor="gray.900" p={5}>
         <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3}>
@@ -986,8 +1102,8 @@ function PromoTicket({ secondsLeft }: { secondsLeft: number }) {
             <Text fontWeight="bold">{PROMO_CODE}</Text>
           </HStack>
           <Box bg="white" color="gray.900" borderRadius="md" p={4} textAlign="center">
-            <Text fontSize="2xl" fontWeight="bold" lineHeight="1">{formatCountdown(secondsLeft)}</Text>
-            <Text fontSize="xs" fontWeight="bold">min sec</Text>
+            <Text fontSize="lg" fontWeight="bold" lineHeight="1.2">Automatically applied</Text>
+            <Text fontSize="xs" fontWeight="bold" mt={1}>while this promotion is active</Text>
           </Box>
         </SimpleGrid>
       </Box>

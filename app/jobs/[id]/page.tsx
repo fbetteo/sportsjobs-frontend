@@ -6,7 +6,7 @@ import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
 
 // app/jobs/[id]/page.tsx
 export const dynamic = 'force-static';
-export const revalidate = 2592000; // 60 days (2 months)
+export const revalidate = 2592000; // 30 days
 
 import styles from '../../../markdown.module.css';
 import { Metadata } from 'next';

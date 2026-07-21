@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { fetchJobs } from '../../lib/fetchJobs';
 import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
 import { fetchCompanies } from '@/lib/fetchCompanies';
+import { addMonths, isPast, isValid } from 'date-fns';
 // Add this helper function at the top of the file, after the imports
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -27,16 +28,11 @@ export async function GET() {
     throw new Error('Expected jobs to be an array');
   }
 
-  // Filter jobs to only include those from the last 60 days
-  // const sixtyDaysAgo = new Date();
-  // sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
-  
-  // const recentJobs = jobs.filter((job: any) => {
-  //   const jobDate = new Date(job.start_date);
-  //   return jobDate >= sixtyDaysAgo;
-  // });
-
-  const recentJobs = jobs;
+  // Match the JobPosting validThrough policy used by job detail pages: two calendar months.
+  const recentJobs = jobs.filter((job: any) => {
+    const datePosted = new Date(job.start_date);
+    return isValid(datePosted) && !isPast(addMonths(datePosted, 2));
+  });
 
   const blogposts = await fetchBlogPosts(100, JSON.stringify(""));
   if (!Array.isArray(blogposts)) {
