@@ -51,6 +51,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.
 - Server-rendered job detail pages should use the shared server-only backend helper, not self-fetch the public `/api/get-job-details` route.
 - Job postings use a two-calendar-month `validThrough`; expired archive URLs remain indexable and must be excluded from the job sitemap.
+- Job alert creation uses the PostgreSQL backend through `app/api/create-alert`; do not reintroduce Airtable dual writes.
 - Paid job submissions should store the full draft in the backend before Stripe Checkout and pass only `pendingJobId` through Stripe metadata.
 
 ## Source Priority

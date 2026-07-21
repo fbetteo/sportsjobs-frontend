@@ -25,6 +25,12 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 - Backend calls require bearer auth header using `HEADER_AUTHORIZATION`.
 - Paid recruiter submissions are stored as pending backend drafts through `POST /pending_job_postings` and published after Stripe payment through `POST /pending_job_postings/{id}/publish`.
 
+## Job Alerts
+
+- `POST /api/create-alert` forwards the alert payload to backend `POST /add_alert`; PostgreSQL is the sole alert store.
+- The proxy returns backend failures instead of reporting success, and identical normalized alerts return `duplicate: true` without creating another record.
+- Alert matching treats empty selections as unrestricted and sends one combined, deduplicated digest per email.
+
 ## Testimonials Integration
 
 - Local route: `app/api/testimonials/route.ts`
