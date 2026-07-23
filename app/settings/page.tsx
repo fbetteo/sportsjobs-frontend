@@ -7,6 +7,19 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
 
+const SETTINGS_REAUTHENTICATION_KEY = 'sportsjobs_settings_reauthentication';
+const SETTINGS_LOGIN_URL = '/api/auth/login?returnTo=/settings';
+
+function redirectToSettingsLogin() {
+    try {
+        window.sessionStorage.setItem(SETTINGS_REAUTHENTICATION_KEY, 'required');
+    } catch (storageError) {
+        console.error('Failed to store settings reauthentication state:', storageError);
+    }
+
+    window.location.assign(SETTINGS_LOGIN_URL);
+}
+
 const SettingsPage = () => {
     const { user, error, isLoading } = useUser();
     const router = useRouter();
@@ -16,10 +29,28 @@ const SettingsPage = () => {
 
     useEffect(() => {
         if (!isLoading && !user) {
-            // Redirect to the main page if the user is not logged in
-            router.push('/');
+            redirectToSettingsLogin();
         }
-    }, [isLoading, user, router]);
+    }, [isLoading, user]);
+
+    useEffect(() => {
+        if (isLoading || !user) return;
+
+        try {
+            if (window.sessionStorage.getItem(SETTINGS_REAUTHENTICATION_KEY) !== 'required') return;
+
+            window.sessionStorage.removeItem(SETTINGS_REAUTHENTICATION_KEY);
+            toast({
+                title: 'Sign-in verified',
+                description: 'For your security, we needed to verify your sign-in before allowing changes to your subscription. You can now try again.',
+                status: 'info',
+                duration: 8000,
+                isClosable: true,
+            });
+        } catch (storageError) {
+            console.error('Failed to read settings reauthentication state:', storageError);
+        }
+    }, [isLoading, toast, user]);
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>{error.message}</div>;
@@ -39,6 +70,11 @@ const SettingsPage = () => {
                     cancellationComment: payload.cancellationComment,
                 }),
             });
+
+            if (response.status === 401) {
+                redirectToSettingsLogin();
+                return;
+            }
 
             if (!response.ok) {
                 const data = await response.json().catch(() => null);
