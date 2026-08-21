@@ -11,7 +11,7 @@ import {
     VStack
 } from '@chakra-ui/react';
 import { BRAND_PRIMARY, BRAND_PRIMARY_LIGHT, BRAND_SECONDARY_SURFACE, BRAND_SECONDARY_SURFACE_HOVER } from '@/lib/uiTokens';
-import { redirect } from 'next/navigation';
+import { buildAttributedOutboundUrl } from '@/lib/outboundAttribution';
 import NextLink from 'next/link';
 
 
@@ -107,14 +107,24 @@ const FeaturedCompanies = () => {
                     gap={4}
                 >                    {companies.slice(0, 4).map((company, index) => {
                     const isExternal = !!company.external_url;
-                    const href = isExternal ? company.external_url! : `/company/${company.slug}`;
+                    const href = isExternal
+                        ? buildAttributedOutboundUrl(company.external_url!, {
+                            medium: 'company_directory',
+                            campaign: 'company_profile',
+                            content: company.slug,
+                        })
+                        : `/company/${company.slug}`;
 
                     return (
                         <Box
                             key={company.id}
                             as={isExternal ? 'a' : NextLink}
                             href={href}
-                            {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+                            {...(isExternal && {
+                                target: '_blank',
+                                rel: 'noopener',
+                                referrerPolicy: 'origin',
+                            })}
                             onClick={() => trackCompanyClick(company.name, company.slug, index, isExternal)}
                             p={6}
                             bg={BRAND_SECONDARY_SURFACE}

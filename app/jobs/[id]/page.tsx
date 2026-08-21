@@ -1,4 +1,5 @@
 import SimilarJobs from '@/components/SimilarJobs';
+import JobApplyButton from '@/components/JobApplyButton';
 import { default as dynamicImport } from 'next/dynamic';
 import MixedPricingCard from '@/components/MixedPriceCard';
 
@@ -15,7 +16,6 @@ import { Suspense } from 'react';
 import {
     Alert,
     Box,
-    Button,
     Flex,
     Grid,
     Heading,
@@ -24,7 +24,7 @@ import {
     Text
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
-import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY } from '@/lib/uiTokens';
+import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_SECONDARY } from '@/lib/uiTokens';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { addMonths, format } from 'date-fns';
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
@@ -312,25 +312,13 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 </Grid>
 
                                 {!expired && (
-                                    <Button
-                                        as="a"
-                                        href={job.apply_url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
-                                        bg={BRAND_PRIMARY}
-                                        color={BRAND_FOREGROUND}
-                                        size="lg"
-                                        px={{ base: 10, md: 14 }}
-                                        py={{ base: 6, md: 7 }}
-                                        borderRadius="full"
-                                        fontSize={{ base: "24px", md: "30px" }}
-                                        textTransform="uppercase"
-                                        flexShrink={0}
-                                        _hover={{ bg: BRAND_PRIMARY }}
-                                    >
-                                        Apply Now
-                                    </Button>
+                                    <JobApplyButton
+                                        applyUrl={job.apply_url}
+                                        jobId={job.id}
+                                        jobSlug={job.slug}
+                                        company={job.company}
+                                        buttonLocation="hero"
+                                    />
                                 )}
                             </Flex>
                         </Box>
@@ -346,20 +334,13 @@ async function JobDetails({ params }: { params: { id: string } }) {
                         </Box>
                         {/* Apply button only if not expired */}
                         {!expired && (
-                            <Button
-                                as="a"
-                                href={job.apply_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
-                                size="lg"
-                                px={4}
-                                py={2}
-                                m={1}
-                                mt={5}
-                            >
-                                Apply Now
-                            </Button>
+                            <JobApplyButton
+                                applyUrl={job.apply_url}
+                                jobId={job.id}
+                                jobSlug={job.slug}
+                                company={job.company}
+                                buttonLocation="bottom"
+                            />
                         )}
                         {/* Expired message */}
                         {expired && (

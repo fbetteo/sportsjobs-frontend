@@ -40,6 +40,14 @@ It also documents what can be answered today, what is missing, and what should b
   - Sends events to both GA4 (`gtag`) and PostHog
   - Keeps events cleanly formatted without custom UTM overriding (relies on GA4 native attribution)
 
+### Outbound attribution utility
+
+- `lib/outboundAttribution.ts`
+  - Appends SportsJobs UTM parameters only for allowlisted Greenhouse, Lever, Ashby, and AthlyticZ hosts
+  - Preserves existing query parameters, fragments, and affiliate identifiers
+  - Does not modify URLs that already contain UTM parameters or signed/tokenized query parameters
+  - Leaves LinkedIn, Workday, aggregators, unknown hosts, invalid URLs, and non-HTTP(S) URLs unchanged
+
 ## Event Inventory (Verified)
 
 ### 1) Newsletter conversion events
@@ -94,11 +102,19 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 - `components/HomeContent.tsx`
   - Emits `job_list_viewed` when jobs are rendered/refreshed
 
-- `components/JobAnalyticsEvents.tsx` + `app/jobs/[id]/page.tsx`
-  - Emits `job_detail_view` when job page loads
-  - Emits `apply_click` for top and bottom apply buttons
+- `components/JobApplyButton.tsx` + `app/jobs/[id]/page.tsx`
+  - Emits `apply_click` through the shared analytics utility for both Apply buttons
+  - Properties are `job_id`, `company`, `destination_domain`, and `button_location` (`hero` or `bottom`)
+  - `apply_click` measures application intent, not a confirmed completed application
+  - Apply destinations receive an origin-only SportsJobs referrer; the full job-detail URL is not disclosed
 
-### 5) Pageview event
+### 5) Automatic outbound click event
+
+- GA4 Enhanced Measurement can emit `click` for all links that leave the SportsJobs domain when outbound click measurement is enabled in the GA4 web stream.
+- Use the custom `apply_click` event for application-intent reporting. The automatic `click` event also includes unrelated external navigation.
+- Enhanced Measurement is configured in GA4 and cannot be confirmed from this repository alone.
+
+### 6) Pageview event
 
 - `app/providers.tsx`
   - On pathname/search params change:
@@ -118,6 +134,14 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 2. GA4 assigns a session to that traffic source automatically.
 3. Conversion events (`generate_lead`, `begin_checkout`, `purchase`) are tied to the acquisition channel natively in GA4 dashboards.
 
+### Outbound job and company attribution
+
+1. Apply buttons record `apply_click` in GA4 and PostHog before opening the destination in a new tab.
+2. Approved job destinations receive `utm_source=sportsjobs.online`, `utm_medium=job_board`, `utm_campaign=job_application`, and the job ID or slug as `utm_content`.
+3. Approved external company destinations use `company_directory`, `company_profile`, and the company slug for the corresponding UTM values.
+4. All valid external Apply destinations receive `https://www.sportsjobs.online/` as an origin-only referrer, even when their URL is not eligible for UTMs.
+5. Internal company directory/profile links do not receive UTMs.
+
 ## Data Destinations
 
 - GA4 / Google Ads via gtag events (Conversion tracking, E-commerce, user acquisition)
@@ -131,6 +155,8 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 4. PostHog now receives custom events via shared tracking utility, but dashboarding and event governance are still pending.
 5. Substack flow includes `email` in query parameters (privacy and URL logging concern).
 6. No explicit consent gating for analytics scripts in current implementation.
+7. Client-side `apply_click` measurement can be blocked by analytics blockers and is not suitable for contractual or billable click counts.
+8. UTMs and referrers show traffic origin only when the destination organization has access to and reviews its analytics; LinkedIn does not reliably expose this attribution to recruiters.
 
 ## Reporting Capability Matrix
 
@@ -176,6 +202,8 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 1. Add explicit event naming conventions and required event properties.
 2. Add QA checks for events in staging (payload validation + destination validation).
 3. Decide one primary analytics destination for decision reporting (GA4 for acquisition/conversions, PostHog for product behavior).
+4. In GA4, register event-scoped custom dimensions for `company`, `destination_domain`, and `button_location`; keep `job_id` unregistered to avoid high-cardinality standard reports.
+5. Keep `apply_click` as a regular engagement event. Do not mark it as a key event unless employer referral outcomes become a primary business conversion.
 
 ### Governance and privacy
 
@@ -208,7 +236,8 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 - `components/JobFilter.tsx`
 - `components/JobCard.tsx`
 - `components/HomeContent.tsx`
-- `components/JobAnalyticsEvents.tsx`
+- `components/JobApplyButton.tsx`
+- `lib/outboundAttribution.ts`
 - `app/jobs/[id]/page.tsx`
 - `app/api/add-newsletter-signup/route.ts`
 - `app/api/job-webhook/route.ts`
