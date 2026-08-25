@@ -24,6 +24,7 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 - Typical endpoint pattern: POST to `http://$HETZNER_POSTGRES_HOST:8000/jobs`.
 - Backend calls require bearer auth header using `HEADER_AUTHORIZATION`.
 - Paid recruiter submissions are stored as pending backend drafts through `POST /pending_job_postings` and published after Stripe payment through `POST /pending_job_postings/{id}/publish`.
+- Recruiter submissions without an uploaded company logo store the canonical Cloudflare R2 URL from `lib/jobLogo.ts`; presentation code also normalizes the legacy CDN and Vercel defaults without migrating existing rows.
 
 ## Job Alerts
 

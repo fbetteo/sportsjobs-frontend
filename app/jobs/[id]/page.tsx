@@ -28,6 +28,7 @@ import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_SECONDARY } fr
 import { notFound, permanentRedirect } from 'next/navigation';
 import { addMonths, format } from 'date-fns';
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
+import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
         <Box
@@ -94,9 +95,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
                 type: 'website',
                 images: [
                     {
-                        url: job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
-                        width: 800,
-                        height: 600,
+                        url: getJobLogoSrc(job.logo_permanent_url, true),
+                        width: isDefaultJobLogo(job.logo_permanent_url) ? 2000 : 800,
+                        height: isDefaultJobLogo(job.logo_permanent_url) ? 1000 : 600,
                         alt: `Logo of ${job.company}`,
                     },
                 ],
@@ -106,7 +107,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
                 title: `${job.title} - SportsJobs Online`,
                 description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
                 images: [
-                    job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
+                    getJobLogoSrc(job.logo_permanent_url, true),
                 ],
             },
         };
@@ -138,6 +139,8 @@ async function JobDetails({ params }: { params: { id: string } }) {
         notFound();
     }
     const { job, expired } = jobResult;
+    const usesDefaultLogo = isDefaultJobLogo(job.logo_permanent_url);
+    const jobLogoSrc = getJobLogoSrc(job.logo_permanent_url);
 
     if (job.slug && params.id !== job.slug) {
         permanentRedirect(`/jobs/${job.slug}`);
@@ -187,7 +190,7 @@ async function JobDetails({ params }: { params: { id: string } }) {
         "hiringOrganization": {
             "@type": "Organization",
             "name": job.company,
-            "logo": job.logo_permanent_url,
+            "logo": getJobLogoSrc(job.logo_permanent_url, true),
         },
         "jobLocation": {
             "@type": "Place",
@@ -248,9 +251,10 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 pb={{ base: 6, md: 7 }}
                             >
                                 <Image
-                                    src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                                    src={jobLogoSrc}
                                     alt={`Logo of ${job.company}`}
-                                    boxSize={{ base: "72px", md: "88px" }}
+                                    width={usesDefaultLogo ? { base: "144px", md: "176px" } : { base: "72px", md: "88px" }}
+                                    height={{ base: "72px", md: "88px" }}
                                     objectFit="contain"
                                     mb={4}
                                     fallback={<Box width="88px" height="88px" bg="gray.200" />}

@@ -54,6 +54,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Job postings use a two-calendar-month `validThrough`; expired archive URLs remain indexable and must be excluded from the job sitemap.
 - Job alert creation uses the PostgreSQL backend through `app/api/create-alert`; do not reintroduce Airtable dual writes.
 - Paid job submissions should store the full draft in the backend before Stripe Checkout and pass only `pendingJobId` through Stripe metadata.
+- Job surfaces should resolve missing and legacy default logos through `lib/jobLogo.ts`; serve the rectangular SportsJobs wordmark from Cloudflare R2 in wider fallback-only containers while keeping uploaded company logos square.
 - Job Apply buttons must emit the shared `apply_click` analytics event and use `lib/outboundAttribution.ts`; preserve origin-only referrers and do not append UTMs outside the approved host allowlist.
 
 ## Source Priority

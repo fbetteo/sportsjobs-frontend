@@ -39,6 +39,7 @@ Use this guide when touching third-party integrations, webhook handlers, or exte
 - Stripe: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 - Python API: `HETZNER_POSTGRES_HOST`, `HEADER_AUTHORIZATION`
 - R2: `CLOUDFLARE_R2_ENDPOINT_URL`, `CLOUDFLARE_R2_ACCESS_KEY`, `CLOUDFLARE_R2_SECRET_KEY`, `CLOUDFLARE_R2_BUCKET_NAME`, `CLOUDFLARE_R2_PUBLIC_URL`
+- The default job wordmark is a manually managed R2 object at `company-logos/www/sportsjobs_logo_color_rectangular_202606.png`; update `lib/jobLogo.ts` if its public URL changes.
 - Beehiiv: `BEEHIIV_API_KEY`, `BEEHIV_PUBLICATION_ID`
 
 ## Guardrails

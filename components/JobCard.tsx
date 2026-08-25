@@ -26,6 +26,7 @@ import {
     BRAND_SECONDARY_SURFACE,
     BRAND_SECONDARY_SURFACE_HOVER
 } from '@/lib/uiTokens';
+import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 interface JobCardProps {
     id: string;
     title: string;
@@ -59,6 +60,7 @@ export function JobCard({
     scrollToPricing,
     url
 }: JobCardProps) {
+    const usesDefaultLogo = isDefaultJobLogo(logo_permanent_url);
     // Only encode IDs greater than this threshold
     // const ENCODING_START_ID = 7485; // Adjust this number as needed
 
@@ -115,17 +117,19 @@ export function JobCard({
                     textAlign={{ base: "center", md: "left" }}
                 >
                     <Image
-                        src={logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                        src={getJobLogoSrc(logo_permanent_url)}
                         alt={`${title} logo`}
-                        boxSize="80px"
+                        width={usesDefaultLogo ? "112px" : "80px"}
+                        height={usesDefaultLogo ? "64px" : "80px"}
                         objectFit="contain"
                         mr={{ base: 0, md: 4 }}
                         mb={{ base: 4, md: 0 }}
                         alignSelf={{ base: "center", md: "flex-start" }}
-                        borderRadius="full"
+                        borderRadius={usesDefaultLogo ? "md" : "full"}
                         border={isFeatured ? "2px solid" : "none"}
                         borderColor={isFeatured ? BRAND_PRIMARY_LIGHT : "transparent"}
                         bg="white"
+                        p={usesDefaultLogo ? 1 : 0}
                     />
                     <Box flex="1">
                         <Text fontSize="lg" color={BRAND_PRIMARY_LIGHT} fontWeight="semibold">

@@ -23,6 +23,7 @@ Use this guide for pages/components and UX changes.
 - Reuse existing components in `components/` before adding new ones.
 - Use memoization only when it solves a measured/render issue.
 - Preserve useful comments that explain non-obvious logic.
+- Resolve job logos through `lib/jobLogo.ts`. The default SportsJobs wordmark is served from Cloudflare R2 and uses wider containers for readability; uploaded company logos retain their square treatment.
 
 ## Signup and Dashboard UX
 

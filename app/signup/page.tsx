@@ -39,6 +39,7 @@ import type { ElementType } from 'react';
 import { useToast } from '@chakra-ui/react';
 import TestimonialsMarqueeFromDB from '../../components/TestimonialsMarqueeFromDB';
 import { trackAnalyticsEvent } from '@/lib/analyticsClient';
+import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 
 const STORAGE_KEY = 'sportsjobs_signup_funnel';
 const PROMO_CODE = 'SPORTS25';
@@ -787,16 +788,20 @@ export default function SignupPage() {
               )}
               {!isLoadingJobs && !jobsError && (
                 <VStack align="stretch" spacing={4}>
-                  {jobs.length > 0 ? jobs.map((job) => (
+                  {jobs.length > 0 ? jobs.map((job) => {
+                    const usesDefaultLogo = isDefaultJobLogo(job.logo_permanent_url);
+                    return (
                     <Box key={job.id} borderWidth="1px" borderColor="gray.700" bg="gray.800" borderRadius="md" p={4}>
                       <HStack spacing={4} align="start">
                         <Image
-                          src={job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png'}
+                          src={getJobLogoSrc(job.logo_permanent_url)}
                           alt={`${job.company} logo`}
-                          boxSize="52px"
-                          borderRadius="full"
+                          width={usesDefaultLogo ? "92px" : "52px"}
+                          height="52px"
+                          borderRadius={usesDefaultLogo ? "md" : "full"}
                           bg="white"
                           objectFit="contain"
+                          p={usesDefaultLogo ? 1 : 0}
                           flexShrink={0}
                         />
                         <Box flex="1">
@@ -811,7 +816,8 @@ export default function SignupPage() {
                         </Box>
                       </HStack>
                     </Box>
-                  )) : (
+                    );
+                  }) : (
                     <Box borderWidth="1px" borderColor="gray.700" bg="gray.800" borderRadius="md" p={4}>
                       <Text color="gray.300">No exact matches in the preview. SportsJobs can still track broader roles and alert you when new ones appear.</Text>
                     </Box>

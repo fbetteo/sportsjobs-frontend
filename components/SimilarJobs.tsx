@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT } from '@/lib/uiTokens';
 import Link from 'next/link';
+import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 interface SimilarJob {
     id: string;
     title: string;
@@ -99,7 +100,9 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
             {!loading && similarJobs.length === 0 && hasLoaded && null}
             {!loading && similarJobs.length > 0 && (
                 <VStack spacing={4} align="stretch">
-                    {similarJobs.map((job: SimilarJob) => (
+                    {similarJobs.map((job: SimilarJob) => {
+                        const usesDefaultLogo = isDefaultJobLogo(job.logo_permanent_url);
+                        return (
                         <Link key={job.id} href={`/jobs/${job.id}`} passHref prefetch={false}>
                             <ChakraLink _hover={{ textDecoration: 'none' }}>
                                 <Box
@@ -112,12 +115,16 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
                                 >
                                     <Flex align="center">
                                         <Image
-                                            src={job.logo_permanent_url || "https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png"}
+                                            src={getJobLogoSrc(job.logo_permanent_url)}
                                             alt={`${job.company} logo`}
-                                            boxSize="50px"
+                                            width={usesDefaultLogo ? "88px" : "50px"}
+                                            height="50px"
                                             objectFit="contain"
                                             mr={4}
-                                            borderRadius="full"
+                                            borderRadius={usesDefaultLogo ? "md" : "full"}
+                                            bg="white"
+                                            p={usesDefaultLogo ? 1 : 0}
+                                            flexShrink={0}
                                         />
                                         <Box>
                                             <Text color="white" fontWeight="bold">{job.title}</Text>
@@ -131,7 +138,8 @@ export default function SimilarJobs({ currentJobId, country, filter, sportList, 
                                 </Box>
                             </ChakraLink>
                         </Link>
-                    ))}
+                        );
+                    })}
                 </VStack>
             )}
         </Box>

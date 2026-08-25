@@ -36,6 +36,7 @@ import NextLink from 'next/link';
 import NewsletterSignupForm from './NewsletterSignupForm';
 import type { AnalyticsSearchJob, InventorySummary } from '@/lib/teamworkOnlineAlternativeContent';
 import { getAnalyticsFocus, teamworkOnlineFaqItems } from '@/lib/teamworkOnlineAlternativeContent';
+import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 interface Props {
     initialJobs: AnalyticsSearchJob[];
     inventory: InventorySummary;
@@ -210,7 +211,9 @@ export default function TeamworkOnlineAlternativeContent({
                                         No analytics-focused jobs are visible right now. The comparison content still applies, and new roles should appear as inventory refreshes.
                                     </Alert>
                                 ) : (
-                                    initialJobs.map((job) => (
+                                    initialJobs.map((job) => {
+                                        const usesDefaultLogo = isDefaultJobLogo(job.logo_permanent_url);
+                                        return (
                                         <LinkBox
                                             as={Card}
                                             key={job.id}
@@ -223,13 +226,15 @@ export default function TeamworkOnlineAlternativeContent({
                                             <CardBody>
                                                 <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
                                                     <Image
-                                                        src={job.logo_permanent_url || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png'}
+                                                        src={getJobLogoSrc(job.logo_permanent_url)}
                                                         alt={`${job.company ?? 'Sports organization'} logo`}
-                                                        boxSize="64px"
+                                                        width={usesDefaultLogo ? "104px" : "64px"}
+                                                        height="64px"
                                                         objectFit="contain"
                                                         borderRadius="md"
                                                         bg="white"
                                                         p={1}
+                                                        flexShrink={0}
                                                     />
                                                     <Box flex="1" minW={0}>
                                                         <Text color="gray.400" fontWeight="semibold">
@@ -258,7 +263,8 @@ export default function TeamworkOnlineAlternativeContent({
                                                 </Flex>
                                             </CardBody>
                                         </LinkBox>
-                                    ))
+                                        );
+                                    })
                                 )}
                             </VStack>
                         </Box>

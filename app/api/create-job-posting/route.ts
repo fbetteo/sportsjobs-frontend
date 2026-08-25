@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { DEFAULT_JOB_LOGO_URL } from '@/lib/jobLogo';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
-
-const DEFAULT_LOGO_URL = 'https://cdn.sportsjobs.online/blogposts/images/sportsjobs_logo.png';
 
 // Get base URL from environment or construct from request
 const getBaseUrl = (req: NextRequest) => {
@@ -58,7 +57,7 @@ export async function POST(req: NextRequest) {
             industry: null,
             hours: 'Full Time',
             featured: '0 - top',
-            logo_permanent_url: logoUrl || DEFAULT_LOGO_URL,
+            logo_permanent_url: logoUrl || DEFAULT_JOB_LOGO_URL,
             creation_date: new Date().toISOString()
         };
 

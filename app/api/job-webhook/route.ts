@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { format, parse } from 'date-fns';
+import { DEFAULT_JOB_LOGO_URL } from '@/lib/jobLogo';
 // Replace old config with new route segment config
 export const runtime = 'nodejs';
 export const preferredRegion = 'auto';
@@ -37,7 +38,7 @@ const formatJobData = (jobData: any, session: Stripe.Checkout.Session) => {
         featured: "0 - top",
         creation_date: now,
         hours: jobData.hours || "Full Time",     // Default for now
-        logo_permanent_url: jobData.logoUrl || "https://cdn.sportsjobs.online/blogposts/images/sportsjobs_logo.png", // Use the uploaded URL
+        logo_permanent_url: jobData.logoUrl || DEFAULT_JOB_LOGO_URL,
         has_logo: !!jobData.logoUrl,
         post_tier: jobData.featuredListing ? "Featured" : "Standard",
         payment_id: session.id,
