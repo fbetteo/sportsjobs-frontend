@@ -66,6 +66,7 @@ Use this guide for pages/components and UX changes.
 - Use `fetch`; do not introduce axios for new frontend/API code.
 - Keep list pages minimal and fetch heavy details only when needed.
 - Public SEO listing pages may server-fetch initial jobs through `lib/fetchJobsServer` and pass them into a client component for presentation.
+- Anonymous job-listing surfaces show up to seven featured jobs; authenticated views may request their existing larger limits.
 
 ## Routing and IDs
 

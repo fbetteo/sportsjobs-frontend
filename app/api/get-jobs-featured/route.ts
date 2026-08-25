@@ -19,7 +19,7 @@ function getDaysAgoText(creationDate: string): string {
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const limit = parseInt(searchParams.get('limit') || '5', 10);
+  const limit = parseInt(searchParams.get('limit') || '7', 10);
   
   // Check if this is a request for minimal data (list view)
   const includeFullDetails = searchParams.get('full') === 'true';

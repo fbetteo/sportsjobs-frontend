@@ -202,7 +202,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
 
         const fetchFeaturedData = async () => {
             try {
-                const jobLimit = user ? 300 : 5;
+                const jobLimit = user ? 300 : 7;
                 const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
                 if (Array.isArray(fetchedJobsFeatured)) {
                     setFeaturedJobs(fetchedJobsFeatured);
@@ -217,7 +217,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
             }
         };
 
-        // Only fetch client-side when user logs in (needs 300 jobs instead of initial 5)
+        // Only fetch client-side when user logs in (needs 300 jobs instead of initial 7)
         // Non-auth users use server-rendered initial data (no client fetch needed)
         if (user && (userChanged || !prevUserRef.current)) {
             // Debounce the API calls by 300ms

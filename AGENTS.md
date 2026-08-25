@@ -40,6 +40,7 @@ Use this file as a map. Read only the sections relevant to your task.
 - Role/job-type onboarding is paused; keep role fields as `roleInterests: []` and `roleUnsure: true` for backend compatibility.
 - Signup pricing should use the focused conversion flow: an automatically applied 25% `SPORTS25` Stripe promotion, selected plan checkout, proof/testimonials/FAQ, and a repeated CTA. Do not use a locally resetting urgency timer.
 - Homepage testimonials currently use the shorter DB-backed paged wall; keep the older masonry wall component available for easy rollback.
+- Anonymous job-listing surfaces show up to seven featured jobs; keep the homepage server render and featured-jobs API default aligned with that limit.
 - User profile and onboarding access goes through `app/api/me`, keyed by Auth0 `sub`.
 - Dashboard links are temporarily hidden from global navigation and completion redirects while the dashboard flow is unfinished; keep the route available for direct testing.
 - Subscription cancellation must be authenticated, keyed by Auth0 `sub`, and resolved through backend billing IDs before using email as a legacy fallback.

@@ -137,7 +137,7 @@ export default function CountryContent({ params }: Props) {
 
         const fetchFeaturedData = async () => {
             try {
-                const jobLimit = user ? 250 : 5;
+                const jobLimit = user ? 250 : 7;
                 const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
                 if (Array.isArray(fetchedJobsFeatured)) {
                     setFeaturedJobs(fetchedJobsFeatured);
