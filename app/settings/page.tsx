@@ -6,6 +6,8 @@ import { Box, Button, Heading, useDisclosure, useToast, VStack } from '@chakra-u
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
+import AlertSettingsPanel from '../../components/AlertSettingsPanel';
+import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME } from '../../lib/uiTokens';
 
 const SETTINGS_REAUTHENTICATION_KEY = 'sportsjobs_settings_reauthentication';
 const SETTINGS_LOGIN_URL = '/api/auth/login?returnTo=/settings';
@@ -120,18 +122,20 @@ const SettingsPage = () => {
     };
 
     return (
-        <Box p={6} maxWidth="400px" mx="auto">
+        <Box p={6} maxWidth="720px" mx="auto">
             <Heading as="h2" size="lg" mb={6}>
                 Manage Subscription
             </Heading>
             <VStack spacing={4} align="stretch">
-                <Button colorScheme="blue" onClick={handleUpdateSubscription}>
+                <Button colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={handleUpdateSubscription}>
                     Update Subscription
                 </Button>
-                <Button colorScheme="red" onClick={onOpen}>
+                <Button colorScheme={BRAND_PRIMARY_COLOR_SCHEME} onClick={onOpen}>
                     Cancel Subscription
                 </Button>
             </VStack>
+
+            {user && <AlertSettingsPanel />}
 
             <ConfirmCancelModal
                 isOpen={isOpen}
