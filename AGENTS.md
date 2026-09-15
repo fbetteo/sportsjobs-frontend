@@ -4,6 +4,15 @@ This repository keeps agent docs intentionally small and topic-focused.
 
 Use this file as a map. Read only the sections relevant to your task.
 
+## Related Repositories
+
+The SportsJobs project also has two sibling repositories under `C:\Users\franb\projects\sportsjobs\`:
+
+- Backend and database: `C:\Users\franb\projects\sportsjobs\sportsjobs_postgres` (FastAPI, PostgreSQL, API endpoints, and database scripts). Read its `AGENTS.md`, relevant `docs/` page, and current endpoint/schema before changing backend contracts or persistence.
+- Scraper: `C:\Users\franb\projects\sportsjobs\sportsjobs` (job collection and enrichment). Read its `AGENTS.md` and `run_scripts.sh` before changing how jobs are collected or which fields are written.
+
+This repo owns the user interface, browser interactions, and Next.js API boundary. The backend repo owns API behavior and persistence; the scraper owns job collection. Work in only the repositories the feature actually needs. A CV collection feature, for example, may need a frontend upload flow and backend storage/access API without needing a scraper change.
+
 ## Quick Map
 
 - Product and architecture overview: `docs/architecture.md`
@@ -25,7 +34,16 @@ Use this file as a map. Read only the sections relevant to your task.
 2. Open only the topic docs needed for your task.
 3. Prefer current implementation reality over stale assumptions.
 4. If docs and code disagree, trust code first and update docs in the same change.
-5. After any behavior, route, API contract, or component change, update `AGENTS.md` and relevant `docs/*.md` before finishing.
+5. After a behavior, route, or API contract change, update the relevant `docs/*.md`. Update `AGENTS.md` when its map or repo-wide rules change; keep feature details in topic docs.
+
+## Building a Feature Across Repositories
+
+1. Trace the user-facing page/component, any `lib/*` helper, the local `app/api/*` route, and the backend endpoint it calls. For job data changes, also trace the scraper write and the PostgreSQL field.
+2. Decide the smallest request/response contract and the owner of any new field. Keep secrets and backend bearer tokens in server code. For user data such as CVs, define who can upload, read, and delete it, and where file bytes and metadata are stored before implementing the UI.
+3. Implement the backend endpoint and schema change when needed, then the local Next.js API route, helper, and UI. Follow each repo's own `AGENTS.md`. Preserve existing Auth0 `sub` identity, error handling, and API shapes unless the feature requires a change.
+4. Verify the changed boundary with focused tests or local mocked responses, then run this repo's relevant checks (`npm run lint` and, when route/type/build behavior changes warrant it, `npm run build`). Do not use live payment, email, upload, or database writes as routine validation.
+
+For frontend code, `app/` contains routes/pages, `components/` contains reusable UI, `lib/` contains helpers, and `app/api/` contains the server routes through which client code normally reaches the backend. Server-rendered pages may use an existing server-only backend helper directly when that is the established pattern; see `docs/data-backend.md`. Keep new components and state flow straightforward, and reuse nearby patterns before adding abstractions.
 
 ## Repo-Wide Defaults
 
