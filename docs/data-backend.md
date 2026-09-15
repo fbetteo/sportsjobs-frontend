@@ -28,9 +28,10 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 
 ## Job Alerts
 
-- `POST /api/create-alert` forwards the alert payload to backend `POST /add_alert`; PostgreSQL is the sole alert store.
+- Settings uses `POST /api/create-alert` to create an alert and `GET/DELETE /api/alerts` to list/delete alerts. These server routes require an Auth0 session and send its subject to backend `POST/GET/DELETE /alerts`; the backend derives the login email from `users`. PostgreSQL is the sole alert store.
+- Any signed-in user can create, list, and delete alerts. The account's Auth0 subject, rather than its subscription plan, determines alert access.
 - The proxy returns backend failures instead of reporting success, and identical normalized alerts return `duplicate: true` without creating another record.
-- Alert matching treats empty selections as unrestricted and sends one combined, deduplicated digest per email.
+- Alert matching treats empty selections as unrestricted, multiple values within a filter as OR, and selected filters as AND. Separate alerts for one user are combined into one deduplicated digest. The scraper's `send_alerts.py` call is currently disabled in `run_scripts.sh` pending delivery work.
 
 ## Testimonials Integration
 
