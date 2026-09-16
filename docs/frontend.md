@@ -53,6 +53,10 @@ Use this guide for pages/components and UX changes.
 - Onboarding fixed-choice answers should use stable option IDs in the payload, not display labels.
 - Keep new dashboard UI token-based and avoid hard-coding brand colors so palette refreshes can happen mostly in theme/component styling.
 
+## Job Alerts in Settings
+
+- `/settings` shows account job alerts. Any signed-in user can create alerts using country, internship, work mode, and sport, then view and delete them. A job must match every selected filter; multiple values within one filter use OR. Older alerts can still display their stored fields; the table is unchanged. The login email is fixed by the server session and backend user record.
+
 ## Subscription Cancellation UX
 
 - `components/ConfirmCancelModal.tsx` collects optional cancellation feedback before calling the existing cancellation API.
