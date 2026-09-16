@@ -110,6 +110,9 @@ const TestimonialPageContent = () => {
                     <Text color="gray.300">
                         A short note goes a long way. It usually takes less than 30 seconds.
                     </Text>
+                    <Text color="gray.400" mt={2}>
+                        We review every submission. By submitting, you give us permission to publish your name and testimonial on SportsJobs. For private feedback, reply to the email instead.
+                    </Text>
                 </Box>
 
                 <Box

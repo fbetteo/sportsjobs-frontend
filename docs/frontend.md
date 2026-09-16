@@ -17,6 +17,7 @@ Use this guide for pages/components and UX changes.
 - Keep colors and visual hierarchy consistent with the existing dark theme.
 - Use responsive Chakra props for mobile/desktop behavior.
 - Keep copy clear and outcome-focused (job seeker and recruiter clarity first).
+- The `/testimonial` form tells submitters that their name and words may be published after review. Private feedback can be sent by replying to the request email.
 
 ## Component Patterns
 
