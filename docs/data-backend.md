@@ -17,6 +17,8 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 - `PATCH /api/me` persists onboarding answers through backend `/users/me/onboarding`.
 - Required backend routes and database fields are documented in `docs/backend-refactor-2026.md`.
 - If the backend profile routes are not available yet, `/api/me` can return a free-user fallback for dashboard rendering, but onboarding persistence requires the backend.
+- Resume settings call `/api/resume` for private PDF upload, download, replacement, and deletion, and `/api/linkedin` for the optional profile URL. These server routes use the Auth0 session to call backend `/users/me/cv` and `/users/me/linkedin`; the browser never supplies an Auth0 subject or R2 key.
+- Resume PDFs use a separate private R2 bucket named by `CLOUDFLARE_R2_RESUMES_BUCKET_NAME`. Configure `CLOUDFLARE_R2_RESUMES_ACCESS_KEY` and `CLOUDFLARE_R2_RESUMES_SECRET_KEY` from a bucket-scoped R2 token; do not expose the bucket through `CLOUDFLARE_R2_PUBLIC_URL` or `r2.dev`. Files are limited to 4 MB. No company sharing or CV processing is enabled until malware scanning and explicit consent are implemented.
 
 ## Backend Source (Jobs)
 

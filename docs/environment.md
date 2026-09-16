@@ -37,6 +37,13 @@ Notes:
 - `STRIPE_SIGNUP_PROMOTION_CODE_ID` (optional; Stripe promotion-code ID for `SPORTS25`; the checkout route looks up the active code when omitted)
 - public/plan price IDs (for example lifetime/yearly/monthly IDs)
 
+### Private resume storage
+
+- `CLOUDFLARE_R2_RESUMES_BUCKET_NAME`: name of a separate private R2 bucket with public access disabled.
+- `CLOUDFLARE_R2_RESUMES_ENDPOINT_URL` (optional): use the resume bucket's jurisdiction-specific S3 API endpoint if it differs from the logo bucket. Otherwise the route uses the existing `CLOUDFLARE_R2_ENDPOINT_URL`.
+- `CLOUDFLARE_R2_RESUMES_ACCESS_KEY` and `CLOUDFLARE_R2_RESUMES_SECRET_KEY`: server-only R2 S3 credentials from an Object Read & Write token scoped to the resume bucket. Keep the logo credentials separate.
+- Deploy the backend profile endpoints and run the `user_profiles.linkedin_url` migration before enabling the frontend resume settings. No bucket or credentials should be exposed through `NEXT_PUBLIC_*`.
+
 ## Operational Notes
 
 - Keep secrets in environment configuration only.

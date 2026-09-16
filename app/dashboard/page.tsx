@@ -319,6 +319,9 @@ export default function DashboardPage() {
             <Button variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={() => setIsOnboardingOpen(true)}>
               Edit onboarding
             </Button>
+            <Button ml={3} variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={() => router.push('/settings')}>
+              Resume settings
+            </Button>
           </Box>
 
           <Box borderWidth="1px" borderColor="gray.700" bg="gray.900" borderRadius="md" p={6}>

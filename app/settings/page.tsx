@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
 import AlertSettingsPanel from '../../components/AlertSettingsPanel';
+import ResumeSettingsPanel from '../../components/ResumeSettingsPanel';
 import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME } from '../../lib/uiTokens';
 
 const SETTINGS_REAUTHENTICATION_KEY = 'sportsjobs_settings_reauthentication';
@@ -135,6 +136,7 @@ const SettingsPage = () => {
                 </Button>
             </VStack>
 
+            {user && <ResumeSettingsPanel />}
             {user && <AlertSettingsPanel />}
 
             <ConfirmCancelModal
