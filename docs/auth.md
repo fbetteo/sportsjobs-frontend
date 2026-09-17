@@ -25,7 +25,8 @@ Use `app/utils/auth0.ts` for management API operations:
 - Use Auth0 `user.sub` as the primary application user key. Email can change and should only be a secondary matching field.
 - Avoid duplicate user fetches triggered by transient Auth0 state updates.
 - Canceling a subscription should not block or delete the Auth0 account. Free account access remains valid after cancellation.
-- If subscription settings detect a missing or expired session, redirect through Auth0 with `returnTo=/settings`. Store a temporary flag in `sessionStorage` so the returning settings page can show the one-time sign-in verification notice.
+- `/settings` checks the Auth0 session on the server before rendering its client controls. A missing session starts login with `returnTo=/settings`.
+- If subscription cancellation returns `401` because the session expired after the page loaded, the browser starts one Auth0 login with a return URL that includes a one-time verification notice marker. Settings removes the marker from the URL after showing the notice. The cancellation must then be retried by the user.
 
 ## Common Environment Variables
 

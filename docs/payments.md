@@ -40,7 +40,7 @@ Pre-auth signup Checkout Sessions automatically apply `SPORTS25`. `app/api/creat
 - Feedback is stored on the Stripe subscription via `cancellation_details.feedback` and `cancellation_details.comment`; v1 does not send email notifications or create a separate database record.
 - Cancellation lookup uses backend `stripe_subscription_id` first, then backend `stripe_customer_id`, then backend email as a legacy fallback. Ambiguous Stripe matches return a support error instead of guessing.
 - Cancellation schedules the Stripe subscription to end and does not disable the Auth0 account. Premium access should be downgraded through backend entitlement sync/webhooks.
-- If the settings page has no current user or cancellation returns `401`, it redirects through Auth0 and returns to `/settings`. After login, a one-time notice explains that sign-in was verified and the user must retry cancellation; the cancellation is not replayed automatically.
+- Settings checks the session on the server before rendering. If cancellation returns `401` after the page loaded, it redirects through Auth0 and returns to `/settings` with a one-time verification notice; the cancellation is not replayed automatically. Successful cancellation leaves the Auth0 account signed in.
 
 ## Entitlement Sync
 
