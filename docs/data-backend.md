@@ -13,6 +13,7 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 
 - `app/api/me` is the frontend boundary for current-user profile data.
 - `POST /api/me` ensures the Auth0 user exists in the backend and returns the profile.
+- Settings calls `GET /api/me` once, then passes the returned LinkedIn URL to the resume panel and loads alerts. The Auth0 callback handles backend user creation or synchronization after login; viewing Settings does not write the user row.
 - `GET /api/me` fetches the backend profile for the current Auth0 `sub`.
 - `PATCH /api/me` persists onboarding answers through backend `/users/me/onboarding`.
 - Required backend routes and database fields are documented in `docs/backend-refactor-2026.md`.

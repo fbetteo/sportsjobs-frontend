@@ -2,13 +2,15 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import { Box, Button, Heading, useDisclosure, useToast, VStack } from '@chakra-ui/react';
+import { Box, Button, Heading, Spinner, useDisclosure, useToast, VStack } from '@chakra-ui/react';
 import ConfirmCancelModal, { CancellationFeedbackPayload } from '../../components/ConfirmCancelModal';
 import AlertSettingsPanel from '../../components/AlertSettingsPanel';
 import ResumeSettingsPanel from '../../components/ResumeSettingsPanel';
 import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME } from '../../lib/uiTokens';
 
 const SETTINGS_LOGIN_URL = '/api/auth/login?returnTo=%2Fsettings%3Fsignin%3Dverified';
+
+type SettingsProfile = { linkedinUrl?: string | null };
 
 function redirectToSettingsLogin() {
     window.location.assign(SETTINGS_LOGIN_URL);
@@ -19,6 +21,27 @@ const SettingsClient = ({ signInVerified }: { signInVerified: boolean }) => {
     const { isOpen, onOpen, onClose } = useDisclosure(); // Chakra hook for modal control
     const [isCanceling, setIsCanceling] = useState(false);
     const isCancelingRef = useRef(false);
+    const [profile, setProfile] = useState<SettingsProfile | null>(null);
+    const [profileReady, setProfileReady] = useState(false);
+
+    useEffect(() => {
+        let active = true;
+        fetch('/api/me')
+            .then(async (response) => {
+                if (response.status === 401) {
+                    redirectToSettingsLogin();
+                    return null;
+                }
+                if (!response.ok) throw new Error('Could not load your profile');
+                return response.json() as Promise<SettingsProfile>;
+            })
+            .then((data) => { if (active) setProfile(data); })
+            .catch(() => {
+                if (active) toast({ title: 'Could not load your profile', status: 'error' });
+            })
+            .finally(() => { if (active) setProfileReady(true); });
+        return () => { active = false; };
+    }, [toast]);
 
     useEffect(() => {
         if (!signInVerified) return;
@@ -109,8 +132,8 @@ const SettingsClient = ({ signInVerified }: { signInVerified: boolean }) => {
                 </Button>
             </VStack>
 
-            <ResumeSettingsPanel />
-            <AlertSettingsPanel />
+            <ResumeSettingsPanel profile={profile} profileReady={profileReady} />
+            {profileReady ? <AlertSettingsPanel /> : <Spinner mt={8} />}
 
             <ConfirmCancelModal
                 isOpen={isOpen}

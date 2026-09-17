@@ -55,7 +55,6 @@ export default function AlertSettingsPanel() {
     let active = true;
     async function load() {
       try {
-        await readResponse(await fetch('/api/me', { method: 'POST', cache: 'no-store' }));
         const [alertsResponse, optionsResponse] = await Promise.all([
           fetch('/api/alerts', { cache: 'no-store' }),
           fetch('/api/dropdown-options'),

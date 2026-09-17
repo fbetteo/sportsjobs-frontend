@@ -6,22 +6,31 @@ import { BRAND_SECONDARY_COLOR_SCHEME } from '../lib/uiTokens';
 
 type Resume = { filename: string; sizeBytes: number; uploadedAt: string };
 
-export default function ResumeSettingsPanel() {
+export default function ResumeSettingsPanel({
+  profile,
+  profileReady,
+}: {
+  profile: { linkedinUrl?: string | null } | null;
+  profileReady: boolean;
+}) {
   const toast = useToast();
   const [resume, setResume] = useState<Resume | null>(null);
-  const [linkedinUrl, setLinkedinUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState(profile?.linkedinUrl || '');
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (profileReady) setLinkedinUrl(profile?.linkedinUrl || '');
+  }, [profile, profileReady]);
+
+  useEffect(() => {
     let active = true;
-    Promise.all([fetch('/api/resume'), fetch('/api/me', { method: 'POST' })])
-      .then(async ([resumeResponse, profileResponse]) => {
-        if (!resumeResponse.ok || !profileResponse.ok) throw new Error('Could not load your profile');
-        const [savedResume, profile] = await Promise.all([resumeResponse.json(), profileResponse.json()]);
+    fetch('/api/resume')
+      .then(async (resumeResponse) => {
+        if (!resumeResponse.ok) throw new Error('Could not load your resume');
+        const savedResume = await resumeResponse.json();
         if (active) {
           setResume(savedResume);
-          setLinkedinUrl(profile.linkedinUrl || '');
         }
       })
       .catch(() => {
@@ -121,8 +130,8 @@ export default function ResumeSettingsPanel() {
           <FormControl>
             <FormLabel>LinkedIn profile (optional)</FormLabel>
             <Input type="url" placeholder="https://www.linkedin.com/in/your-name" value={linkedinUrl}
-              onChange={(event) => setLinkedinUrl(event.target.value)} />
-            <Button mt={3} variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={saveLinkedin} isDisabled={busy}>
+              onChange={(event) => setLinkedinUrl(event.target.value)} isDisabled={!profileReady} />
+            <Button mt={3} variant="outline" colorScheme={BRAND_SECONDARY_COLOR_SCHEME} onClick={saveLinkedin} isDisabled={busy || !profileReady}>
               Save LinkedIn
             </Button>
           </FormControl>

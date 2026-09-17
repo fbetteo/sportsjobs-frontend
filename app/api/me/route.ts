@@ -40,33 +40,45 @@ async function requireUser() {
 }
 
 export async function GET() {
+  const startedAt = performance.now();
   const auth = await requireUser();
   if (auth.error) return auth.error;
+  const sessionDuration = performance.now() - startedAt;
 
   const user = auth.user;
   const { auth0Sub } = normalizeAuthIdentity(user);
 
   try {
     const profile = await fetchBackendUserProfile(`/users/me?auth0_sub=${encodeURIComponent(auth0Sub)}`);
-    return NextResponse.json(profile || fallbackUserProfile(user));
+    return NextResponse.json(profile || fallbackUserProfile(user), {
+      headers: { 'Server-Timing': `session;dur=${sessionDuration.toFixed(1)}, backend;dur=${(performance.now() - startedAt - sessionDuration).toFixed(1)}` },
+    });
   } catch (error) {
     console.error('Failed to fetch user profile:', error);
-    return NextResponse.json(fallbackUserProfile(user));
+    return NextResponse.json(fallbackUserProfile(user), {
+      headers: { 'Server-Timing': `session;dur=${sessionDuration.toFixed(1)}, backend;dur=${(performance.now() - startedAt - sessionDuration).toFixed(1)}` },
+    });
   }
 }
 
 export async function POST() {
+  const startedAt = performance.now();
   const auth = await requireUser();
   if (auth.error) return auth.error;
+  const sessionDuration = performance.now() - startedAt;
 
   const user = auth.user;
 
   try {
     const profile = await ensureBackendUserProfile(user);
-    return NextResponse.json(profile || fallbackUserProfile(user));
+    return NextResponse.json(profile || fallbackUserProfile(user), {
+      headers: { 'Server-Timing': `session;dur=${sessionDuration.toFixed(1)}, backend;dur=${(performance.now() - startedAt - sessionDuration).toFixed(1)}` },
+    });
   } catch (error) {
     console.error('Failed to ensure user profile:', error);
-    return NextResponse.json(fallbackUserProfile(user));
+    return NextResponse.json(fallbackUserProfile(user), {
+      headers: { 'Server-Timing': `session;dur=${sessionDuration.toFixed(1)}, backend;dur=${(performance.now() - startedAt - sessionDuration).toFixed(1)}` },
+    });
   }
 }
 
