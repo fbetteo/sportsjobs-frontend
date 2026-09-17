@@ -3,6 +3,7 @@
 
 import React from 'react';
 import localFont from 'next/font/local';
+import { Archivo_Black } from 'next/font/google';
 import { Box, Flex, Heading, HStack, Icon, Text, VStack } from '@chakra-ui/react';
 import { FaBriefcase, FaSyncAlt } from 'react-icons/fa';
 import { BRAND_BACKGROUND, BRAND_FOREGROUND, BRAND_PRIMARY, BRAND_SECONDARY } from '@/lib/uiTokens';
@@ -13,8 +14,9 @@ interface IntroductionProps {
     newJobsToday?: number;
 }
 
-const sugoPro = localFont({
-    src: '../app/fonts/Sugo-Pro-Display-Bold-trial.ttf',
+const archivoBlack = Archivo_Black({
+    subsets: ['latin'],
+    weight: '400',
     display: 'swap',
 });
 
@@ -52,7 +54,7 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
                     <Box
                         as="span"
                         display="block"
-                        className={sugoPro.className}
+                        className={archivoBlack.className}
                         fontSize={{ base: '52px', md: '84px', lg: '104px' }}
                     >
                         Find your
@@ -60,7 +62,7 @@ const Introduction: React.FC<IntroductionProps> = ({ totalJobs }) => {
                     <Box
                         as="span"
                         display="block"
-                        className={sugoPro.className}
+                        className={archivoBlack.className}
                         color={BRAND_PRIMARY}
                         fontSize={{ base: '52px', md: '84px', lg: '104px' }}
                         mt={{ base: 1, md: 3 }}

@@ -15,6 +15,7 @@ Use this guide for pages/components and UX changes.
 ## UI and Copy
 
 - Keep colors and visual hierarchy consistent with the existing dark theme.
+- The first two homepage hero lines use Archivo Black from Google Fonts (SIL Open Font License); keep trial or personal-use fonts out of the shipped UI.
 - Use responsive Chakra props for mobile/desktop behavior.
 - Keep copy clear and outcome-focused (job seeker and recruiter clarity first).
 - The `/testimonial` form tells submitters that their name and words may be published after review. Private feedback can be sent by replying to the request email.
