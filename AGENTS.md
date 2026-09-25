@@ -65,7 +65,7 @@ For frontend code, `app/` contains routes/pages, `components/` contains reusable
 - Expired sessions encountered in subscription settings should reauthenticate through Auth0, return to `/settings`, and show the one-time sign-in verification notice before the user retries the change.
 - Keep comments that explain complex logic unless you are sure they are obsolete.
 - Favor small, explicit changes over broad refactors.
-- Search-intent landing pages currently include `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`.
+- Search-intent landing pages include the editorial routes `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`, plus the shared job-category collections configured in `lib/jobLandingPages.ts` and linked from `/job-searches`.
 - Public interview-prep resources currently include `/resources/interview-questions/data-scientist`.
 - Homepage/global title metadata should stay query-first with `SportsJobs Online` at the end.
 - High-cardinality job links should disable automatic Next.js prefetch; see `docs/performance.md`.

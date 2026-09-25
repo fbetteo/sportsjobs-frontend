@@ -88,6 +88,11 @@ const Footer = () => {
                 <Box p={5} borderWidth="1px" borderColor={BRAND_SECONDARY_LIGHT} bg={BRAND_SECONDARY_SURFACE_HOVER} borderRadius="lg" width="100%" textAlign="left">
                     <Text fontWeight="bold" fontSize="lg" mb={3}>Resources</Text>
                     <VStack align="start" spacing={2} color="white">
+                        <Link href="/job-searches">Browse Popular Job Searches</Link>
+                        <Link href="/nhl-jobs">NHL Jobs</Link>
+                        <Link href="/nhl-internships">NHL Internships</Link>
+                        <Link href="/sports-data-analyst-jobs">Sports Data Analyst Jobs</Link>
+                        <Link href="/remote-sports-jobs">Remote Sports Jobs</Link>
                         <Link href="/sports-analytics-internships">Sports Analytics Internships</Link>
                         <Link href="/sports-analytics-salaries">Sports Analytics Salaries</Link>
                         <Link href="/teamwork-online-sports-analytics-jobs">TeamWork Online Alternative</Link>

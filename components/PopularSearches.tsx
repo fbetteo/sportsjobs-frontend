@@ -26,6 +26,16 @@ const searches = [
         description: 'Compare salary ranges by role, experience, location, industry, and skills.',
     },
     {
+        title: 'NHL Jobs',
+        href: '/nhl-jobs',
+        description: 'Find current NHL and professional hockey careers across analytics, operations, and team business.',
+    },
+    {
+        title: 'Remote Sports Jobs',
+        href: '/remote-sports-jobs',
+        description: 'Explore remote roles in sports data, software, betting, marketing, media, and business operations.',
+    },
+    {
         title: 'Sports Industry Companies',
         href: '/company-jobs',
         description: 'Explore organizations hiring across analytics, data, engineering, and sports business.',
@@ -57,7 +67,7 @@ export default function PopularSearches() {
                     </Link>
                 </Flex>
 
-                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }} gap={4}>
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)' }} gap={4}>
                     {searches.map((search) => (
                         <Box
                             key={search.href}

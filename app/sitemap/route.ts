@@ -3,6 +3,7 @@ import { fetchJobs } from '../../lib/fetchJobs';
 import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
 import { fetchCompanies } from '@/lib/fetchCompanies';
 import { addMonths, isPast, isValid } from 'date-fns';
+import { jobLandingPageSlugs } from '@/lib/jobLandingPages';
 // Add this helper function at the top of the file, after the imports
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -51,10 +52,12 @@ export async function GET() {
     '/signup',
     '/blog',
     '/company-jobs',
+    '/job-searches',
     '/sports-analytics-internships',
     '/sports-analytics-salaries',
     '/teamwork-online-sports-analytics-jobs',
     '/resources/interview-questions/data-scientist',
+    ...jobLandingPageSlugs.map((slug) => `/${slug}`),
   ].map((route) => `${baseUrl}${route}`);
   const jobUrls = recentJobs.map((job: any) => `${baseUrl}/jobs/${job.id}`);
   const blogpostsUrls = blogposts.map((blogpost: any) => `${baseUrl}/blogposts/${blogpost.blog_id}`);

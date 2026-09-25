@@ -87,6 +87,7 @@ Use this guide for pages/components and UX changes.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent and should preserve the balanced TeamWork Online explainer, strengths/weaknesses sections, comparison table, inventory snapshot, FAQ, and newsletter CTA.
 - Link search-intent pages from stable navigation surfaces. The internships and salaries pages are linked from the footer and the homepage `PopularSearches` module.
 - `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, brand primary/secondary accents, concise prep cards, and expandable question sections.
+- Durable league, role, internship, and work-mode collections are configured in `lib/jobLandingPages.ts`, rendered through the shared `components/JobLandingPage.tsx` and `components/JobLandingContent.tsx`, and linked from `/job-searches`. Keep page-specific copy and matching rules in the configuration instead of duplicating page components.
 
 ## Testimonials UX (Current)
 

@@ -17,7 +17,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - Blog listing and detail pages
 - Resources pages
 - Company and job detail pages
-- Search-intent landing pages, currently including `/sports-analytics-internships`, `/sports-analytics-salaries`, and `/teamwork-online-sports-analytics-jobs`
+- Search-intent landing pages, including the editorial pages below and the job-category collection pages listed in `lib/jobLandingPages.ts`
 
 ## Conventions
 
@@ -43,6 +43,8 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - Salary pages should include a methodology/source section because compensation claims need higher trust than generic editorial content.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent around TeamWork Online and should keep a balanced explainer, a direct comparison block, FAQ structured data, and a live analytics-jobs module tied to SportsJobs inventory.
 - `/resources/interview-questions/data-scientist` targets sports data scientist interview-prep intent with Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/resources/interview-questions/data-scientist`.
+- `/job-searches` is the internal-link hub for durable job-category collections. Category pages use the shared `JobLandingPage` implementation and their individual content/filter configuration from `lib/jobLandingPages.ts`.
+- Job-category pages must keep live matching jobs ahead of the editorial guidance, provide a useful empty state, use canonical metadata plus CollectionPage/FAQ structured data, and link to related searches. Avoid adding a category when there is no distinct search intent or useful content beyond a keyword variation.
 - Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule
