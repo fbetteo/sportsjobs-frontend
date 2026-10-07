@@ -15,6 +15,7 @@ import {
     BRAND_PRIMARY_LIGHT,
     BRAND_SECONDARY
 } from '@/lib/uiTokens';
+import { markNewsletterSubscribed, openNewsletterSubscribeTab } from '@/lib/newsletterPopup';
 
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
@@ -46,6 +47,7 @@ const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps
             } catch (dbError) {
                 console.error('Database recording error:', dbError);
             }
+            markNewsletterSubscribed();
 
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {
@@ -63,7 +65,7 @@ const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps
             const normalizedEmail = encodeURIComponent(email.trim().toLowerCase());
             const substackUrl = `${SUBSTACK_SUBSCRIBE_URL}?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=newsletter_form&email=${normalizedEmail}`;
             const openedWindow = typeof window !== 'undefined'
-                ? window.open(substackUrl, '_blank', 'noopener,noreferrer')
+                ? openNewsletterSubscribeTab(substackUrl)
                 : null;
 
             if (!openedWindow) {

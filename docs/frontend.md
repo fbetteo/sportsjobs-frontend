@@ -89,6 +89,18 @@ Use this guide for pages/components and UX changes.
 - `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, brand primary/secondary accents, concise prep cards, and expandable question sections.
 - Durable league, role, internship, and work-mode collections are configured in `lib/jobLandingPages.ts`, rendered through the shared `components/JobLandingPage.tsx` and `components/JobLandingContent.tsx`, and linked from `/job-searches`. Keep page-specific copy and matching rules in the configuration instead of duplicating page components.
 
+## Job Detail Page
+
+- Job detail pages are for visitors arriving from search for one posting: header, salary pill (when present), facts, description, Apply buttons, `SimilarJobs`, and the compact `components/JobPageUpsell.tsx` for anonymous visitors. Do not add the homepage pricing section or testimonials wall back here.
+- Keep the `JobPosting` JSON-LD script inside `<main>`; as the last child of the streamed Suspense boundary it caused a hydration mismatch.
+- `SimilarJobs` collapses entirely when it has no results instead of showing an empty heading.
+
+## Newsletter Popup
+
+- `components/NewsletterSignupPopup.tsx` uses rules from `lib/newsletterPopup.ts`: anonymous visitors only; never on `/signup`, `/settings`, `/post-job`, `/advertise`, `/dashboard`, or `/testimonial`; never after a newsletter signup from the popup or hero form; at most once per 7 days after dismissal.
+- Delay is 10 seconds on most pages. On `/jobs/*` it requires 25 seconds on the page and scrolling at least 30% of it.
+- Open Substack with `openNewsletterSubscribeTab`; `window.open(..., 'noopener')` always returns `null` and was misreported as a blocked popup.
+
 ## Testimonials UX (Current)
 
 - Submission page is `app/testimonial/page.tsx`.

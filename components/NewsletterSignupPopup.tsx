@@ -22,34 +22,71 @@ import {
 } from '@chakra-ui/react';
 import { FaStar } from 'react-icons/fa';
 import { BRAND_PRIMARY, BRAND_PRIMARY_COLOR_SCHEME, BRAND_PRIMARY_LIGHT, BRAND_PRIMARY_SURFACE } from '@/lib/uiTokens';
-//
+import { usePathname } from 'next/navigation';
+import {
+    canShowNewsletterPopup,
+    isJobDetailPath,
+    isNewsletterPopupExcludedPath,
+    markNewsletterPopupDismissed,
+    markNewsletterSubscribed,
+    openNewsletterSubscribeTab,
+} from '@/lib/newsletterPopup';
+
 const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
+const DEFAULT_DELAY_MS = 10000;
+const JOB_PAGE_DELAY_MS = 25000;
+const JOB_PAGE_MIN_SCROLL_RATIO = 0.3;
 
 const SignupPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [email, setEmail] = useState('');
     const toast = useToast();
-    const { user } = useUser();
+    const { user, isLoading: userLoading } = useUser();
+    const pathname = usePathname() ?? '';
 
+    // Restarts per page: dwell time counts on the page the visitor is reading now.
     useEffect(() => {
-        if (!user) {
-            const lastShown = localStorage.getItem('signupPopupShown');
-            const currentTime = new Date().getTime();
-
-            if (!lastShown || currentTime - parseInt(lastShown) > 24 * 60 * 60 * 1000) { // 24 hours
-                const timer = setTimeout(() => {
-                    setIsOpen(true);
-                }, 10000); // 10 seconds
-
-                return () => clearTimeout(timer);
-            }
+        if (userLoading || user || isNewsletterPopupExcludedPath(pathname) || !canShowNewsletterPopup()) {
+            return;
         }
-    }, [user]);
+
+        const onJobPage = isJobDetailPath(pathname);
+        let timerDone = false;
+        // Job pages are task pages (reading one posting from search), so only interrupt
+        // readers who stayed a while and scrolled into the description.
+        let engaged = !onJobPage;
+
+        const maybeOpen = () => {
+            if (timerDone && engaged && canShowNewsletterPopup()) {
+                setIsOpen(true);
+                cleanup();
+            }
+        };
+        const handleScroll = () => {
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollable <= 0 || window.scrollY / scrollable >= JOB_PAGE_MIN_SCROLL_RATIO) {
+                engaged = true;
+                maybeOpen();
+            }
+        };
+        const timer = setTimeout(() => {
+            timerDone = true;
+            maybeOpen();
+        }, onJobPage ? JOB_PAGE_DELAY_MS : DEFAULT_DELAY_MS);
+        const cleanup = () => {
+            clearTimeout(timer);
+            window.removeEventListener('scroll', handleScroll);
+        };
+
+        if (onJobPage) {
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        }
+        return cleanup;
+    }, [pathname, user, userLoading]);
 
     const handleClose = () => {
         setIsOpen(false);
-        const currentTime = new Date().getTime();
-        localStorage.setItem('signupPopupShown', currentTime.toString());
+        markNewsletterPopupDismissed();
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -72,6 +109,7 @@ const SignupPopup = () => {
                 console.error('Database recording error:', dbError);
                 // Don't show this error to user since newsletter subscription was successful
             }
+            markNewsletterSubscribed();
             // Track Google Ads newsletter conversion
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {
@@ -90,7 +128,7 @@ const SignupPopup = () => {
             const normalizedEmail = encodeURIComponent(email.trim().toLowerCase());
             const substackUrl = `${SUBSTACK_SUBSCRIBE_URL}?utm_source=sportsjobs.online&utm_medium=website&utm_campaign=newsletter_popup&email=${normalizedEmail}`;
             const openedWindow = typeof window !== 'undefined'
-                ? window.open(substackUrl, '_blank', 'noopener,noreferrer')
+                ? openNewsletterSubscribeTab(substackUrl)
                 : null;
 
             if (!openedWindow) {

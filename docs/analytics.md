@@ -57,6 +57,7 @@ It also documents what can be answered today, what is missing, and what should b
     - Calls `/api/add-newsletter-signup`
     - Fires Google Ads conversion event
     - Fires standard GA4 event: `generate_lead` with `{ value: 0, currency: 'USD' }`
+  - Both mark the browser as subscribed (`lib/newsletterPopup.ts`) so the popup is not shown again
 
 ### 2) Payment conversion events
 
@@ -93,20 +94,16 @@ All signup events include `signup_funnel_id` where available. Do not send contac
   - Properties include:
     - `company_name`, `company_slug`, `section`, `position`, `click_type`, `value`
 
-- `components/JobFilter.tsx`
-  - Emits `filters_changed` after the initial render on filter updates
-
-- `components/JobCard.tsx`
-  - Emits `job_card_click` with list type and position
-
-- `components/HomeContent.tsx`
-  - Emits `job_list_viewed` when jobs are rendered/refreshed
+- Not implemented (previously documented, absent from code as of 2026-10-07): `filters_changed` (`JobFilter.tsx`), `job_card_click` (`JobCard.tsx`), and `job_list_viewed` (`HomeContent.tsx`). Add them before relying on list/filter funnel analysis.
 
 - `components/JobApplyButton.tsx` + `app/jobs/[id]/page.tsx`
   - Emits `apply_click` through the shared analytics utility for both Apply buttons
   - Properties are `job_id`, `company`, `destination_domain`, and `button_location` (`hero` or `bottom`)
   - `apply_click` measures application intent, not a confirmed completed application
   - Apply destinations receive an origin-only SportsJobs referrer; the full job-detail URL is not disclosed
+
+- `components/JobPageUpsell.tsx`
+  - Emits `job_page_upsell_click` with `job_id` and `expired` when an anonymous visitor clicks the job-page membership CTA
 
 ### 5) Automatic outbound click event
 

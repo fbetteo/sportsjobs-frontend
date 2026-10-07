@@ -28,7 +28,19 @@ export async function GET() {
   : 'http://localhost:3000';
 
   // Read the full list from the backend directly; the public /api/get-jobs route caps results.
-  const jobs = await fetchJobListFromBackend({ limit: 100000, revalidateSeconds: 3600 });
+  let jobs: any[];
+  try {
+    jobs = await fetchJobListFromBackend({ limit: 100000, revalidateSeconds: 3600 });
+  } catch (error) {
+    // During `next build` an unreachable backend must not fail the deploy; ship a sitemap
+    // without jobs and let the hourly revalidation fill them in. At runtime, rethrow so
+    // Next keeps serving the last good sitemap instead of caching an empty one.
+    if (process.env.NEXT_PHASE !== 'phase-production-build') {
+      throw error;
+    }
+    console.error('Sitemap build: job list unavailable, continuing without jobs:', error);
+    jobs = [];
+  }
   if (!Array.isArray(jobs)) {
     throw new Error('Expected jobs to be an array');
   }

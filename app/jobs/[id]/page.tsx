@@ -1,9 +1,6 @@
 import SimilarJobs from '@/components/SimilarJobs';
 import JobApplyButton from '@/components/JobApplyButton';
-import { default as dynamicImport } from 'next/dynamic';
-import MixedPricingCard from '@/components/MixedPriceCard';
-
-import TestimonialsWallFromDB from '@/components/TestimonialsWallFromDB';
+import JobPageUpsell from '@/components/JobPageUpsell';
 
 // app/jobs/[id]/page.tsx
 export const dynamic = 'force-static';
@@ -31,17 +28,6 @@ import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 import { buildBaseSalarySchema } from '@/lib/jobSalary';
 import { buildJobMetaDescription, formatCountry, getWorkMode } from '@/lib/jobPostingMeta';
-const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
-    loading: () => (
-        <Box
-            minH={{ base: "1000px", md: "800px" }}
-            width="100%"
-            bg="gray.800"
-            borderRadius="xl"
-        />
-    ),
-    ssr: false
-});
 
 // Using MixedPricingCard component directly
 interface Job {
@@ -222,7 +208,6 @@ async function JobDetails({ params }: { params: { id: string } }) {
         job.remote_string,
         job.seniority,
         job.location,
-        job.salary ? `Salary: ${job.salary}` : undefined,
         mappedIndustryJobType,
         job.job_area,
     ].filter(Boolean);
@@ -230,6 +215,14 @@ async function JobDetails({ params }: { params: { id: string } }) {
     return (
         <>
             <main>
+                {/* JobPosting schema only if not expired. Kept inside <main>: as the last child of the
+                    streamed Suspense boundary it collided with Next's injected scripts and broke hydration. */}
+                {!expired && (
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: jobPostingSchema }}
+                    />
+                )}
                 <Box color={BRAND_FOREGROUND} bg={BRAND_BACKGROUND} minHeight="100vh">
                     <Flex direction="column" align="center" textAlign="center">
                         <Box as="header" w="100%">
@@ -265,6 +258,21 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 >
                                     {job.company}
                                 </Text>
+                                {job.salary && (
+                                    <Text
+                                        mt={4}
+                                        px={5}
+                                        py={1}
+                                        borderRadius="full"
+                                        bg={BRAND_PRIMARY}
+                                        color={BRAND_FOREGROUND}
+                                        fontFamily="heading"
+                                        fontSize={{ base: "22px", md: "26px" }}
+                                        letterSpacing="wide"
+                                    >
+                                        {job.salary}
+                                    </Text>
+                                )}
                             </Flex>
 
                             <Flex
@@ -317,11 +325,34 @@ async function JobDetails({ params }: { params: { id: string } }) {
                             </Flex>
                         </Box>
 
-                        {/* Smaller message above the description */}
+                        {/* Expired notice goes first so visitors from search see it before reading */}
                         {expired && (
-                            <Text fontSize="l" color="gray.200" mt={8} mb={4} textAlign="center">
-                                Note: This job has expired and is no longer accepting applications.
-                            </Text>
+                            <Alert
+                                status="info"
+                                variant="left-accent"
+                                flexDirection="column"
+                                alignItems="flex-start"
+                                justifyContent="center"
+                                textAlign="left"
+                                borderRadius="md"
+                                bg="gray.100"
+                                color="gray.800"
+                                mt={8}
+                                mx={4}
+                                maxW="1100px"
+                                width={{ base: "auto", md: "88%" }}
+                                p={4}
+                            >
+                                <Heading as="h2" size="md" mb={2}>
+                                    This job is no longer accepting applications
+                                </Heading>
+                                <Text fontSize="sm" mb={2}>
+                                    The posting has expired or been removed.
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">
+                                    Jobs typically stay active for 60 days or until filled.
+                                </Text>
+                            </Alert>
                         )}
                         <Box mt={{ base: 12, md: 16 }} textAlign="left" width={{ base: "100%", md: "88%" }} maxW="1100px" px={{ base: 4, md: 0 }}>
                             <div className={styles.markdown} dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
@@ -336,66 +367,15 @@ async function JobDetails({ params }: { params: { id: string } }) {
                                 buttonLocation="bottom"
                             />
                         )}
-                        {/* Expired message */}
-                        {expired && (
-                            <Alert
-                                status="info"
-                                variant="left-accent"
-                                flexDirection="column"
-                                alignItems="flex-start"
-                                justifyContent="center"
-                                textAlign="left"
-                                borderRadius="md"
-                                bg="gray.100"
-                                color="gray.800"
-                                mt={6}
-                                p={4}
-                            >
-                                <Heading as="h2" size="md" mb={2}>
-                                    This job is no longer available
-                                </Heading>
-                                <Text fontSize="sm" mb={2}>
-                                    The job posting you are looking for has expired or been removed.
-                                </Text>
-                                <Text fontSize="xs" color="gray.500">
-                                    Jobs typically stay active for 60 days or until filled.
-                                </Text>
-                            </Alert>
-                        )}
 
                     </Flex>
-                    <SimilarJobs currentJobId={job.id} country={job.country} filter="Country" />
-                    {/* <SimilarJobs currentJobId={job.id} country={job.sportList} filter="sport" />
-                    <SimilarJobs currentJobId={job.id} country={job.seniority} filter="seniority" /> */}                </Box>
-                {/* MixedPricingCard already handles showing only for non-authenticated users */}
-                <Suspense fallback={
-                    <Box
-                        minH={{ base: "1000px", md: "800px" }}
-                        width="100%"
-                        bg="gray.800"
-                        borderRadius="xl"
-                    />
-                }>
-                    <MixedPricingCard />
-                </Suspense>
-                <Suspense fallback={
-                    <Box
-                        minH={{ base: "1000px", md: "800px" }}
-                        width="100%"
-                        bg="gray.800"
-                        borderRadius="xl"
-                    />
-                }>
-                    <TestimonialsWallFromDB />
-                </Suspense>
+                    <SimilarJobs currentJobId={job.id} country={job.country} />
+                    {/* <SimilarJobs currentJobId={job.id} sportList={job.sportList} />
+                    <SimilarJobs currentJobId={job.id} seniority={job.seniority} /> */}
+                    {/* Renders only for anonymous visitors */}
+                    <JobPageUpsell jobId={job.id} expired={expired} />
+                </Box>
             </main>
-            {/* JobPosting schema only if not expired */}
-            {!expired && (
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: jobPostingSchema }}
-                />
-            )}
         </>
     );
 }
