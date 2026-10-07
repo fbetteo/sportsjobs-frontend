@@ -56,6 +56,13 @@ Server-rendered pages may call server-only backend helpers directly when doing s
 	- `avatar_url`
 	- `rating`
 
+## Job List Access
+
+- `lib/jobsBackend.ts` (server-only) is the single source for job lists from backend `POST /jobs`. Server-rendered pages (via `lib/fetchJobsServer.ts`) and the sitemap call it directly instead of self-fetching the public API.
+- Public `/api/get-jobs` and `/api/get-jobs-featured` apply visitor limits from `lib/jobListAccess.ts`: anonymous requests are capped at 20 jobs and cannot request `full=true`; requests with an Auth0 session are capped at 300 and may request descriptions.
+- List records never include the apply `url`; applying happens on the job detail page.
+- Public list responses vary by session, so they use `Cache-Control: private` and must not be stored in a shared CDN cache. Server-side backend calls are cached in the Next data cache keyed by request body.
+
 ## API Response Strategy
 
 - List endpoints return minimal fields by default.

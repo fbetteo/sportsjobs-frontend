@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import { fetchJobs } from '../../lib/fetchJobs';
+import { fetchJobListFromBackend } from '@/lib/jobsBackend';
 import { fetchBlogPosts } from '@/lib/fetchBlogPosts';
 import { fetchCompanies } from '@/lib/fetchCompanies';
 import { addMonths, isPast, isValid } from 'date-fns';
 import { jobLandingPageSlugs } from '@/lib/jobLandingPages';
+// Rebuild hourly so new jobs enter (and expired jobs leave) the sitemap without a deploy.
+export const revalidate = 3600;
+
 // Add this helper function at the top of the file, after the imports
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -24,7 +27,8 @@ export async function GET() {
   ? 'https://www.sportsjobs.online' 
   : 'http://localhost:3000';
 
-  const jobs = await fetchJobs(100000, JSON.stringify(""));
+  // Read the full list from the backend directly; the public /api/get-jobs route caps results.
+  const jobs = await fetchJobListFromBackend({ limit: 100000, revalidateSeconds: 3600 });
   if (!Array.isArray(jobs)) {
     throw new Error('Expected jobs to be an array');
   }
