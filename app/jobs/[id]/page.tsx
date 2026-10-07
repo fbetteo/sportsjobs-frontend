@@ -29,6 +29,8 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { addMonths, format } from 'date-fns';
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
+import { buildBaseSalarySchema } from '@/lib/jobSalary';
+import { buildJobMetaDescription, formatCountry, getWorkMode } from '@/lib/jobPostingMeta';
 const SenjaWallOfLove = dynamicImport(() => import('@/components/WallOfLove'), {
     loading: () => (
         <Box
@@ -80,16 +82,18 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         }
 
         const { job, expired } = jobResult;
+        const description = buildJobMetaDescription(job, expired);
 
         return {
-            title: `${job.title} at ${job.company} jobs - SportsJobs Online`,
-            description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`, keywords: `${job.sport_list ?? "Sports"} jobs, ${job.country} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
+            title: `${job.title} at ${job.company} - SportsJobs Online`,
+            description,
+            keywords: `${job.sport_list ?? "Sports"} jobs, ${formatCountry(job.country)} jobs,  sports analytics jobs, sports data science jobs, sports software jobs, sports betting jobs, sports data jobs, sports analytics careers, sports data science careers, sports software careers, sports betting careers`,
             alternates: {
                 canonical: `https://www.sportsjobs.online/jobs/${params.id}`,
             },
             openGraph: {
-                title: `${job.title} jobs - SportsJobs Online`,
-                description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                title: `${job.title} at ${job.company} - SportsJobs Online`,
+                description,
                 url: `https://www.sportsjobs.online/jobs/${params.id}`,
                 siteName: 'SportsJobs Online',
                 type: 'website',
@@ -104,8 +108,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
             },
             twitter: {
                 card: 'summary_large_image',
-                title: `${job.title} - SportsJobs Online`,
-                description: `${job.sport_list ?? "Sports"} software and analytics jobs. Hiring remotely in ${job.country}. Apply now. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+                title: `${job.title} at ${job.company} - SportsJobs Online`,
+                description,
                 images: [
                     getJobLogoSrc(job.logo_permanent_url, true),
                 ],
@@ -145,16 +149,6 @@ async function JobDetails({ params }: { params: { id: string } }) {
     if (job.slug && params.id !== job.slug) {
         permanentRedirect(`/jobs/${job.slug}`);
     }
-
-    // Add salary parsing helper
-    const extractSalaryValue = (salaryString: string): number | null => {
-        const matches = salaryString.match(/\d+/g);
-        if (matches && matches.length > 0) {
-            // Get the first number found in the string
-            return parseInt(matches[0], 10);
-        }
-        return null;
-    };
 
     const mappedIndustryJobType = industryJobTypeMapping[job.industry] || '🎯 sports';
     const descriptionHtml = marked(job.description);
@@ -200,30 +194,26 @@ async function JobDetails({ params }: { params: { id: string } }) {
                 "addressCountry": job.country_code,
             },
         },
-        "applicantLocationRequirements": {
-            "@type": "Country",
-            "name": job.country,
-        },
     };
 
-    // Only add salary if we can extract a valid number
-    const salaryValue = extractSalaryValue(job.salary);
-    if (salaryValue) {
-        schemaData.baseSalary = {
-            "@type": "MonetaryAmount",
-            "currency": "USD",
-            "value": {
-                "@type": "QuantitativeValue",
-                "value": salaryValue,
-                "unitText": "YEAR"
-            }
-        };
+    // Only emit salary when currency and pay period are unambiguous (see lib/jobSalary.ts)
+    const baseSalary = buildBaseSalarySchema(job.salary);
+    if (baseSalary) {
+        schemaData.baseSalary = baseSalary;
     }
 
-    // Add remote work type if applicable
-    // I've modifeid this since in my DB now Remote is being handled wrongly
-    if (job.remote_string?.toUpperCase().includes("REMOTE")) {
+    // Use remote_string, not the `remote` boolean, which is wrong for some DB rows.
+    // Google only expects applicantLocationRequirements on TELECOMMUTE jobs; worldwide
+    // remote roles omit it so they are not restricted to the scraped country.
+    const workMode = getWorkMode(job.remote_string);
+    if (workMode !== 'office') {
         schemaData.jobLocationType = "TELECOMMUTE";
+    }
+    if (workMode === 'remote' && job.country) {
+        schemaData.applicantLocationRequirements = {
+            "@type": "Country",
+            "name": formatCountry(job.country),
+        };
     }
 
     const jobPostingSchema = JSON.stringify(schemaData);

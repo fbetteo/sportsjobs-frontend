@@ -27,6 +27,12 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - Escape unsafe XML characters when generating sitemap payloads.
 - Keep robots and sitemap cache headers explicit and conservative.
 
+## Job Detail Metadata and JobPosting Schema
+
+- Job titles use `{title} at {company} - SportsJobs Online`; descriptions come from `lib/jobPostingMeta.ts` and lead with location/remote, seniority, and salary so truncated snippets keep the facts.
+- Derive remote status from `remote_string` (`Office` / `Remote` / `Global Remote`), not the unreliable `remote` boolean. Remote and Global Remote jobs get `jobLocationType: TELECOMMUTE`; only country-restricted `Remote` jobs get `applicantLocationRequirements`.
+- `baseSalary` comes from `lib/jobSalary.ts` and is emitted only when currency and pay period are unambiguous. Bare numbers without a currency, sub-10k amounts without a stated period, and unsupported units (e.g. "per match") are omitted rather than guessed.
+
 ## Indexing Strategy
 
 - Include high-value static pages plus dynamic job/company/blog URLs in sitemap.
