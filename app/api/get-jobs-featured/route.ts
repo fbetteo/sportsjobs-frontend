@@ -16,7 +16,6 @@ export async function GET(req: NextRequest) {
       limit,
       featuredOnly: true,
       includeFullDetails,
-      revalidateSeconds: 600, // featured jobs change less often
     });
     return jobListResponse(jobs);
   } catch (error) {

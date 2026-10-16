@@ -1,23 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Config redirects are served by the CDN without invoking a function.
+    async redirects() {
+      return [
+        // Old links that Google indexed under /job/[id].
+        { source: '/job/:id', destination: '/jobs/:id', permanent: false },
+        { source: '/member-plan', destination: '/signup', permanent: true },
+      ];
+    },
     async rewrites() {
       return [
         {
           source: '/sitemap.xml',
           destination: '/sitemap',
-        },
-      ];
-    },
-    async headers() {
-      return [
-        {
-          source: '/jobs/:id*',
-          headers: [
-            {
-              key: 'Cache-Control',
-              value: 'public, s-maxage=3600, max-age=600, stale-while-revalidate=7200',
-            },
-          ],
         },
       ];
     },

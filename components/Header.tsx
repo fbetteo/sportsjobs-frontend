@@ -29,7 +29,7 @@ import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 // Memoized Logo Component
 const Logo = memo(() => (
-  <Link href="/">
+  <Link href="/" prefetch={false}>
     <Image
       src="/sportsjobs_logo_color_rectangular_202606.png"
       alt="Sportsjobs Online Logo"
@@ -45,7 +45,7 @@ Logo.displayName = 'Logo';
 
 // Memoized Browse Jobs Button
 const BrowseJobsButton = memo(() => (
-  <Link href="/" passHref>
+  <Link href="/" prefetch={false} passHref>
     <Button
       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
       bg={BRAND_FOREGROUND}
@@ -63,7 +63,7 @@ BrowseJobsButton.displayName = 'BrowseJobsButton';
 
 // Memoized Blog Button
 const BlogButton = memo(() => (
-  <Link href="/blog" passHref>
+  <Link href="/blog" prefetch={false} passHref>
     <Button
       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
       bg={BRAND_FOREGROUND}
@@ -81,7 +81,7 @@ BlogButton.displayName = 'BlogButton';
 
 // Memoized Resources Button
 const ResourcesButton = memo(() => (
-  <Link href="/resources" passHref>
+  <Link href="/resources" prefetch={false} passHref>
     <Button
       bg={BRAND_FOREGROUND}
       color={BRAND_BACKGROUND}
@@ -98,7 +98,7 @@ ResourcesButton.displayName = 'ResourcesButton';
 
 // Dashboard links are temporarily hidden until the dashboard flow is ready.
 // const DashboardButton = memo(() => (
-//   <Link href="/dashboard" passHref>
+//   <Link href="/dashboard" prefetch={false} passHref>
 //     <Button
 //       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
 //       bg={BRAND_PRIMARY}
@@ -116,7 +116,7 @@ ResourcesButton.displayName = 'ResourcesButton';
 
 // Memoized Advertise Button
 const AdvertiseButton = memo(() => (
-  <Link href="/advertise" passHref>
+  <Link href="/advertise" prefetch={false} passHref>
     <Button
       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
       bg={BRAND_FOREGROUND}
@@ -134,7 +134,7 @@ AdvertiseButton.displayName = 'AdvertiseButton';
 
 // Memoized Affiliates Button
 const AffiliatesButton = memo(() => (
-  <Link href="/affiliates" passHref>
+  <Link href="/affiliates" prefetch={false} passHref>
     <Button
       colorScheme={BRAND_SECONDARY_COLOR_SCHEME}
       bg={BRAND_FOREGROUND}
@@ -177,13 +177,13 @@ const Header = () => {
                 </MenuButton>
                 <MenuList>
                   {/* <MenuItem color="black">
-                    <Link href="/dashboard">Dashboard</Link>
+                    <Link href="/dashboard" prefetch={false}>Dashboard</Link>
                   </MenuItem> */}
                   <MenuItem color="black">
-                    <Link href="/settings">Settings</Link>
+                    <Link href="/settings" prefetch={false}>Settings</Link>
                   </MenuItem>
                   <MenuItem color="black">
-                    <Link href="/api/auth/logout">Logout</Link>
+                    <a href="/api/auth/logout">Logout</a>
                   </MenuItem>
                 </MenuList>
               </Menu>
@@ -193,7 +193,7 @@ const Header = () => {
               <BrowseJobsButton />
               <BlogButton />
               <ResourcesButton />
-              <Link href="/api/auth/login" passHref>
+              <a href="/api/auth/login">
                 <Button
                   variant="ghost"
                   color={BRAND_BACKGROUND}
@@ -203,7 +203,7 @@ const Header = () => {
                 >
                   Login
                 </Button>
-              </Link>
+              </a>
               <Button
                 colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                 bg={BRAND_PRIMARY}
@@ -235,17 +235,17 @@ const Header = () => {
             <DrawerHeader>Menu</DrawerHeader>
             <DrawerBody>
               <VStack spacing={4} align="stretch">
-                <Link href="/" onClick={onClose}>
+                <Link href="/" prefetch={false} onClick={onClose}>
                   <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Browse Jobs
                   </Button>
                 </Link>
-                <Link href="/blog" onClick={onClose}>
+                <Link href="/blog" prefetch={false} onClick={onClose}>
                   <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Blog
                   </Button>
                 </Link>
-                <Link href="/resources" onClick={onClose}>
+                <Link href="/resources" prefetch={false} onClick={onClose}>
                   <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                     Resources
                   </Button>
@@ -267,29 +267,29 @@ const Header = () => {
 
                 {user ? (
                   <>
-                    {/* <Link href="/dashboard" onClick={onClose}>
+                    {/* <Link href="/dashboard" prefetch={false} onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Dashboard
                       </Button>
                     </Link> */}
-                    <Link href="/settings" onClick={onClose}>
+                    <Link href="/settings" prefetch={false} onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Settings
                       </Button>
                     </Link>
-                    <Link href="/api/auth/logout" onClick={onClose}>
+                    <a href="/api/auth/logout" onClick={onClose}>
                       <Button w="full" variant="ghost" justifyContent="flex-start" color="white" _hover={{ bg: BRAND_SECONDARY, color: BRAND_BACKGROUND }}>
                         Logout
                       </Button>
-                    </Link>
+                    </a>
                   </>
                 ) : (
                   <>
-                    <Link href="/api/auth/login" onClick={onClose}>
+                    <a href="/api/auth/login" onClick={onClose}>
                       <Button w="full" colorScheme={BRAND_PRIMARY_COLOR_SCHEME} variant="solid">
                         Login
                       </Button>
-                    </Link>
+                    </a>
                     <Button
                       w="full"
                       colorScheme={BRAND_PRIMARY_COLOR_SCHEME}

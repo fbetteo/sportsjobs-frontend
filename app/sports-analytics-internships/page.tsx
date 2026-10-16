@@ -3,7 +3,7 @@ import SportsAnalyticsInternshipsContent from '@/components/SportsAnalyticsInter
 import { fetchJobsServer } from '@/lib/fetchJobsServer';
 import { internshipFaqItems } from '@/lib/sportsAnalyticsInternshipsContent';
 import { format } from 'date-fns';
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Sports Analytics Internships in the USA | SportsJobs Online',

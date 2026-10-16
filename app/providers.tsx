@@ -12,6 +12,7 @@ import Header from '../components/Header';
 import theme from '../theme';
 import NewsletterSignupPopup from '../components/NewsletterSignupPopup';
 import Footer from "@/components/Footer";
+import { fetchUserIfSignedIn } from '@/lib/sessionHint';
 
 function PostHogPageView() {
     const pathname = usePathname();
@@ -69,7 +70,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <PostHogProvider client={posthog}>
             <ChakraProvider theme={theme}>
-                <UserProvider>
+                <UserProvider fetcher={fetchUserIfSignedIn}>
                     {!isFocusedSignupFlow && <Header />}
                     {children}
                     {!isFocusedSignupFlow && <Footer />}

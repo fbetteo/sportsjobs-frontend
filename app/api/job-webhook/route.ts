@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
+import { revalidateTag } from 'next/cache';
+import { JOB_LIST_CACHE_TAG } from '@/lib/jobsBackend';
 import { format, parse } from 'date-fns';
 import { DEFAULT_JOB_LOGO_URL } from '@/lib/jobLogo';
 // Replace old config with new route segment config
@@ -135,6 +137,10 @@ export async function POST(req: NextRequest) {
                 await publishLegacyJob(session.metadata.jobData, session);
             } else {
                 console.log('Not a job posting webhook, skipping...');
+            }
+            if (session.metadata?.pendingJobId || session.metadata?.jobData) {
+                // Lists cache for an hour; show the paid job right away.
+                revalidateTag(JOB_LIST_CACHE_TAG);
             }
         } catch (error) {
             console.error('Error processing job data:', error);

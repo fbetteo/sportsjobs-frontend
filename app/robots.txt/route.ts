@@ -1,37 +1,37 @@
 import { NextResponse } from 'next/server';
+
+// Crawlers that send no job seekers but render thousands of job pages, which costs
+// Vercel CPU, ISR reads/writes, and origin transfer. Crawl-delay is ignored by most of
+// them, so they are disallowed outright. Search engines and AI assistants stay allowed.
+const BLOCKED_CRAWLERS = [
+  'GPTBot', // Was doing 81K requests/12h; OAI-SearchBot (ChatGPT search) is still allowed.
+  'meta-externalagent',
+  'Bytespider',
+  'PetalBot',
+  'barkrowler',
+  'AhrefsBot',
+  'SemrushBot',
+  'MJ12bot',
+  'DotBot',
+  'DataForSeoBot',
+  'BLEXBot',
+  'serpstatbot',
+];
+
+// Job list APIs stay crawlable: Google needs them to render client-side company and country pages.
+const robotsTxt = [
+  'User-agent: *',
+  'Disallow: /api/auth/',
+  'Disallow: /api/dropdown-options',
+  'Allow: /',
+  '',
+  ...BLOCKED_CRAWLERS.flatMap((agent) => [`User-agent: ${agent}`, 'Disallow: /', '']),
+  'Sitemap: https://www.sportsjobs.online/sitemap.xml',
+  '',
+  '# LLM-friendly content for AI assistants: https://www.sportsjobs.online/llms.txt',
+].join('\n');
+
 export async function GET() {
-  // Define the content of the robots.txt file
-  const robotsTxt = `
-    User-agent: *
-    Disallow: /api/dropdown-options
-    Allow: /
-
-    # Aggressive bot crawl rate limits
-    # GPTBot was doing 81K requests/12h - block entirely
-    User-agent: GPTBot
-    Disallow: /
-
-    # Other aggressive crawlers - moderate rate limiting
-    User-agent: meta-externalagent
-    Crawl-delay: 30
-
-    User-agent: barkrowler
-    Crawl-delay: 30
-
-    User-agent: petalbot
-    Crawl-delay: 30
-
-    User-agent: Bytespider
-    Crawl-delay: 30
-
-    Sitemap: https://www.sportsjobs.online/sitemap.xml
-    
-    # LLM-friendly content for AI assistants
-    # See https://llmstxt.org for more information
-    Allow: /llms.txt
-  `.trim(); // trim to remove any extra whitespace
-
-  // Return the robots.txt content with the correct content type
   return new NextResponse(robotsTxt, {
     headers: {
       'Content-Type': 'text/plain',

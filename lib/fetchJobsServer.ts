@@ -13,7 +13,7 @@ export async function fetchJobsServer(limit: number, filters: string = "{}", inc
             limit,
             filters: filterObj,
             includeFullDetails,
-            revalidateSeconds: 300, // Cache for 5 minutes
+            revalidateSeconds: 3600, // Scraper adds jobs about once a day
         });
     } catch (error) {
         console.error('Error in fetchJobsServer:', error);
@@ -27,7 +27,7 @@ export async function fetchJobsFeaturedServer(limit: number, includeFullDetails:
             limit,
             featuredOnly: true,
             includeFullDetails,
-            revalidateSeconds: 600, // Cache for 10 minutes (featured changes less)
+            revalidateSeconds: 3600,
         });
     } catch (error) {
         console.error('Error in fetchJobsFeaturedServer:', error);
