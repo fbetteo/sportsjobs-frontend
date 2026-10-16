@@ -60,9 +60,9 @@ export default function SimilarJobs({ currentJobId, country, sportList, seniorit
     const loadSimilarJobs = async () => {
         setLoading(true);
         try {
-            // Use new optimized backend endpoint that handles randomization
+            // No current job ID in the URL, so every job page with the same filters shares
+            // one CDN-cached response. The route returns 4 so 3 remain after dropping this job.
             const params = new URLSearchParams();
-            params.append('exclude_id', currentJobId);
             if (country) params.append('country', country);
             if (sportList) params.append('sport', Array.isArray(sportList) ? sportList[0] : sportList);
             if (seniority) params.append('seniority', seniority);
@@ -70,13 +70,15 @@ export default function SimilarJobs({ currentJobId, country, sportList, seniorit
             const response = await fetch(`/api/get-similar-jobs?${params.toString()}`);
             const data = await response.json();
 
-            // Backend already returns 3 random jobs, no client-side filtering needed
-            const jobs = data.jobs || [];
+            const jobs = (data.jobs || [])
+                .filter((job: any) => String(job.job_id) !== String(currentJobId))
+                .slice(0, 3);
 
-            // Map job_id to id for consistency with existing interface
+            // Map backend fields (job_id, name) to the existing interface
             const mappedJobs = jobs.map((job: any) => ({
                 ...job,
                 id: job.slug || job.job_id,
+                title: job.name,
             }));
 
             setSimilarJobs(mappedJobs);

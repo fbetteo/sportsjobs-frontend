@@ -41,6 +41,9 @@ const FILTER_COLUMNS: Record<keyof JobListFilters, string> = {
 
 export const JOB_LIST_FILTER_KEYS = Object.keys(FILTER_COLUMNS) as Array<keyof JobListFilters>;
 
+// Cache tag on every job list fetch; revalidating it refreshes lists and the pages using them.
+export const JOB_LIST_CACHE_TAG = 'job-lists';
+
 function getDaysAgoText(creationDate: string): string {
   const created = new Date(creationDate);
   const today = new Date();
@@ -90,7 +93,7 @@ export async function fetchJobListFromBackend({
   filters = {},
   featuredOnly = false,
   includeFullDetails = false,
-  revalidateSeconds = 300,
+  revalidateSeconds = 3600, // Scraper adds jobs about once a day; paid posts revalidate on publish.
 }: FetchJobListOptions) {
   const backendFilters: Record<string, string> = {};
   for (const key of JOB_LIST_FILTER_KEYS) {
@@ -118,7 +121,7 @@ export async function fetchJobListFromBackend({
       Authorization: `Bearer ${process.env.HEADER_AUTHORIZATION}`,
     },
     body: JSON.stringify(requestBody),
-    next: { revalidate: revalidateSeconds },
+    next: { revalidate: revalidateSeconds, tags: [JOB_LIST_CACHE_TAG] },
   });
 
   if (!response.ok) {

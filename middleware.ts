@@ -6,10 +6,6 @@ import { fetchBlogPosts } from './lib/fetchBlogPosts';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === '/member-plan') {
-    return NextResponse.redirect(`${request.nextUrl.origin}/signup`, 301);
-  }
-
   // Early return for non-Airtable IDs - skip middleware processing for 90%+ of job requests
   // Only process if path matches old Airtable ID pattern (rec + 14-17 alphanumeric chars)
   const isOldJobId = /^\/jobs\/rec[A-Za-z0-9]{14,17}$/.test(pathname);
@@ -77,6 +73,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Match only legacy Airtable IDs so normal job and blog pages skip middleware entirely.
 export const config = {
-  matcher: ['/jobs/:path*', '/blogposts/:path*', '/member-plan'],
+  matcher: ['/jobs/:id(rec[A-Za-z0-9]{14,17})', '/blogposts/:id(rec[A-Za-z0-9]{14,17})'],
 };

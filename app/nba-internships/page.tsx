@@ -1,6 +1,6 @@
 import JobLandingPage, { getJobLandingMetadata } from '@/components/JobLandingPage';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 export const metadata = getJobLandingMetadata('nba-internships');
 
 export default function Page() {

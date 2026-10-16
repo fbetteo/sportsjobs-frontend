@@ -170,6 +170,7 @@ export default function SportsAnalyticsInternshipsContent({ initialJobs, lastChe
                                 </Box>
                                 <Button
                                     as={NextLink}
+                                    prefetch={false}
                                     href="/signup"
                                     colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                                     leftIcon={<FaLock />}

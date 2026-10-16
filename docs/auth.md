@@ -4,7 +4,8 @@
 
 - Auth provider: Auth0 via `@auth0/nextjs-auth0`.
 - Built-in auth route: `app/api/auth/[auth0]/route.ts`.
-- App-wide user context: `UserProvider` in `app/providers.tsx`.
+- App-wide user context: `UserProvider` in `app/providers.tsx`. Its `fetcher` (`lib/sessionHint.ts`) calls `/api/auth/me` only when the readable `sj_signed_in` hint cookie exists; `app/api/auth/[auth0]/route.ts` sets it on login callback and clears it on logout. This keeps anonymous visitors and crawlers from invoking a function on every page load.
+- Link to `/api/auth/login` and `/api/auth/logout` with a plain `<a>`, never `next/link`: prefetching an API route executes it.
 - Client auth state: `useUser()` in client components.
 - `/signup` currently does not create Auth0 users. It is a pre-account onboarding funnel while backend user creation is being stabilized.
 - `POST /api/auth/signup` exists for direct Auth0 Management API account creation, but it should not be wired back into `/signup` until backend `/users/ensure` is reliable.

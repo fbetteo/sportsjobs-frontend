@@ -57,6 +57,7 @@ export default function PopularSearches() {
                     </Heading>
                     <Link
                         as={NextLink}
+                        prefetch={false}
                         href="/resources"
                         fontSize="sm"
                         color={BRAND_PRIMARY_LIGHT}
@@ -72,6 +73,7 @@ export default function PopularSearches() {
                         <Box
                             key={search.href}
                             as={NextLink}
+                            prefetch={false}
                             href={search.href}
                             p={6}
                             bg={BRAND_SECONDARY_SURFACE}

@@ -80,6 +80,7 @@ export default function JobLandingContent({ config, jobs, lastChecked }: Props) 
                 </Box>
                 <Button
                   as={NextLink}
+                  prefetch={false}
                   href="/signup"
                   colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
                   leftIcon={<FaLock />}
@@ -245,6 +246,7 @@ export default function JobLandingContent({ config, jobs, lastChecked }: Props) 
                 <Box
                   key={slug}
                   as={NextLink}
+                  prefetch={false}
                   href={`/${slug}`}
                   p={5}
                   bg={BRAND_SECONDARY_SURFACE}

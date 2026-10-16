@@ -88,6 +88,7 @@ const FeaturedCompanies = () => {
                         Popular Companies
                     </Heading>                    <Link
                         as={NextLink}
+                        prefetch={false}
                         href="/advertise"
                         fontSize="sm"
                         color={BRAND_PRIMARY_LIGHT}

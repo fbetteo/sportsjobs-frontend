@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 // Enable ISR - revalidate every 5 minutes
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export default async function Home() {
   // Fetch initial data server-side (non-auth user view: 8 jobs, 7 featured)
