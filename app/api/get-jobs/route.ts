@@ -9,7 +9,7 @@ import { jobListResponse, resolveJobListAccess } from '@/lib/jobListAccess';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
-  const { limit, includeFullDetails } = await resolveJobListAccess(req, 5);
+  const { limit, offset, includeFullDetails } = await resolveJobListAccess(req, 5);
 
   const filters: JobListFilters = {};
   for (const key of JOB_LIST_FILTER_KEYS) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const jobs = await fetchJobListFromBackend({ limit, filters, includeFullDetails });
+    const jobs = await fetchJobListFromBackend({ limit, offset, filters, includeFullDetails });
     return jobListResponse(jobs);
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
