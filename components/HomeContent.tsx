@@ -87,6 +87,9 @@ interface Job {
     // ...add other job properties you need
 }
 
+// Signed-in users load jobs in pages of this size via "Load more".
+const JOB_PAGE_SIZE = 100;
+
 interface HomeContentProps {
     initialJobs?: Job[];
     initialFeaturedJobs?: Job[];
@@ -96,6 +99,10 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
     const [filters, setFilters] = useState<{ country?: string; remote?: string; seniority?: string; industry?: string; sport?: string; job_area?: string }>({});
     const [jobs, setJobs] = useState<Job[]>(initialJobs);  // Use server-rendered initial data
     const [featuredJobs, setFeaturedJobs] = useState<Job[]>(initialFeaturedJobs); // Use server-rendered initial data
+    const [hasMoreJobs, setHasMoreJobs] = useState(true);
+    const [isLoadingMoreJobs, setIsLoadingMoreJobs] = useState(false);
+    // Bumped on every new job list request so a late "Load more" response for old filters is dropped.
+    const jobsRequestIdRef = useRef(0);
     const [totalJobCount, setTotalJobCount] = useState<number>(0); // Total jobs in database
     const [newJobsToday, setNewJobsToday] = useState<number | undefined>(0); // Jobs added today
     const { user, isLoading: userLoading } = useUser();
@@ -245,7 +252,7 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
     useEffect(() => {
         setTotalJobCount(3000); // Static value - update periodically
 
-        // Only calculate "new today" for authenticated users who fetch enough jobs (300)
+        // Only calculate "new today" for authenticated users who fetch enough jobs (a full page)
         // For non-auth users (8 jobs), the sample is too small to be meaningful
         if (user && jobs.length >= 100) {
             const today = new Date();
@@ -272,12 +279,14 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
         }
 
         const fetchData = async () => {
+            const requestId = ++jobsRequestIdRef.current;
             try {
-                const jobLimit = user ? 300 : 8;
+                const jobLimit = user ? JOB_PAGE_SIZE : 8;
                 const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
-                console.log(filters)
+                if (requestId !== jobsRequestIdRef.current) return;
                 if (Array.isArray(fetchedJobs)) {
                     setJobs(fetchedJobs);
+                    setHasMoreJobs(fetchedJobs.length === jobLimit);
                     sessionStorage.setItem('jobsList', JSON.stringify({
                         data: fetchedJobs,
                         timestamp: Date.now()
@@ -310,6 +319,26 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
             }
         };
     }, [user, filters, userChanged]);
+
+    const loadMoreJobs = async () => {
+        const requestId = ++jobsRequestIdRef.current;
+        setIsLoadingMoreJobs(true);
+        try {
+            const nextJobs = await fetchJobs(JOB_PAGE_SIZE, JSON.stringify(filters), false, jobs.length);
+            if (requestId !== jobsRequestIdRef.current) return;
+            // A job inserted since the last page shifts offsets by one; skip the repeat.
+            const seenIds = new Set(jobs.map((job) => job.id));
+            const allJobs = [...jobs, ...nextJobs.filter((job: Job) => !seenIds.has(job.id))];
+            setJobs(allJobs);
+            setHasMoreJobs(nextJobs.length === JOB_PAGE_SIZE);
+            sessionStorage.setItem('jobsList', JSON.stringify({
+                data: allJobs,
+                timestamp: Date.now()
+            }));
+        } finally {
+            setIsLoadingMoreJobs(false);
+        }
+    };
 
     // Save scroll position before navigation
     useEffect(() => {
@@ -401,6 +430,19 @@ export default function HomeContent({ initialJobs = [], initialFeaturedJobs = []
                         <FeaturedCompanies />
                         <PopularSearches />
                         <JobListFeatured jobs={featuredJobs} />                        <JobList jobs={jobs} user={user} scrollToPricing={scrollToPricing} totalJobCount={totalJobCount} />
+                        {user && hasMoreJobs && jobs.length > 0 && (
+                            <Center mt={6}>
+                                <Button
+                                    onClick={loadMoreJobs}
+                                    isLoading={isLoadingMoreJobs}
+                                    loadingText="Loading"
+                                    colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
+                                    variant="outline"
+                                >
+                                    Load more jobs
+                                </Button>
+                            </Center>
+                        )}
                         <Flex justify="center" mb={4}>
                             <ChevronDownIcon w={50} h={50} color={BRAND_PRIMARY_LIGHT} />
                         </Flex>

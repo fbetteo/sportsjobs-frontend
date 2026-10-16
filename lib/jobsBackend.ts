@@ -20,6 +20,7 @@ export interface JobListFilters {
 
 interface FetchJobListOptions {
   limit: number;
+  offset?: number;
   filters?: JobListFilters;
   featuredOnly?: boolean;
   includeFullDetails?: boolean;
@@ -85,6 +86,7 @@ function mapListJob(record: any, includeFullDetails: boolean) {
 
 export async function fetchJobListFromBackend({
   limit,
+  offset = 0,
   filters = {},
   featuredOnly = false,
   includeFullDetails = false,
@@ -99,9 +101,12 @@ export async function fetchJobListFromBackend({
 
   const requestBody = {
     limit,
+    offset,
     filters: Object.keys(backendFilters).length > 0 ? backendFilters : null,
     sort_by: 'creation_date',
     sort_direction: 'desc',
+    // Skip description and other heavy columns in the backend query itself.
+    list_fields_only: !includeFullDetails,
   };
 
   // The Next data cache keys POST fetches by body, so identical list queries
