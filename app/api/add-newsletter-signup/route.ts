@@ -39,10 +39,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate source if provided
-    const validSources = ['website-modal', 'website-form'];
+    const validSources = ['website-modal', 'website-form', 'salary-report'];
     if (source && !validSources.includes(source)) {
       return NextResponse.json(
-        { error: 'Invalid source. Must be "website-modal" or "website-form"' }, 
+        { error: `Invalid source. Must be one of: ${validSources.join(', ')}` },
         { status: 400 }
       );
     }

@@ -21,9 +21,11 @@ const SUBSTACK_SUBSCRIBE_URL = 'https://sportsjobs.substack.com/subscribe';
 
 interface NewsletterSignupFormProps {
     variant?: 'default' | 'hero';
+    source?: 'website-form' | 'salary-report';
+    onSubscribed?: () => void;
 }
 
-const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps) => {
+const NewsletterSignupForm = ({ variant = 'default', source = 'website-form', onSubscribed }: NewsletterSignupFormProps) => {
     const [email, setEmail] = useState('');
     const [showUpscribe, setShowUpscribe] = useState(false);
     const toast = useToast();
@@ -41,13 +43,14 @@ const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps
                     },
                     body: JSON.stringify({
                         email,
-                        source: 'website-form'
+                        source
                     }),
                 });
             } catch (dbError) {
                 console.error('Database recording error:', dbError);
             }
             markNewsletterSubscribed();
+            onSubscribed?.();
 
             if (typeof window !== 'undefined' && window.gtag) {
                 window.gtag('event', 'conversion', {
