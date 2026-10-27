@@ -84,6 +84,7 @@ Use this guide for pages/components and UX changes.
 - `/sports-analytics-internships` targets the sports analytics internships query with the latest 10 server-rendered internship listings.
 - Keep this page focused on analytics-relevant student roles and preserve the live openings module, role taxonomy, requirements, FAQ, and newsletter CTA.
 - `/sports-analytics-salaries` targets the sports analytics salaries query with benchmark ranges, role/experience tables, location and employer-type comparisons, methodology, and FAQ.
+- Its `SalaryReportSection` shows medians from SportsJobs postings. The level and remote tables unlock after a newsletter signup (`NewsletterSignupForm` with `source="salary-report"` and `onSubscribed`), or on load when `isNewsletterSubscribed()` is already true. The unlock is a lead-capture prompt, not access control.
 - `/teamwork-online-sports-analytics-jobs` targets brand-comparison intent and should preserve the balanced TeamWork Online explainer, strengths/weaknesses sections, comparison table, inventory snapshot, FAQ, and newsletter CTA.
 - Link search-intent pages from stable navigation surfaces. The internships and salaries pages are linked from the footer and the homepage `PopularSearches` module.
 - `/resources/interview-questions/data-scientist` is a public interview-prep resource. Keep it in the existing Resources visual system: dark Chakra surfaces, brand primary/secondary accents, concise prep cards, and expandable question sections.

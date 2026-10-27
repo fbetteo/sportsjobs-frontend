@@ -24,6 +24,14 @@ export function markNewsletterSubscribed() {
     }
 }
 
+export function isNewsletterSubscribed() {
+    try {
+        return Boolean(localStorage.getItem(SUBSCRIBED_KEY));
+    } catch {
+        return false;
+    }
+}
+
 export function markNewsletterPopupDismissed() {
     try {
         localStorage.setItem(DISMISSED_AT_KEY, Date.now().toString());

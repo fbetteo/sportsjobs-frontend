@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import SalaryReportSection from '@/components/SalaryReportSection';
 import { salaryFaqItems } from '@/lib/sportsAnalyticsSalariesContent';
 import {
     Badge,
@@ -169,6 +170,8 @@ export default function SportsAnalyticsSalariesContent() {
                         </CardBody>
                     </Card>
                 </SimpleGrid>
+
+                <SalaryReportSection />
 
                 <Box as="section" bg="gray.800" borderWidth="1px" borderColor={BRAND_SECONDARY} borderRadius="md" p={{ base: 5, md: 7 }}>
                     <Heading as="h2" size="lg" color="white" mb={3}>
