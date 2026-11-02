@@ -1,0 +1,121 @@
+table,segment,period,postings,employers,skill,share_of_postings_pct
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Python,33.0
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,SQL,34.2
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,R,19.5
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Tableau / Power BI,22.0
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Machine learning,14.7
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,AI,7.7
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,"Cloud (AWS, Azure, GCP)",13.8
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Tracking data,3.3
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Video analysis,5.1
+trend,Soccer + US major leagues,Jul–Dec 2025,904,236,Computer vision,2.3
+trend,Soccer,Jul–Dec 2025,257,101,Python,32.3
+trend,Soccer,Jul–Dec 2025,257,101,SQL,36.2
+trend,Soccer,Jul–Dec 2025,257,101,R,16.3
+trend,Soccer,Jul–Dec 2025,257,101,Tableau / Power BI,43.2
+trend,Soccer,Jul–Dec 2025,257,101,Machine learning,16.3
+trend,Soccer,Jul–Dec 2025,257,101,AI,6.6
+trend,Soccer,Jul–Dec 2025,257,101,"Cloud (AWS, Azure, GCP)",15.6
+trend,Soccer,Jul–Dec 2025,257,101,Tracking data,5.4
+trend,Soccer,Jul–Dec 2025,257,101,Video analysis,15.6
+trend,Soccer,Jul–Dec 2025,257,101,Computer vision,1.2
+trend,US major leagues,Jul–Dec 2025,647,137,Python,33.2
+trend,US major leagues,Jul–Dec 2025,647,137,SQL,33.4
+trend,US major leagues,Jul–Dec 2025,647,137,R,20.7
+trend,US major leagues,Jul–Dec 2025,647,137,Tableau / Power BI,13.6
+trend,US major leagues,Jul–Dec 2025,647,137,Machine learning,14.1
+trend,US major leagues,Jul–Dec 2025,647,137,AI,8.2
+trend,US major leagues,Jul–Dec 2025,647,137,"Cloud (AWS, Azure, GCP)",13.1
+trend,US major leagues,Jul–Dec 2025,647,137,Tracking data,2.5
+trend,US major leagues,Jul–Dec 2025,647,137,Video analysis,0.9
+trend,US major leagues,Jul–Dec 2025,647,137,Computer vision,2.8
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Python,40.0
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,SQL,39.0
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,R,21.0
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Tableau / Power BI,26.0
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Machine learning,18.7
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,AI,17.8
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,"Cloud (AWS, Azure, GCP)",19.6
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Tracking data,6.1
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Video analysis,5.4
+trend,Soccer + US major leagues,Jan–Jun 2026,934,232,Computer vision,1.9
+trend,Soccer,Jan–Jun 2026,287,95,Python,41.5
+trend,Soccer,Jan–Jun 2026,287,95,SQL,46.0
+trend,Soccer,Jan–Jun 2026,287,95,R,26.1
+trend,Soccer,Jan–Jun 2026,287,95,Tableau / Power BI,42.9
+trend,Soccer,Jan–Jun 2026,287,95,Machine learning,17.1
+trend,Soccer,Jan–Jun 2026,287,95,AI,16.4
+trend,Soccer,Jan–Jun 2026,287,95,"Cloud (AWS, Azure, GCP)",16.4
+trend,Soccer,Jan–Jun 2026,287,95,Tracking data,6.3
+trend,Soccer,Jan–Jun 2026,287,95,Video analysis,15.7
+trend,Soccer,Jan–Jun 2026,287,95,Computer vision,0.0
+trend,US major leagues,Jan–Jun 2026,647,146,Python,39.4
+trend,US major leagues,Jan–Jun 2026,647,146,SQL,35.9
+trend,US major leagues,Jan–Jun 2026,647,146,R,18.7
+trend,US major leagues,Jan–Jun 2026,647,146,Tableau / Power BI,18.5
+trend,US major leagues,Jan–Jun 2026,647,146,Machine learning,19.5
+trend,US major leagues,Jan–Jun 2026,647,146,AI,18.4
+trend,US major leagues,Jan–Jun 2026,647,146,"Cloud (AWS, Azure, GCP)",21.0
+trend,US major leagues,Jan–Jun 2026,647,146,Tracking data,6.0
+trend,US major leagues,Jan–Jun 2026,647,146,Video analysis,0.8
+trend,US major leagues,Jan–Jun 2026,647,146,Computer vision,2.8
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Python,41.3
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,SQL,37.3
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,R,20.8
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Tableau / Power BI,20.8
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Machine learning,17.7
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,AI,30.4
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,"Cloud (AWS, Azure, GCP)",19.3
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Tracking data,6.3
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Video analysis,3.8
+trend,Soccer + US major leagues,Jul–Oct 2026,761,213,Computer vision,3.4
+trend,Soccer,Jul–Oct 2026,160,69,Python,39.4
+trend,Soccer,Jul–Oct 2026,160,69,SQL,38.1
+trend,Soccer,Jul–Oct 2026,160,69,R,17.5
+trend,Soccer,Jul–Oct 2026,160,69,Tableau / Power BI,46.9
+trend,Soccer,Jul–Oct 2026,160,69,Machine learning,19.4
+trend,Soccer,Jul–Oct 2026,160,69,AI,21.9
+trend,Soccer,Jul–Oct 2026,160,69,"Cloud (AWS, Azure, GCP)",15.6
+trend,Soccer,Jul–Oct 2026,160,69,Tracking data,9.4
+trend,Soccer,Jul–Oct 2026,160,69,Video analysis,14.4
+trend,Soccer,Jul–Oct 2026,160,69,Computer vision,0.0
+trend,US major leagues,Jul–Oct 2026,601,149,Python,41.8
+trend,US major leagues,Jul–Oct 2026,601,149,SQL,37.1
+trend,US major leagues,Jul–Oct 2026,601,149,R,21.6
+trend,US major leagues,Jul–Oct 2026,601,149,Tableau / Power BI,13.8
+trend,US major leagues,Jul–Oct 2026,601,149,Machine learning,17.3
+trend,US major leagues,Jul–Oct 2026,601,149,AI,32.6
+trend,US major leagues,Jul–Oct 2026,601,149,"Cloud (AWS, Azure, GCP)",20.3
+trend,US major leagues,Jul–Oct 2026,601,149,Tracking data,5.5
+trend,US major leagues,Jul–Oct 2026,601,149,Video analysis,1.0
+trend,US major leagues,Jul–Oct 2026,601,149,Computer vision,4.3
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Python,37.5
+comparison,Soccer,Nov 2025–Oct 2026,501,134,SQL,40.1
+comparison,Soccer,Nov 2025–Oct 2026,501,134,R,21.0
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Tableau / Power BI,42.9
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Machine learning,17.0
+comparison,Soccer,Nov 2025–Oct 2026,501,134,AI,16.8
+comparison,Soccer,Nov 2025–Oct 2026,501,134,"Cloud (AWS, Azure, GCP)",15.2
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Tracking data,6.0
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Video analysis,16.6
+comparison,Soccer,Nov 2025–Oct 2026,501,134,Computer vision,0.2
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Python,37.7
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,SQL,39.6
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,R,11.3
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Tableau / Power BI,40.6
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Machine learning,19.8
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,AI,21.7
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,"Cloud (AWS, Azure, GCP)",26.4
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Tracking data,5.7
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Video analysis,21.7
+comparison,"Soccer, UK employers",Nov 2025–Oct 2026,106,41,Computer vision,0.0
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Python,38.9
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,SQL,35.7
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,R,20.5
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Tableau / Power BI,16.3
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Machine learning,17.4
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,AI,22.3
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,"Cloud (AWS, Azure, GCP)",18.2
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Tracking data,5.5
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Video analysis,0.9
+comparison,US major leagues,Nov 2025–Oct 2026,1369,214,Computer vision,3.2

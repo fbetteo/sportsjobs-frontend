@@ -71,6 +71,7 @@ export async function GET() {
     '/job-searches',
     '/sports-analytics-internships',
     '/sports-analytics-salaries',
+    '/statistics',
     '/teamwork-online-sports-analytics-jobs',
     '/resources/interview-questions/data-scientist',
     ...jobLandingPageSlugs.map((slug) => `/${slug}`),
