@@ -71,6 +71,28 @@ const hardestPartOptions = [
   { value: 'lack_of_great_offers', label: 'Lack of great job offers' },
 ];
 
+const DAILY_ALERT_REPLY = {
+  title: 'Being early is the part you can control',
+  body: 'Sports roles collect applications fast. SportsJobs emails you every day with the jobs added in the last 24 hours, so you apply in the first days instead of finding a role weeks late.',
+};
+
+const hardestPartReplies: Record<string, { title: string; body: string }> = {
+  not_enough_jobs: {
+    title: 'That is the problem SportsJobs is built for',
+    body: 'We collect sports data, analytics and tech roles from team, league, betting and sports-tech career pages every day, including roles that never reach the big job sites.',
+  },
+  not_getting_interviews: DAILY_ALERT_REPLY,
+  not_hearing_back: DAILY_ALERT_REPLY,
+  too_much_competition: {
+    title: 'Get to the roles before the crowd does',
+    body: 'Many of our listings come straight from club, league and company career pages. A daily email with new matches lets you be one of the first applicants.',
+  },
+  lack_of_great_offers: {
+    title: 'Only see the roles you would actually take',
+    body: 'Set a daily alert by country, remote or office, sport and internship, and SportsJobs only emails you the matches.',
+  },
+};
+
 const countryOptions = [
   'united states', 'united kingdom', 'argentina', 'australia', 'austria', 'belgium', 'brazil', 'bulgaria', 'cameroon', 'canada',
   'colombia', 'cyprus', 'czechia', 'denmark', 'egypt', 'estonia', 'france', 'germany', 'greece',
@@ -102,7 +124,7 @@ const planOptions: PlanOption[] = [
     priceId: process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID,
     priceValue: 6.99,
     summary: 'Great if you are actively searching this month.',
-    features: ['Fresh jobs every week', 'Cleaner niche sports board', 'Cancel anytime'],
+    features: ['Every sports data and tech job in one board', 'Daily email with new matches', 'Cancel anytime'],
   },
   {
     id: 'yearly_subscription',
@@ -113,7 +135,7 @@ const planOptions: PlanOption[] = [
     priceValue: 39,
     highlighted: true,
     summary: 'Best for staying visible to new opportunities all year.',
-    features: ['Best value', 'Always-on job discovery', 'Future saved-search upgrades'],
+    features: ['Best value', 'Daily job alerts all year', 'New features included'],
   },
   {
     id: 'lifetime',
@@ -123,7 +145,7 @@ const planOptions: PlanOption[] = [
     priceId: process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID,
     priceValue: 59,
     summary: 'Pay once and keep SportsJobs in your career toolkit.',
-    features: ['One payment', 'Long-term sports career access', 'Future feature access'],
+    features: ['One payment', 'Lifetime access and daily alerts', 'New features included'],
   },
 ];
 
@@ -713,6 +735,7 @@ export default function SignupPage() {
               options={hardestPartOptions}
               value={answers.hardestPart}
               onChange={(value) => setAnswers({ ...answers, hardestPart: value })}
+              reply={hardestPartReplies[answers.hardestPart]}
               onNext={goNext}
               onBack={goBack}
             />
@@ -860,7 +883,7 @@ export default function SignupPage() {
                 <VStack align="stretch" spacing={4}>
                   <BenefitBullet icon={FaSearch} text="Fresh sports jobs across teams, leagues, betting, media, agencies, and startups." />
                   <BenefitBullet icon={FaShieldAlt} text="Low-quality, irrelevant, expired, and suspicious posts should not waste your search time." />
-                  <BenefitBullet icon={FaBell} text="Your answers help shape alerts, saved filters, and recommendations as the product improves." />
+                  <BenefitBullet icon={FaBell} text="A daily email with the new jobs that match your country and filters, so you can apply early." />
                 </VStack>
               </Box>
               <Box bg="gray.800" borderWidth="1px" borderColor="gray.700" borderRadius="md" p={5}>
@@ -909,7 +932,7 @@ export default function SignupPage() {
                     points={[
                       { icon: FaCheckCircle, text: 'Curated sports matches' },
                       { icon: FaBolt, text: 'Faster discovery' },
-                      { icon: FaBell, text: 'Better alerts and filters next' },
+                      { icon: FaBell, text: 'Daily alerts for new roles' },
                     ]}
                   />
                 </VStack>
@@ -991,6 +1014,7 @@ function SingleChoiceStep({
   onChange,
   onNext,
   onBack,
+  reply,
 }: {
   title: string;
   options: Array<{ value: string; label: string }>;
@@ -998,6 +1022,7 @@ function SingleChoiceStep({
   onChange: (value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  reply?: { title: string; body: string };
 }) {
   return (
     <VStack align="stretch" spacing={6}>
@@ -1009,6 +1034,12 @@ function SingleChoiceStep({
           </OptionButton>
         ))}
       </VStack>
+      {reply && (
+        <Box bg="gray.800" borderLeftWidth="4px" borderColor={SIGNUP_ACCENT_PROGRESS} borderRadius="md" p={5}>
+          <Heading size="sm" mb={2}>{reply.title}</Heading>
+          <Text color="gray.300">{reply.body}</Text>
+        </Box>
+      )}
       <StepActions onBack={onBack} onNext={onNext} isNextDisabled={!value} />
     </VStack>
   );
@@ -1263,7 +1294,7 @@ function ProofCard() {
       w="full"
     >
       <Heading size="xl" mb={4}>The right match is waiting for you</Heading>
-      <Text color="gray.300" mb={6}>Unlock company names, apply links, saved search groundwork, and a cleaner sports-first board.</Text>
+      <Text color="gray.300" mb={6}>Unlock company names, apply links, daily job alerts, and a cleaner sports-first board.</Text>
       <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={4}>
         <Box>
           <Text color={SIGNUP_ACCENT_PROGRESS} fontSize="3xl" fontWeight="bold">200+</Text>
@@ -1294,7 +1325,7 @@ function SignupFaq() {
     },
     {
       question: 'What happens after checkout?',
-      answer: 'You will get access to the paid SportsJobs experience and the setup you completed can guide future alerts and saved-search features.',
+      answer: 'You get full access to the board, including company names and apply links. From your dashboard you can turn on a daily email alert for your country in one click.',
     },
   ];
 

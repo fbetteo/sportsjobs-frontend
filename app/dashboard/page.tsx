@@ -21,6 +21,7 @@ import { BRAND_PRIMARY_COLOR_SCHEME, BRAND_SECONDARY_COLOR_SCHEME, BRAND_SECONDA
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import OnboardingModal from '../../components/OnboardingModal';
+import DailyAlertCard from '../../components/DailyAlertCard';
 import { OnboardingAnswers, UserProfile, hasPremiumAccess } from '../../lib/userProfile';
 const upgradePlans = [
   {
@@ -65,9 +66,9 @@ const featureCards = [
   },
   {
     title: 'Job alerts',
-    description: 'Use your onboarding answers to tune alerts around your goals.',
+    description: 'A daily email with the new jobs that match your country, sport and work mode.',
     icon: FaBell,
-    status: 'Personalized',
+    status: 'Live',
   },
 ];
 
@@ -288,6 +289,8 @@ export default function DashboardPage() {
             {isPremium ? 'Manage plan' : 'Upgrade'}
           </Button>
         </Flex>
+
+        <DailyAlertCard country={profile.onboarding?.country} />
 
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing={4}>
           {featureCards.map((feature) => (
