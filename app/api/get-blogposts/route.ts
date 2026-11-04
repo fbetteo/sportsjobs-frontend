@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const limit = parseInt(searchParams.get('limit') || '5', 10);
   const airtableId = searchParams.get('airtable_id');
 
   const requestBody = {
     limit,
     filters: airtableId ? { airtable_id: airtableId } : null,
+    // Blog lists don't render article content; get-blogpost-details fetches the full post.
+    list_fields_only: true,
     sort_by: "creation_date",
     sort_direction: "desc"
   };

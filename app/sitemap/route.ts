@@ -21,16 +21,10 @@ function escapeXml(unsafe: string): string {
   });
 }
 
-export async function GET() {
-  // Use the correct base URL depending on your environment
-  const baseUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.sportsjobs.online' 
-  : 'http://localhost:3000';
-
+async function fetchSitemapJobs(): Promise<any[]> {
   // Read the full list from the backend directly; the public /api/get-jobs route caps results.
-  let jobs: any[];
   try {
-    jobs = await fetchJobListFromBackend({ limit: 100000, revalidateSeconds: 3600 });
+    return await fetchJobListFromBackend({ limit: 100000, revalidateSeconds: 3600 });
   } catch (error) {
     // During `next build` an unreachable backend must not fail the deploy; ship a sitemap
     // without jobs and let the hourly revalidation fill them in. At runtime, rethrow so
@@ -39,8 +33,21 @@ export async function GET() {
       throw error;
     }
     console.error('Sitemap build: job list unavailable, continuing without jobs:', error);
-    jobs = [];
+    return [];
   }
+}
+
+export async function GET() {
+  // Use the correct base URL depending on your environment
+  const baseUrl = process.env.NODE_ENV === 'production'
+  ? 'https://www.sportsjobs.online'
+  : 'http://localhost:3000';
+
+  const [jobs, blogposts, companies] = await Promise.all([
+    fetchSitemapJobs(),
+    fetchBlogPosts(100, JSON.stringify("")),
+    fetchCompanies(),
+  ]);
   if (!Array.isArray(jobs)) {
     throw new Error('Expected jobs to be an array');
   }
@@ -51,13 +58,10 @@ export async function GET() {
     return isValid(datePosted) && !isPast(addMonths(datePosted, 2));
   });
 
-  const blogposts = await fetchBlogPosts(100, JSON.stringify(""));
   if (!Array.isArray(blogposts)) {
     throw new Error('Expected blogposts to be an array');
   }
 
-  // Fetch companies
-  const companies = await fetchCompanies();
   if (!Array.isArray(companies)) {
     throw new Error('Expected companies to be an array');
   }
