@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // Responses are shared through the CDN per filter combination, so the query must not
 // include the current job's ID; the client drops the current job from the result.
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const country = searchParams.get('country');
   const sport = searchParams.get('sport');
   const seniority = searchParams.get('seniority');

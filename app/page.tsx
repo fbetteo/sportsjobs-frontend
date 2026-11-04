@@ -13,8 +13,10 @@ export const revalidate = 3600;
 export default async function Home() {
   // Fetch initial data server-side (non-auth user view: 8 jobs, 7 featured)
   // This will be cached at edge and revalidated every 5 minutes
-  const initialJobs = await fetchJobsServer(8, "{}");
-  const initialFeaturedJobs = await fetchJobsFeaturedServer(7);
+  const [initialJobs, initialFeaturedJobs] = await Promise.all([
+    fetchJobsServer(8, "{}"),
+    fetchJobsFeaturedServer(7),
+  ]);
 
   return (
     <main>

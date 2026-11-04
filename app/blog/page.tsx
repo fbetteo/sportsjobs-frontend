@@ -87,7 +87,7 @@ export default async function BlogPage() {
                                             <Text fontSize="sm" color="gray.500">
                                                 {/* {formattedDate} */}
                                             </Text>
-                                            <Text mt={2}>{post.summary}</Text>
+                                            <Text mt={2}>{post.short_description}</Text>
                                         </Box>
                                     </VStack>
                                 </ChakraLink>

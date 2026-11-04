@@ -8,7 +8,7 @@ function applyJobDetailsCacheHeaders(response: NextResponse, cacheControl: strin
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const job_id_param = searchParams.get('id')?.trim() ?? '';
 
   if (!job_id_param) {
