@@ -90,15 +90,6 @@ const SuccessPageContent = () => {
                     throw new Error(checkout?.error || 'Could not verify checkout');
                 }
 
-                if (window.gtag) {
-                    window.gtag('event', 'conversion', {
-                        send_to: 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
-                        value: checkout.value,
-                        currency: checkout.currency,
-                        transaction_id: checkout.sessionId,
-                    });
-                }
-
                 trackAnalyticsEvent('purchase', {
                     transaction_id: checkout.sessionId,
                     signup_funnel_id: checkout.signupFunnelId,
