@@ -50,10 +50,6 @@ const NewsletterSignupForm = ({ variant = 'default' }: NewsletterSignupFormProps
             markNewsletterSubscribed();
 
             if (typeof window !== 'undefined' && window.gtag) {
-                window.gtag('event', 'conversion', {
-                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq'
-                });
-
                 window.gtag('event', 'generate_lead', {
                     'event_category': 'engagement',
                     'event_label': 'newsletter_form',

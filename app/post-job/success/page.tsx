@@ -23,14 +23,6 @@ const SuccessPageContent = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.gtag) {
-            // Track Google Ads conversion
-            window.gtag('event', 'conversion', {
-                'send_to': 'AW-11429228767/LGYfCOL6tp8ZEN_h8Mkq',
-                'value': value,
-                'currency': 'USD',
-                'transaction_id': sessionId
-            });
-
             // Standard GA4 Purchase Event (Monetization dashboards)
             window.gtag('event', 'purchase', {
                 transaction_id: sessionId,

@@ -8,7 +8,7 @@ It also documents what can be answered today, what is missing, and what should b
 ## Current Stack
 
 - Google Analytics 4 via gtag.js (Measurement ID: `G-YEWMS73Q97`)
-- Google Ads conversion tracking via gtag.js (Conversion ID: `AW-11429228767`)
+- Google Ads tracking is disabled. `AW-11429228767` is combined with the downloadyoutubetranscripts Google tag (`G-QXWW47DQST`) and Google offers no way to split it, so loading it sent sportsjobs pageviews and purchases to that property. Before re-adding the Ads tag and conversions (see git history), move `AW-11429228767` to its own Google tag (Google Ads support) or use a new Ads conversion ID.
 - PostHog (`posthog-js`) for product analytics pageview capture
 - Promotekit script for affiliate referral capture (`window.promotekit_referral`)
 - GA4 standard E-commerce and Lead generation events for monetization tracking
@@ -21,7 +21,6 @@ It also documents what can be answered today, what is missing, and what should b
   - Loads `https://www.googletagmanager.com/gtag/js?id=G-YEWMS73Q97`
   - Runs:
     - `gtag('config', 'G-YEWMS73Q97')`
-    - `gtag('config', 'AW-11429228767')`
   - Loads `PromotekitScript`
 
 ### PostHog
@@ -55,7 +54,6 @@ It also documents what can be answered today, what is missing, and what should b
 - `components/NewsletterSignupForm.tsx` & `NewsletterSignupPopup.tsx`
   - On submit:
     - Calls `/api/add-newsletter-signup`
-    - Fires Google Ads conversion event
     - Fires standard GA4 event: `generate_lead` with `{ value: 0, currency: 'USD' }`
   - Both mark the browser as subscribed (`lib/newsletterPopup.ts`) so the popup is not shown again
 
@@ -63,7 +61,6 @@ It also documents what can be answered today, what is missing, and what should b
 
 - `app/signup/success/page.tsx` & `app/post-job/success/page.tsx`
   - On page load:
-    - Fires Google Ads conversion
     - Fires standard GA4 E-commerce event: `purchase` with `transaction_id` (Stripe session), `value`, and `currency`
 
 ### 3) Checkout started events
@@ -141,7 +138,7 @@ All signup events include `signup_funnel_id` where available. Do not send contac
 
 ## Data Destinations
 
-- GA4 / Google Ads via gtag events (Conversion tracking, E-commerce, user acquisition)
+- GA4 via gtag events (E-commerce, lead generation, user acquisition)
 - PostHog via `$pageview` and custom events from the shared client tracker
 - Stripe metadata for affiliate tracking and fallback logging
 

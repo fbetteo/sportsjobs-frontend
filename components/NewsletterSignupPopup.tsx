@@ -110,13 +110,7 @@ const SignupPopup = () => {
                 // Don't show this error to user since newsletter subscription was successful
             }
             markNewsletterSubscribed();
-            // Track Google Ads newsletter conversion
             if (typeof window !== 'undefined' && window.gtag) {
-                window.gtag('event', 'conversion', {
-                    'send_to': 'AW-11429228767/nJWICJPcwI0bEN_h8Mkq' // Replace with your newsletter conversion label
-                });
-
-                // Also track as standard Google Analytics lead event
                 window.gtag('event', 'generate_lead', {
                     'event_category': 'engagement',
                     'event_label': 'newsletter_popup',
