@@ -52,6 +52,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - `/resources/interview-questions/data-scientist` targets sports data scientist interview-prep intent with Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/resources/interview-questions/data-scientist`.
 - `/job-searches` is the internal-link hub for durable job-category collections. Category pages use the shared `JobLandingPage` implementation and their individual content/filter configuration from `lib/jobLandingPages.ts`.
 - Job-category pages must keep live matching jobs ahead of the editorial guidance, provide a useful empty state, use canonical metadata plus CollectionPage/FAQ structured data, and link to related searches. Avoid adding a category when there is no distinct search intent or useful content beyond a keyword variation.
+- `/company/[slug]` pages target "{company} jobs / careers / internships" queries. They render the company's jobs on the server (hourly revalidation) so job links are in the HTML, take the company spelling from job records rather than the slug, and set a lowercase canonical URL matching the sitemap.
 - Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule
