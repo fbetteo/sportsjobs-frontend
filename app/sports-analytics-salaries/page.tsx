@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import SportsAnalyticsSalariesContent from '@/components/SportsAnalyticsSalariesContent';
 import { salaryFaqItems } from '@/lib/sportsAnalyticsSalariesContent';
 export const metadata: Metadata = {
-  title: 'Sports Analytics Salaries in the United States | SportsJobs Online',
+  title: 'Sports Analyst Salary: $50K-$165K+ by Role and Experience | SportsJobs Online',
   description:
-    'See sports analytics salary ranges in the United States by experience level, role, location, industry, skills, and career path.',
+    'How much do sports analysts make? In the US, entry-level sports analysts earn about $50K-$75K, mid-level $75K-$115K, and senior $110K-$165K. See ranges by role, location, and employer.',
   keywords:
     'sports analytics salaries, sports analyst salary, sports data analyst salary, sports analytics salary United States, sports data scientist salary, sports betting analytics salary',
   alternates: {

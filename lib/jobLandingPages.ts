@@ -32,6 +32,10 @@ export interface JobLandingPageConfig {
   relatedSlugs: string[];
 }
 
+// From August on, students search for next summer's programs ("nfl internships summer 2027").
+const today = new Date();
+const INTERNSHIP_SEASON = today.getUTCMonth() >= 7 ? today.getUTCFullYear() + 1 : today.getUTCFullYear();
+
 const configs: JobLandingPageConfig[] = [
   {
     slug: 'nhl-jobs',
@@ -64,7 +68,7 @@ const configs: JobLandingPageConfig[] = [
     title: 'NHL Internships and Hockey Internships',
     shortTitle: 'NHL Internships',
     description: 'Find current NHL internships and hockey internships, including summer roles in analytics, operations, marketing, media, and team business.',
-    keywords: ['NHL internships', 'NHL summer internships', 'NHL internships 2026', 'hockey internships'],
+    keywords: ['NHL internships', 'NHL summer internships', `NHL internships ${INTERNSHIP_SEASON}`, 'hockey internships'],
     badge: 'Student and early-career hockey roles',
     intro: 'Explore internships with NHL clubs and the wider professional hockey ecosystem. Programs vary by team and season, but commonly cover hockey operations, analytics, community relations, content, partnerships, ticketing, and event support.',
     jobsHeading: 'Latest NHL and Hockey Internships',
@@ -297,10 +301,10 @@ const configs: JobLandingPageConfig[] = [
   },
   {
     slug: 'nfl-internships',
-    title: 'NFL Internships and Training Camp Internships',
+    title: `NFL Internships ${INTERNSHIP_SEASON}: Summer and Training Camp Roles`,
     shortTitle: 'NFL Internships',
-    description: 'Find current NFL internships, including training camp, analytics, football operations, marketing, media, and team business roles.',
-    keywords: ['NFL internships', 'NFL training camp internships', 'NFL summer internships', 'football internships'],
+    description: `Open NFL internships for summer ${INTERNSHIP_SEASON}, updated daily: training camp, analytics, football operations, marketing, media, and team business roles, plus when teams recruit.`,
+    keywords: ['NFL internships', `NFL summer internships ${INTERNSHIP_SEASON}`, 'NFL training camp internships', 'football internships'],
     badge: 'Student and seasonal roles in professional football',
     intro: 'Explore internships with NFL clubs and related professional football organizations. Opportunities may support football operations and analytics or business departments such as marketing, communications, partnerships, ticketing, finance, and events.',
     jobsHeading: 'Latest NFL and Professional Football Internships',
