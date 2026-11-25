@@ -30,7 +30,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Job Detail Metadata and JobPosting Schema
 
 - Job titles use `{title} at {company} - SportsJobs Online`; descriptions come from `lib/jobPostingMeta.ts` and lead with location/remote, seniority, and salary so truncated snippets keep the facts.
-- Derive remote status from `remote_string` (`Office` / `Remote` / `Global Remote`), not the unreliable `remote` boolean. Remote and Global Remote jobs get `jobLocationType: TELECOMMUTE`; only country-restricted `Remote` jobs get `applicantLocationRequirements`.
+- Derive remote status from `remote_string` (`Office` / `Remote` / `Global Remote`), not the unreliable `remote` boolean. Remote and Global Remote jobs get `jobLocationType: TELECOMMUTE`. Google rejects TELECOMMUTE postings without at least one eligible country and has no "worldwide" value, so `Remote` jobs list their country and `Global Remote` jobs list their country (if any) plus the main audience countries in `lib/jobPostingMeta.ts`; a worldwide job with no country drops its empty `jobLocation`.
 - `baseSalary` comes from `lib/jobSalary.ts` and is emitted only when currency and pay period are unambiguous. Bare numbers without a currency, sub-10k amounts without a stated period, and unsupported units (e.g. "per match") are omitted rather than guessed.
 
 ## Indexing Strategy
@@ -52,6 +52,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 - `/resources/interview-questions/data-scientist` targets sports data scientist interview-prep intent with Article structured data, FAQ structured data, and canonical URL `https://www.sportsjobs.online/resources/interview-questions/data-scientist`.
 - `/job-searches` is the internal-link hub for durable job-category collections. Category pages use the shared `JobLandingPage` implementation and their individual content/filter configuration from `lib/jobLandingPages.ts`.
 - Job-category pages must keep live matching jobs ahead of the editorial guidance, provide a useful empty state, use canonical metadata plus CollectionPage/FAQ structured data, and link to related searches. Avoid adding a category when there is no distinct search intent or useful content beyond a keyword variation.
+- `/company/[slug]` pages target "{company} jobs / careers / internships" queries. They render the company's jobs on the server as ISR (`force-static`, hourly revalidation; without `force-static` the route renders on every request) so job links are in the HTML, take the company spelling from job records rather than the slug, and set a lowercase canonical URL matching the sitemap.
 - Give public search-intent pages at least one sitewide internal link and one contextual homepage link when the page is strategically important.
 
 ## Practical Rule

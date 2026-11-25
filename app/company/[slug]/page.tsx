@@ -1,269 +1,70 @@
-'use client';
+import type { Metadata } from 'next';
+import CompanyContent from '@/components/CompanyContent';
+import { fetchJobsFeaturedServer, fetchJobsServer } from '@/lib/fetchJobsServer';
 
-import { useEffect, useRef, useState } from 'react';
-import {
-    Box,
-    Button,
-    Center,
-    Flex,
-    Heading,
-    HStack,
-    Text,
-    VStack
-} from '@chakra-ui/react';
-import { BRAND_PRIMARY_COLOR_SCHEME } from '@/lib/uiTokens';
-import { parse } from 'date-fns';
-import { fetchJobs } from '../../../lib/fetchJobs';
-import { fetchJobsFeatured } from '@/lib/fetchJobsFeatured';
-import JobList from "../../../components/JobList";
-import JobFilter from '../../../components/JobFilter';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import Introduction from '../../../components/Introduction';
-import NewsletterSignupForm from "../../../components/NewsletterSignupForm";
-import UserFormPopup from "../../../components/AlertsPopupForm";
-import MixedPricingCard from "../../../components/MixedPriceCard";
-import SenjaWallOfLove from "../../../components/WallOfLove";
-import JobListFeatured from "../../../components/JobListFeatured";
-import FAQ from "../../../components/FAQ";
-import PostJobLink from "../../../components/PostJobLink";
+// Without force-static, a [slug] route with no generateStaticParams renders on every request.
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
+const SITE_URL = 'https://www.sportsjobs.online';
+const ANONYMOUS_JOB_LIMIT = 100;
+const FEATURED_JOB_LIMIT = 7;
 
 type Props = {
-    params: { slug: string }
+    params: { slug: string };
+};
+
+async function getCompanyPage(slug: string) {
+    const companyFilter = slug.replace(/-/g, ' ');
+    const jobs = await fetchJobsServer(ANONYMOUS_JOB_LIMIT, JSON.stringify({ company: companyFilter }));
+    const titleCasedSlug = companyFilter.replace(/\b\w/g, (char) => char.toUpperCase());
+    // Job records carry the real spelling (e.g. "StatsBomb"); the slug is lowercase.
+    const companyName: string = jobs[0]?.company || titleCasedSlug;
+    return { companyFilter, companyName, jobs };
 }
 
-interface CachedData {
-    data: any;
-    timestamp: number;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { companyName, jobs } = await getCompanyPage(params.slug);
+    const url = `${SITE_URL}/company/${params.slug.toLowerCase()}`;
+    const title = `${companyName} Jobs, Careers & Internships`;
+    const description = jobs.length > 0
+        ? `Browse ${jobs.length} recent ${companyName} jobs and internships in analytics, data, engineering, operations, and marketing. Updated daily on SportsJobs Online.`
+        : `Find ${companyName} jobs, careers, and internships in sports analytics, data, and technology. Get alerts when new ${companyName} roles open.`;
+
+    return {
+        title: `${title} | SportsJobs Online`,
+        description,
+        alternates: { canonical: url },
+        openGraph: {
+            title,
+            description,
+            url,
+            siteName: 'SportsJobs Online',
+            type: 'website',
+            images: [{
+                url: `${SITE_URL}/opengraph-img.png`,
+                width: 1200,
+                height: 630,
+                alt: `${companyName} jobs on SportsJobs Online`,
+            }],
+        },
+    };
 }
 
-interface Job {
-    id: string;
-    title: string;
-    company: string;
-    // ...add other job properties you need
-}
-
-export default function CompanyContent({ params }: Props) {
-    const companyName = params.slug.replace(/-/g, ' ');
-    const companyNameFormatted = companyName.split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    const filters = { company: companyName };
-    const [jobs, setJobs] = useState<Job[]>([]);  // properly type the jobs state
-    const [featuredJobs, setFeaturedJobs] = useState<Job[]>([]); // properly type featured jobs
-    const { user, isLoading: userLoading } = useUser();
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    // const [dropdownOptions, setDropwdownOptions] = useState<{ countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] }>({ countries: [], seniorities: [], remotes: [], hours: [], sport_list: [], skills: [], industries: [], job_area: [] } as { countries: string[]; seniorities: string[]; remotes: string[]; hours: string[]; sport_list: string[]; skills: string[]; industries: string[]; job_area: string[] });
-
-    const pricingSectionRef = useRef<HTMLDivElement>(null);
-    const scrollToPricing = () => {
-        if (pricingSectionRef.current) {
-            pricingSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
-    };
-
-
-    interface DropdownData {
-        countries: string[];
-        seniorities: string[];
-        remotes: string[];
-        hours: string[];
-        skills: string[];
-        sport_list: string[];
-        job_area: string[];
-        industries: string[];
-    }
-
-    const [scrollPosition, setScrollPosition] = useState(0);
-
-    const CACHE_DURATION = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
-
-    const isDataStale = (timestamp: number) => {
-        return Date.now() - timestamp > CACHE_DURATION;
-    };
-
-    useEffect(() => {
-        // Load saved jobs from sessionStorage first with timestamp check
-        try {
-            const savedJobsData = sessionStorage.getItem('jobsList');
-            const savedFeaturedJobsData = sessionStorage.getItem('featuredJobsList');
-
-            if (savedJobsData && savedFeaturedJobsData) {
-                const jobsCache: CachedData = JSON.parse(savedJobsData);
-                const featuredJobsCache: CachedData = JSON.parse(savedFeaturedJobsData);
-
-                if (!isDataStale(jobsCache.timestamp) && Array.isArray(jobsCache.data)) {
-                    setJobs(jobsCache.data);
-                } else {
-                    sessionStorage.removeItem('jobsList');
-                }
-
-                if (!isDataStale(featuredJobsCache.timestamp) && Array.isArray(featuredJobsCache.data)) {
-                    setFeaturedJobs(featuredJobsCache.data);
-                } else {
-                    sessionStorage.removeItem('featuredJobsList');
-                }
-            }
-
-            // Restore scroll position after jobs are loaded
-            const savedPosition = sessionStorage.getItem('scrollPosition');
-            if (savedPosition) {
-                setTimeout(() => {
-                    window.scrollTo(0, parseInt(savedPosition));
-                    sessionStorage.removeItem('scrollPosition');
-                }, 100);
-            }
-        } catch (error) {
-            console.error('Error loading cached jobs:', error);
-            sessionStorage.removeItem('jobsList');
-            sessionStorage.removeItem('featuredJobsList');
-        }
-    }, []);
-
-    useEffect(() => {
-        // const getOptions = async () => {
-        //     const localOptions = localStorage.getItem('dropdownOptions');
-        //     if (localOptions) {
-        //         setDropwdownOptions(JSON.parse(localOptions));
-        //     } else {
-        //         const res = await fetch('/api/dropdown-options');
-        //         const fetchedOptions: DropdownData = await res.json();
-        //         const sortedOptions = Object.keys(fetchedOptions).reduce((acc, key) => {
-        //             acc[key as keyof DropdownData] = fetchedOptions[key as keyof DropdownData].sort((a: string, b: string) => a.localeCompare(b));
-        //             return acc;
-        //         }, {} as DropdownData);
-        //         setDropwdownOptions(sortedOptions);
-        //         localStorage.setItem('dropdownOptions', JSON.stringify(sortedOptions));
-        //     }
-        // };
-
-        const fetchFeaturedData = async () => {
-            try {
-                const jobLimit = user ? 250 : 7;
-                const fetchedJobsFeatured = await fetchJobsFeatured(jobLimit);
-                if (Array.isArray(fetchedJobsFeatured)) {
-                    setFeaturedJobs(fetchedJobsFeatured);
-                    sessionStorage.setItem('featuredJobsList', JSON.stringify({
-                        data: fetchedJobsFeatured,
-                        timestamp: Date.now()
-                    }));
-                }
-            } catch (error) {
-                console.error("Failed to fetch featured jobs:", error);
-                setFeaturedJobs([]); // Set empty array on error
-            }
-        };
-
-        // getOptions();
-        fetchFeaturedData();
-    }, [user]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const jobLimit = user ? 250 : 100;
-                const fetchedJobs = await fetchJobs(jobLimit, JSON.stringify(filters));
-                console.log(filters)
-                if (Array.isArray(fetchedJobs)) {
-                    setJobs(fetchedJobs);
-                    sessionStorage.setItem('jobsList', JSON.stringify({
-                        data: fetchedJobs,
-                        timestamp: Date.now()
-                    }));
-                }
-            } catch (error) {
-                console.error("Failed to fetch jobs:", error);
-                setJobs([]); // Set empty array on error
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    // Save scroll position before navigation
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
-
-    const handleOpenForm = () => {
-        setIsFormOpen(true);
-    };
-
-    const handleCloseForm = () => {
-        setIsFormOpen(false);
-    };
+export default async function CompanyPage({ params }: Props) {
+    const [{ companyFilter, companyName, jobs }, featuredJobs] = await Promise.all([
+        getCompanyPage(params.slug),
+        fetchJobsFeaturedServer(FEATURED_JOB_LIMIT),
+    ]);
 
     return (
-        <VStack spacing={10} align="stretch">
-            <Flex direction="column" width="100%" mb={-15}>
-                <VStack spacing={4} align="center" p={4} mb={1} >
-                    <Heading as="h1" size="2xl" textAlign="center">
-                        Jobs in {companyNameFormatted} | {companyNameFormatted} careers | Sports Analytics jobs
-                    </Heading>
-                    <Text fontSize="md" textAlign="center">
-                        Search sports analytics, engineering, data, and marketing jobs in {companyNameFormatted}.
-                    </Text>
-                    <Text fontSize="md" textAlign="center">
-                        Join hundreds of people getting the latest news and content related to working in sports.
-                    </Text>
-                </VStack>
-                <Center >
-                    <NewsletterSignupForm />
-                </Center>
-                <Center>
-                    <HStack
-                        mb={10}
-                        spacing={4} // Adjust spacing for better wrapping
-                        flexWrap="wrap" // Allow buttons to wrap if needed
-                        justify="center" // Center them when they wrap
-                    >
-                        <Button
-                            onClick={handleOpenForm}
-                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
-                            w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
-                        >
-                            🔔 Receive Emails For New Jobs
-                        </Button>
-                        <Button
-                            as="a"
-                            href="https://applyall.com/?ref=sportsjobs"
-                            target="_blank"
-                            colorScheme={BRAND_PRIMARY_COLOR_SCHEME}
-                            w={{ base: "70%", md: "auto" }} // Full width on mobile, auto on larger screens
-                        >
-                            <Box display={{ base: 'none', md: 'block' }}>
-                                📝 Automate your job applications with AI
-                            </Box>
-                            <Box display={{ base: 'block', md: 'none' }}>
-                                📝 Auto-Apply with AI
-                            </Box>
-                        </Button>
-                    </HStack>
-                    {/* <UserFormPopup isOpen={isFormOpen} onClose={handleCloseForm} options={dropdownOptions} /> */}
-                </Center>
-                <Center width="100%">
-                    <Box width="100%" px={4} maxW="container.lg"> {/* Consistent wrapper with padding */}
-                        {/* <JobFilter onFilterChange={handleFilterChange} user={user} /> */}
-                        <Box mb={4}>
-                            <PostJobLink />
-                        </Box>
-                        <JobListFeatured jobs={featuredJobs} />
-                        <JobList jobs={jobs} user={user} free_job_limit={100} scrollToPricing={scrollToPricing} />
-                        <div ref={pricingSectionRef}>
-                            <MixedPricingCard />
-                        </div>
-                        <FAQ />
-                        <SenjaWallOfLove />
-                    </Box>
-                </Center>
-            </Flex>
-        </VStack>
+        <main>
+            <CompanyContent
+                companyName={companyName}
+                companyFilter={companyFilter}
+                initialJobs={jobs}
+                initialFeaturedJobs={featuredJobs}
+            />
+        </main>
     );
 }

@@ -16,6 +16,18 @@ export const getWorkMode = (remoteString?: string | null): JobWorkMode => {
     return 'office';
 };
 
+// Google requires at least one eligible country on remote JobPostings and has no "worldwide"
+// value, so worldwide roles list the countries most SportsJobs searchers come from.
+const WORLDWIDE_REMOTE_COUNTRIES = ['United States', 'United Kingdom', 'Canada', 'India', 'Germany', 'Australia'];
+
+export const buildApplicantLocationRequirements = (workMode: JobWorkMode, country?: string | null) => {
+    const jobCountry = formatCountry(country);
+    const countries = workMode === 'global-remote'
+        ? Array.from(new Set([jobCountry, ...WORLDWIDE_REMOTE_COUNTRIES].filter(Boolean)))
+        : workMode === 'remote' && jobCountry ? [jobCountry] : [];
+    return countries.map((name) => ({ '@type': 'Country', name }));
+};
+
 interface JobMetaInput {
     title: string;
     company: string;
