@@ -21,12 +21,15 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         };
     }
 
+    // The post summary alone: a generic jobs pitch appended here crowded out the search snippet.
+    const description = String(blog_details.short_description ?? '').trim();
+
     return {
         title: `${blog_details.title} - SportsJobs Online`,
-        description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+        description,
         openGraph: {
             title: `${blog_details.title} - SportsJobs Online`,
-            description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            description,
             url: `https://www.sportsjobs.online/blogposts/${params.id}`,
             type: 'website',
             siteName: 'SportsJobs Online',
@@ -42,7 +45,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         twitter: {
             card: 'summary_large_image',
             title: `${blog_details.title} - SportsJobs Online`,
-            description: `${blog_details.short_description}. Find more great sports analytics jobs like this on Sportsjobs Online. Sports and betting analytics careers`,
+            description,
             images: [
                 blog_details.cover || 'https://styles.redditmedia.com/t5_7z0so/styles/profileIcon_dgkx9ubgaqrc1.png',
             ],
