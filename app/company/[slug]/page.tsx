@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import CompanyContent from '@/components/CompanyContent';
 import { fetchJobsFeaturedServer, fetchJobsServer } from '@/lib/fetchJobsServer';
 
+// Without force-static, a [slug] route with no generateStaticParams renders on every request.
+export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 const SITE_URL = 'https://www.sportsjobs.online';
