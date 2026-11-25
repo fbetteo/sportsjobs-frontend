@@ -27,7 +27,7 @@ import { addMonths, format } from 'date-fns';
 import { fetchJobDetails } from '../../../lib/fetchJobDetails';
 import { getJobLogoSrc, isDefaultJobLogo } from '@/lib/jobLogo';
 import { buildBaseSalarySchema } from '@/lib/jobSalary';
-import { buildJobMetaDescription, formatCountry, getWorkMode } from '@/lib/jobPostingMeta';
+import { buildApplicantLocationRequirements, buildJobMetaDescription, formatCountry, getWorkMode } from '@/lib/jobPostingMeta';
 
 // Using MixedPricingCard component directly
 interface Job {
@@ -189,17 +189,17 @@ async function JobDetails({ params }: { params: { id: string } }) {
     }
 
     // Use remote_string, not the `remote` boolean, which is wrong for some DB rows.
-    // Google only expects applicantLocationRequirements on TELECOMMUTE jobs; worldwide
-    // remote roles omit it so they are not restricted to the scraped country.
     const workMode = getWorkMode(job.remote_string);
     if (workMode !== 'office') {
         schemaData.jobLocationType = "TELECOMMUTE";
     }
-    if (workMode === 'remote' && job.country) {
-        schemaData.applicantLocationRequirements = {
-            "@type": "Country",
-            "name": formatCountry(job.country),
-        };
+    const applicantCountries = buildApplicantLocationRequirements(workMode, job.country);
+    if (applicantCountries.length > 0) {
+        schemaData.applicantLocationRequirements = applicantCountries;
+        // jobLocation is optional once eligible countries are listed; worldwide rows have no country.
+        if (!job.country_code) {
+            delete schemaData.jobLocation;
+        }
     }
 
     const jobPostingSchema = JSON.stringify(schemaData);

@@ -30,7 +30,7 @@ Use this guide for metadata, blog/resources content, indexing behavior, and mach
 ## Job Detail Metadata and JobPosting Schema
 
 - Job titles use `{title} at {company} - SportsJobs Online`; descriptions come from `lib/jobPostingMeta.ts` and lead with location/remote, seniority, and salary so truncated snippets keep the facts.
-- Derive remote status from `remote_string` (`Office` / `Remote` / `Global Remote`), not the unreliable `remote` boolean. Remote and Global Remote jobs get `jobLocationType: TELECOMMUTE`; only country-restricted `Remote` jobs get `applicantLocationRequirements`.
+- Derive remote status from `remote_string` (`Office` / `Remote` / `Global Remote`), not the unreliable `remote` boolean. Remote and Global Remote jobs get `jobLocationType: TELECOMMUTE`. Google rejects TELECOMMUTE postings without at least one eligible country and has no "worldwide" value, so `Remote` jobs list their country and `Global Remote` jobs list their country (if any) plus the main audience countries in `lib/jobPostingMeta.ts`; a worldwide job with no country drops its empty `jobLocation`.
 - `baseSalary` comes from `lib/jobSalary.ts` and is emitted only when currency and pay period are unambiguous. Bare numbers without a currency, sub-10k amounts without a stated period, and unsupported units (e.g. "per match") are omitted rather than guessed.
 
 ## Indexing Strategy
